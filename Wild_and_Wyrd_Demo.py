@@ -8,8 +8,8 @@ chapter1 = False
 chapter = '0'
 part = '1'
 tutorComp = False
-switch = [True, False, False, False]
-tutorialSwitch = [True, True, True, True, True]
+switch = [True, False, False, False, False]
+tutorialSwitch = [True, True, True, True, True, True, True]
 #Character Base Stats
 class Alder:
     def __init__(self):
@@ -66,10 +66,6 @@ class Alder:
               '\nMain Weapon: ', self.weapon1['name'], '\nSecondary Weapon: ', self.weapon2, '\n'
               )
         
-#Alder = {'pId' : '1', 'name' : 'Alder', 'combatLvl' : '1', 'combatExp' : 0,
-#         'maxHealth': 100, 'baseAttack' : 10, 'baseDefence' : 10, 'baseSpeed' : 5, 'baseEvasion' : 5, 'maxStamina' : 100,
-#         'head' : 'None', 'body' : '1', 'legs' : '2', 'weapon1' : 'None', 'weapon2': 'None'
-#         }
 Florace = {'pId' : '2', 'name' : 'Florace', 'combatLvl' : '1', 'combatExp' : 0,
          'maxHealth': 150, 'attack' : 15, 'defence' : 10, 'speed' : 7, 'evasion' : 2, 'maxStamina' : 100,
          'head' : 'None', 'body' : 'Apprentice Witch Shirt', 'legs' : 'Apprentice Witch Dress', 'weapon1' : 'None', 'weapon2': 'None'
@@ -311,8 +307,17 @@ def examine(location):
             print('The Cupboard was full of plates, bowls and other kitchen and dining utensils.')
             cont()
         elif (e == 'bowl' or e == 'Bowl'):
-            print('A large wooden bowl. It'"'"'s empty.')
-            cont()
+            if (PKSwitch[0] == True):
+                print('A large wooden bowl. It'"'"'s got hazelnuts in it.')
+                pickup = input('Do you want to pick up the hazelnuts.(y/n)')
+                if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
+                    print('\n5 Hazelnut(s) obtained')
+                    itemCount(food[2], 5)
+                    PKSwitch[0] = False
+                    cont()
+            else:
+                print('A large wooden bowl. It'"'"'s empty.')
+                cont()
         elif (e == 'basin' or e == 'Basin'):
             print('The basin Alder was washing was full of water and bits of leftover that Alder scraped off. Clean plates were next to it.')
             cont()
@@ -401,17 +406,18 @@ def examine(location):
         elif (e == 'table' or e == 'Table'):
             if (PKSwitch[1] == True):
                 print('On the table was an unlit candle, a mortar and pestle and a hunting knife.')
-            else:
-                print('On the table was an unlit candle and a mortar and pestle')
-            cont()
-            if (tutorialSwitch[3] == False):
-                if (PKSwitch[1] == True):
+                if (tutorialSwitch[3] == False):
                     pickup = input('Do you want to pick up the hunting knife.(y/n)')
                     if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
                         print('\nHunting Knife obtained')
                         itemCount(weapons[2], 1)
                         PKSwitch[1] = False
+                        tutorialSwitch[4] = False
                         cont()
+            else:
+                print('On the table was an unlit candle and a mortar and pestle')
+                cont()
+                    
         elif (e == 'candle' or e == 'Candle'):
             print('The candle was placed in a candlestick.')
             cont()
@@ -425,13 +431,10 @@ def examine(location):
         elif (e == 'knife' or e == 'Knife'):
             print('The knife was designed for hunting but it looks like someone has been using it to cut ingredients.')
             cont()
-        
-#Pick-up item
-def pick(location):
-    if (location == '1'):
-        print('There was nothing to pick up that wouldn'"'"'t be stealing')
-        cont()
-
+    elif (location == '5'):
+        print('Sunlight entered the room easily through the curtainless window of Alder solitary and small bedroom which only contained a makeshift bed.')
+    elif (location == '6'):
+        print('')
 #Talk to a character
 def talk():
     global switch, tutorial1, part
@@ -719,6 +722,7 @@ def talk():
                             dialog2[4] = True
                 switch[3] = True
                 part = '3'
+                tutorialSwitch[3] = False
                 tutorial1 = False
 #Move to another location
 def move():
@@ -728,13 +732,16 @@ def move():
         m = input('Move to: ')
         if (m == '1'):
             location = '2'
+            if(tutorialSwitch[0] == True):
+                tutorialSwitch[0] = False
             print('Alder moved to the living room of the cottage.')    
             cont()
     elif (location == '2'):
         print('1: Kitchen')
         print('2: Outside')
+        print('3: Alder'"'"'s room')
         m = input('Move to: ')
-        if (m == '1'):
+        if (m == '1' or m == 'kitchen' or m == 'Kitchen'):
             location = '1'
             print('Alder moved to the kitchen.')    
             cont()
@@ -746,8 +753,11 @@ def move():
                 part = '2'
                 tutorialSwitch[1] = False
                 switch[1] = True
-                tutorial1 = False
-                tutorialSwitch[3] = False
+                tutorial1 = False  
+        elif (m == '3'):
+            location = '5'
+            print('Alder moved upstairs and into his bedroom.')    
+            cont()
     elif (location == '3'):
         print('1: Living Room')
         print('2: Shed')
@@ -772,7 +782,7 @@ def move():
                 print('Alder withdraws from the cottage.')    
                 cont()
             else:
-                location = '1'
+                location = '2'
                 print('Alder moved to the living room of the cottage.')    
                 cont()
         elif (m == '2'):        
@@ -780,9 +790,19 @@ def move():
             print('Alder moved to the shed on the side of the cottage.')    
             cont()
         elif (m == '3'):
-            if (tutorialSwitch[3] == False):
+            if (tutorialSwitch[4] == False):
                 location = '6'
                 print('Alder left the area of the spell hiding the cottage.')    
+                cont()
+            elif (tutorialSwitch[3] == False):
+                print('Florace:')
+                print('"Alder?"')
+                cont()
+                print('Florace:')
+                print('"Don'"'"'t you need the knife?"')
+                cont()
+                print('Alder:')
+                print('"Oh um. Sorry!"')
                 cont()
             else:
                 print('Alder once got lost after he strayed too far from the cottage.')
@@ -791,12 +811,32 @@ def move():
                 cont()
                 print('Kyla was indifferent to the situation.')
                 cont()
-
+    elif (location == '4'):
+        print('1: Outside')
+        m = input('Move to: ')
+        if (m == '1'):
+            location = '3'
+            print('Alder left the shed and back to the front of the cottage.')
+            cont()
+    elif (location == '5'):
+        print('1: Living Room')
+        m = input('Move to: ')
+        if (m == '1'):
+            location = '1'
+            print('Alder went down stairs into the living room.')
+            cont()
+    elif (location == '6'):
+        print('1: Cottage grounds')
+        m = input('Move to: ')
+        if (m == '1'):
+            location = '3'
+            print('Alder returned to the cottage.')
+            cont()
 #Save the game
 def save(location, chapter, part):
-    data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch]
+    data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, alder]
     print (data)
-    print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch)
+    print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, alder)
     with open(PIK, "wb") as f:
         print(data)
         pickle.dump(data, f)
@@ -876,13 +916,21 @@ def freeTutorial(location, chapter, part):
 def free(location, chapter, part):
     global game_active, tutorial1
     if(tutorialSwitch[0] == True):
-        print('You will need to have a quick look around. Press "a" to interact with the world.')
+        print('You will need to have a quick look around. Press "a" then "e" to explore the room Alder is currently in.')
     elif(tutorialSwitch[1] == True):
         print('Alder needs to go outside. He will have to move through the living room and then outside.')
     elif(tutorialSwitch[2] == True):
         print('While we wait for Thay Let'"'"'s talk to Florace.')
+    elif(tutorialSwitch[3] == True):
+        print('Alder'"'"' job around the cottage is to entertain guests. Let'"'"'s talk to Thay now.')
+    elif(tutorialSwitch[4] == True):
+        print('Alder will need the knife in the shed examine the area and equip the knife. Press "o" followed by "e". Select weapon - A to list the equipable items.')
+    elif(tutorialSwitch[5] == True):
+        print('Combat Turtorial')
+    elif(tutorialSwitch[6] == True):
+        print('Go to bed')
     print('a - Action')
-    print('o - Options')
+    print('o - Status')
     print('s - Save')
     print('q - Quit')
     #r = open("wawPrologue.txt","r")
@@ -899,8 +947,8 @@ def free(location, chapter, part):
         elif (action == 'm'):
             move()
     elif (action == 'o'):
-        print('z - Status')
-        print('o - Objective')
+        print('z - Stats')
+        print('x - Objective')
         print('i - Inventory')
         print('e - Equipment')
         action = input('Enter Command: ')
@@ -1235,7 +1283,6 @@ def game(chapter):
                 print('Alder:')
                 print('"Thank you."')
                 cont()
-                itemCount(weapons[2], 1)
                 switch[3] = False
             free(location, chapter, part)
             #while(tutorial1 == True):
@@ -1244,7 +1291,7 @@ def game(chapter):
                 free(location, chapter, part)
 
 def loadGame():
-    global location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch
+    global location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, alder
     with open(PIK, "rb") as f:
         data = pickle.load(f)
         location = data[0]
@@ -1258,6 +1305,7 @@ def loadGame():
         shill = data[8]
         inv = data[9]
         PKSwitch = data[10]
+        alder = data[11]
 
 def menu():
     global menu_active, chapter, part, chapter1, tutorComp, game_active, switch, tutorialSwitch, shill, inv, PKSwitch
@@ -1276,10 +1324,29 @@ def menu():
             location = '1'
             chapter = '0'
             part = '1'
+            inv = []
+            PKSwitch = [True, True]
             #Story Switches
-            switch = [True, False, False, False]
-            tutorialSwitch = [True, True, True, True]
+            switch = [True, False, False, False, False]
+            tutorialSwitch = [True, True, True, True, True, True, True]
             game(chapter)
+            #Alder Stats
+            alder.name = 'Alder'
+            alder.maxHealth = 100
+            alder.health = alder.maxHealth
+            alder.maxStamina = 100
+            alder.stamina = alder.maxStamina
+            alder.cLvl = 1
+            alder.cExp = 0
+            alder.baseAttack = 10
+            alder.baseDefence = 10
+            alder.baseSpeed = 5
+            alder.baseEvasion = 5
+            alder.head = armors[0]
+            alder.body = armors[1]
+            alder.legs = armors[3]
+            alder.weapon1 = weapons[0]
+            alder.weapon2 = 'None'
         elif (action == 'l'):
             game_active = True
             loadGame()
