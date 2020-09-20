@@ -97,6 +97,8 @@ food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
         {'itemId' : '2', 'name' : 'Dried Fruit', 'type' : 'food',
           'recovers' : 5, 'count' : 0},
         {'itemId' : '3', 'name' : 'Hazelnut', 'type' : 'food',
+          'recovers' : 2, 'count' : 0},
+        {'itemId' : '4', 'name' : 'Mushroom', 'type' : 'food',
           'recovers' : 5, 'count' : 0}
         ]
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
@@ -105,7 +107,7 @@ items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' 
 #Inventory
 shill = 0
 inv = []
-PKSwitch = [True, True]
+PKSwitch = [True, True, True, True, True]
 
 #Location
 locations = [{"locId" : "1", "name" : "Cottage Kitchen"},
@@ -375,7 +377,14 @@ def examine(location):
             cont()
         elif (e == 'bush' or e == 'Bush' or e == 'blackberry' or e == 'Blackberry' or e == 'blackberry bush' or e == 'Blackberry Bush'):
             print('The blackberry bush was a camouflaged into a holly bush by Kyla’s magic. This was so they would not attract unwanted guests to the area. It still had a few blackberries on it.')
+            if (PKSwitch[2] == True):
+                pickup = input('Do you want to pick up the blackberries.(y/n)')
+                if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
+                    print('\n5 blackberries(s) obtained')
+                    itemCount(food[0], 5)
+                    PKSwitch[2] = False
             cont()
+            
     elif (location == '4'):
         print('The inside of the shed was illuminated by a window on the left side from the entrance. It was full of gathering, woodwork and gardening tools which were used by Alder, and pots and creates containing ingredients of magic potions. At the other end from the entrance was a table used for crafts.')
         e = input('Examine: ')
@@ -417,11 +426,8 @@ def examine(location):
             else:
                 print('On the table was an unlit candle and a mortar and pestle')
                 cont()
-                    
         elif (e == 'candle' or e == 'Candle'):
-            print('The candle was placed in a candlestick.')
-            cont()
-            print('It was unlit.')
+            print('The candle was placed in a candlestick. It was unlit.')
             cont()
         elif (e == 'mortar' or e == 'Mortar' or e == 'pestle' or e == 'Pestle'):
             print('A mortar and pestle were on the table.')
@@ -433,8 +439,54 @@ def examine(location):
             cont()
     elif (location == '5'):
         print('Sunlight entered the room easily through the curtainless window of Alder solitary and small bedroom which only contained a makeshift bed.')
+        cont()
+        if (e == 'window' or e == 'Window'):
+            print('The window lacked curtains and was small. Alder could see the sunlight breaching the branches of the WyrmWoods.')
+            cont()
+        elif (e == 'bed' or e == 'Bed'):
+            print('It was cheaply made from dry wood and partridge feathers. It was powdered with herbs to stop it smelling. Alder made it with the help of Thay.')
+            if (PKSwitch[4] == True):
+                print('')
+                pickup = input("Amoung the feathers were Alder's savings. Pick them up?(y/n)")
+                if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
+                    coins = random.randrange(+2,+3)
+                    print('\n', coins,' shillings obtained')
+                    shillings(coins)
+                    PKSwitch[4] = False
+                    cont()
     elif (location == '6'):
-        print('')
+        print('The impossible fauna of the fairy realm had completely disappeared. This meant that Alder was now back in the normal realm of his origin. While he was in the fairy realm grass could not bend when he stepped on it and stone would not move no matter how hard he pulled but now he can interact with the world as he pleased. Near to where he was were some crickets, perfect for tonight’s meal.')
+        cont()
+        if (e == 'sky' or e == 'Sky'):
+            print('It was a bright, clear blue.')
+            cont()
+        elif (e == 'mushroom' or e == 'Mushroom'):
+            print('There was a variety of late-summer mushrooms around the area. Many of which are edible.')
+            cont()
+            if (PKSwitch[3] == True):
+                pickup = input('Do you want to pick up the mushrooms.(y/n)')
+                if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
+                    print('\n3 mushrooms(s) obtained')
+                    itemCount(food[3], 3)
+                    PKSwitch[3] = False
+        elif (e == 'plants' or e == 'Plants'):
+            print('Various weeds, wildflowers and moss.')
+            cont()
+        elif (e == 'trees' or e == 'Trees'):
+            print('Various trees made up the woodland, the most frequent were birch, rowen and holly.')
+            cont()
+        elif (e == 'rocks' or e == 'Rocks'):
+            print('There were a few boulders in the area.')
+            cont()
+        elif (e == 'cottage' or e == 'Cottage'):
+            print('The cottage was gone from sight.')
+            cont()
+        elif (e == 'cricket' or e == 'Cricket' or e == 'crickets' or e == 'Crickets'):
+            print('Some large brown crickets were in the area.')
+            cont()
+            fight = input('Do you want to fight them.(y/n)')
+            if (fight == 'y' or fight == 'Y' or fight == 'yes' or fight == 'Yes'):
+                print('Entering battle')
 #Talk to a character
 def talk():
     global switch, tutorial1, part
@@ -875,6 +927,20 @@ def inventory():
             print()
             bag = False
 
+def objective():
+    print("")
+    
+def helper():
+    print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further can get an item to pickup.")
+    print("Command: m, move, Move - Move to the next area.")
+    print("Command: t, talk, Talk - Talk to a character.")
+    print("Command: z, stats, Stats - Print the statistics of the playable characters.")
+    print("Command: o, objective, Objective - Print the main and side quests.")
+    print("Command: i, items, Items - View inventory.")
+    print("Command: x, equip, Equip - Equip item.")
+    print("Command: s, save, Save - Save the game.")
+    print("Command: q, quit, Quit - Leave to the main menu")
+
 
 def freeTutorial(location, chapter, part):
     global game_active, tutorial1
@@ -916,52 +982,41 @@ def freeTutorial(location, chapter, part):
 def free(location, chapter, part):
     global game_active, tutorial1
     if(tutorialSwitch[0] == True):
-        print('You will need to have a quick look around. Press "a" then "e" to explore the room Alder is currently in.')
+        print('\nYou will need to have a quick look around. Type "examine" or "e" to explore the room Alder is currently in.')
     elif(tutorialSwitch[1] == True):
-        print('Alder needs to go outside. He will have to move through the living room and then outside.')
+        print('\nAlder needs to go outside. He will have to "move"("m") through the living room and then outside.')
     elif(tutorialSwitch[2] == True):
-        print('While we wait for Thay Let'"'"'s talk to Florace.')
+        print('\nWhile we wait for Thay Let'"'"'s "talk"("t") to Florace.')
     elif(tutorialSwitch[3] == True):
-        print('Alder'"'"' job around the cottage is to entertain guests. Let'"'"'s talk to Thay now.')
+        print('\nAlder'"'"' job around the cottage is to entertain guests. Let'"'"'s talk to Thay now.')
     elif(tutorialSwitch[4] == True):
-        print('Alder will need the knife in the shed examine the area and equip the knife. Press "o" followed by "e". Select weapon - A to list the equipable items.')
+        print('\nAlder will need the knife in the shed examine the area to find and pick up the knife and "equip"("x") the knife from your "items"("i") inventory.')
     elif(tutorialSwitch[5] == True):
-        print('Combat Turtorial')
+        print('\nCombat Turtorial')
     elif(tutorialSwitch[6] == True):
-        print('Go to bed')
-    print('a - Action')
-    print('o - Status')
-    print('s - Save')
-    print('q - Quit')
+        print('\nGo to bed')
+    print("Type command: h, help, Help - For help.")
     #r = open("wawPrologue.txt","r")
     action = input('Enter Command: ')
-    if (action == 'a'):
-        print('e - Examine')
-        print('t - Talk')
-        print('m - Move')
-        action = input('Enter Command: ')
-        if (action == 'e'):
-            examine(location)
-        elif (action == 't'):
-            talk()
-        elif (action == 'm'):
-            move()
-    elif (action == 'o'):
-        print('z - Stats')
-        print('x - Objective')
-        print('i - Inventory')
-        print('e - Equipment')
-        action = input('Enter Command: ')
-        if (action == 'z'):
-            alder.stats()
-        elif (action == 'i'):
-            inventory()
-        elif (action == 'e'):
-            equip()
-    
-    elif (action == 's'):
+    if (action == 'e' or action == 'examine' or action == 'Examine'):
+        examine(location)
+    elif (action == 't' or action == 'talk' or action == 'Talk'):
+        talk()
+    elif (action == 'm' or action == 'move' or action == 'Move'):
+        move()
+    elif (action == 'z' or action == 'stats' or action == 'Stats:'):
+        alder.stats()
+    elif (action == 'o' or action == 'objective' or action == 'Objective'):
+        objective()
+    elif (action == 'i' or action == 'items' or action == 'Items'):
+        inventory()
+    elif (action == 'x' or action == 'equip' or action == 'Equip'):
+        equip()
+    elif (action == 'h' or action == 'help' or action == 'Help'):
+        helper()
+    elif (action == 's' or action == 'save' or action == 'Save'):
         save(location, chapter, part)
-    elif (action == 'q'):
+    elif (action == 'q' or action == 'quit' or action == 'Quit'):
         print ("Are you sure you wan to quit to menu y/n")
         q = input('Enter Command: ')
         if (q == 'y' or q == 'Y' or q == 'yes' or q == 'Yes'):
@@ -1325,7 +1380,7 @@ def menu():
             chapter = '0'
             part = '1'
             inv = []
-            PKSwitch = [True, True]
+            PKSwitch = [True, True, True, True]
             #Story Switches
             switch = [True, False, False, False, False]
             tutorialSwitch = [True, True, True, True, True, True, True]
