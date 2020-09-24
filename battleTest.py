@@ -72,11 +72,12 @@ class Alder:
 #Enemy Units
 class Cricket:
     def __init__(self):
+        self.enId = '1'
         self.name = 'Cricket'
         self.maxHealth = 20
         self.health = self.maxHealth
         self.Exp = 10
-        self.drop = [food[3]]
+        self.drop = [{'item' : food[3], 'quantity':2}]
         self.baseAttack = 0
         self.baseDefence = 8
         self.baseAccuracy = 90
@@ -105,11 +106,12 @@ class Cricket:
 
 class Wasp:
     def __init__(self):
+        self.enId = '2'
         self.name = 'Wasp'
         self.maxHealth = 10
         self.health = self.maxHealth
         self.Exp = 10
-        self.drop = [food[3]]
+        self.drop = [{'item':food[3], 'quantity':1}]
         self.baseAttack = 5
         self.baseDefence = 5
         self.baseAccuracy = 90
@@ -138,6 +140,7 @@ class Wasp:
 
 class Dummy:
     def __init__(self):
+        self.enId = '3'
         self.name = 'Dummy'
         self.maxHealth = 100
         self.health = self.maxHealth
@@ -172,6 +175,7 @@ class Dummy:
 
 class Gowl_Rabbit:
     def __init__(self):
+        self.enId = '4'
         self.name = 'Gowls Captain Clipgrea'
         self.maxHealth = 12000
         self.health = self.maxHealth
@@ -203,6 +207,12 @@ class Gowl_Rabbit:
     def evasion(self):
         evasion = self.baseEvasion
         return evasion
+
+class Null:
+    def __init__(self):
+        self.enId = '0'
+        self.name = 'Null'
+    
 
 #Items lists
 weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : '',
@@ -239,7 +249,7 @@ items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' 
 inv = []
 #Set Class
 alder = Alder()
-enemy = Cricket()
+enemy = [Cricket(), Wasp(), Null()]
 
 #Increment items
 #Add a new item to the inventory if is is not already in there
@@ -456,27 +466,78 @@ def equipment():
 
 def setFoe():
     global enemy
-    print('\n1: Cricket')
-    print('2: Wasp')
-    print('3: Dummy')
-    print('4: Gowls Captain')
-    i = input('Select opponent: ')
-    if (i == '1'):
-        enemy = Cricket()
-    elif (i == '2'):
-        enemy = Wasp()
-    elif (i == '3'):
-        enemy = Dummy()
-    elif (i == '4'):
-        enemy = Gowl_Rabbit()
+    setting = True
+    while (setting == True):
+        print('\nEnemy 1: ', enemy[0].name)
+        print('Enemy 2: ', enemy[1].name)
+        print('Enemy 3: ', enemy[2].name)
+        print('e - exit')
+        i = input('Select enemy: ')
+        if (i == '1'):
+            print('\n1: Cricket')
+            print('2: Wasp')
+            print('3: Dummy')
+            print('4: Gowls Captain')
+            j = input('Select opponent: ')
+            if (j == '1'):
+                enemy[0] = Cricket()
+            elif (j == '2'):
+                enemy[0] = Wasp()
+            elif (j == '3'):
+                enemy[0] = Dummy()
+            elif (j == '4'):
+                enemy[0] = Gowl_Rabbit()
+        elif (i == '2'):
+            print('\n1: Cricket')
+            print('2: Wasp')
+            print('3: Dummy')
+            print('4: Gowls Captain')
+            print('c - Blank')
+            j = input('Select opponent: ')
+            if (j == 'c'):
+                enemy[1] = Null()
+            elif (j == '1'):
+                enemy[1] = Cricket()
+            elif (j == '2'):
+                enemy[1] = Wasp()
+            elif (j == '3'):
+                enemy[1] = Dummy()
+            elif (j == '4'):
+                enemy[1] = Gowl_Rabbit()
+        elif (i == '3'):
+            print('\n1: Cricket')
+            print('2: Wasp')
+            print('3: Dummy')
+            print('4: Gowls Captain')
+            print('c - Blank')
+            j = input('Select opponent: ')
+            if (j == 'c'):
+                enemy[2] = Null()
+            elif (j == '1'):
+                enemy[2] = Cricket()
+            elif (j == '2'):
+                enemy[2] = Wasp()
+            elif (j == '3'):
+                enemy[2] = Dummy()
+            elif (j == '4'):
+                enemy[2] = Gowl_Rabbit()
+        elif (i == 'e'):
+            setting = False
+    
 
-def win():
-    alder.cExp += enemy.Exp
-    print('\n',enemy.name, ' defeated.')
-    print('Alder gained ', enemy.Exp, ' experience.')
-    if (len(enemy.drop) != 0):
-        print(enemy.name,' dropped ', enemy.drop[0]['name'], '.')
-        itemCount(enemy.drop[0], 1)
+def win(e):
+    ex = 0
+    rewards = []
+    count = 0
+    print('\n')
+    for i in e:
+        ex += i.Exp
+        count += 1
+    alder.cExp += ex
+    print('Alder gained ', ex, ' experience.')
+    for i in e:
+        print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
+        itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
 
 def death():
     for i in alder.special:
@@ -509,7 +570,7 @@ def battleOrder(speedList):
             break
     return speedList
 
-def enemyAttack(e, p):
+def enemyAttack(e, p, b):
     if (e.attack() != 0):
         target = e.accuracy() + 100 - p.evasion()
         hit = random.randrange(0,100)
@@ -518,22 +579,27 @@ def enemyAttack(e, p):
             impact = random.randrange(e.attack() - 5, e.attack() + 5)
             if (critical >= 90):
                 impact += 10
+            impact = round(impact * (100/(100 + p.defence())))
             if (impact <= 0):
                 impact = 1
             if (p.cStatus == 'Blocking'):
-                impact -= p.defence()
+                temp = impact
+                impact -= b
                 if (impact < 0):
                     impact = 0
+                alder.cStatus = 'None'
             p.health -= impact
             print('\n',e.name,' attacked!')
             if(critical >= 90):
                 print('Critical Hit!')
             print(p.name, ' took ', impact, ' damage!')
+            return b
         else:
             print('\n',e.name,' Missed')
     else:
         print('\n',e.name, ' did not attack!')
 
+#Attack Enemy
 def attack(p, e):
     target = p.accuracy() + 100 - e.evasion()
     hit = random.randrange(0,100)
@@ -543,6 +609,7 @@ def attack(p, e):
         impact = random.randrange(p.attack() - 5, p.attack() + 5)
         if (critical >= 90):
             impact += 10
+        impact = round(impact * (100/(100 + p.defence())))
         if (impact <= 0):
             impact = 1
         e.health -= impact
@@ -550,9 +617,17 @@ def attack(p, e):
         if(critical >= 90):
             print('Critical Hit!')
         print(e.name, ' took ', impact, ' damage!')
+        if(e.health <= 0):
+            print(e.name, ' defeated.')
     else:
         print('\n',p.name,' Missed')
 
+#Block incoming attack
+def block(barrier, incoming):
+    print(barrier, temp)
+    return incoming
+
+#Check if special effect are still active and deactivate them it they are not.
 def inEffect():
     for i in alder.special:
         if(i['active'] == True):
@@ -574,6 +649,7 @@ def special(p):
                i['inEffect'] = 5
            print('\n', p.name, ' uses ', i['name'],'.')
 
+#Use Item
 def item(p):
     use = []
     count = 1
@@ -604,28 +680,43 @@ def item(p):
             count +=1
         use.clear()
 
+#Combat interface
 def battle(e):
     os.system('clear')
     global alder
-    enemy = e
+    enemy = []
+    for i in e:
+        if i.enId != '0':
+            enemy.append(i)
     fighting = True
+    winner = False
     count = 1
+    bck = 0
     while(fighting == True):
         hunger()
+        if (enemy[0].health <= 0):
+            count = 0
+            for i in enemy:
+                if (i.health <= 0):
+                    count += 1
+            if (count == len(enemy)):
+                winner = True
+        #Death Condition
         if(alder.health <= 0):
             fighting = False
             death()
-        elif(enemy.health <= 0 ):
+        #Win Condition
+        elif(winner == True):
             for i in alder.special:
                 i['active'] = False
                 i['inEffect'] = 0
             fighting = False
-            win()
+            win(enemy)
         else:
-            
             inEffect()
-            if(enemy.speed() > alder.speed() and count == 1):
-                enemyAttack(enemy, alder)
+            for i in enemy:
+                if(i.speed() > alder.speed() and count == 1):
+                    enemyAttack(i, alder, bck)
             print('\n',alder.name)
             print("Health: ", alder.health, '/', alder.maxHealth, "| Stamina: ", alder.stamina, '/', alder.maxStamina)
             print("1) Attack     3) Appraise     5) Item")
@@ -633,9 +724,21 @@ def battle(e):
             i = input('Action: ')
             if (i == '1' or i == 'attack' or i == 'Attack'):
                 alder.cStatus = 'Attacking'
-                attack(alder, enemy)
-            elif (i == '2' or i == 'item' or i == 'Item'):
+                count = 1
+                for i in enemy:
+                    if (i.health > 0):
+                        print(count, ') ', i.name)
+                        count += 1
+                target = input('Attack: ')
+                count = 1
+                for i in enemy:
+                    if (i.health > 0):
+                        if (target == str(count)):
+                            attack(alder, i)
+                        count += 1
+            elif (i == '2' or i == 'block' or i == 'Block'):
                 alder.cStatus = 'Blocking'
+                bck = alder.defence()
             elif (i == '3' or i == 'appraise' or i == 'Appraise'):
                 alder.cStatus = 'Appraising'
                 print('\n',enemy.name, 'Health:', enemy.health,'/',enemy.maxHealth)
@@ -651,20 +754,24 @@ def battle(e):
                 if (i == 'y' or i == 'Y' or i == 'yes' or i == 'Yes'):
                     alder.cStatus = 'Escaping'
                     fighting = False
-            if(enemy.health > 0):
-                enemyAttack(enemy, alder)
+            for i in enemy:
+                if(i.health > 0):
+                    enemyAttack(i, alder, bck)
             count += 1
+            alder.cStatus = 'None'
         
 def active():
     dostuff = True
     while(dostuff == True):
-        print('\n1: Alder Stats.')
+        print('\n1: Player stats.')
         print('2: Set equipment.')
         print('3: Set enemy')
         print('4: Fight')
         action = input('Action: ')
         if (action == '1'):
             alder.stats()
+            alder.health = alder.maxHealth
+            alder.stamina = alder.maxStamina
         elif (action == '2'):
             equipment()
         elif (action == '3'):
