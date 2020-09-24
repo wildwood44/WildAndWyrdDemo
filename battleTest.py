@@ -23,8 +23,8 @@ class Alder:
         self.weapon2 = 'None'
         self.aliment = 'None'
         self.cStatus = 'None'
-        self.special = [{'spId':'1','name':'Steps of heroes', 'active':False, 'inEffect':0,'unlocked':True, 'effect':'Increases Evasion for five turns.'},
-                        {'spId':'2','name':'Master archer', 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
+        self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':True, 'effect':'Increases Evasion for five turns.'},
+                        {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
                         ]
     property
     def attack(self):
@@ -638,16 +638,20 @@ def inEffect():
 
 def special(p):
     for i in p.special:
-        print(i['spId'], ') ',i['name'])
+        if (i['unlocked'] == True):
+            print(i['spId'], ') ',i['name'], ' - ', i['cost'], ' stamina')
     sp = input('Use: ')
     for i in p.special:
-        if (sp == i['spId']):
-           i['active'] = True
-           if (i['spId'] == '1'):
-               i['inEffect'] = 6
-           elif (i['spId'] == '2'):
-               i['inEffect'] = 5
-           print('\n', p.name, ' uses ', i['name'],'.')
+        if (i['unlocked'] == True):
+            if (sp == i['spId']):
+               i['active'] = True
+               if (i['spId'] == '1'):
+                   p.stamina -= i['cost']
+                   i['inEffect'] = 6
+               elif (i['spId'] == '2'):
+                   p.stamina -= i['cost']
+                   i['inEffect'] = 5
+               print('\n', p.name, ' uses ', i['name'],'.')
 
 #Use Item
 def item(p):
@@ -741,8 +745,9 @@ def battle(e):
                 bck = alder.defence()
             elif (i == '3' or i == 'appraise' or i == 'Appraise'):
                 alder.cStatus = 'Appraising'
-                print('\n',enemy.name, 'Health:', enemy.health,'/',enemy.maxHealth)
-                print(enemy.desc)
+                for i in enemy:
+                    print('\n',i.name, 'Health:', i.health,'/',i.maxHealth)
+                    print(i.desc)
             elif (i == '4' or i == 'special' or i == 'Special'):
                 alder.cStatus = 'Specializing'
                 special(alder)
