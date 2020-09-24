@@ -1,4 +1,5 @@
 import pickle
+import random
 #Loop
 menu_active = True
 game_active = True
@@ -439,7 +440,7 @@ def examine(location):
             cont()
     elif (location == '5'):
         print('Sunlight entered the room easily through the curtainless window of Alder solitary and small bedroom which only contained a makeshift bed.')
-        cont()
+        e = input('Examine: ')
         if (e == 'window' or e == 'Window'):
             print('The window lacked curtains and was small. Alder could see the sunlight breaching the branches of the WyrmWoods.')
             cont()
@@ -456,30 +457,33 @@ def examine(location):
                     cont()
     elif (location == '6'):
         print('The impossible fauna of the fairy realm had completely disappeared. This meant that Alder was now back in the normal realm of his origin. While he was in the fairy realm grass could not bend when he stepped on it and stone would not move no matter how hard he pulled but now he can interact with the world as he pleased. Near to where he was were some crickets, perfect for tonight’s meal.')
-        cont()
+        e = input('Examine: ')
         if (e == 'sky' or e == 'Sky'):
             print('It was a bright, clear blue.')
             cont()
         elif (e == 'mushroom' or e == 'Mushroom'):
-            print('There was a variety of late-summer mushrooms around the area. Many of which are edible.')
-            cont()
             if (PKSwitch[3] == True):
+                print('There was a variety of late-summer mushrooms around the area. Many of which are edible.')
+                cont()
                 pickup = input('Do you want to pick up the mushrooms.(y/n)')
                 if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
                     print('\n3 mushrooms(s) obtained')
                     itemCount(food[3], 3)
                     PKSwitch[3] = False
+            else:
+                print('There was a variety of late-summer mushrooms around the area. Some circled the area as part of the spell need to go between the realms. Alder knew better than to pick these.')
+                cont()
         elif (e == 'plants' or e == 'Plants'):
             print('Various weeds, wildflowers and moss.')
             cont()
         elif (e == 'trees' or e == 'Trees'):
             print('Various trees made up the woodland, the most frequent were birch, rowen and holly.')
             cont()
-        elif (e == 'rocks' or e == 'Rocks'):
-            print('There were a few boulders in the area.')
+        elif (e == 'rocks' or e == 'Rocks' or e == 'boulder' or e == 'Boulder'):
+            print('There were a few boulders in the area. There was a large one were the cottage was.')
             cont()
         elif (e == 'cottage' or e == 'Cottage'):
-            print('The cottage was gone from sight.')
+            print('The cottage was gone from sight. Replace with a large boulder.')
             cont()
         elif (e == 'cricket' or e == 'Cricket' or e == 'crickets' or e == 'Crickets'):
             print('Some large brown crickets were in the area.')
@@ -489,7 +493,7 @@ def examine(location):
                 print('Entering battle')
 #Talk to a character
 def talk():
-    global switch, tutorial1, part
+    global switch, tutorial1, part, location
     if (location == '1'):
         print('There was no one to talk to')
     elif (location == '2'):
@@ -776,6 +780,44 @@ def talk():
                 part = '3'
                 tutorialSwitch[3] = False
                 tutorial1 = False
+        elif (tutorialSwitch[4] == True):
+            print('1: Florace')
+            t = input('talk to: ')
+            if (t == '1'):
+                dialog = [False]
+                while(dialog[0] == False):
+                    print('Florace:')
+                    print('"The knife should be in the shed. I'"'"'ll let you out once you'"'"'ve got it."')
+                    cont()
+                    dialog[0] = True
+        elif (tutorialSwitch[5] == True):
+            print('1: Florace')
+            t = input('talk to: ')
+            if (t == '1'):
+                dialog = [False, False]
+                while(dialog[0] == False and dialog[1] == False):                    
+                    print('1: "I have the knife!"')                  
+                    print('2: "Nevermind"')
+                    c = input('Alder: ')
+                    if (c == '1'): 
+                        print('Florace:')
+                        print('"Fantastic!"')
+                        cont()
+                        print('Florace:')
+                        print('"I'"'"'ll send you out of the Wyrd."')
+                        cont()
+                        print('Florace:')
+                        print('When you have some meat, I'"'"'ll let you back in."')
+                        cont()
+                        print('Florace:')
+                        print('Just please don'"'"'t go too far."')
+                        cont()
+                        location = '6'
+                        print('Florace waved her hands a bright light and smoke appeared in them. Light shone from several points around circling the cottage which then turned into a boulder. Florace and Thay were gone from sight.')    
+                        cont()
+                        dialog[0] = True
+                    if (c == '2'):
+                        dialog[1] = True
 #Move to another location
 def move():
     global location, part, tutorial1, tutorialSwitch
@@ -842,27 +884,12 @@ def move():
             print('Alder moved to the shed on the side of the cottage.')    
             cont()
         elif (m == '3'):
-            if (tutorialSwitch[4] == False):
-                location = '6'
-                print('Alder left the area of the spell hiding the cottage.')    
-                cont()
-            elif (tutorialSwitch[3] == False):
-                print('Florace:')
-                print('"Alder?"')
-                cont()
-                print('Florace:')
-                print('"Don'"'"'t you need the knife?"')
-                cont()
-                print('Alder:')
-                print('"Oh um. Sorry!"')
-                cont()
-            else:
-                print('Alder once got lost after he strayed too far from the cottage.')
-                cont()
-                print('He spend hours in the dark until Florace found him crying and scared.')
-                cont()
-                print('Kyla was indifferent to the situation.')
-                cont()
+            print('Alder once got lost after he strayed too far from the cottage.')
+            cont()
+            print('He spend hours in the dark until Florace found him crying and scared.')
+            cont()
+            print('Kyla was indifferent to the situation.')
+            cont()
     elif (location == '4'):
         print('1: Outside')
         m = input('Move to: ')
@@ -874,7 +901,7 @@ def move():
         print('1: Living Room')
         m = input('Move to: ')
         if (m == '1'):
-            location = '1'
+            location = '2'
             print('Alder went down stairs into the living room.')
             cont()
     elif (location == '6'):
@@ -882,12 +909,11 @@ def move():
         m = input('Move to: ')
         if (m == '1'):
             location = '3'
-            print('Alder returned to the cottage.')
+            print('The air rippled and the cottage reappeared.')
             cont()
 #Save the game
 def save(location, chapter, part):
     data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, alder]
-    print (data)
     print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, alder)
     with open(PIK, "wb") as f:
         print(data)
