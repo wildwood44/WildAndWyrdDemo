@@ -23,6 +23,10 @@ class Alder:
         self.weapon2 = 'None'
         self.aliment = 'None'
         self.cStatus = 'None'
+        self.statBoost = {'health1':False, 'health2':False, 'health3':False, 'stamina1':False, 'stamina2':False, 'stamina3':False, 'attack1':False, 'attack2':False, 'attack3':False,
+                          'defence1':False, 'defence2':False, 'defence3':False, 'accuracy1':False, 'accuracy2':False, 'accuracy3':False, 'speed1':False, 'speed2':False, 'speed3':False,
+                          'evasion1':False, 'evasion2':False, 'evasion3':False
+                          }
         self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':True, 'effect':'Increases Evasion for five turns.'},
                         {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
                         ]
@@ -33,6 +37,12 @@ class Alder:
             attack += self.weapon1['attack']
         else:
             attack += 0
+        if (self.statBoost['attack1'] == True):
+            attack += 5
+        if (self.statBoost['attack2'] == True):
+            attack += 10
+        if (self.statBoost['attack3'] == True):
+            attack += 50
         return attack
     property
     def defence(self):
@@ -43,14 +53,32 @@ class Alder:
             defence += self.body['defence']
         if (self.legs['type'] == 'trousers'):
             defence += self.legs['defence']
+        if (self.statBoost['defence1'] == True):
+            defence += 5
+        if (self.statBoost['defence2'] == True):
+            defence += 10
+        if (self.statBoost['defence3'] == True):
+            defence += 50
         return defence
     property
     def accuracy(self):
         accuracy = self.baseAccuracy
+        if (self.statBoost['accuracy1'] == True):
+            accuracy += 5
+        if (self.statBoost['accuracy2'] == True):
+            accuracy += 10
+        if (self.statBoost['accuracy3'] == True):
+            accuracy += 50
         return accuracy
     property
     def speed(self):
         speed = self.baseSpeed
+        if (self.statBoost['speed1'] == True):
+            speed += 5
+        if (self.statBoost['speed2'] == True):
+            speed += 10
+        if (self.statBoost['speed3'] == True):
+            speed += 50
         return speed
     property
     def evasion(self):
@@ -68,7 +96,7 @@ class Alder:
               '| Evasion: ', self.evasion(), '(', self.baseEvasion,'+', 0, ')',
               '\nHead:', self.head['name'], '\nBody:', self.body['name'], '\nLegs:', self.legs['name'],
               '\nMain Weapon: ', self.weapon1['name'], '\nSecondary Weapon: ', self.weapon2,'\n'
-              '\nSkill Points'self.skillPoints'n'
+              '\nSkill Points', self.skillPoints,'\n'
               )
 
 #Items lists
@@ -109,18 +137,87 @@ def levelUP():
 #Set Class
 alder = Alder()
 
-def skillTree():
+def skillTree(p):
     print('\nSkills')
     print('Skill Points: ', alder.skillPoints)
     print('1: Stat Boosts')
-    print('2: Special Abilities')
+    print('2: Special Skills')
+    skill = input('Skill Type: ')
+    if (skill == '1'):
+        print('\nStat Boosts')
+        count = 1
+        if (p.statBoost['health1'] == False):   
+            print(count,': Health + 10')
+            count += 1
+        elif (p.statBoost['health2'] == False):   
+            print(count,': Health + 50')
+            count += 1
+        elif (p.statBoost['health3'] == False):   
+            print(count,': Health + 300')
+            count += 1
+        if (p.statBoost['stamina1'] == False):   
+            print(count,': Stamina + 10')
+            count += 1
+        elif (p.statBoost['stamina2'] == False):   
+            print(count,': Stamina + 50')
+            count += 1
+        elif (p.statBoost['stamina3'] == False):   
+            print(count,': Stamina + 300')
+            count += 1
+        if (p.statBoost['attack1'] == False):
+            print(count,': Attack + 5')
+            count += 1
+        elif (p.statBoost['attack2'] == False):   
+            print(count,': Attack + 10')
+            count += 1
+        elif (p.statBoost['attack3'] == False):   
+            print(count,': Attack + 50')
+            count += 1
+        if (p.statBoost['defence1'] == False):   
+            print(count,': Defence + 5')
+            count += 1
+        elif (p.statBoost['defence2'] == False):   
+            print(count,': Defence + 10')
+            count += 1
+        elif (p.statBoost['defence3'] == False):   
+            print(count,': Defence + 50')
+            count += 1
+        if (p.statBoost['accuracy1'] == False):   
+            print(count,': Accuracy + 5')
+            count += 1
+        elif (p.statBoost['accuracy2'] == False):   
+            print(count,': Accuracy + 10')
+            count += 1
+        elif (p.statBoost['accuracy3'] == False):   
+            print(count,': Accuracy + 50')
+            count += 1
+        if (p.statBoost['speed1'] == False):   
+            print(count,': Speed + 5')
+            count += 1
+        elif (p.statBoost['speed2'] == False):   
+            print(count,': Speed + 10')
+            count += 1
+        elif (p.statBoost['speed3'] == False):   
+            print(count,': Speed + 50')
+            count += 1
+        if (p.statBoost['evasion1'] == False):   
+            print(count,': evasion + 5')
+            count += 1
+        elif (p.statBoost['evasion2'] == False):   
+            print(count,': evasion + 10')
+            count += 1
+        elif (p.statBoost['evasion3'] == False):   
+            print(count,': evasion + 50')
+            count += 1
+    elif (skill == '2'):
+        print('\nSpecial Skills')
     
 def active():
     dostuff = True
     while(dostuff == True):
         print('\n1: Player stats.')
         print('2: Increase experience.')
-        print('3: Increase experience.')
+        print('3: Unlock Skills.')
         action = input('Action: ')
         if (action == '1'):
             alder.stats()
@@ -128,5 +225,5 @@ def active():
             gainExperience()
             levelUP()
         elif (action == '3'):
-            skillTree()
+            skillTree(alder)
 active()
