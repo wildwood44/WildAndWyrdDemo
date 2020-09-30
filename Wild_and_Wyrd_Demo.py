@@ -14,6 +14,7 @@ tutorialSwitch = [True, True, True, True, True, True, True]
 #Character Base Stats
 class Alder:
     def __init__(self):
+        self.pId = '1'
         self.name = 'Alder'
         self.maxHealth = 100
         self.health = self.maxHealth
@@ -21,15 +22,31 @@ class Alder:
         self.stamina = self.maxStamina
         self.cLvl = 1
         self.cExp = 0
+        self.cNext = 30
+        self.skillPoints = 0
         self.baseAttack = 10
         self.baseDefence = 10
-        self.baseSpeed = 5
+        self.baseAccuracy = 5
+        self.baseSpeed = 10
         self.baseEvasion = 5
         self.head = armors[0]
         self.body = armors[1]
         self.legs = armors[3]
         self.weapon1 = weapons[0]
         self.weapon2 = 'None'
+        self.aliment = 'None'
+        self.cStatus = 'None'
+        self.statBoost = [{'No':'1', 'name':'Health 1', 'active':False, 'boost':10, 'stat' : 'h'}, {'No':'2', 'name':'Health 2', 'active':False, 'boost':50, 'stat' : 'h'}, {'No':'3', 'name':'Health 3', 'active':False, 'boost':300, 'stat' : 'h'},
+                          {'No':'1', 'name':'Stamina 1', 'active':False, 'boost':10, 'stat' : 's'}, {'No':'2', 'name':'Stamina 2', 'active':False, 'boost':50, 'stat' : 's'}, {'No':'3', 'name':'Stamina 3', 'active':False, 'boost':300, 'stat' : 's'},
+                          {'No':'1', 'name':'Attack 1', 'active':False, 'boost':5, 'stat' : 'at'}, {'No':'2', 'name':'Attack 2', 'active':False, 'boost':10, 'stat' : 'at'}, {'No':'3', 'name':'Attack 3', 'active':False, 'boost':50, 'stat' : 'at'},
+                          {'No':'1', 'name':'Defence 1', 'active':False, 'boost':5, 'stat' : 'df'}, {'No':'2', 'name':'Defence 2', 'active':False, 'boost':10, 'stat' : 'df'}, {'No':'3', 'name':'Defence 3', 'active':False, 'boost':50, 'stat' : 'df'},
+                          {'No':'1', 'name':'Accuracy 1', 'active':False, 'boost':5, 'stat' : 'ac'}, {'No':'2', 'name':'Accuracy 2', 'active':False, 'boost':10, 'stat' : 'ac'}, {'No':'3', 'name':'Accuracy 3', 'active':False, 'boost':50, 'stat' : 'ac'},
+                          {'No':'1', 'name':'Speed 1', 'active':False, 'boost':5, 'stat' : 'sp'}, {'No':'2', 'name':'Speed 2', 'active':False, 'boost':10, 'stat' : 'sp'}, {'No':'3', 'name':'Speed 3', 'active':False, 'boost':50, 'stat' : 'sp'},
+                          {'No':'1', 'name':'Evasion 1', 'active':False, 'boost':5, 'stat' : 'ev'}, {'No':'2', 'name':'Evasion 2', 'active':False, 'boost':10, 'stat' : 'ev'}, {'No':'3', 'name':'Evasion 3', 'active':False, 'boost':50, 'stat' : 'ev'},
+                          ]
+        self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Doubles Evasion for five turns.'},
+                        {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
+                        ]
     property
     def attack(self):
         attack = self.baseAttack
@@ -49,6 +66,58 @@ class Alder:
             defence += self.legs['defence']
         return defence
     property
+    def accuracy(self):
+        accuracy = self.baseAccuracy
+        return accuracy
+    property
+    def speed(self):
+        speed = self.baseSpeed
+        return speed
+    property
+    def evasion(self):
+        evasion = self.baseEvasion
+        if (self.special[0]['active'] == True):
+            evasion *= 2 
+        return evasion
+    def stats(self):
+        print('\nName: ', self.name, '- Lvl: ', self.cLvl, 'Exp: ', self.cExp,
+              '\nHealth: ', self.health, '/', self.maxHealth, '| Stamina: ', self.stamina, '/', self.maxStamina,
+              '\nAttack: ', self.attack(), '(', self.baseAttack,'+',self.weapon1['attack'], ')',
+              '| Defence: ', self.defence(), '(', self.baseDefence,'+',self.head['defence'] + self.body['defence'] + self.legs['defence'], ')',
+              '| \nAccuracy: ', self.accuracy(), '(', self.baseAccuracy,'+', 0, ')',
+              '| Speed: ', self.speed(), '(', self.baseSpeed,'+', 0, ')',
+              '| Evasion: ', self.evasion(), '(', self.baseEvasion,'+', 0, ')',
+              '\nHead:', self.head['name'], '\nBody:', self.body['name'], '\nLegs:', self.legs['name'],
+              '\nMain Weapon: ', self.weapon1['name'], '\nSecondary Weapon: ', self.weapon2,'\n'
+              '\nSkill Points', self.skillPoints,'\n'
+              )
+#Enemy Units
+class Cricket:
+    def __init__(self):
+        self.enId = '1'
+        self.name = 'Cricket'
+        self.maxHealth = 20
+        self.health = self.maxHealth
+        self.Exp = 10
+        self.drop = [{'item' : food[3], 'quantity':2}]
+        self.baseAttack = 0
+        self.baseDefence = 8
+        self.baseAccuracy = 90
+        self.baseSpeed = 10
+        self.baseEvasion = 25
+        self.desc = 'Big grasshoppers with long antenna. Can jump a fair distance.'
+    def attack(self):
+        attack = self.baseAttack
+        return attack
+    property
+    def defence(self):
+        defence = self.baseDefence
+        return defence
+    property
+    def accuracy(self):
+        accuracy = self.baseAccuracy
+        return accuracy
+    property
     def speed(self):
         speed = self.baseSpeed
         return speed
@@ -56,16 +125,75 @@ class Alder:
     def evasion(self):
         evasion = self.baseEvasion
         return evasion
-    def stats(self):
-        print('\nName: ', self.name, '- Lvl: ', self.cLvl, 'Exp: ', self.cExp,
-              '\nHealth: ', self.health, '/', self.maxHealth, '| Stamina: ', self.stamina, '/', self.maxStamina,
-              '\nAttack: ', self.attack(), '(', self.baseAttack,'+',self.weapon1['attack'], ')',
-              '| Defence: ', self.defence(), '(', self.baseDefence,'+',self.head['defence'] + self.body['defence'] + self.legs['defence'], ')',
-              '| \nSpeed: ', self.speed(), '(', self.baseSpeed,'+', 0, ')',
-              '| Evasion: ', self.evasion(), '(', self.baseEvasion,'+', 0, ')',
-              '\nHead:', self.head['name'], '\nBody:', self.body['name'], '\nLegs:', self.legs['name'],
-              '\nMain Weapon: ', self.weapon1['name'], '\nSecondary Weapon: ', self.weapon2, '\n'
-              )
+
+class Wasp:
+    def __init__(self):
+        self.enId = '2'
+        self.name = 'Wasp'
+        self.maxHealth = 10
+        self.health = self.maxHealth
+        self.Exp = 10
+        self.drop = [{'item':food[3], 'quantity':1}]
+        self.baseAttack = 5
+        self.baseDefence = 5
+        self.baseAccuracy = 90
+        self.baseSpeed = 40
+        self.baseEvasion = 45
+        self.desc = 'More hostile than usual this year. In the air they are annoying to hit but they are easy to kill.'
+    def attack(self):
+        attack = self.baseAttack
+        return attack
+    property
+    def defence(self):
+        defence = self.baseDefence
+        return defence
+    property
+    def accuracy(self):
+        accuracy = self.baseAccuracy
+        return accuracy
+    property
+    def speed(self):
+        speed = self.baseSpeed
+        return speed
+    property
+    def evasion(self):
+        evasion = self.baseEvasion
+        return evasion
+
+class Dummy:
+    def __init__(self):
+        self.enId = '3'
+        self.name = 'Dummy'
+        self.maxHealth = 100
+        self.health = self.maxHealth
+        self.Exp = 5
+        self.drop = []
+        self.baseAttack = 0
+        self.baseDefence = 150
+        self.baseAccuracy = 0
+        self.baseSpeed = 0
+        self.baseEvasion = 0
+        self.desc = 'Made from sticks and a sack. Made to fight.'
+    property
+    def attack(self):
+        attack = self.baseAttack
+        return attack
+    property
+    def defence(self):
+        defence = self.baseDefence
+        return defence
+    property
+    def accuracy(self):
+        accuracy = self.baseAccuracy
+        return accuracy
+    property
+    def speed(self):
+        speed = self.baseSpeed
+        return speed
+    property
+    def evasion(self):
+        evasion = self.baseEvasion
+        return evasion
         
 Florace = {'pId' : '2', 'name' : 'Florace', 'combatLvl' : '1', 'combatExp' : 0,
          'maxHealth': 150, 'attack' : 15, 'defence' : 10, 'speed' : 7, 'evasion' : 2, 'maxStamina' : 100,
@@ -100,7 +228,9 @@ food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
         {'itemId' : '3', 'name' : 'Hazelnut', 'type' : 'food',
           'recovers' : 2, 'count' : 0},
         {'itemId' : '4', 'name' : 'Mushroom', 'type' : 'food',
-          'recovers' : 5, 'count' : 0}
+          'recovers' : 5, 'count' : 0},
+        {'itemId' : '4', 'name' : 'Raw Bug Meat', 'type' : 'food',
+          'recovers' : 10, 'count' : 0}
         ]
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
           'heals' : 10, 'count' : 0}
@@ -132,6 +262,144 @@ def cont():
     con = input()
     if (con == 'skip'):
         return
+#Level up character
+def levelUP(p):
+    print(p.cNext, ' ', p.cExp)
+    if(p.cExp >= p.cNext):
+        while(p.cExp >= p.cNext and p.cLvl < 60):
+            if(p.cLvl < 60):
+                p.cLvl += 1
+                p.maxHealth += 5
+                p.maxStamina += 5
+                p.health += 5
+                p.stamina += 5
+                p.baseAttack += 2
+                p.baseDefence += 2
+                p.baseAccuracy += 2
+                p.baseSpeed += 2
+                p.baseEvasion += 2
+                p.skillPoints += 1
+                print(p.name,' leveled up!')
+                if(p.cLvl == 60):
+                    print('Max Level')
+                else:
+                    if(p.cLvl < 5):
+                        p.cNext = round(p.cNext*1.65)
+                    elif(p.cLvl < 20):
+                        p.cNext = round(p.cNext*1.55)
+                    elif(p.cLvl < 30):
+                        p.cNext = round(p.cNext*1.45)
+                    elif(p.cLvl < 40):
+                        p.cNext = round(p.cNext*1.35)
+                    elif(p.cLvl < 50):
+                        p.cNext = round(p.cNext*1.25)
+                    elif(p.cLvl < 60):
+                        p.cNext = round(p.cNext*1.15)
+                    print(p.cNext)
+#Boost Stats
+def stBoost(p, sb):
+    if(sb['stat'] == 'h' and sb['active']):
+        p.maxHealth += sb['boost']
+        p.health += sb['boost']
+    elif(sb['stat'] == 's' and sb['active']):
+        p.maxStamina += sb['boost']
+        p.stamina += sb['boost']
+    elif(sb['stat'] == 'at' and sb['active']):
+        p.baseAttack += sb['boost']
+    elif(sb['stat'] == 'df' and sb['active']):
+        p.baseDefence += sb['boost']
+    elif(sb['stat'] == 'ac' and sb['active']):
+        p.baseAccuracy += sb['boost']
+    elif(sb['stat'] == 'sp' and sb['active']):
+        p.baseSpeed += sb['boost']
+    elif(sb['stat'] == 'ev' and sb['active']):
+        p.baseEvasion += sb['boost']
+#Print Skill Tree
+def skillTree(p):
+    print('\nSkills')
+    print('Skill Points: ', p.skillPoints)
+    print('You can spend skill points on a stat boost or a character skill.')
+    print('1: Stat Boosts')
+    print('2: Special Skills')
+    skill = input('Skill Type: ')
+    if (skill == '1'):
+        sbl = []
+        print('\nStat Boosts')
+        print('Skill Points: ', p.skillPoints)
+        count = 1
+        temp = False
+        for i in p.statBoost:
+            if (i['No'] == '1' and i['active'] == False):
+                print(count,': ', i['name'], ' + ', i['boost'])
+                count += 1
+            elif (i['No'] == '2' and i['active'] == False and temp == True):
+                print(count,': ', i['name'], ' + ', i['boost'])
+                count += 1
+            elif (i['No'] == '3' and i['active'] == False and temp == True):
+                print(count,': ', i['name'], ' + ', i['boost'])
+                count += 1
+            if ((i['No'] == '1' or i['No'] == '2') and i['active'] == True):
+                temp = True
+            else:
+                temp = False
+        sb = input('Boost: ')
+        count = 1
+        for i in p.statBoost:
+            if (i['No'] == '1' and i['active'] == False):
+                if(sb == str(count)):
+                    if (p.skillPoints > 0):
+                        i['active'] = True
+                        stBoost(p,i)
+                        print(i['name'],'has been unlocked!')
+                        p.skillPoints -= 1
+                    else:
+                        print('You do not have enough skill points.')
+                count += 1
+            elif (i['No'] == '2' and i['active'] == False and temp == True):
+                if(sb == str(count)):
+                    if (p.skillPoints > 0):
+                        i['active'] = True
+                        stBoost(p,i)
+                        print(i['name'],'has been unlocked!')
+                        p.skillPoints -= 1
+                    else:
+                        print('You do not have enough skill points.')
+                count += 1
+            elif (i['No'] == '3' and i['active'] == False and temp == True):
+                if(sb == str(count)):
+                    if (p.skillPoints > 0):
+                        i['active'] = True
+                        stBoost(p,i)
+                        print(i['name'],'has been unlocked!')
+                        p.skillPoints -= 1
+                    else:
+                        print('You do not have enough skill points.')
+                count += 1
+            if ((i['No'] == '1' or i['No'] == '2') and i['active'] == True):
+                temp = True
+            else:
+                temp = False
+    elif (skill == '2'):
+        print('\nSpecial Skills')
+        print('Skill Points: ', p.skillPoints)
+        count = 1
+        for i in p.special:
+            if (i['unlocked'] == False):   
+                print(count,': ', i['name'], ' - ', i['effect'])
+                count += 1
+        sa = input('Boost: ')
+        count = 1
+        for i in p.special:
+            if (i['unlocked'] == False):
+                if(sa == str(count)):
+                    if (p.skillPoints > 0):
+                        i['unlocked'] = True
+                        print(i['name'], 'has been unlocked')
+                        p.skillPoints -= 1
+                    else:
+                        print('You do not have enough skill points.')
+                count += 1
+
 #Increment/Decrement Shillings
 def shillings(m):
     global shill
@@ -297,9 +565,237 @@ def equip():
             equipable.clear()
         elif (i == 'e'):
             equiping = False
+def win(e):
+    ex = 0
+    rewards = []
+    count = 0
+    print('\n')
+    for i in e:
+        ex += i.Exp
+        count += 1
+    alder.cExp += ex
+    print('Alder gained ', ex, ' experience.')
+    levelUP()
+    for i in e:
+        print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
+        itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
+#If character dies
+def death():
+    for i in alder.special:
+        i['active'] = False
+        i['inEffect'] = 0
+    alder.health = alder.maxHealth
+    alder.stamina = alder.maxHealth
+    print('\nAlder was slain.')
+    cont()
+    dostuff = False
+#Hunder
+def hunger():
+    if(alder.stamina <= 0):
+        alder.health -= 1
+        print('You need to eat!')
+    if(alder.stamina < 0):
+        alder.stamina = 0
+#Enemy attack
+def enemyAttack(e, p, b):
+    if (e.attack() != 0):
+        target = e.accuracy() + 100 - p.evasion()
+        hit = random.randrange(0,100)
+        critical = random.randrange(0,100)
+        if (hit < target):
+            impact = random.randrange(e.attack() - 5, e.attack() + 5)
+            if (critical >= 90):
+                impact += 10
+            impact = round(impact * (100/(100 + p.defence())))
+            if (impact <= 0):
+                impact = 1
+            if (p.cStatus == 'Blocking'):
+                temp = impact
+                impact -= b
+                if (impact < 0):
+                    impact = 0
+                alder.cStatus = 'None'
+            p.health -= impact
+            print('\n',e.name,' attacked!')
+            if(critical >= 90):
+                print('Critical Hit!')
+            print(p.name, ' took ', impact, ' damage!')
+            return b
+        else:
+            print('\n',e.name,' Missed')
+    else:
+        print('\n',e.name, ' did not attack!')
 
+#Attack Enemy
+def attack(p, e):
+    target = p.accuracy() + 100 - e.evasion()
+    hit = random.randrange(0,100)
+    critical = random.randrange(0,100)
+    alder.stamina -= 5
+    if (hit < target):
+        impact = random.randrange(p.attack() - 5, p.attack() + 5)
+        if (critical >= 90):
+            impact += 10
+        impact = round(impact * (100/(100 + p.defence())))
+        if (impact <= 0):
+            impact = 1
+        e.health -= impact
+        print('\n',p.name,' attacked!')
+        if(critical >= 90):
+            print('Critical Hit!')
+        print(e.name, ' took ', impact, ' damage!')
+        if(e.health <= 0):
+            print(e.name, ' defeated.')
+    else:
+        print('\n',p.name,' Missed')
+
+#Block incoming attack
+def block(barrier, incoming):
+    print(barrier, temp)
+    return incoming
+
+#Check if special effect are still active and deactivate them it they are not.
+def inEffect():
+    for i in alder.special:
+        if(i['active'] == True):
+            i['inEffect'] -= 1
+            if (i['inEffect'] <= 0):
+                i['active'] = False
+                print(alder.name,"'s ", i['name'], ' has worn off.')
+
+def special(p):
+    print('\nSpecial Ability')
+    for i in p.special:
+        if (i['unlocked'] == True):
+            print(i['spId'], ') ',i['name'], ' - ', i['cost'], ' stamina')
+    sp = input('Use: ')
+    for i in p.special:
+        if (i['unlocked'] == True):
+            if (sp == i['spId']):
+               i['active'] = True
+               if (i['spId'] == '1'):
+                   p.stamina -= i['cost']
+                   i['inEffect'] = 6
+               elif (i['spId'] == '2'):
+                   p.stamina -= i['cost']
+                   i['inEffect'] = 5
+               print('\n', p.name, ' uses ', i['name'],'.')
+
+#Use Item
+def item(p):
+    use = []
+    count = 1
+    print('\nBag Items')
+    for i in inv:
+        if(i['type'] == 'healing' or i['type'] == 'food'):
+            print(count, ': ', i['name'], ' x', i['count'])
+            use.append(i)
+            count += 1
+    print('e - exit')
+    if(count != 0):
+        count = 1
+        u = input('use item: ')
+        for i in use:
+            if (u == str(count)):
+                print(i['name'])
+                if (i['type'] == 'healing'):
+                    p.health += i['heals']
+                    print(p.name, ' recoved ', i['heals'], ' health')
+                    if (p.health > p.maxHealth):
+                        p.health = p.maxHealth
+                elif (i['type'] == 'food'):
+                    p.stamina += i['recovers']
+                    print(p.name, ' recoved ', i['recovers'], ' stamina')
+                i['count'] -= 1
+                if(i['count'] <= 0):
+                    inv.remove(i)
+            count +=1
+        use.clear()
+
+#Combat interface
+def battle(e):
+    os.system('clear')
+    global alder
+    enemys = []
+    for i in e:
+        if i.enId != '0':
+            enemys.append(i)
+    fighting = True
+    winner = False
+    count = 1
+    bck = 0
+    while(fighting == True):
+        hunger()
+        if (enemys[0].health <= 0):
+            count = 0
+            for i in enemys:
+                if (i.health <= 0):
+                    count += 1
+            if (count == len(enemys)):
+                winner = True
+        #Death Condition
+        if(alder.health <= 0):
+            fighting = False
+            death()
+        #Win Condition
+        elif(winner == True):
+            for i in alder.special:
+                i['active'] = False
+                i['inEffect'] = 0
+            fighting = False
+            win(enemys)
+        else:
+            inEffect()
+            for i in enemys:
+                if(i.speed() > alder.speed() and count == 1 and i.health > 0):
+                    enemyAttack(i, alder, bck)
+            while(alder.cStatus == 'None'):
+                print('\n',alder.name)
+                print("Health: ", alder.health, '/', alder.maxHealth, "| Stamina: ", alder.stamina, '/', alder.maxStamina)
+                print("1) Attack     3) Appraise     5) Item")
+                print("2) Block      4) Special      6) Flee")
+                i = input('Action: ')
+                if (i == '1' or i == 'attack' or i == 'Attack'):
+                    print('\nEnemies')
+                    alder.cStatus = 'Attacking'
+                    j = 1
+                    for i in enemys:
+                        if (i.health > 0):
+                            print(j, ': ', i.name)
+                            j += 1
+                    target = input('Attack: ')
+                    j = 1
+                    for i in enemys:
+                        if (i.health > 0):
+                            if (target == str(j)):
+                                attack(alder, i)
+                            j += 1
+                elif (i == '2' or i == 'block' or i == 'Block'):
+                    alder.cStatus = 'Blocking'
+                    bck = alder.defence()
+                elif (i == '3' or i == 'appraise' or i == 'Appraise'):
+                    for i in enemys:
+                        print('\n',i.name, 'Health:', i.health,'/',i.maxHealth)
+                        print(i.desc)
+                elif (i == '4' or i == 'special' or i == 'Special'):
+                    alder.cStatus = 'Specializing'
+                    special(alder)
+                elif (i == '5' or i == 'item' or i == 'Item'):
+                    alder.cStatus = 'Using'
+                    item(alder)
+                elif (i == '6' or i == 'flee' or i == 'Flee'):
+                    i = input('Are you sure you want to run?(y/n)')
+                    if (i == 'y' or i == 'Y' or i == 'yes' or i == 'Yes'):
+                        alder.cStatus = 'Escaping'
+                        fighting = False
+            for i in enemys:
+                if(i.health > 0):
+                    enemyAttack(i, alder, bck)
+            count += 1
+            alder.cStatus = 'None'
 #Examine background object
 def examine(location):
+    print('\nExamine')
     if (location == '1'):
         print('The cottage kitchen contained various pots and pans hanging on the wall. It had a stove where a cauldron was dangled on a chain. There a cupboard and two tables one of which had an empty bowl on it. Alder had been washing dishes in a basin on the other table next to the window.')
         e = input('Examine: ')
@@ -385,7 +881,6 @@ def examine(location):
                     itemCount(food[0], 5)
                     PKSwitch[2] = False
             cont()
-            
     elif (location == '4'):
         print('The inside of the shed was illuminated by a window on the left side from the entrance. It was full of gathering, woodwork and gardening tools which were used by Alder, and pots and creates containing ingredients of magic potions. At the other end from the entrance was a table used for crafts.')
         e = input('Examine: ')
@@ -494,6 +989,7 @@ def examine(location):
 #Talk to a character
 def talk():
     global switch, tutorial1, part, location
+    print('\nTalk')
     if (location == '1'):
         print('There was no one to talk to')
     elif (location == '2'):
@@ -821,6 +1317,7 @@ def talk():
 #Move to another location
 def move():
     global location, part, tutorial1, tutorialSwitch
+    print('\nMove')
     if (location == '1'):
         print('1: Living Room')
         m = input('Move to: ')
@@ -828,7 +1325,8 @@ def move():
             location = '2'
             if(tutorialSwitch[0] == True):
                 tutorialSwitch[0] = False
-            print('Alder moved to the living room of the cottage.')    
+            print('Alder moved to the living room of the cottage.')
+            alder.stamina -= 1    
             cont()
     elif (location == '2'):
         print('1: Kitchen')
@@ -837,11 +1335,13 @@ def move():
         m = input('Move to: ')
         if (m == '1' or m == 'kitchen' or m == 'Kitchen'):
             location = '1'
-            print('Alder moved to the kitchen.')    
+            print('Alder moved to the kitchen.')
+            alder.stamina -= 1    
             cont()
         elif (m == '2'):
             location = '3'
             print('Alder moved outside the cottage through the front door.')
+            alder.stamina -= 1
             cont()
             if(tutorialSwitch[1] == True):
                 part = '2'
@@ -850,7 +1350,8 @@ def move():
                 tutorial1 = False  
         elif (m == '3'):
             location = '5'
-            print('Alder moved upstairs and into his bedroom.')    
+            print('Alder moved upstairs and into his bedroom.')
+            alder.stamina -= 1    
             cont()
     elif (location == '3'):
         print('1: Living Room')
@@ -877,11 +1378,13 @@ def move():
                 cont()
             else:
                 location = '2'
-                print('Alder moved to the living room of the cottage.')    
+                print('Alder moved to the living room of the cottage.')
+                alder.stamina -= 1    
                 cont()
         elif (m == '2'):        
             location = '4'
-            print('Alder moved to the shed on the side of the cottage.')    
+            print('Alder moved to the shed on the side of the cottage.')  
+            alder.stamina -= 1  
             cont()
         elif (m == '3'):
             print('Alder once got lost after he strayed too far from the cottage.')
@@ -889,6 +1392,7 @@ def move():
             print('He spend hours in the dark until Florace found him crying and scared.')
             cont()
             print('Kyla was indifferent to the situation.')
+            alder.stamina -= 1
             cont()
     elif (location == '4'):
         print('1: Outside')
@@ -896,6 +1400,7 @@ def move():
         if (m == '1'):
             location = '3'
             print('Alder left the shed and back to the front of the cottage.')
+            alder.stamina -= 1
             cont()
     elif (location == '5'):
         print('1: Living Room')
@@ -903,6 +1408,7 @@ def move():
         if (m == '1'):
             location = '2'
             print('Alder went down stairs into the living room.')
+            alder.stamina -= 1
             cont()
     elif (location == '6'):
         print('1: Cottage grounds')
@@ -910,6 +1416,7 @@ def move():
         if (m == '1'):
             location = '3'
             print('The air rippled and the cottage reappeared.')
+            alder.stamina -= 1
             cont()
 #Save the game
 def save(location, chapter, part):
@@ -964,6 +1471,7 @@ def helper():
     print("Command: o, objective, Objective - Print the main and side quests.")
     print("Command: i, items, Items - View inventory.")
     print("Command: x, equip, Equip - Equip item.")
+    print("Command: k, skill, Skill - Unlock Skill.")
     print("Command: s, save, Save - Save the game.")
     print("Command: q, quit, Quit - Leave to the main menu")
 
@@ -1007,20 +1515,23 @@ def freeTutorial(location, chapter, part):
             
 def free(location, chapter, part):
     global game_active, tutorial1
+    hunger()
+    print('\nInteract')
     if(tutorialSwitch[0] == True):
-        print('\nYou will need to have a quick look around. Type "examine" or "e" to explore the room Alder is currently in.')
+        print('You will need to have a quick look around. Type "examine" or "e" to explore the room Alder is currently in.')
     elif(tutorialSwitch[1] == True):
-        print('\nAlder needs to go outside. He will have to "move"("m") through the living room and then outside.')
+        print('Alder needs to go outside. He will have to "move"("m") through the living room and then outside.')
     elif(tutorialSwitch[2] == True):
-        print('\nWhile we wait for Thay Let'"'"'s "talk"("t") to Florace.')
+        print('While we wait for Thay Let'"'"'s "talk"("t") to Florace.')
     elif(tutorialSwitch[3] == True):
-        print('\nAlder'"'"' job around the cottage is to entertain guests. Let'"'"'s talk to Thay now.')
+        print('Alder'"'"' job around the cottage is to entertain guests. Let'"'"'s talk to Thay now.')
     elif(tutorialSwitch[4] == True):
-        print('\nAlder will need the knife in the shed examine the area to find and pick up the knife and "equip"("x") the knife from your "items"("i") inventory.')
+        print('Alder will need the knife in the shed examine the area to find and pick up the knife and "equip"("x") the knife from your "items"("i") inventory.')
     elif(tutorialSwitch[5] == True):
-        print('\nCombat Turtorial')
+        print('Combat Turtorial')
     elif(tutorialSwitch[6] == True):
-        print('\nGo to bed')
+        print('Go to bed')
+    print("Health: ", alder.health, '/', alder.maxHealth, "| Stamina: ", alder.stamina, '/', alder.maxStamina)
     print("Type command: h, help, Help - For help.")
     #r = open("wawPrologue.txt","r")
     action = input('Enter Command: ')
@@ -1038,6 +1549,8 @@ def free(location, chapter, part):
         inventory()
     elif (action == 'x' or action == 'equip' or action == 'Equip'):
         equip()
+    elif (action == 'k' or action == 'skill' or action == 'Skill'):
+        skillTree(alder)
     elif (action == 'h' or action == 'help' or action == 'Help'):
         helper()
     elif (action == 's' or action == 'save' or action == 'Save'):
