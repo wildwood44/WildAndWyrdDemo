@@ -125,8 +125,20 @@ def levelUP(p):
                 if(p.cLvl == 60):
                     print('Max Level')
                 else:
-                    p.cNext = round(p.cNext*1.65)
+                    if(p.cLvl < 5):
+                        p.cNext = round(p.cNext*1.65)
+                    elif(p.cLvl < 20):
+                        p.cNext = round(p.cNext*1.55)
+                    elif(p.cLvl < 30):
+                        p.cNext = round(p.cNext*1.45)
+                    elif(p.cLvl < 40):
+                        p.cNext = round(p.cNext*1.35)
+                    elif(p.cLvl < 50):
+                        p.cNext = round(p.cNext*1.25)
+                    elif(p.cLvl < 60):
+                        p.cNext = round(p.cNext*1.15)
                     print(p.cNext)
+                    
 
 #Set Class
 alder = Alder()
@@ -152,6 +164,7 @@ def stBoost(p, sb):
 def skillTree(p):
     print('\nSkills')
     print('Skill Points: ', p.skillPoints)
+    print('You can spend skill points on a stat boost or a character skill.')
     print('1: Stat Boosts')
     print('2: Special Skills')
     skill = input('Skill Type: ')
