@@ -1,3 +1,4 @@
+import os
 import pickle
 import random
 #Loop
@@ -99,12 +100,14 @@ class Cricket:
         self.maxHealth = 20
         self.health = self.maxHealth
         self.Exp = 10
-        self.drop = [{'item' : food[3], 'quantity':2}]
+        self.drop = [{'item' : food[4], 'quantity':2}]
         self.baseAttack = 0
         self.baseDefence = 8
         self.baseAccuracy = 90
         self.baseSpeed = 10
         self.baseEvasion = 25
+        self.strat = 'Prey'
+        self.cStatus = 'None'
         self.desc = 'Big grasshoppers with long antenna. Can jump a fair distance.'
     def attack(self):
         attack = self.baseAttack
@@ -133,12 +136,14 @@ class Wasp:
         self.maxHealth = 10
         self.health = self.maxHealth
         self.Exp = 10
-        self.drop = [{'item':food[3], 'quantity':1}]
+        self.drop = [{'item':food[4], 'quantity':1}]
         self.baseAttack = 5
         self.baseDefence = 5
         self.baseAccuracy = 90
         self.baseSpeed = 40
         self.baseEvasion = 45
+        self.strat = 'Attacker'
+        self.cStatus = 'None'
         self.desc = 'More hostile than usual this year. In the air they are annoying to hit but they are easy to kill.'
     def attack(self):
         attack = self.baseAttack
@@ -173,6 +178,8 @@ class Dummy:
         self.baseAccuracy = 0
         self.baseSpeed = 0
         self.baseEvasion = 0
+        self.strat = 'Attacker'
+        self.cStatus = 'None'
         self.desc = 'Made from sticks and a sack. Made to fight.'
     property
     def attack(self):
@@ -296,6 +303,11 @@ def levelUP(p):
                     elif(p.cLvl < 60):
                         p.cNext = round(p.cNext*1.15)
                     print(p.cNext)
+
+class Null:
+    def __init__(self):
+        self.enId = '0'
+        self.name = 'Null'
 #Boost Stats
 def stBoost(p, sb):
     if(sb['stat'] == 'h' and sb['active']):
@@ -575,7 +587,7 @@ def win(e):
         count += 1
     alder.cExp += ex
     print('Alder gained ', ex, ' experience.')
-    levelUP()
+    levelUP(alder)
     for i in e:
         print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
         itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
@@ -706,6 +718,8 @@ def item(p):
                 elif (i['type'] == 'food'):
                     p.stamina += i['recovers']
                     print(p.name, ' recoved ', i['recovers'], ' stamina')
+                    if (p.stamina > p.maxStamina):
+                        p.stamina = p.maxStamina
                 i['count'] -= 1
                 if(i['count'] <= 0):
                     inv.remove(i)
@@ -790,7 +804,20 @@ def battle(e):
                         fighting = False
             for i in enemys:
                 if(i.health > 0):
-                    enemyAttack(i, alder, bck)
+                    if(i.strat == 'Attacker'):
+                        enemyAttack(i, alder, bck)
+                        i.cStatus = 'Attacking'
+                    elif(i.strat == 'Prey'):
+                        if(i.health < i.maxHealth):
+                            print(i.name, ' fled!')
+                            i.cStatus = 'Escaping'
+            for i in reversed(enemys):
+                if (i.cStatus == 'Escaping'):
+                    enemys.remove(i)
+                    if (len(enemys) == 0):
+                        fighting = False
+                else:
+                    i.cStatus = 'None'
             count += 1
             alder.cStatus = 'None'
 #Examine background object
@@ -986,6 +1013,8 @@ def examine(location):
             fight = input('Do you want to fight them.(y/n)')
             if (fight == 'y' or fight == 'Y' or fight == 'yes' or fight == 'Yes'):
                 print('Entering battle')
+                enemy = [Cricket(), Null(), Null()]
+                battle(enemy)
 #Talk to a character
 def talk():
     global switch, tutorial1, part, location
@@ -1439,12 +1468,13 @@ def inventory():
             print(count, ') ', i['name'], ' x', i['count'])
             count += 1
         print('\n1: Appraise')
-        print('2: Equip')
+        print('2: Use')
+        print('3: Equip')
         print('e - Exit')
         i = input('Action: ')
 
         #Appraise items in inventory
-        if (i == '1'):
+        if (i == '1' or i == 'appraise' or i == 'Appraise'):
             appraise = input('\nItem number: ')
             count = 1
             for i in inv:
@@ -1454,7 +1484,9 @@ def inventory():
                     else:
                         print('Name: ', i['name'], ' - Type: ', i['type'], ' - \nStamina Recovered: ', i['recovers'])
                 count += 1
-        elif (i == '2'):
+        elif (i == '2' or i == 'use' or i == 'Use'):
+            item(alder)
+        elif (i == '3' or i == 'equip' or i == 'Equip'):
             equip()
         elif (i == 'e'):
             print()
@@ -1474,44 +1506,6 @@ def helper():
     print("Command: k, skill, Skill - Unlock Skill.")
     print("Command: s, save, Save - Save the game.")
     print("Command: q, quit, Quit - Leave to the main menu")
-
-
-def freeTutorial(location, chapter, part):
-    global game_active, tutorial1
-    if(tutorialSwitch[0] == True):
-        print('You will need to have a quick look around. Press "a" to interact with the world.')
-    elif(tutorialSwitch[1] == True):
-        print('Alder needs to go outside. He will have to move through the living room and then outside.')
-    elif(tutorialSwitch[2] == True):
-        print('While we wait for Thay Let'"'"'s talk to Florace.')
-    print('a - Action')
-    print('s - Save')
-    print('q - Quit')
-    action = input('Enter Command: ')
-    print(switch[2])
-    if (action == 'a'):
-        print('e - Examine')
-        if(tutorialSwitch[0] == False):
-            print('m - Move')
-        if(tutorialSwitch[1] == False):
-            print('t - Talk')
-        action = input('Enter Command: ')
-        if (action == 'e'):
-            examine(location)
-        if(tutorialSwitch[0] == False):
-            if (action == 'm'):
-                move()
-        if(tutorialSwitch[1] == False):
-            if (action == 't'):
-                talk()
-    if (action == 's'):
-        save(location, chapter, part)
-    if (action == 'q'):
-        print ("Are you sure you wan to quit to menu y/n")
-        q = input('Enter Command: ')
-        if (q == 'y' or q == 'Y' or q == 'yes' or q == 'Yes'):
-            tutorial1 = False
-            game_active = False
             
 def free(location, chapter, part):
     global game_active, tutorial1

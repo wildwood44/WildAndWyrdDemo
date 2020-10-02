@@ -83,6 +83,8 @@ class Cricket:
         self.baseAccuracy = 90
         self.baseSpeed = 10
         self.baseEvasion = 25
+        self.strat = 'Prey'
+        self.cStatus = 'None'
         self.desc = 'Big grasshoppers with long antenna. Can jump a fair distance.'
     def attack(self):
         attack = self.baseAttack
@@ -117,6 +119,8 @@ class Wasp:
         self.baseAccuracy = 90
         self.baseSpeed = 40
         self.baseEvasion = 45
+        self.strat = 'Attacker'
+        self.cStatus = 'None'
         self.desc = 'More hostile than usual this year. In the air they are annoying to hit but they are easy to kill.'
     def attack(self):
         attack = self.baseAttack
@@ -151,6 +155,8 @@ class Dummy:
         self.baseAccuracy = 0
         self.baseSpeed = 0
         self.baseEvasion = 0
+        self.strat = 'Attacker'
+        self.cStatus = 'None'
         self.desc = 'Made from sticks and a sack. Made to fight.'
     property
     def attack(self):
@@ -186,6 +192,8 @@ class Gowl_Rabbit:
         self.baseAccuracy = 200
         self.baseSpeed = 1700
         self.baseEvasion = 1800
+        self.strat = 'Attacker'
+        self.cStatus = 'None'
         self.desc = 'A Gowls Captain. There'"'"'s a reason for that. Well equiped and fast as rabbits are.'
     property
     def attack(self):
@@ -212,7 +220,6 @@ class Null:
     def __init__(self):
         self.enId = '0'
         self.name = 'Null'
-    
 
 #Items lists
 weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : '',
@@ -284,8 +291,8 @@ def equip():
         print('1: Head')
         print('2: Body')
         print('3: Legs')
-        print('4: Weapon - A')
-        print('5: Weapon - B')
+        print('4: Main Weapon')
+        print('5: Secondary Weapon')
         print('e - Exit')
         i = input('Action: ')
         if (i == '1'):
@@ -612,6 +619,9 @@ def enemyAttack(e, p, b):
     else:
         print('\n',e.name, ' did not attack!')
 
+def enemyFlee(e):
+    print(e.name, ' fled!')
+
 #Attack Enemy
 def attack(p, e):
     target = p.accuracy() + 100 - e.evasion()
@@ -692,6 +702,8 @@ def item(p):
                 elif (i['type'] == 'food'):
                     p.stamina += i['recovers']
                     print(p.name, ' recoved ', i['recovers'], ' stamina')
+                    if (p.stamina > p.maxStamina):
+                        p.stamina = p.maxStamina
                 i['count'] -= 1
                 if(i['count'] <= 0):
                     inv.remove(i)
@@ -776,7 +788,20 @@ def battle(e):
                         fighting = False
             for i in enemys:
                 if(i.health > 0):
-                    enemyAttack(i, alder, bck)
+                    if(i.strat == 'Attacker'):
+                        enemyAttack(i, alder, bck)
+                        i.cStatus = 'Attacking'
+                    elif(i.strat == 'Prey'):
+                        if(i.health < i.maxHealth):
+                            print(i.name, ' fled!')
+                            i.cStatus = 'Escaping'
+            for i in reversed(enemys):
+                if (i.cStatus == 'Escaping'):
+                    enemys.remove(i)
+                    if (len(enemys) == 0):
+                        fighting = False
+                else:
+                    i.cStatus = 'None'
             count += 1
             alder.cStatus = 'None'
         
