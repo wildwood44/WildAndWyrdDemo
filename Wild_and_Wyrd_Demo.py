@@ -129,10 +129,10 @@ class Cricket:
         evasion = self.baseEvasion
         return evasion
 
-class Wasp:
+class Hornet:
     def __init__(self):
         self.enId = '2'
-        self.name = 'Wasp'
+        self.name = 'Hornet'
         self.maxHealth = 10
         self.health = self.maxHealth
         self.Exp = 10
@@ -591,6 +591,7 @@ def win(e):
     for i in e:
         print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
         itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
+        cont()
 #If character dies
 def death():
     for i in alder.special:
@@ -1015,6 +1016,24 @@ def examine(location):
                 print('Entering battle')
                 enemy = [Cricket(), Null(), Null()]
                 battle(enemy)
+                if(alder.cExp > 0):
+                    print()
+                    battle([Hornet(), Hornet(), Null()])
+                elif(alder.cExp == 0):
+                    print('Alder:')
+                    print('"Come back you!"')
+                    cont()
+                    print('Alder tried but in vain to get the cricket which had already jumped out of reach.')
+                    cont()
+                    print('???:')
+                    print('"Bzz!"')
+                    cont()
+                    print('The loud buzzing of insect wing came from Alder'"'"'s side. Two hornet came at him.')
+                    cont()
+                    print('Alder:')
+                    print('"Ahhh!"')
+                    cont()
+                    battle([Hornet(), Hornet(), Null()])
 #Talk to a character
 def talk():
     global switch, tutorial1, part, location
