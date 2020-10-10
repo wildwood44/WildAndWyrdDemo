@@ -725,11 +725,11 @@ def battle(e):
     while(fighting == True):
         hunger()
         if (enemys[0].health <= 0):
-            count = 0
+            j = 0
             for i in enemys:
                 if (i.health <= 0):
-                    count += 1
-            if (count == len(enemys)):
+                    j += 1
+            if (j == len(enemys)):
                 winner = True
         #Death Condition
         if(alder.health <= 0):
@@ -789,6 +789,7 @@ def battle(e):
             for i in enemys:
                 if(i.health > 0):
                     if(i.strat == 'Attacker'):
+                        print(i.health)
                         enemyAttack(i, alder, bck)
                         i.cStatus = 'Attacking'
                     elif(i.strat == 'Prey'):

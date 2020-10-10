@@ -17,9 +17,9 @@ class Alder:
     def __init__(self):
         self.pId = '1'
         self.name = 'Alder'
-        self.maxHealth = 100
+        self.maxHealth = 60
         self.health = self.maxHealth
-        self.maxStamina = 100
+        self.maxStamina = 60
         self.stamina = self.maxStamina
         self.cLvl = 1
         self.cExp = 0
@@ -236,7 +236,7 @@ food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
           'recovers' : 2, 'count' : 0},
         {'itemId' : '4', 'name' : 'Mushroom', 'type' : 'food',
           'recovers' : 5, 'count' : 0},
-        {'itemId' : '4', 'name' : 'Raw Bug Meat', 'type' : 'food',
+        {'itemId' : '5', 'name' : 'Raw Bug Meat', 'type' : 'food',
           'recovers' : 10, 'count' : 0}
         ]
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
@@ -246,6 +246,12 @@ items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' 
 shill = 0
 inv = []
 PKSwitch = [True, True, True, True, True]
+
+#Quests
+mQuests = [{'questId':'1','client':'Florace', 'desc':'Collect two pieces of bug meat', 'reward' : '',
+            'required':{'itemId' : '5', 'name' : 'Raw Bug Meat', 'type' : 'food'}, 'qnt' : 2,
+            'accepted':False,'completed':False, 'submitted':False}
+           ]
 
 #Location
 locations = [{"locId" : "1", "name" : "Cottage Kitchen"},
@@ -257,7 +263,12 @@ locations = [{"locId" : "1", "name" : "Cottage Kitchen"},
              ]
 location = '1'
 #Interactable characters
-actor = {'actorId' : '1', 'name' : 'Florace', 'locationID' : '1', 'room' : '3', 'chapter' : '1', 'part' : '1', 'dialogue' : ''}
+actor = [{'actorId' : '1', 'name' : 'Florace', 'species' : 'human', 'title' : 'Witches apprentis'},
+         {'actorId' : '2', 'name' : 'Kyla', 'species' : 'human', 'title' : 'Woodland witch'},
+         {'actorId' : '3', 'name' : 'Thay', 'species' : 'hedgehog', 'title' : 'Wandering herbalist'},
+         {'actorId' : '4', 'name' : 'Trissie', 'species' : 'squirrel', 'title' : 'Path finder'},
+         {'actorId' : '5', 'name' : 'Jeb', 'species' : 'weasel', 'title' : 'Merchant'}
+         ]
 #Save and Load Content
 PIK = 'demo.dat'
 data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch]
@@ -591,7 +602,7 @@ def win(e):
     for i in e:
         print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
         itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
-        cont()
+    cont()
 #If character dies
 def death():
     for i in alder.special:
@@ -742,11 +753,11 @@ def battle(e):
     while(fighting == True):
         hunger()
         if (enemys[0].health <= 0):
-            count = 0
+            j = 0
             for i in enemys:
                 if (i.health <= 0):
-                    count += 1
-            if (count == len(enemys)):
+                    j += 1
+            if (j == len(enemys)):
                 winner = True
         #Death Condition
         if(alder.health <= 0):
@@ -813,10 +824,11 @@ def battle(e):
                             print(i.name, ' fled!')
                             i.cStatus = 'Escaping'
             for i in reversed(enemys):
-                if (i.cStatus == 'Escaping'):
-                    enemys.remove(i)
-                    if (len(enemys) == 0):
-                        fighting = False
+                if(i.health > 0):
+                    if (i.cStatus == 'Escaping'):
+                        enemys.remove(i)
+                        if (len(enemys) == 0):
+                            fighting = False
                 else:
                     i.cStatus = 'None'
             count += 1
@@ -1009,31 +1021,51 @@ def examine(location):
             print('The cottage was gone from sight. Replace with a large boulder.')
             cont()
         elif (e == 'cricket' or e == 'Cricket' or e == 'crickets' or e == 'Crickets'):
-            print('Some large brown crickets were in the area.')
-            cont()
-            fight = input('Do you want to fight them.(y/n)')
-            if (fight == 'y' or fight == 'Y' or fight == 'yes' or fight == 'Yes'):
-                print('Entering battle')
-                enemy = [Cricket(), Null(), Null()]
-                battle(enemy)
-                if(alder.cExp > 0):
-                    print()
-                    battle([Hornet(), Hornet(), Null()])
-                elif(alder.cExp == 0):
+            if (mQuests[0]['accepted'] == True and mQuests[0]['completed'] == False):
+                print('Some large brown crickets were in the area.')
+                cont()
+                fight = input('Do you want to fight them.(y/n)')
+                if (fight == 'y' or fight == 'Y' or fight == 'yes' or fight == 'Yes'):
+                    print('Entering battle')
+                    battle([Cricket(), Null(), Null()])
+                    if(alder.cExp > 0):
+                        print('Alder:')
+                        print('"Hunt succesful."')
+                        cont()
+                        print('???:')
+                        print('"Bzz!"')
+                        cont()
+                        print('As Alder collected the slain cricket the loud buzzing came at him from his side. Two hornet came at him.')
+                        cont()
+                        print('Alder:')
+                        print('"Ahhh!"')
+                        cont()
+                        battle([Hornet(), Hornet(), Null()])
+                    elif(alder.cExp == 0):
+                        print('Alder:')
+                        print('"Come back you!"')
+                        cont()
+                        print('Alder tried but in vain to get the cricket which had already jumped out of reach.')
+                        cont()
+                        print('???:')
+                        print('"Bzz!"')
+                        cont()
+                        print('The loud buzzing of insect wing came from Alder'"'"'s side. Two hornet came at him.')
+                        cont()
+                        print('Alder:')
+                        print('"Ahhh!"')
+                        cont()
+                        battle([Hornet(), Hornet(), Null()])
+                    tutorialSwitch[5] = False
+                    print('The hornets were twitching but Alder knew they were dead.')
+                    cont()
                     print('Alder:')
-                    print('"Come back you!"')
+                    print('"Did I anger them?"')
                     cont()
-                    print('Alder tried but in vain to get the cricket which had already jumped out of reach.')
+                    print('Alder was still puzzled by the attack but regardless it was time to return.')
                     cont()
-                    print('???:')
-                    print('"Bzz!"')
-                    cont()
-                    print('The loud buzzing of insect wing came from Alder'"'"'s side. Two hornet came at him.')
-                    cont()
-                    print('Alder:')
-                    print('"Ahhh!"')
-                    cont()
-                    battle([Hornet(), Hornet(), Null()])
+            else:
+                print('The other crickets had fled.')
 #Talk to a character
 def talk():
     global switch, tutorial1, part, location
@@ -1338,30 +1370,31 @@ def talk():
             print('1: Florace')
             t = input('talk to: ')
             if (t == '1'):
-                dialog = [False, False]
-                while(dialog[0] == False and dialog[1] == False):                    
-                    print('1: "I have the knife!"')                  
-                    print('2: "Nevermind"')
-                    c = input('Alder: ')
-                    if (c == '1'): 
-                        print('Florace:')
-                        print('"Fantastic!"')
-                        cont()
-                        print('Florace:')
-                        print('"I'"'"'ll send you out of the Wyrd."')
-                        cont()
-                        print('Florace:')
-                        print('When you have some meat, I'"'"'ll let you back in."')
-                        cont()
-                        print('Florace:')
-                        print('Just please don'"'"'t go too far."')
-                        cont()
-                        location = '6'
-                        print('Florace waved her hands a bright light and smoke appeared in them. Light shone from several points around circling the cottage which then turned into a boulder. Florace and Thay were gone from sight.')    
-                        cont()
-                        dialog[0] = True
-                    if (c == '2'):
-                        dialog[1] = True
+                if (mQuests[0]['accepted'] == True and mQuests[0]['completed'] == False):
+                    dialog = [False, False]
+                    while(dialog[0] == False and dialog[1] == False):                    
+                        print('1: "I have the knife!"')                  
+                        print('2: "Nevermind"')
+                        c = input('Alder: ')
+                        if (c == '1'): 
+                            print('Florace:')
+                            print('"Fantastic!"')
+                            cont()
+                            print('Florace:')
+                            print('"I'"'"'ll send you out of the Wyrd."')
+                            cont()
+                            print('Florace:')
+                            print('"When you have some meat, I'"'"'ll let you back in."')
+                            cont()
+                            print('Florace:')
+                            print('"Just please don'"'"'t go too far."')
+                            cont()
+                            location = '6'
+                            print('Florace waved her hands a bright light and smoke appeared in them. Light shone from several points around circling the cottage which then turned into a boulder. Florace and Thay were gone from sight.')    
+                            cont()
+                            dialog[0] = True
+                        if (c == '2'):
+                            dialog[1] = True
 #Move to another location
 def move():
     global location, part, tutorial1, tutorialSwitch
@@ -1463,13 +1496,40 @@ def move():
         m = input('Move to: ')
         if (m == '1'):
             location = '3'
+            if(tutorialSwitch[5] == False):
+                print('Alder:')
+                print('"Florace! I'"'"'m done!"')
+                cont()
             print('The air rippled and the cottage reappeared.')
+            if(tutorialSwitch[5] == False):
+                print('Florace:')
+                print('"Alder I saw the hornets attacking, are you ok!"')
+                cont()
+                print('Alder:')
+                print('"Um!?"')
+                cont()
+                print('Alder:')
+                print('"I got stung a few times but i'"'"'m alright!"')
+                cont()
+                print('Florace:')
+                print('*Sigh*')
+                cont()
+                print('Florace:')
+                print('"Give the bugs to me and go relax yourself."')
+                cont()
+                print('Alder passed the bug meat over to her. Florace went inside the cottage to place the crickets most likely in the kitchen for supper. Thay came up to him. He looked ready to go.')
+                mQuests[0]['submitted'] = True
+                cont()
+                print('Quest Complete')
+                cont()
+                part = '4'
+                switch[4] = True
             alder.stamina -= 1
             cont()
 #Save the game
 def save(location, chapter, part):
-    data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, alder]
-    print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, alder)
+    data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, mQuests, alder]
+    print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, mQuests, alder)
     with open(PIK, "wb") as f:
         print(data)
         pickle.dump(data, f)
@@ -1510,9 +1570,49 @@ def inventory():
         elif (i == 'e'):
             print()
             bag = False
-
+    
+#Achive objectives
+def achive():
+    for q in mQuests:
+        if(q['accepted'] == True and q['submitted'] != True):
+            if (q['questId'] == '1'):
+                amount = 0
+                for i in inv:
+                    if (i['type'] == 'food'):
+                        if (i['itemId'] == q['required']['itemId']):
+                            amount += i['count']
+                if (amount >= 2):
+                    q['completed'] = True
+                else:
+                    q['completed'] = False
+                    
+#Print the objectives
 def objective():
-    print("")
+    print("\nObjectives")
+    print("Main:")
+    if(tutorialSwitch[0] == True):
+        print('\tYou will need to have a quick look around. Type "examine" or "e" to explore the room Alder is currently in.')
+    elif(tutorialSwitch[1] == True):
+        print('\tAlder needs to go outside. He will have to "move"("m") through the living room and then outside.')
+    elif(tutorialSwitch[2] == True):
+        print('\tTalk(t) to Florace.')
+    elif(tutorialSwitch[3] == True):
+        print('\tTalk(t) to Thay.')
+    elif(tutorialSwitch[4] == True):
+        print('\tExamine table in shed, pick up knife and equip(x) in main weapons.')
+    for q in mQuests:
+        if(q['accepted'] == True and q['submitted'] != True):
+            if (q['questId'] == '1'):
+                if(alder.weapon1['wpId'] != '2'):
+                    print('Pick up and equip hunting knife.')
+                else:
+                    amount = 0
+                    for i in inv:
+                        if (i['type'] == 'food'):
+                            if (i['itemId'] == '5'):
+                                amount += i['count']
+                    print('\t', q['desc'],' (',amount,'/',q['qnt'],')')
+    print("Side:")
     
 def helper():
     print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further can get an item to pickup.")
@@ -1525,10 +1625,20 @@ def helper():
     print("Command: k, skill, Skill - Unlock Skill.")
     print("Command: s, save, Save - Save the game.")
     print("Command: q, quit, Quit - Leave to the main menu")
-            
+
+def helper2():
+    print("Command: 1, attack, Attack - Deal damage to an opponent.")
+    print("Command: 2, defence, Defence - Absorb damage from an incoming attack.")
+    print("Command: 3, appraise, Appraise - Get details on enemies.")
+    print("Command: 4, special, Special - Use a special skill.")
+    print("Command: 5, item, Item - Use an item from inventory.")
+    print("Command: 6, flee, Flee - Escape the battle.")
+    print("Order of combat: Fastest combatant.")
+
 def free(location, chapter, part):
     global game_active, tutorial1
     hunger()
+    achive()
     print('\nInteract')
     if(tutorialSwitch[0] == True):
         print('You will need to have a quick look around. Type "examine" or "e" to explore the room Alder is currently in.')
@@ -1541,12 +1651,11 @@ def free(location, chapter, part):
     elif(tutorialSwitch[4] == True):
         print('Alder will need the knife in the shed examine the area to find and pick up the knife and "equip"("x") the knife from your "items"("i") inventory.')
     elif(tutorialSwitch[5] == True):
-        print('Combat Turtorial')
+        print('Find an opponent to fight. There will be six options available for each turn. Type "h2", "help2" or "Help2" for more details.')
     elif(tutorialSwitch[6] == True):
-        print('Go to bed')
+        print('Return to the cottage and bring an end to the day and the tutorial.')
     print("Health: ", alder.health, '/', alder.maxHealth, "| Stamina: ", alder.stamina, '/', alder.maxStamina)
     print("Type command: h, help, Help - For help.")
-    #r = open("wawPrologue.txt","r")
     action = input('Enter Command: ')
     if (action == 'e' or action == 'examine' or action == 'Examine'):
         examine(location)
@@ -1566,6 +1675,8 @@ def free(location, chapter, part):
         skillTree(alder)
     elif (action == 'h' or action == 'help' or action == 'Help'):
         helper()
+    elif (action == 'h2' or action == 'help2' or action == 'Help2'):
+        helper2()
     elif (action == 's' or action == 'save' or action == 'Save'):
         save(location, chapter, part)
     elif (action == 'q' or action == 'quit' or action == 'Quit'):
@@ -1873,11 +1984,12 @@ def game(chapter):
                 print('"We are out of meat."')
                 cont()
                 print('Florace:')
-                print('"I need you to go to find an insect and bring it back for supper."')
+                print('"I need you to go to find an insect or two and bring it back for supper."')
                 cont()
                 print('Alder:')
                 print('"Ok."')
                 cont()
+                mQuests[0]['accepted'] = True
                 print('Alder:')
                 print('"Where do you want me to look?"')
                 cont()
@@ -1891,14 +2003,29 @@ def game(chapter):
                 print('"Thank you."')
                 cont()
                 switch[3] = False
+            elif (switch[4] == True and part == '4'):
+                print('Thay')
+                print('"I’m heading off now lad."')
+                cont()
+                print('Alder')
+                print('"Already!"')
+                cont()
+                print('Thay')
+                print('"Well, take care than."')
+                cont()
+                print('Thay')
+                print('"I will."')
+                cont()
+                print('Thay')
+                print('"Goodbye lad."')
+                cont()
+                print('And with that, the hedgehog left. Leaving the burrow for lands unknown to Alder. He headed back to the cottage. Back to his daily chores of cleaning, gathering and grinding leaves until his hands were sore. As the day came to an end the residents of the cottage were unaware of the shadows that came ever closer.')
+                cont()
+                switch[4] = False
             free(location, chapter, part)
-            #while(tutorial1 == True):
-                #freeTutorial(location, chapter, part)
-            if (tutorComp != False):
-                free(location, chapter, part)
 
 def loadGame():
-    global location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, alder
+    global location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch,mQuests,alder
     with open(PIK, "rb") as f:
         data = pickle.load(f)
         location = data[0]
@@ -1912,7 +2039,8 @@ def loadGame():
         shill = data[8]
         inv = data[9]
         PKSwitch = data[10]
-        alder = data[11]
+        mQuests = data[11]
+        alder = data[12]
 
 def menu():
     global menu_active, chapter, part, chapter1, tutorComp, game_active, switch, tutorialSwitch, shill, inv, PKSwitch
@@ -1937,6 +2065,10 @@ def menu():
             switch = [True, False, False, False, False]
             tutorialSwitch = [True, True, True, True, True, True, True]
             game(chapter)
+            for i in mQuests:
+                i['accepted'] = False
+                i['completed'] = False
+                i['submitted'] = False
             #Alder Stats
             alder.name = 'Alder'
             alder.maxHealth = 100
