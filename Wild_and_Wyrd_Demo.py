@@ -10,7 +10,7 @@ chapter1 = False
 chapter = '0'
 part = '1'
 tutorComp = False
-switch = [True, False, False, False, False]
+switch = [True, False, False, False, False, False]
 tutorialSwitch = [True, True, True, True, True, True, True]
 #Character Base Stats
 class Alder:
@@ -242,14 +242,21 @@ food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
           'heals' : 10, 'count' : 0}
          ]
+ingre = [{'itemId' : '1', 'name' : 'Phantom moss', 'type' : 'ingredient', 'description' : 'A purplish moss that disappears at night',
+          'count' : 0}
+         ]
 #Inventory
 shill = 0
 inv = []
 PKSwitch = [True, True, True, True, True]
 
 #Quests
-mQuests = [{'questId':'1','client':'Florace', 'desc':'Collect two pieces of bug meat', 'reward' : '',
+mQuests = [{'questId':'1','client':'Florace','name':'Bug hunt', 'desc':'Collect two pieces of bug meat', 'reward' : '',
             'required':{'itemId' : '5', 'name' : 'Raw Bug Meat', 'type' : 'food'}, 'qnt' : 2,
+            'accepted':False,'completed':False, 'submitted':False}
+           ]
+sQuests = [{'questId':'1','client':'Kyla','name':'Servents work', 'desc':['Clean fireplace:', 'Scrub caldron:', 'Grind phantom moss in mortar:'], 'reward' : '',
+            'required':[False, False, False], 'qnt' : 1,
             'accepted':False,'completed':False, 'submitted':False}
            ]
 
@@ -430,6 +437,10 @@ def shillings(m):
         m == 0
     shill += m
     print('Shillings: ', shill)
+#Recover health and stamina
+def bed():
+    alder.health = alder.maxHealth
+    alder.stamina = alder.maxStamina
 #Increment items
 #Add a new item to the inventory if is is not already in there
 def itemCount(item, amount):
@@ -466,8 +477,8 @@ def equip():
         print('1: Head')
         print('2: Body')
         print('3: Legs')
-        print('4: Weapon - A')
-        print('5: Weapon - B')
+        print('4: Main Weapon')
+        print('5: Secondary Weapon')
         print('e - Exit')
         i = input('Action: ')
         if (i == '1'):
@@ -559,6 +570,8 @@ def equip():
                         i['count'] -= 1
                         if(i['count'] <= 0):
                             inv.remove(i)
+                        if (tutorialSwitch[4] == True and i['wpId'] == '2'):
+                            tutorialSwitch[4] = False
                     count +=1
             else:
                 print('You have nothing to equip.')
@@ -840,7 +853,15 @@ def examine(location):
         print('The cottage kitchen contained various pots and pans hanging on the wall. It had a stove where a cauldron was dangled on a chain. There a cupboard and two tables one of which had an empty bowl on it. Alder had been washing dishes in a basin on the other table next to the window.')
         e = input('Examine: ')
         if (e == 'cauldron' or e == 'Cauldron'):
-            print("It was a small metal cauldron above the stove suspended by a chain. It was empty right now.")
+            if (sQuests[0]['accepted'] == True):
+                print('Alder got a wet cloth and started rubbing the cauldren. Florace looked into the living room at Kyla and then went over to help him.')
+                cont()
+                print('Florace:')
+                print('"Shh."')
+                cont()
+                sQuests[0]['required'][1] = True
+            else:
+                print("It was a small metal cauldron above the stove suspended by a chain. It was empty right now.")
             cont()
         elif (e == 'cupboard' or e == 'Cupboard'):
             print('The Cupboard was full of plates, bowls and other kitchen and dining utensils.')
@@ -861,12 +882,15 @@ def examine(location):
             print('The basin Alder was washing was full of water and bits of leftover that Alder scraped off. Clean plates were next to it.')
             cont()
         elif (e == 'window' or e == 'Window'):
-            print('Florace and Thay were talking on the other side of the window.')
-            cont()
-            print('Alder:')
-            print('"I'"'"'m coming out"')
-            cont()
-            tutorialSwitch[0] = False
+            if(tutorialSwitch[2] == True):
+                print('Florace and Thay were talking on the other side of the window.')
+                cont()
+                print('Alder:')
+                print('"I'"'"'m coming out"')
+                cont()
+                tutorialSwitch[0] = False
+            else:
+                print('The clearing out front.')
         else:
             print('Alder thought about it, but it was of no intrest to him.')
             cont()
@@ -877,11 +901,22 @@ def examine(location):
             print("The bookshelf contained several books on magic spells, potions and artefacts. There were also a few romantic kinds of literature with male characters completely absent from their pages.")
             cont()
         elif (e == 'fireplace' or e == 'Fireplace'):
-            print('The fireplace was unlit. It was used last night and still had ash and soot in it.')
-            cont()
-            print('Alder:')
-            print('"I’ll clean it up later."')
-            cont()
+            if (sQuests[0]['accepted'] == True):
+                print('Alder got to work cleaning the fireplace using a brush and cloth. In the end his arms were completely black.')
+                cont()
+                print('Kyla:')
+                print('"Could you throw that ash outside."')
+                cont()
+                print('Kyla:')
+                print('"If it gets on the floor you cleaning it up."')
+                cont()
+                sQuests[0]['required'][0] = True
+            else:
+                print('The fireplace was unlit. It was used last night and still had ash and soot in it.')
+                cont()
+                print('Alder:')
+                print('"I’ll clean it up later."')
+                cont()
         else:
             print('Alder thought about it, but it was of no interest to him.')
             cont()
@@ -897,6 +932,10 @@ def examine(location):
         elif (e == 'plants' or e == 'Plants'):
             print('In addition to the various weeds and flowers, there was some strange purple moss that disappeared during the night and yellow flowers that sprayed a sticky fluid at anyone in the burrow who got to close.')
             cont()
+            if (sQuests[0]['accepted'] == True):
+                print('The purple moss must be what Kyla wants.')
+                cont()
+                itemCount(ingre[0], 1)
         elif (e == 'trees' or e == 'Trees'):
             print('Various trees made up the woodland, the most frequent were birch, rowen and holly.')
             cont()
@@ -957,7 +996,6 @@ def examine(location):
                         print('\nHunting Knife obtained')
                         itemCount(weapons[2], 1)
                         PKSwitch[1] = False
-                        tutorialSwitch[4] = False
                         cont()
             else:
                 print('On the table was an unlit candle and a mortar and pestle')
@@ -966,10 +1004,17 @@ def examine(location):
             print('The candle was placed in a candlestick. It was unlit.')
             cont()
         elif (e == 'mortar' or e == 'Mortar' or e == 'pestle' or e == 'Pestle'):
-            print('A mortar and pestle were on the table.')
-            cont()
-            print('Florace recently used it to grind ingredients for potions.')
-            cont()
+            if (sQuests[0]['accepted'] == True):
+                for i in inv:
+                    if (i['type'] == 'ingredient' and i['itemId'] == '1'):
+                        print('Alder grinded the moss with the pestle until it was a purple powder. He then put it in a nearby pot containing the remnants of a similar powder.')
+                        cont()
+                        sQuests[0]['required'][2] = True
+            else:
+                print('A mortar and pestle were on the table.')
+                cont()
+                print('Florace recently used it to grind ingredients for potions.')
+                cont()
         elif (e == 'knife' or e == 'Knife'):
             print('The knife was designed for hunting but it looks like someone has been using it to cut ingredients.')
             cont()
@@ -982,7 +1027,6 @@ def examine(location):
         elif (e == 'bed' or e == 'Bed'):
             print('It was cheaply made from dry wood and partridge feathers. It was powdered with herbs to stop it smelling. Alder made it with the help of Thay.')
             if (PKSwitch[4] == True):
-                print('')
                 pickup = input("Amoung the feathers were Alder's savings. Pick them up?(y/n)")
                 if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
                     coins = random.randrange(+2,+3)
@@ -990,6 +1034,28 @@ def examine(location):
                     shillings(coins)
                     PKSwitch[4] = False
                     cont()
+            if (tutorialSwitch[5] == False):
+                sleep = input('Would you like to rest?(y/n)')
+                if (sleep == 'y' or sleep == 'Y' or sleep == 'yes' or sleep == 'Yes'):
+                    print('Alder got into his makeshift bed and drifted to sleep for the night.')
+                    if(sQuests[0]['accepted'] == True and sQuests[0]['submitted'] == False):
+                        ab = input('Abandon quests?(y/n)')
+                        if (ab == 'y' or ab == 'Y' or ab == 'yes' or ab == 'Yes'):
+                            sQuests[0]['accepted'] = False
+                            print(sQuests[0]['name'],' abandoned!')
+                            bed()
+                            if(tutorialSwitch[6] == True):
+                                tutorialSwitch[6] = False
+                                part = '1'
+                                switch[5] = True
+                                chapter = '2'
+                    else:
+                        bed()
+                        if(tutorialSwitch[6] == True):
+                            tutorialSwitch[6] = False
+                            part = '1'
+                            switch[5] = True
+                            chapter = '2'
     elif (location == '6'):
         print('The impossible fauna of the fairy realm had completely disappeared. This meant that Alder was now back in the normal realm of his origin. While he was in the fairy realm grass could not bend when he stepped on it and stone would not move no matter how hard he pulled but now he can interact with the world as he pleased. Near to where he was were some crickets, perfect for tonight’s meal.')
         e = input('Examine: ')
@@ -1071,9 +1137,144 @@ def talk():
     global switch, tutorial1, part, location
     print('\nTalk')
     if (location == '1'):
-        print('There was no one to talk to')
+        if (tutorialSwitch[5] == False):
+            print('1: Florace')
+            t = input('talk to: ')
+            if (t == '1'):
+                if(alder.health < alder.maxHealth):
+                    print('Florace:')
+                    print('"You look worse for wear."')
+                    cont()
+                    print('Florace:')
+                    print('"Hold still I'"'"'l help fix you up."')
+                    cont()
+                    alder.health = alder.maxHealth
+                    print('Alder:')
+                    print('"Thank you."')
+                    cont()
+                elif(alder.health == alder.maxHealth):
+                    print('Florace:')
+                    print('"You look tired."')
+                    cont()
+                    print('Florace:')
+                    print('"Take a nap you'"'"'ll feel better"')
+                    cont()
+        else:
+            print('There was no one to talk to')
     elif (location == '2'):
-        print('There was no one to talk to')
+        if (tutorialSwitch[5] == False):
+            if (sQuests[0]['accepted'] != True):
+                print('1: Kyla(!)')
+                t = input('talk to: ')
+                if (t == '1'):
+                    print('Madam Kyla was relaxed in her chair with her nose in a red book titled "An sorcerers guide to Dragons and Wyverns". She peered from the book to her servent.')
+                    cont()
+                    print('Kyla:')
+                    print('"I take it that Mr Prickle has gone?"')
+                    cont()
+                    print('Alder:')
+                    print('"Yes madam."')
+                    cont()
+                    print('Kyla:')
+                    print('"Then I take it you are free boy?"')
+                    cont()
+                    print('Alder:')
+                    print('"Yes madam."')
+                    cont()
+                    print('Kyla:')
+                    print('"Then clean the fireplace, wash the cauldron in the kitchen and-"')
+                    cont()
+                    print('Kyla:')
+                    print('"Ah!"')
+                    cont()
+                    print('Kyla:')
+                    print('"I need you to grind some phantom moss."')
+                    cont()
+                    print('Kyla:')
+                    print('"Just so we are clear!"')
+                    cont()
+                    print('Kyla:')
+                    print('" It'"'"'s the purple moss that can be found outside!"')
+                    cont()
+                    print('Kyla:')
+                    print('"Use the mortar in the shed to grind it into dust!"')
+                    cont()
+                    print('Kyla:')
+                    print('"And put the dust it in the pot on the far end!"')
+                    cont()
+                    print('Kyla:')
+                    print('"That should keep you busy for the rest of the day!"')
+                    cont()
+                    i = input('Do you accept this labour?(y/n):')
+                    if(i == 'y' or i == 'Y' or i == 'yes' or i == 'Yes'):
+                        print('Alder:')
+                        print('"Yes madam."')
+                        cont()
+                        print('Kyla:')
+                        print('"Excellent!"')
+                        cont()
+                        print('Alder accepted the chores')
+                        sQuests[0]['accepted'] = True
+                        cont()
+                    else:
+                        print('Alder:')
+                        print('"..."')
+                        cont()
+                        print('Kyla:')
+                        print('"Don'"'"'t you glare at me!"')
+                        cont()
+                        print('Kyla:')
+                        print('"If you don'"'"'t work I will freeze you in place for a week!"')
+                        cont()
+                        print('Alder:')
+                        print('"U-Um."')
+                        cont()
+                        print('Alder:')
+                        print('"Y-Yes!"')
+                        cont()
+                        print('Alder:')
+                        print('"Sorry madam."')
+                        cont()
+                        print('Alder knew better than to argue back. Alder accepted the chores.')
+                        sQuests[0]['accepted'] = True
+                        cont()
+            else:
+                print('1: Kyla')
+                t = input('talk to: ')
+                if (t == '1'):
+                    if (sQuests[0]['completed'] != True):
+                        print('Kyla:')
+                        print('"Clean the fire place, scrub the cauldren and grind the moss."')
+                        cont()
+                        print('Kyla:')
+                        print('"Those are your duties for the day."')
+                        cont()
+                    elif (sQuests[0]['completed'] == True and sQuests[0]['submitted'] != True):
+                        print('Kyla:')
+                        print('"Have you finished then?"')
+                        cont()
+                        print('Alder:')
+                        print('"Yes madam."')
+                        cont()
+                        print('Kyla:')
+                        print('"Good."')
+                        cont()
+                        sQuests[0]['submitted'] = True
+                        print('Kyla:')
+                        print('"I have no futher need for you."')
+                        cont()
+                        print('Kyla:')
+                        print('"Do as you please."')
+                        cont()
+                    else:
+                        print('Kyla:')
+                        print('"I have no futher need for you."')
+                        cont()
+                        print('Kyla:')
+                        print('"Do as you please."')
+                        cont()
+        else:
+            print('There was no one to talk to')
     elif (location == '3'):
         if (tutorialSwitch[2] == True):
             print('1: Florace')
@@ -1440,7 +1641,7 @@ def move():
         print('3: Leave cottage')
         m = input('Move to: ')
         if (m == '1'):
-            if (tutorialSwitch[2] == False):
+            if (tutorialSwitch[2] == False and tutorialSwitch[5] == True):
                 print('Alder moved to the living room of the cottage.')    
                 cont()
                 print('Kyla:')
@@ -1501,6 +1702,7 @@ def move():
                 print('"Florace! I'"'"'m done!"')
                 cont()
             print('The air rippled and the cottage reappeared.')
+            cont()
             if(tutorialSwitch[5] == False):
                 print('Florace:')
                 print('"Alder I saw the hornets attacking, are you ok!"')
@@ -1585,6 +1787,15 @@ def achive():
                     q['completed'] = True
                 else:
                     q['completed'] = False
+    for q in sQuests:
+        if(q['accepted'] == True and q['submitted'] != True):
+            if (q['questId'] == '1'):
+                count = 0
+                for i in q['required']:
+                    if (i == True):
+                        count += 1
+                if (count == len(q['required'])):
+                    q['completed'] = True
                     
 #Print the objectives
 def objective():
@@ -1613,7 +1824,12 @@ def objective():
                                 amount += i['count']
                     print('\t', q['desc'],' (',amount,'/',q['qnt'],')')
     print("Side:")
-    
+    for q in sQuests:
+        if(q['accepted'] == True and q['submitted'] != True):
+            if (q['questId'] == '1'):
+                j = 0
+                for i in q['desc']:
+                    print(i, q['required'][j])
 def helper():
     print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further can get an item to pickup.")
     print("Command: m, move, Move - Move to the next area.")
@@ -1647,7 +1863,7 @@ def free(location, chapter, part):
     elif(tutorialSwitch[2] == True):
         print('While we wait for Thay Let'"'"'s "talk"("t") to Florace.')
     elif(tutorialSwitch[3] == True):
-        print('Alder'"'"' job around the cottage is to entertain guests. Let'"'"'s talk to Thay now.')
+        print('Alder'"'"'s job around the cottage is to entertain guests. Let'"'"'s talk to Thay now.')
     elif(tutorialSwitch[4] == True):
         print('Alder will need the knife in the shed examine the area to find and pick up the knife and "equip"("x") the knife from your "items"("i") inventory.')
     elif(tutorialSwitch[5] == True):
@@ -2004,24 +2220,42 @@ def game(chapter):
                 cont()
                 switch[3] = False
             elif (switch[4] == True and part == '4'):
-                print('Thay')
+                print('Thay:')
                 print('"I’m heading off now lad."')
                 cont()
-                print('Alder')
+                print('Alder:')
                 print('"Already!"')
                 cont()
-                print('Thay')
+                print('Alder:')
                 print('"Well, take care than."')
                 cont()
-                print('Thay')
+                print('Thay:')
                 print('"I will."')
                 cont()
-                print('Thay')
+                print('Thay:')
                 print('"Goodbye lad."')
                 cont()
                 print('And with that, the hedgehog left. Leaving the burrow for lands unknown to Alder. He headed back to the cottage. Back to his daily chores of cleaning, gathering and grinding leaves until his hands were sore. As the day came to an end the residents of the cottage were unaware of the shadows that came ever closer.')
                 cont()
                 switch[4] = False
+            elif (switch[5] == True and part == '1'):
+                print('Chapter 2')
+                print('Dawn came, sunlight striking Alder’s face through the curtainless window. He began his day like normal, going downstairs to eat his breakfast of nuts and berries scavenged from the foot of trees and bushes, then clean the plates and cups using water gathered from rain or the nearest point of the river. The day was set to be a very mundane one, where Alder could only hope that a guest would come, just as Thay did the day before. Otherwise, today he will only be sweeping floors, chopping wood and foraging mushrooms allowing the hours tick by until it was time for the next chore.')
+                cont()
+                print('Alder:')
+                print('*Yawn*')
+                cont()
+                print('The dull boredom was broken to Alder excitement when a squirrel he knew came down from the trees and ran into the area with the cottage. The squirrel was female but wore male clothing, strapped to her back was a bow and quiver and the tip half of her tail missing. She spoke to her surroundings in a loud whisper.')
+                cont()
+                print('Squirrel:')
+                print('"The rabbit seeks his burrow!"')
+                cont()
+                print('Squirrel:')
+                print('"The rabbit seeks his burrow!"')
+                cont()
+                print('She was trying to get into the burrow, Alder needed to let the witch Kyla know about the guest.')
+                cont()
+                switch[5] = False
             free(location, chapter, part)
 
 def loadGame():
@@ -2060,9 +2294,9 @@ def menu():
             chapter = '0'
             part = '1'
             inv = []
-            PKSwitch = [True, True, True, True]
+            PKSwitch = [True, True, True, True, True]
             #Story Switches
-            switch = [True, False, False, False, False]
+            switch = [True, False, False, False, False, False]
             tutorialSwitch = [True, True, True, True, True, True, True]
             game(chapter)
             for i in mQuests:
@@ -2071,9 +2305,9 @@ def menu():
                 i['submitted'] = False
             #Alder Stats
             alder.name = 'Alder'
-            alder.maxHealth = 100
+            alder.maxHealth = 60
             alder.health = alder.maxHealth
-            alder.maxStamina = 100
+            alder.maxStamina = 60
             alder.stamina = alder.maxStamina
             alder.cLvl = 1
             alder.cExp = 0
