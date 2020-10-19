@@ -19,6 +19,7 @@ class Alder:
     def __init__(self):
         self.pId = '1'
         self.name = 'Alder'
+        self.species = 'Human'
         self.maxHealth = 60
         self.health = self.maxHealth
         self.maxStamina = 60
@@ -32,6 +33,7 @@ class Alder:
         self.baseAccuracy = 5
         self.baseSpeed = 10
         self.baseEvasion = 5
+        self.weapons = ['sword', 'bow', 'dagger']
         self.head = armors[0]
         self.body = armors[1]
         self.legs = armors[3]
@@ -60,6 +62,14 @@ class Alder:
             attack += 0
         return attack
     property
+    def attackRanged(self):
+        attackRanged = self.baseAttack
+        if (self.weapon2['wpId'] != '0' and self.weapon2['type'] == 'bow'):
+            attackRanged += self.weapon2['attack']
+        else:
+            attackRanged += 0
+        return attackRanged
+    property
     def defence(self):
         defence = self.baseDefence
         if (self.head['type'] == 'hat'):
@@ -70,6 +80,8 @@ class Alder:
             defence += self.legs['defence']
         if (self.weapon2['type'] == 'sheild'):
             defence += self.weapon2['defence']
+        else:
+            defence += 0
         return defence
     property
     def accuracy(self):
@@ -176,7 +188,7 @@ class Dummy:
     def __init__(self):
         self.enId = '3'
         self.name = 'Dummy'
-        self.maxHealth = 100
+        self.maxHealth = 24
         self.health = self.maxHealth
         self.Exp = 5
         self.drop = []
@@ -188,7 +200,7 @@ class Dummy:
         self.strat = 'Attacker'
         self.aliment = 'None'
         self.cStatus = 'None'
-        self.desc = 'Made from sticks and a sack. Made to fight.'
+        self.desc = 'Durable but falling apart.'
     property
     def attack(self):
         attack = self.baseAttack
@@ -1025,9 +1037,10 @@ def examine(location):
                 print('Alder:')
                 print('"I'"'"'m coming out"')
                 cont()
+                chapter = '1'
                 tutorialSwitch[0] = False
             else:
-                print('The clearing out front.')
+                print('The clearing is out front.')
         else:
             print('Alder thought about it, but it was of no intrest to him.')
             cont()
@@ -1192,6 +1205,7 @@ def examine(location):
                     else:
                         bed()
                         if(tutorialSwitch[6] == True):
+                            print('ping')
                             tutorialSwitch[6] = False
                             part = '1'
                             switch[5] = True
@@ -1846,6 +1860,13 @@ def talk():
                 cont()
                 print('Trissie goes into the shed, looks around and finds a bow and some arrows set aside for hunting. Alder thought she looked a little silly as she was dragging the bow which was big even for Alder, that was because the bow was originally meant for Florace but she never used it finding herself unskilled with it. Trissie brought them to Alder.')
                 cont()
+                alder.weapon2 = weapons[3]
+                print('\nTraining bow equiped')
+                itemCount(projec[0], 5)
+                print('\n5 Primative arrows obtained')
+                print('Trissie:')
+                print('"Now set the arrow in the bow, take aim and fire."')
+                cont()
                 print('Trissie:')
                 print('"Let'"'"'s begin."')
                 cont()
@@ -1921,6 +1942,7 @@ def move():
             print('Alder moved outside the cottage through the front door.')
             alder.stamina -= 1
             cont()
+            print(tutorialSwitch[1], chapter)
             if(tutorialSwitch[1] == True and chapter == '1'):
                 part = '2'
                 tutorialSwitch[1] = False
@@ -2153,12 +2175,16 @@ def helper():
     print("Command: q, quit, Quit - Leave to the main menu")
 
 def helper2():
-    print("Command: 1, attack, Attack - Deal damage to an opponent.")
+    print("Command: 1, attack, Attack - Deal damage to an opponent using a primary weapon.")
     print("Command: 2, defence, Defence - Absorb damage from an incoming attack.")
     print("Command: 3, appraise, Appraise - Get details on enemies.")
     print("Command: 4, special, Special - Use a special skill.")
     print("Command: 5, item, Item - Use an item from inventory.")
     print("Command: 6, flee, Flee - Escape the battle.")
+    print("Food: Items used to recover stamina.")
+    print("Medicine: Items used to heal or remove a status condition.")
+    print("Ranged Weapons: To use a ranged weapon select a projectile from items then on the next turn attack to fire.")
+    print("Throwing Items: Items such as nets can be thrown ")
     print("Order of combat: Fastest combatant.")
 
 def free(location, chapter, part):
@@ -2211,8 +2237,8 @@ def free(location, chapter, part):
         if (q == 'y' or q == 'Y' or q == 'yes' or q == 'Yes'):
             game_active = False
 
-def game(chapter):
-    global switch, tutorial1, location, part
+def game():
+    global switch, tutorial1, location, chapter, part
     print('Chapter: ', chapter)
     print('The game will now begin. For then next line to print press enter.')
     print('You may skip the dialoge by typing skip then pressing enter.')
@@ -2548,7 +2574,9 @@ def game(chapter):
                 print('And with that, the hedgehog left. Leaving the burrow for lands unknown to Alder. He headed back to the cottage. Back to his daily chores of cleaning, gathering and grinding leaves until his hands were sore. As the day came to an end the residents of the cottage were unaware of the shadows that came ever closer.')
                 cont()
                 switch[4] = False
-            elif (switch[5] == True and part == '1'):
+            free(location, chapter, part)
+        if (chapter == '2'):
+            if (switch[5] == True and part == '1'):
                 print('\nChapter 2')
                 print('Dawn came, sunlight striking Alder’s face through the curtainless window. He began his day like normal, going downstairs to eat his breakfast of nuts and berries scavenged from the foot of trees and bushes, then clean the plates and cups using water gathered from rain or the nearest point of the river. The day was set to be a very mundane one, where Alder could only hope that a guest would come, just as Thay did the day before. Otherwise, today he will only be sweeping floors, chopping wood and foraging mushrooms allowing the hours tick by until it was time for the next chore.')
                 cont()
@@ -2710,7 +2738,6 @@ def menu():
             switch = [True, False, False, False, False, False, False]
             tutorialSwitch = [True, True, True, True, True, True, True]
             c2Switch = [True, True, True, True, True]
-            game(chapter)
             for i in mQuests:
                 i['accepted'] = False
                 i['completed'] = False
@@ -2731,11 +2758,14 @@ def menu():
             alder.body = armors[1]
             alder.legs = armors[3]
             alder.weapon1 = weapons[0]
-            alder.weapon2 = 'None'
+            alder.weapon2 = weapons[0]
+            #Start Game
+            game()
         elif (action == 'l'):
             game_active = True
             loadGame()
-            game(chapter)
+            #Start Game
+            game()
         elif (action == 'q'):
             menu_active = False
 menu()
