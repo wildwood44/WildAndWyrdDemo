@@ -10,8 +10,10 @@ chapter1 = False
 chapter = '0'
 part = '1'
 tutorComp = False
-switch = [True, False, False, False, False, False]
+switch = [True, False, False, False, False, False, False]
 tutorialSwitch = [True, True, True, True, True, True, True]
+c2Switch = [True, True, True, True, True]
+c3Switch = [True, True, True, True, True]
 #Character Base Stats
 class Alder:
     def __init__(self):
@@ -34,9 +36,10 @@ class Alder:
         self.body = armors[1]
         self.legs = armors[3]
         self.weapon1 = weapons[0]
-        self.weapon2 = 'None'
+        self.weapon2 = weapons[0]
         self.aliment = 'None'
         self.cStatus = 'None'
+        self.ammo = {'name': '', 'loaded' : False, 'damage' : 0}
         self.statBoost = [{'No':'1', 'name':'Health 1', 'active':False, 'boost':10, 'stat' : 'h'}, {'No':'2', 'name':'Health 2', 'active':False, 'boost':50, 'stat' : 'h'}, {'No':'3', 'name':'Health 3', 'active':False, 'boost':300, 'stat' : 'h'},
                           {'No':'1', 'name':'Stamina 1', 'active':False, 'boost':10, 'stat' : 's'}, {'No':'2', 'name':'Stamina 2', 'active':False, 'boost':50, 'stat' : 's'}, {'No':'3', 'name':'Stamina 3', 'active':False, 'boost':300, 'stat' : 's'},
                           {'No':'1', 'name':'Attack 1', 'active':False, 'boost':5, 'stat' : 'at'}, {'No':'2', 'name':'Attack 2', 'active':False, 'boost':10, 'stat' : 'at'}, {'No':'3', 'name':'Attack 3', 'active':False, 'boost':50, 'stat' : 'at'},
@@ -65,6 +68,8 @@ class Alder:
             defence += self.body['defence']
         if (self.legs['type'] == 'trousers'):
             defence += self.legs['defence']
+        if (self.weapon2['type'] == 'sheild'):
+            defence += self.weapon2['defence']
         return defence
     property
     def accuracy(self):
@@ -107,6 +112,7 @@ class Cricket:
         self.baseSpeed = 10
         self.baseEvasion = 25
         self.strat = 'Prey'
+        self.aliment = 'None'
         self.cStatus = 'None'
         self.desc = 'Big grasshoppers with long antenna. Can jump a fair distance.'
     def attack(self):
@@ -143,6 +149,7 @@ class Hornet:
         self.baseSpeed = 40
         self.baseEvasion = 45
         self.strat = 'Attacker'
+        self.aliment = 'None'
         self.cStatus = 'None'
         self.desc = 'More hostile than usual this year. In the air they are annoying to hit but they are easy to kill.'
     def attack(self):
@@ -179,6 +186,7 @@ class Dummy:
         self.baseSpeed = 0
         self.baseEvasion = 0
         self.strat = 'Attacker'
+        self.aliment = 'None'
         self.cStatus = 'None'
         self.desc = 'Made from sticks and a sack. Made to fight.'
     property
@@ -216,7 +224,11 @@ weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : ''
            {'wpId' : '1', 'name' : 'Lief', 'type' : 'weapon', 'description' : 'Legendary sword of the Scion.',
             'attack' : 100, 'weight' : 5, 'count' : 0},
            {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : 'weapon', 'description' : 'A knife used to hunt insects.',
-            'attack' : 5, 'weight' : 1, 'count' : 0}
+            'attack' : 5, 'weight' : 1, 'count' : 0},
+           {'wpId' : '1', 'name' : 'Training Bow', 'type' : 'bow', 'description' : 'A large bow made for practise.',
+            'attack' : 10, 'weight' : 2, 'count' : 0},
+           {'wpId' : '1', 'name' : 'Wooden Sheild', 'type' : 'sheild', 'description' : 'A basic round wooden sheild.',
+            'defence' : 20, 'weight' : 1, 'count' : 0}
            ]
 
 armors = [{'armId' : '1', 'name' : 'None', 'type' : 'hat', 'description' : '',
@@ -242,6 +254,11 @@ food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
           'heals' : 10, 'count' : 0}
          ]
+projec = [{'itemId' : '1', 'name' : 'Primative Arrow', 'type' : 'projectile',
+           'weapon' : 'bow', 'damage' : 10, 'count' : 0},
+          {'itemId' : '2', 'name' : 'Rope Net', 'type' : 'toss',
+           'weapon' : 'none', 'damage' : 0, 'count' : 0}
+          ]
 ingre = [{'itemId' : '1', 'name' : 'Phantom moss', 'type' : 'ingredient', 'description' : 'A purplish moss that disappears at night',
           'count' : 0}
          ]
@@ -450,6 +467,14 @@ def itemCount(item, amount):
             if (i['wpId'] == item['wpId']):
                 item['count'] += amount
                 inInv = True
+        elif (item['type'] == 'sheild' and i['type'] == 'sheild'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'bow' and i['type'] == 'bow'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
         elif (item['type'] == 'armor' and i['type'] == 'armor'):
             if (i['armId'] == item['armId']):
                 item['count'] += amount
@@ -462,9 +487,50 @@ def itemCount(item, amount):
             if (i['itemId'] == item['itemId']):
                 item['count'] += amount
                 inInv = True
+        elif (item['type'] == 'projectile' and i['type'] == 'projectile'):
+            if (i['itemId'] == item['itemId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'toss' and i['type'] == 'toss'):
+            if (i['itemId'] == item['itemId']):
+                item['count'] += amount
+                inInv = True
     if (inInv == False):
         item['count'] += amount
         inv.append(item)
+
+#Use Item
+def useItem(p):
+    use = []
+    count = 1
+    print('\nBag Items')
+    for i in inv:
+        if(i['type'] == 'healing' or i['type'] == 'food'):
+            print(count, ': ', i['name'], ' x', i['count'])
+            use.append(i)
+            count += 1
+    print('e - exit')
+    if(count != 0):
+        count = 1
+        u = input('use item: ')
+        for i in use:
+            if (u == str(count)):
+                print(i['name'])
+                if (i['type'] == 'healing'):
+                    p.health += i['heals']
+                    print(p.name, ' recoved ', i['heals'], ' health')
+                    if (p.health > p.maxHealth):
+                        p.health = p.maxHealth
+                elif (i['type'] == 'food'):
+                    p.stamina += i['recovers']
+                    print(p.name, ' recoved ', i['recovers'], ' stamina')
+                    if (p.stamina > p.maxStamina):
+                        p.stamina = p.maxStamina
+                i['count'] -= 1
+                if(i['count'] <= 0):
+                    inv.remove(i)
+            count +=1
+        use.clear()
 
 #The item should be equipped
 #If the item is not starting clothing then it should be return to the inventory
@@ -579,17 +645,26 @@ def equip():
         elif (i == '5'):
             count = 0
             for i in inv:
-                if(i['type'] == 'weapon2'):
+                if(i['type'] == 'bow' or i['type'] == 'sheild'):
                     count +=1
                     equipable.append(i)
-                    print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon2['attack'])
+                    if(i['type'] == 'bow'):
+                        if (alder.weapon2['type'] == 'bow'):
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon2['attack'])
+                        else:
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
+                    elif(i['type'] == 'sheild'):
+                        if (alder.weapon2['type'] == 'sheild'):
+                            print(count, ': ', i['name'], '- Defence: +', i['defence'] - alder.weapon2['defence'])
+                        else:
+                            print(count, ': ', i['name'], '- Defence: +', i['defence'])                            
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
                         print(i['name'], 'equiped')
-                        if(alder.weapon1['wpId'] != '0'):
+                        if(alder.weapon2['wpId'] != '0'):
                             inv.append(alder.weapon2)
                         alder.weapon2 = i
                         i['count'] -= 1
@@ -613,8 +688,9 @@ def win(e):
     print('Alder gained ', ex, ' experience.')
     levelUP(alder)
     for i in e:
-        print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
-        itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
+        if (len(i.drop) > 0):
+            print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
+            itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
     cont()
 #If character dies
 def death():
@@ -669,22 +745,43 @@ def attack(p, e):
     hit = random.randrange(0,100)
     critical = random.randrange(0,100)
     alder.stamina -= 5
-    if (hit < target):
-        impact = random.randrange(p.attack() - 5, p.attack() + 5)
-        if (critical >= 90):
-            impact += 10
-        impact = round(impact * (100/(100 + p.defence())))
-        if (impact <= 0):
-            impact = 1
-        e.health -= impact
-        print('\n',p.name,' attacked!')
-        if(critical >= 90):
-            print('Critical Hit!')
-        print(e.name, ' took ', impact, ' damage!')
-        if(e.health <= 0):
-            print(e.name, ' defeated.')
+    if (p.ammo['loaded'] == True):
+        if (hit < target):
+            impact = random.randrange(p.attackRanged() - 3, p.attackRanged() + 3)
+            impact += p.ammo['damage']
+            if (critical >= 90):
+                impact += 10
+            impact = round(impact * (100/(100 + e.defence())))
+            if (impact <= 0):
+                impact = 1
+            e.health -= impact
+            print('\n',p.name,' fired a', p.ammo['name'], '!')
+            if(critical >= 90):
+                print('Critical Hit!')
+            print(e.name, ' took ', impact, ' damage!')
+            p.ammo['loaded'] = False
+        else:
+            print('\n',p.name,' Missed')
     else:
-        print('\n',p.name,' Missed')
+        if (hit < target):
+            impact = random.randrange(p.attack() - 5, p.attack() + 5)
+            if (critical >= 90):
+                impact += 10
+            impact = round(impact * (100/(100 + e.defence())))
+            if (impact <= 0):
+                impact = 1
+            e.health -= impact
+            print('\n',p.name,' attacked!')
+            if(critical >= 90):
+                print('Critical Hit!')
+            print(e.name, ' took ', impact, ' damage!')
+        else:
+            print('\n',p.name,' Missed')
+    if(e.health <= 0):
+        print(e.name, ' defeated.')
+    if (p.ammo['loaded'] == False):
+        p.ammo['name'] = ''
+        p.ammo['damage'] = 0
 
 #Block incoming attack
 def block(barrier, incoming):
@@ -719,12 +816,12 @@ def special(p):
                print('\n', p.name, ' uses ', i['name'],'.')
 
 #Use Item
-def item(p):
+def item(p, e):
     use = []
     count = 1
     print('\nBag Items')
     for i in inv:
-        if(i['type'] == 'healing' or i['type'] == 'food'):
+        if(i['type'] == 'healing' or i['type'] == 'food'or i['type'] == 'projectile'or i['type'] == 'toss'):
             print(count, ': ', i['name'], ' x', i['count'])
             use.append(i)
             count += 1
@@ -734,17 +831,42 @@ def item(p):
         u = input('use item: ')
         for i in use:
             if (u == str(count)):
-                print(i['name'])
+                #print(i['name'])
                 if (i['type'] == 'healing'):
                     p.health += i['heals']
                     print(p.name, ' recoved ', i['heals'], ' health')
                     if (p.health > p.maxHealth):
                         p.health = p.maxHealth
+                        alder.cStatus = 'Using'
                 elif (i['type'] == 'food'):
                     p.stamina += i['recovers']
                     print(p.name, ' recoved ', i['recovers'], ' stamina')
                     if (p.stamina > p.maxStamina):
                         p.stamina = p.maxStamina
+                        alder.cStatus = 'Using'
+                elif (i['type'] == 'projectile'):
+                    if (i['weapon'] == 'bow'):
+                        if(p.weapon2['type'] == 'bow'):
+                            print('\nArrow loaded!')
+                            p.ammo['name'] = i['name']
+                            p.ammo['loaded'] = True
+                            p.ammo['damage'] = i['damage']
+                            alder.cStatus = 'Using'
+                        else:
+                            print('Bow required!')
+                elif (i['type'] == 'toss'):
+                    count = 1
+                    for j in e:
+                        print(count, ': ', j.name)
+                        count += 1
+                    count = 1
+                    target = input('Throw at: ')
+                    for j in e:
+                        if (target == str(count)):
+                            print('\n',p.name,'threw ', i['name'])
+                            j.aliment = 'Caught' 
+                            alder.cStatus = 'Using'
+                        count += 1
                 i['count'] -= 1
                 if(i['count'] <= 0):
                     inv.remove(i)
@@ -765,6 +887,7 @@ def battle(e):
     bck = 0
     while(fighting == True):
         hunger()
+        #Win condition
         if (enemys[0].health <= 0):
             j = 0
             for i in enemys:
@@ -776,7 +899,7 @@ def battle(e):
         if(alder.health <= 0):
             fighting = False
             death()
-        #Win Condition
+        #Win
         elif(winner == True):
             for i in alder.special:
                 i['active'] = False
@@ -820,8 +943,7 @@ def battle(e):
                     alder.cStatus = 'Specializing'
                     special(alder)
                 elif (i == '5' or i == 'item' or i == 'Item'):
-                    alder.cStatus = 'Using'
-                    item(alder)
+                    item(alder, enemys)
                 elif (i == '6' or i == 'flee' or i == 'Flee'):
                     i = input('Are you sure you want to run?(y/n)')
                     if (i == 'y' or i == 'Y' or i == 'yes' or i == 'Yes'):
@@ -830,7 +952,22 @@ def battle(e):
             for i in enemys:
                 if(i.health > 0):
                     if(i.strat == 'Attacker'):
-                        enemyAttack(i, alder, bck)
+                        print(i.health)
+                        if (i.aliment != 'Caught'):
+                            enemyAttack(i, alder, bck)
+                        else:
+                            escape = random.randrange(0, 100)
+                            if (i.type == 'bug'):
+                                if (escape >= 95):
+                                    print(i.name, 'escaped the net!')
+                                    i.aliment = 'None'
+                                else:
+                                    print('The', i.name,' is tangled in a net!')
+                            elif (i.type == 'soldier'):
+                                if (escape >= 30):
+                                    print(i.name, 'escaped the net!')
+                                else:
+                                    print('The', i.name,' is tangled in a net!')
                         i.cStatus = 'Attacking'
                     elif(i.strat == 'Prey'):
                         if(i.health < i.maxHealth):
@@ -848,17 +985,17 @@ def battle(e):
             alder.cStatus = 'None'
 #Examine background object
 def examine(location):
+    global chapter, part
     print('\nExamine')
     if (location == '1'):
         print('The cottage kitchen contained various pots and pans hanging on the wall. It had a stove where a cauldron was dangled on a chain. There a cupboard and two tables one of which had an empty bowl on it. Alder had been washing dishes in a basin on the other table next to the window.')
         e = input('Examine: ')
         if (e == 'cauldron' or e == 'Cauldron'):
-            if (sQuests[0]['accepted'] == True):
+            if (sQuests[0]['accepted'] == True and sQuests[0]['completed'] == False):
                 print('Alder got a wet cloth and started rubbing the cauldren. Florace looked into the living room at Kyla and then went over to help him.')
                 cont()
                 print('Florace:')
                 print('"Shh."')
-                cont()
                 sQuests[0]['required'][1] = True
             else:
                 print("It was a small metal cauldron above the stove suspended by a chain. It was empty right now.")
@@ -901,7 +1038,7 @@ def examine(location):
             print("The bookshelf contained several books on magic spells, potions and artefacts. There were also a few romantic kinds of literature with male characters completely absent from their pages.")
             cont()
         elif (e == 'fireplace' or e == 'Fireplace'):
-            if (sQuests[0]['accepted'] == True):
+            if (sQuests[0]['accepted'] == True and sQuests[0]['completed'] == False):
                 print('Alder got to work cleaning the fireplace using a brush and cloth. In the end his arms were completely black.')
                 cont()
                 print('Kyla:')
@@ -911,11 +1048,14 @@ def examine(location):
                 print('"If it gets on the floor you cleaning it up."')
                 cont()
                 sQuests[0]['required'][0] = True
-            else:
+            elif (sQuests[0]['completed'] == False):
                 print('The fireplace was unlit. It was used last night and still had ash and soot in it.')
                 cont()
                 print('Alder:')
                 print('"I’ll clean it up later."')
+                cont()
+            else:
+                print('The fireplace was unlit.')
                 cont()
         else:
             print('Alder thought about it, but it was of no interest to him.')
@@ -932,7 +1072,7 @@ def examine(location):
         elif (e == 'plants' or e == 'Plants'):
             print('In addition to the various weeds and flowers, there was some strange purple moss that disappeared during the night and yellow flowers that sprayed a sticky fluid at anyone in the burrow who got to close.')
             cont()
-            if (sQuests[0]['accepted'] == True):
+            if (sQuests[0]['accepted'] == True and sQuests[0]['completed'] == False):
                 print('The purple moss must be what Kyla wants.')
                 cont()
                 itemCount(ingre[0], 1)
@@ -1004,7 +1144,7 @@ def examine(location):
             print('The candle was placed in a candlestick. It was unlit.')
             cont()
         elif (e == 'mortar' or e == 'Mortar' or e == 'pestle' or e == 'Pestle'):
-            if (sQuests[0]['accepted'] == True):
+            if (sQuests[0]['accepted'] == True and sQuests[0]['completed'] == False):
                 for i in inv:
                     if (i['type'] == 'ingredient' and i['itemId'] == '1'):
                         print('Alder grinded the moss with the pestle until it was a purple powder. He then put it in a nearby pot containing the remnants of a similar powder.')
@@ -1056,6 +1196,7 @@ def examine(location):
                             part = '1'
                             switch[5] = True
                             chapter = '2'
+                    cont()
     elif (location == '6'):
         print('The impossible fauna of the fairy realm had completely disappeared. This meant that Alder was now back in the normal realm of his origin. While he was in the fairy realm grass could not bend when he stepped on it and stone would not move no matter how hard he pulled but now he can interact with the world as he pleased. Near to where he was were some crickets, perfect for tonight’s meal.')
         e = input('Examine: ')
@@ -1137,7 +1278,7 @@ def talk():
     global switch, tutorial1, part, location
     print('\nTalk')
     if (location == '1'):
-        if (tutorialSwitch[5] == False):
+        if (tutorialSwitch[5] == False and chapter == '1'):
             print('1: Florace')
             t = input('talk to: ')
             if (t == '1'):
@@ -1162,7 +1303,8 @@ def talk():
         else:
             print('There was no one to talk to')
     elif (location == '2'):
-        if (tutorialSwitch[5] == False):
+        print(tutorialSwitch[6],' ', c2Switch[0])
+        if (tutorialSwitch[5] == False and chapter == '1'):
             if (sQuests[0]['accepted'] != True):
                 print('1: Kyla(!)')
                 t = input('talk to: ')
@@ -1273,6 +1415,51 @@ def talk():
                         print('Kyla:')
                         print('"Do as you please."')
                         cont()
+        
+        elif (tutorialSwitch[6] == False and c2Switch[0] == True and chapter == '2'):
+            print('1: Florace')
+            t = input('talk to: ')
+            if (t == '1'):
+                print('Alder:')
+                print('"Florace!"')
+                cont()
+                print('Alder:')
+                print('"Trissie'"'"'s here!"')
+                cont()
+                print('Alder:')
+                print('"Trissie'"'"'s here!"')
+                cont()
+                print('Florace:')
+                print('"Claim done Alder."')
+                cont()
+                print('Florace:')
+                print('"I’ll let Kyla know. You go out and greet her."')
+                cont()
+                print('Florace:')
+                print('"You go out and greet her."')
+                cont()
+                print('Alder:')
+                print('"Yes Florace!"')
+                cont()
+                c2Switch[0] = False
+        elif (c2Switch[2] == False and chapter == '2'):
+            print('1: Florace')
+            print('2: Kyla')
+            t = input('talk to: ')
+            if (t == '1'):
+                print('Florace:')
+                print('"Triss is very brave."')
+                cont()
+                print('Florace:')
+                print('"She risks everything to help people get around the Gowls."')
+                cont()
+            elif (t == '2'):
+                print('Kyla:')
+                print('"I like the girl."')
+                cont()
+                print('Kyla:')
+                print('"Shame she never stays."')
+                cont()
         else:
             print('There was no one to talk to')
     elif (location == '3'):
@@ -1301,10 +1488,10 @@ def talk():
                         print('"I still don’t understand what you mean by Wyrd and Wild?"')
                         cont()
                         print('Florace:')
-                        print('"Well there are two realms."')
+                        print('"Well there are two realms in Avalon."')
                         cont()
                         print('Florace:')
-                        print('"The world of fairies that we called the Wyrd and the world of men, mice and such that the fairies call the Wild."')
+                        print('"The world of fairies and magical monsters that we called the Wyrd and the world of men, mice and such that the fairies call the Wild."')
                         cont()
                         print('Florace:')
                         print('"The latter is where we are from."')
@@ -1316,7 +1503,7 @@ def talk():
                         print('"You can see plants and animals from both so long as you are here."')
                         cont()
                         print('Florace:')
-                        print('"It’s not entirely accurate but we tend to call this place the burrow."')
+                        print('"It’s not entirely accurate but we tend to call this place the burrow since it cannot be seen from the Wild."')
                         cont()
                         dialog[1] = True
                 switch[2] = True
@@ -1596,6 +1783,115 @@ def talk():
                             dialog[0] = True
                         if (c == '2'):
                             dialog[1] = True
+        elif (tutorialSwitch[6] == False and c2Switch[0] == True):
+            print('1: Squirrel')
+            t = input('talk to: ')
+            if (t == '1'):
+                print('The squirrel could not see Alder. He needed to let either Florace or Kyla to let her in.')
+        elif (c2Switch[1] == True):
+            print('1: Trissie')
+            t = input('talk to: ')
+            if (t == '1'):
+                print('Alder:')
+                print('"Hi Trissie!"')
+                cont()
+                print('Trissie:')
+                print('"Please don'"'"'t stand next to me when Miss Kyla is letting me in Alder!"')
+                cont()
+                print('Alder:')
+                print('"Oh!"')
+                cont()
+                print('Alder:')
+                print('"Sorry Triss."')
+                cont()
+                print('Alder found Trissie fun to be around but it sounded like she was in a hurry. He could not help but feel dejected by her hast.')
+                cont()
+                print('Alder:')
+                print('"Ok."')
+                cont()
+                print('Trissie:')
+                print('"Aw."')
+                cont()
+                print('Trissie:')
+                print('"Don’t make that face."')
+                cont()
+                print('Trissie:')
+                print('"Say?"')
+                cont()
+                print('Trissie:')
+                print('"Why don'"'"'t I give you some archery lessons before I leave?"')
+                cont()
+                print('As Alder brightens up at the thought. But those emotions were cut when Trissie mumbled ')
+                cont()
+                print('Trissie:')
+                print('"You might need them."')
+                cont()
+                print('Florace:')
+                print('"Triss!"')
+                cont()
+                print('Florace was staring from the entrance of the cottage door. She went back in with Trissie.')
+                cont()
+                c2Switch[1] = False
+        elif (c2Switch[3] == True):
+            print('1: Trissie')
+            t = input('talk to: ')
+            if (t == '1'):
+                print('Trissie quickly set up a makeshift dummy out of leaves, sticks and a cheaply made old burlap sack that was intended for foraging. She then planted it into the ground so it would stand upright. The finished product was crude and clearly rushed and resembled a sack on a stick with leaves coming out of the openings.')
+                cont()
+                print('Trissie:')
+                print('"That'"'"'ll do."')
+                cont()
+                print('Trissie:')
+                print('"Alder, wait there."')
+                cont()
+                print('Trissie goes into the shed, looks around and finds a bow and some arrows set aside for hunting. Alder thought she looked a little silly as she was dragging the bow which was big even for Alder, that was because the bow was originally meant for Florace but she never used it finding herself unskilled with it. Trissie brought them to Alder.')
+                cont()
+                print('Trissie:')
+                print('"Let'"'"'s begin."')
+                cont()
+                battle([Dummy(), Null(), Null()])
+                print('Trissie:')
+                print('"Nice shot!"')
+                cont()
+                print('Trissie:')
+                print('"But it will be hard for me to leave these woods if I stay any longer!"')
+                cont()
+                print('Alder:')
+                print('"There’s one more thing I’d like to know Triss."')
+                cont()
+                print('Trissie:')
+                print('"Yes?"')
+                cont()
+                dialog = [False, False]
+                while(dialog[0] == False and dialog[1] == False):
+                    print('1: "What are the Gowls like?"')
+                    print('2: "Will we see each other again soon?"')
+                    c = input('Alder: ')
+                    if (c == '1'):
+                        print('Trissie:')
+                        print('"Well, if I’d have to give an example?"')
+                        cont()
+                        print('Trissie:')
+                        print('"I have a brother in the Gowls"')
+                        cont()
+                        print('Trissie points her thumb at her tail stump.')
+                        cont()
+                        print('Trissie:')
+                        print('"and because I helped a human, he did this to me."')
+                        cont()
+                        dialog[0] = True
+                    elif (c == '2'):
+                        print('Trissie:')
+                        print('"I’m not easy to capture but you must be careful and survive."')
+                        cont()
+                        print('Trissie:')
+                        print('"Then I am sure we will meet again."')
+                        cont()
+                        dialog[1] = True
+                print('As soon as Florace let her out, Trissie went towards the nearest tree and in an instant climbed up it and disappeared among the branches. It was as if she vanished. There was not even a rustle of leaves.')
+                cont()
+                c2Switch[3] = False
+                    
 #Move to another location
 def move():
     global location, part, tutorial1, tutorialSwitch
@@ -1625,11 +1921,17 @@ def move():
             print('Alder moved outside the cottage through the front door.')
             alder.stamina -= 1
             cont()
-            if(tutorialSwitch[1] == True):
+            if(tutorialSwitch[1] == True and chapter == '1'):
                 part = '2'
                 tutorialSwitch[1] = False
                 switch[1] = True
-                tutorial1 = False  
+                tutorial1 = False
+            elif (c2Switch[0] == False and c2Switch[1] == True and chapter == '2'):
+                print('As soon as Alder left for the outside we went straight towards Trissie. He impatiently waited as the squirrel drew nearer to the house repeating chanting the secret phrase over and over while the other three men had also left the cottage to greet her. After a short while, Kyla finally appeared in the window and waved her hand. Trissie turned to face Alder and jumped back with shock.')
+                cont()
+                print('Trissie:')
+                print('"AHHH!"')
+                cont()
         elif (m == '3'):
             location = '5'
             print('Alder moved upstairs and into his bedroom.')
@@ -1658,6 +1960,13 @@ def move():
                 cont()
                 print('Alder withdraws from the cottage.')    
                 cont()
+            elif (c2Switch[0] == False):
+                location = '2'
+                print('Alder moved to the living room of the cottage.')
+                alder.stamina -= 1
+                switch[6] = True
+                part = '2'
+                c2Switch[2] = False
             else:
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
@@ -1730,8 +2039,8 @@ def move():
             cont()
 #Save the game
 def save(location, chapter, part):
-    data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, mQuests, alder]
-    print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch, mQuests, alder)
+    data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, shill, inv, PKSwitch, mQuests, sQuests, alder]
+    print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, shill, inv, PKSwitch, mQuests, sQuests, alder)
     with open(PIK, "wb") as f:
         print(data)
         pickle.dump(data, f)
@@ -1766,7 +2075,7 @@ def inventory():
                         print('Name: ', i['name'], ' - Type: ', i['type'], ' - \nStamina Recovered: ', i['recovers'])
                 count += 1
         elif (i == '2' or i == 'use' or i == 'Use'):
-            item(alder)
+            useItem(alder)
         elif (i == '3' or i == 'equip' or i == 'Equip'):
             equip()
         elif (i == 'e'):
@@ -1829,7 +2138,8 @@ def objective():
             if (q['questId'] == '1'):
                 j = 0
                 for i in q['desc']:
-                    print(i, q['required'][j])
+                    print('\t',i, q['required'][j])
+                    j += 1
 def helper():
     print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further can get an item to pickup.")
     print("Command: m, move, Move - Move to the next area.")
@@ -1902,7 +2212,7 @@ def free(location, chapter, part):
             game_active = False
 
 def game(chapter):
-    global switch, tutorial1, location
+    global switch, tutorial1, location, part
     print('Chapter: ', chapter)
     print('The game will now begin. For then next line to print press enter.')
     print('You may skip the dialoge by typing skip then pressing enter.')
@@ -2239,7 +2549,7 @@ def game(chapter):
                 cont()
                 switch[4] = False
             elif (switch[5] == True and part == '1'):
-                print('Chapter 2')
+                print('\nChapter 2')
                 print('Dawn came, sunlight striking Alder’s face through the curtainless window. He began his day like normal, going downstairs to eat his breakfast of nuts and berries scavenged from the foot of trees and bushes, then clean the plates and cups using water gathered from rain or the nearest point of the river. The day was set to be a very mundane one, where Alder could only hope that a guest would come, just as Thay did the day before. Otherwise, today he will only be sweeping floors, chopping wood and foraging mushrooms allowing the hours tick by until it was time for the next chore.')
                 cont()
                 print('Alder:')
@@ -2253,13 +2563,111 @@ def game(chapter):
                 print('Squirrel:')
                 print('"The rabbit seeks his burrow!"')
                 cont()
-                print('She was trying to get into the burrow, Alder needed to let the witch Kyla know about the guest.')
+                print('She was trying to get into the burrow, Alder needed to let someone know about the guest.')
                 cont()
+                loction = '4'
                 switch[5] = False
+            elif (switch[6] == True and part == '2'):
+                print('Trissie had rested her bow and quiver on the wall and hopped onto one of the chairs on the table. Kyla was opposite her in her rocking chair while everyone else stood around the table as spectators. Alder walked over to take position next to Florace. With everyone gathered Trissie began.')
+                cont()
+                print('Trissie:')
+                print('"I’ll make this quick!"')
+                cont()
+                print('Trissie:')
+                print('"There are Gowl knights patrolling these woods!"')
+                cont()
+                print('Kyla and Florace sat upright and began muttering to each other.')
+                cont()
+                print('Florace:')
+                print('"Do you think they know of the cottage?"')
+                cont()
+                print('Kyla:')
+                print('"Not unless one of our clients has sold us out."')
+                cont()
+                print('Kyla:')
+                print('"Even so their search shall come up empty."')
+                cont()
+                print('Trissie:')
+                print('"I don’t know. "')
+                cont()
+                print('Trissie:')
+                print('"There'"'"'s quite a few of them and they are setting up camps."')
+                cont()
+                print('Trissie:')
+                print('"They seemed certain that they would find something."')
+                cont()
+                print('Kyla:')
+                print('"My magic is strong."')
+                cont()
+                print('Kyla:')
+                print('"They’ll never find this place."')
+                cont()
+                print('Trissie:')
+                print('"I hope so."')
+                cont()
+                print('Trissie:')
+                print('"Anyway, the woods are full of soldiers, most of whom appear to be new recruits"')
+                cont()
+                print('Kyla:')
+                print('"That proves my point!"')
+                cont()
+                print('Kyla:')
+                print('"Whatever they know, their sending saplings, they cannot be very confident about it!"')
+                cont()
+                print('Trissie:')
+                print('"Being overseen by several captains apparently ordered by Darrunt himself!"')
+                cont()
+                print('The mood dimmed but Kyla remained confident. Alder had rarely been involved in conversations about the dangers of the outside world and was unsure how to feel. He whispered to Florace as Kyla dismissed Trissie’s warning.')
+                cont()
+                print('Alder:')
+                print('"Who’s Darrunt?"')
+                cont()
+                print('Florace:')
+                print('"He is the leader of the Gowls."')
+                cont()
+                print('Florace:')
+                print('"He is known for hating humans more than anything."')
+                cont()
+                print('Florace:')
+                print('"If he found us then we would be as good as dead."')
+                cont()
+                print('While Alder and Florace whispered to each other Kyla had relaxed back into her chair at the end of her rebuttal.')
+                cont()
+                print('Kyla:')
+                print('"We’ll lay low for the next few days, we are well stocked and have enough water to last us a few days."')
+                cont()
+                print('Kyla:')
+                print('"Thank you for your warnings, Trissie dear."')
+                cont()
+                print('Kyla:')
+                print('"But I think we will be fine."')
+                cont()
+                print('Trissie:')
+                print('"If you say so."')
+                cont()
+                print('Trissie:')
+                print('"I think I’ll scarper out of these woods for the time being until things quiet down."')
+                cont()
+                print('Trissie:')
+                print('"Alder?"')
+                cont()
+                print('Trissie:')
+                print('"I promised you archery lessons?"')
+                cont()
+                print('Alder:')
+                print('"Yes."')
+                cont()
+                print('Trissie:')
+                print('"Then meet me outside."')
+                cont()
+                print('Trissie leaves through the front door. From inside the cottage, Alder could see her picking up a large stick and sticking it into the ground.')
+                cont()
+                c2Switch[2] = False
+                switch[6] = False
             free(location, chapter, part)
 
 def loadGame():
-    global location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch,mQuests,alder
+    global location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, shill, inv, PKSwitch,mQuests,sQuests,alder
     with open(PIK, "rb") as f:
         data = pickle.load(f)
         location = data[0]
@@ -2270,14 +2678,17 @@ def loadGame():
         chapter1 = data[5]
         switch = data[6]
         tutorialSwitch = data[7]
-        shill = data[8]
-        inv = data[9]
-        PKSwitch = data[10]
-        mQuests = data[11]
-        alder = data[12]
+        c2Switch = data[8]
+        c3Switch = data[9]
+        shill = data[10]
+        inv = data[11]
+        PKSwitch = data[12]
+        mQuests = data[13]
+        sQuests = data[14]
+        alder = data[15]
 
 def menu():
-    global menu_active, chapter, part, chapter1, tutorComp, game_active, switch, tutorialSwitch, shill, inv, PKSwitch
+    global menu_active, chapter, part, chapter1, tutorComp, game_active, switch, tutorialSwitch, c2Switch, shill, inv, PKSwitch
     while (menu_active == True):
         print('Wild and Wyrd')
         print('n - New Game')
@@ -2296,8 +2707,9 @@ def menu():
             inv = []
             PKSwitch = [True, True, True, True, True]
             #Story Switches
-            switch = [True, False, False, False, False, False]
+            switch = [True, False, False, False, False, False, False]
             tutorialSwitch = [True, True, True, True, True, True, True]
+            c2Switch = [True, True, True, True, True]
             game(chapter)
             for i in mQuests:
                 i['accepted'] = False

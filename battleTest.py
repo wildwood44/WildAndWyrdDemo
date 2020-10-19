@@ -20,9 +20,10 @@ class Alder:
         self.body = armors[1]
         self.legs = armors[3]
         self.weapon1 = weapons[0]
-        self.weapon2 = 'None'
+        self.weapon2 = weapons[0]
         self.aliment = 'None'
         self.cStatus = 'None'
+        self.ammo = {'name': '', 'loaded' : False, 'damage' : 0}
         self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':True, 'effect':'Increases Evasion for five turns.'},
                         {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
                         ]
@@ -35,6 +36,14 @@ class Alder:
             attack += 0
         return attack
     property
+    def attackRanged(self):
+        attackRanged = self.baseAttack
+        if (self.weapon2['wpId'] != '0' and self.weapon2['type'] == 'bow'):
+            attackRanged += self.weapon2['attack']
+        else:
+            attackRanged += 0
+        return attackRanged
+    property
     def defence(self):
         defence = self.baseDefence
         if (self.head['type'] == 'hat'):
@@ -43,6 +52,8 @@ class Alder:
             defence += self.body['defence']
         if (self.legs['type'] == 'trousers'):
             defence += self.legs['defence']
+        if (self.weapon2['type'] == 'sheild'):
+            defence += self.weapon2['defence']
         return defence
     property
     def accuracy(self):
@@ -76,6 +87,7 @@ class Cricket:
         self.name = 'Cricket'
         self.maxHealth = 20
         self.health = self.maxHealth
+        self.type = 'bug'
         self.Exp = 10
         self.drop = [{'item' : food[3], 'quantity':2}]
         self.baseAttack = 0
@@ -84,6 +96,7 @@ class Cricket:
         self.baseSpeed = 10
         self.baseEvasion = 25
         self.strat = 'Prey'
+        self.aliment = 'None'
         self.cStatus = 'None'
         self.desc = 'Big grasshoppers with long antenna. Can jump a fair distance.'
     def attack(self):
@@ -112,6 +125,7 @@ class Wasp:
         self.name = 'Wasp'
         self.maxHealth = 10
         self.health = self.maxHealth
+        self.type = 'bug'
         self.Exp = 10
         self.drop = [{'item':food[3], 'quantity':1}]
         self.baseAttack = 5
@@ -120,6 +134,7 @@ class Wasp:
         self.baseSpeed = 40
         self.baseEvasion = 45
         self.strat = 'Attacker'
+        self.aliment = 'None'
         self.cStatus = 'None'
         self.desc = 'More hostile than usual this year. In the air they are annoying to hit but they are easy to kill.'
     def attack(self):
@@ -148,6 +163,7 @@ class Dummy:
         self.name = 'Dummy'
         self.maxHealth = 100
         self.health = self.maxHealth
+        self.type = 'puppet'
         self.Exp = 5
         self.drop = []
         self.baseAttack = 0
@@ -156,6 +172,7 @@ class Dummy:
         self.baseSpeed = 0
         self.baseEvasion = 0
         self.strat = 'Attacker'
+        self.aliment = 'None'
         self.cStatus = 'None'
         self.desc = 'Made from sticks and a sack. Made to fight.'
     property
@@ -185,6 +202,7 @@ class Gowl_Rabbit:
         self.name = 'Gowls Captain Clipgrea'
         self.maxHealth = 12000
         self.health = self.maxHealth
+        self.type = 'soldier'
         self.Exp = 0
         self.drop = []
         self.baseAttack = 900
@@ -193,6 +211,7 @@ class Gowl_Rabbit:
         self.baseSpeed = 1700
         self.baseEvasion = 1800
         self.strat = 'Attacker'
+        self.aliment = 'None'
         self.cStatus = 'None'
         self.desc = 'A Gowls Captain. There'"'"'s a reason for that. Well equiped and fast as rabbits are.'
     property
@@ -227,7 +246,11 @@ weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : ''
            {'wpId' : '1', 'name' : 'Lief', 'type' : 'weapon', 'description' : 'Legendary sword of the Scion.',
             'attack' : 500, 'weight' : 5, 'count' : 0},
            {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : 'weapon', 'description' : 'A knife used to hunt insects.',
-            'attack' : 5, 'weight' : 1, 'count' : 0}
+            'attack' : 5, 'weight' : 1, 'count' : 0},
+           {'wpId' : '1', 'name' : 'Training Bow', 'type' : 'bow', 'description' : 'A large bow made for practise.',
+            'attack' : 10, 'weight' : 2, 'count' : 0},
+           {'wpId' : '1', 'name' : 'Wooden Sheild', 'type' : 'sheild', 'description' : 'A basic round wooden sheild.',
+            'defence' : 20, 'weight' : 1, 'count' : 0}
            ]
 
 armors = [{'armId' : '1', 'name' : 'None', 'type' : 'hat', 'description' : '',
@@ -248,6 +271,11 @@ food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
         {'itemId' : '4', 'name' : 'Raw Bug Meat', 'type' : 'food',
           'recovers' : 10, 'count' : 0}
         ]
+projec = [{'itemId' : '1', 'name' : 'Primative Arrow', 'type' : 'projectile',
+           'weapon' : 'bow', 'damage' : 10, 'count' : 0},
+          {'itemId' : '2', 'name' : 'Rope Net', 'type' : 'toss',
+           'weapon' : 'none', 'damage' : 0, 'count' : 0}
+          ]
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
           'heals' : 10, 'count' : 0}
          ]
@@ -266,6 +294,14 @@ def itemCount(item, amount):
             if (i['wpId'] == item['wpId']):
                 item['count'] += amount
                 inInv = True
+        elif (item['type'] == 'sheild' and i['type'] == 'sheild'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'bow' and i['type'] == 'bow'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
         elif (item['type'] == 'armor' and i['type'] == 'armor'):
             if (i['armId'] == item['armId']):
                 item['count'] += amount
@@ -275,6 +311,14 @@ def itemCount(item, amount):
                 item['count'] += amount
                 inInv = True
         elif (item['type'] == 'healing' and i['type'] == 'healing'):
+            if (i['itemId'] == item['itemId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'projectile' and i['type'] == 'projectile'):
+            if (i['itemId'] == item['itemId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'toss' and i['type'] == 'toss'):
             if (i['itemId'] == item['itemId']):
                 item['count'] += amount
                 inInv = True
@@ -391,17 +435,26 @@ def equip():
         elif (i == '5'):
             count = 0
             for i in inv:
-                if(i['type'] == 'weapon2'):
+                if(i['type'] == 'bow' or i['type'] == 'sheild'):
                     count +=1
                     equipable.append(i)
-                    print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon2['attack'])
+                    if(i['type'] == 'bow'):
+                        if (alder.weapon2['type'] == 'bow'):
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon2['attack'])
+                        else:
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
+                    elif(i['type'] == 'sheild'):
+                        if (alder.weapon2['type'] == 'sheild'):
+                            print(count, ': ', i['name'], '- Defence: +', i['defence'] - alder.weapon2['defence'])
+                        else:
+                            print(count, ': ', i['name'], '- Defence: +', i['defence'])                            
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
                         print(i['name'], 'equiped')
-                        if(alder.weapon1['wpId'] != '0'):
+                        if(alder.weapon2['wpId'] != '0'):
                             inv.append(alder.weapon2)
                         alder.weapon2 = i
                         i['count'] -= 1
@@ -456,6 +509,7 @@ def equipment():
         if (i == '1'):
             print('\nItem Sets')
             print('1: tutorial items set')
+            print('2: ranged items set')
             j = input('Item set:')
             if (j == '1'):
                 print('\nDagger obtained')
@@ -464,6 +518,15 @@ def equipment():
                 itemCount(food[0], 5)
                 print('\nBandage obtained')
                 itemCount(items[0], 5)
+            elif (j == '2'):
+                print('\nBow obtained')
+                itemCount(weapons[3], 1)
+                print('\nSheild obtained')
+                itemCount(weapons[4], 1)
+                print('\nArrows obtained')
+                itemCount(projec[0], 5)
+                print('\nNet obtained')
+                itemCount(projec[1], 1)
         elif (i == '2'):
             inventory()
         elif (i == '3'):
@@ -544,7 +607,6 @@ def setFoe():
         elif (i == 'e'):
             setting = False
     
-
 def win(e):
     ex = 0
     rewards = []
@@ -556,8 +618,9 @@ def win(e):
     alder.cExp += ex
     print('Alder gained ', ex, ' experience.')
     for i in e:
-        print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
-        itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
+        if (len(i.drop) > 0):
+            print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
+            itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
 
 def death():
     for i in alder.special:
@@ -628,22 +691,43 @@ def attack(p, e):
     hit = random.randrange(0,100)
     critical = random.randrange(0,100)
     alder.stamina -= 5
-    if (hit < target):
-        impact = random.randrange(p.attack() - 5, p.attack() + 5)
-        if (critical >= 90):
-            impact += 10
-        impact = round(impact * (100/(100 + p.defence())))
-        if (impact <= 0):
-            impact = 1
-        e.health -= impact
-        print('\n',p.name,' attacked!')
-        if(critical >= 90):
-            print('Critical Hit!')
-        print(e.name, ' took ', impact, ' damage!')
-        if(e.health <= 0):
-            print(e.name, ' defeated.')
+    if (p.ammo['loaded'] == True):
+        if (hit < target):
+            impact = random.randrange(p.attackRanged() - 3, p.attackRanged() + 3)
+            impact += p.ammo['damage']
+            if (critical >= 90):
+                impact += 10
+            impact = round(impact * (100/(100 + e.defence())))
+            if (impact <= 0):
+                impact = 1
+            e.health -= impact
+            print('\n',p.name,' fired a', p.ammo['name'], '!')
+            if(critical >= 90):
+                print('Critical Hit!')
+            print(e.name, ' took ', impact, ' damage!')
+            p.ammo['loaded'] = False
+        else:
+            print('\n',p.name,' Missed')
     else:
-        print('\n',p.name,' Missed')
+        if (hit < target):
+            impact = random.randrange(p.attack() - 5, p.attack() + 5)
+            if (critical >= 90):
+                impact += 10
+            impact = round(impact * (100/(100 + e.defence())))
+            if (impact <= 0):
+                impact = 1
+            e.health -= impact
+            print('\n',p.name,' attacked!')
+            if(critical >= 90):
+                print('Critical Hit!')
+            print(e.name, ' took ', impact, ' damage!')
+        else:
+            print('\n',p.name,' Missed')
+    if(e.health <= 0):
+        print(e.name, ' defeated.')
+    if (p.ammo['loaded'] == False):
+        p.ammo['name'] = ''
+        p.ammo['damage'] = 0
 
 #Block incoming attack
 def block(barrier, incoming):
@@ -678,12 +762,12 @@ def special(p):
                print('\n', p.name, ' uses ', i['name'],'.')
 
 #Use Item
-def item(p):
+def item(p, e):
     use = []
     count = 1
     print('\nBag Items')
     for i in inv:
-        if(i['type'] == 'healing' or i['type'] == 'food'):
+        if(i['type'] == 'healing' or i['type'] == 'food'or i['type'] == 'projectile'or i['type'] == 'toss'):
             print(count, ': ', i['name'], ' x', i['count'])
             use.append(i)
             count += 1
@@ -693,17 +777,42 @@ def item(p):
         u = input('use item: ')
         for i in use:
             if (u == str(count)):
-                print(i['name'])
+                #print(i['name'])
                 if (i['type'] == 'healing'):
                     p.health += i['heals']
                     print(p.name, ' recoved ', i['heals'], ' health')
                     if (p.health > p.maxHealth):
                         p.health = p.maxHealth
+                        alder.cStatus = 'Using'
                 elif (i['type'] == 'food'):
                     p.stamina += i['recovers']
                     print(p.name, ' recoved ', i['recovers'], ' stamina')
                     if (p.stamina > p.maxStamina):
                         p.stamina = p.maxStamina
+                        alder.cStatus = 'Using'
+                elif (i['type'] == 'projectile'):
+                    if (i['weapon'] == 'bow'):
+                        if(p.weapon2['type'] == 'bow'):
+                            print('\nArrow loaded!')
+                            p.ammo['name'] = i['name']
+                            p.ammo['loaded'] = True
+                            p.ammo['damage'] = i['damage']
+                            alder.cStatus = 'Using'
+                        else:
+                            print('Bow required!')
+                elif (i['type'] == 'toss'):
+                    count = 1
+                    for j in e:
+                        print(count, ': ', j.name)
+                        count += 1
+                    count = 1
+                    target = input('Throw at: ')
+                    for j in e:
+                        if (target == str(count)):
+                            print('\n',p.name,'threw ', i['name'])
+                            j.aliment = 'Caught' 
+                            alder.cStatus = 'Using'
+                        count += 1
                 i['count'] -= 1
                 if(i['count'] <= 0):
                     inv.remove(i)
@@ -724,6 +833,7 @@ def battle(e):
     bck = 0
     while(fighting == True):
         hunger()
+        #Win condition
         if (enemys[0].health <= 0):
             j = 0
             for i in enemys:
@@ -735,7 +845,7 @@ def battle(e):
         if(alder.health <= 0):
             fighting = False
             death()
-        #Win Condition
+        #Win
         elif(winner == True):
             for i in alder.special:
                 i['active'] = False
@@ -779,8 +889,7 @@ def battle(e):
                     alder.cStatus = 'Specializing'
                     special(alder)
                 elif (i == '5' or i == 'item' or i == 'Item'):
-                    alder.cStatus = 'Using'
-                    item(alder)
+                    item(alder, enemys)
                 elif (i == '6' or i == 'flee' or i == 'Flee'):
                     i = input('Are you sure you want to run?(y/n)')
                     if (i == 'y' or i == 'Y' or i == 'yes' or i == 'Yes'):
@@ -790,7 +899,21 @@ def battle(e):
                 if(i.health > 0):
                     if(i.strat == 'Attacker'):
                         print(i.health)
-                        enemyAttack(i, alder, bck)
+                        if (i.aliment != 'Caught'):
+                            enemyAttack(i, alder, bck)
+                        else:
+                            escape = random.randrange(0, 100)
+                            if (i.type == 'bug'):
+                                if (escape >= 95):
+                                    print(i.name, 'escaped the net!')
+                                    i.aliment = 'None'
+                                else:
+                                    print('The', i.name,' is tangled in a net!')
+                            elif (i.type == 'soldier'):
+                                if (escape >= 30):
+                                    print(i.name, 'escaped the net!')
+                                else:
+                                    print('The', i.name,' is tangled in a net!')
                         i.cStatus = 'Attacking'
                     elif(i.strat == 'Prey'):
                         if(i.health < i.maxHealth):
