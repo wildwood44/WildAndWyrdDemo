@@ -10,7 +10,7 @@ chapter1 = False
 chapter = '0'
 part = '1'
 tutorComp = False
-switch = [True, False, False, False, False, False, False]
+switch = [True, False, False, False, False, False, False, False, False, False, False, False, False]
 tutorialSwitch = [True, True, True, True, True, True, True]
 c2Switch = [True, True, True, True, True]
 c3Switch = [True, True, True, True, True]
@@ -271,7 +271,7 @@ projec = [{'itemId' : '1', 'name' : 'Primative Arrow', 'type' : 'projectile',
           {'itemId' : '2', 'name' : 'Rope Net', 'type' : 'toss',
            'weapon' : 'none', 'damage' : 0, 'count' : 0}
           ]
-ingre = [{'itemId' : '1', 'name' : 'Phantom moss', 'type' : 'ingredient', 'description' : 'A purplish moss that disappears at night',
+ingre = [{'ingId' : '1', 'name' : 'Phantom moss', 'type' : 'ingredient', 'description' : 'A purplish moss that disappears at night',
           'count' : 0}
          ]
 #Inventory
@@ -295,7 +295,8 @@ locations = [{"locId" : "1", "name" : "Cottage Kitchen"},
              {"locId" : "3", "name" : "Outside Cottage"},
              {"locId" : "4", "name" : "Cottage Shed"},
              {"locId" : "5", "name" : "Alder's Room"},
-             {"locId" : "6", "name" : "Forest Clearing"}
+             {"locId" : "6", "name" : "Forest Clearing"},
+             {"locId" : "7", "name" : "???"}
              ]
 location = '1'
 #Interactable characters
@@ -505,6 +506,10 @@ def itemCount(item, amount):
                 inInv = True
         elif (item['type'] == 'toss' and i['type'] == 'toss'):
             if (i['itemId'] == item['itemId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'ingredient' and i['type'] == 'ingredient'):
+            if (i['ingId'] == item['ingId']):
                 item['count'] += amount
                 inInv = True
     if (inInv == False):
@@ -859,11 +864,14 @@ def item(p, e):
                 elif (i['type'] == 'projectile'):
                     if (i['weapon'] == 'bow'):
                         if(p.weapon2['type'] == 'bow'):
-                            print('\nArrow loaded!')
-                            p.ammo['name'] = i['name']
-                            p.ammo['loaded'] = True
-                            p.ammo['damage'] = i['damage']
-                            alder.cStatus = 'Using'
+                            if(p.ammo['loaded'] != True):
+                                print('\n',i['name'],' loaded!')
+                                p.ammo['name'] = i['name']
+                                p.ammo['loaded'] = True
+                                p.ammo['damage'] = i['damage']
+                                alder.cStatus = 'Using'
+                            else:
+                                print(i['name'],' already loaded!')
                         else:
                             print('Bow required!')
                 elif (i['type'] == 'toss'):
@@ -880,7 +888,7 @@ def item(p, e):
                             alder.cStatus = 'Using'
                         count += 1
                 i['count'] -= 1
-                if(i['count'] <= 0):
+                if(i['count'] <= 0 and alder.cStatus == 'Using'):
                     inv.remove(i)
             count +=1
         use.clear()
@@ -924,6 +932,18 @@ def battle(e):
                 if(i.speed() > alder.speed() and count == 1 and i.health > 0):
                     enemyAttack(i, alder, bck)
             while(alder.cStatus == 'None'):
+                if (mQuests[0]['accepted'] == True and mQuests[0]['completed'] == False):
+                    if(count == 1):
+                        print('\nTo get more details about the enemy using the command "3" or "appraise" to get its current health and details about the enemy.')
+                        count += 1
+                    elif(count == 2):
+                        print('\nIf you have an item use the command "5" or "item" to use it from you inventory.')
+                    elif(count == 3):
+                        print('\nTo reduce damage from a incoming attack use command "2" or "block"')
+                    elif(count == 4):
+                        print('\nTo deal damage to the opponent use command "1" or "attack".')
+                elif (c2Switch[2] == False and c2Switch[3] == True):
+                    print('\nTo use a ranged weapon like the bow select a the supported projectile in this case the primative arrow from items then on the next turn attack to fire it.')
                 print('\n',alder.name)
                 print("Health: ", alder.health, '/', alder.maxHealth, "| Stamina: ", alder.stamina, '/', alder.maxStamina)
                 print("1) Attack     3) Appraise     5) Item")
@@ -958,9 +978,13 @@ def battle(e):
                     item(alder, enemys)
                 elif (i == '6' or i == 'flee' or i == 'Flee'):
                     i = input('Are you sure you want to run?(y/n)')
-                    if (i == 'y' or i == 'Y' or i == 'yes' or i == 'Yes'):
+                    if (i == 'y' or i == 'Y' or i == 'yes' or i == 'Yes'): 
                         alder.cStatus = 'Escaping'
-                        fighting = False
+                        for i in enemys:
+                            if (i.speed() > alder.speed()):
+                                print('Escape Failed!')
+                            else:
+                                fighting = False
             for i in enemys:
                 if(i.health > 0):
                     if(i.strat == 'Attacker'):
@@ -1003,7 +1027,7 @@ def examine(location):
         print('The cottage kitchen contained various pots and pans hanging on the wall. It had a stove where a cauldron was dangled on a chain. There a cupboard and two tables one of which had an empty bowl on it. Alder had been washing dishes in a basin on the other table next to the window.')
         e = input('Examine: ')
         if (e == 'cauldron' or e == 'Cauldron'):
-            if (sQuests[0]['accepted'] == True and sQuests[0]['completed'] == False):
+            if (sQuests[0]['accepted'] == True and sQuests[0]['required'][1] == False):
                 print('Alder got a wet cloth and started rubbing the cauldren. Florace looked into the living room at Kyla and then went over to help him.')
                 cont()
                 print('Florace:')
@@ -1051,7 +1075,7 @@ def examine(location):
             print("The bookshelf contained several books on magic spells, potions and artefacts. There were also a few romantic kinds of literature with male characters completely absent from their pages.")
             cont()
         elif (e == 'fireplace' or e == 'Fireplace'):
-            if (sQuests[0]['accepted'] == True and sQuests[0]['completed'] == False):
+            if (sQuests[0]['accepted'] == True and sQuests[0]['required'][0] == False):
                 print('Alder got to work cleaning the fireplace using a brush and cloth. In the end his arms were completely black.')
                 cont()
                 print('Kyla:')
@@ -1061,7 +1085,7 @@ def examine(location):
                 print('"If it gets on the floor you cleaning it up."')
                 cont()
                 sQuests[0]['required'][0] = True
-            elif (sQuests[0]['completed'] == False):
+            elif (sQuests[0]['required'][0] == False):
                 print('The fireplace was unlit. It was used last night and still had ash and soot in it.')
                 cont()
                 print('Alder:')
@@ -1085,10 +1109,19 @@ def examine(location):
         elif (e == 'plants' or e == 'Plants'):
             print('In addition to the various weeds and flowers, there was some strange purple moss that disappeared during the night and yellow flowers that sprayed a sticky fluid at anyone in the burrow who got to close.')
             cont()
-            if (sQuests[0]['accepted'] == True and sQuests[0]['completed'] == False):
+            if (sQuests[0]['accepted'] == True and sQuests[0]['required'][2] == False):
                 print('The purple moss must be what Kyla wants.')
                 cont()
-                itemCount(ingre[0], 1)
+                count = 0
+                for i in inv:
+                    if (i['type'] == 'ingredient'):
+                            if (i['ingId'] == '1'):
+                                count += 1
+                if (count == 0):
+                    itemCount(ingre[0], 1)
+                else:
+                    print ('Alder already had some.')
+                    cont()
         elif (e == 'trees' or e == 'Trees'):
             print('Various trees made up the woodland, the most frequent were birch, rowen and holly.')
             cont()
@@ -1157,9 +1190,9 @@ def examine(location):
             print('The candle was placed in a candlestick. It was unlit.')
             cont()
         elif (e == 'mortar' or e == 'Mortar' or e == 'pestle' or e == 'Pestle'):
-            if (sQuests[0]['accepted'] == True and sQuests[0]['completed'] == False):
+            if (sQuests[0]['accepted'] == True and sQuests[0]['required'][2] == False):
                 for i in inv:
-                    if (i['type'] == 'ingredient' and i['itemId'] == '1'):
+                    if (i['type'] == 'ingredient' and i['ingId'] == '1'):
                         print('Alder grinded the moss with the pestle until it was a purple powder. He then put it in a nearby pot containing the remnants of a similar powder.')
                         cont()
                         sQuests[0]['required'][2] = True
@@ -1187,25 +1220,26 @@ def examine(location):
                     shillings(coins)
                     PKSwitch[4] = False
                     cont()
-            if (tutorialSwitch[5] == False):
+            if ((tutorialSwitch[5] == False and tutorialSwitch[6] == True)  or (c2Switch[3] == False and c2Switch[4] == True)):
                 sleep = input('Would you like to rest?(y/n)')
                 if (sleep == 'y' or sleep == 'Y' or sleep == 'yes' or sleep == 'Yes'):
                     print('Alder got into his makeshift bed and drifted to sleep for the night.')
-                    if(sQuests[0]['accepted'] == True and sQuests[0]['submitted'] == False):
-                        ab = input('Abandon quests?(y/n)')
-                        if (ab == 'y' or ab == 'Y' or ab == 'yes' or ab == 'Yes'):
-                            sQuests[0]['accepted'] = False
-                            print(sQuests[0]['name'],' abandoned!')
+                    if (c2Switch[3] == False):
+                        if(sQuests[0]['accepted'] == True and sQuests[0]['submitted'] == False):
+                            ab = input('Abandon quests?(y/n)')
+                            if (ab == 'y' or ab == 'Y' or ab == 'yes' or ab == 'Yes'):
+                                sQuests[0]['accepted'] = False
+                                print(sQuests[0]['name'],' abandoned!')
+                                switch[7] = True
+                                part = '3'
+                                bed()
+                        else:
+                            switch[7] = True
+                            part = '3'
                             bed()
-                            if(tutorialSwitch[6] == True):
-                                tutorialSwitch[6] = False
-                                part = '1'
-                                switch[5] = True
-                                chapter = '2'
                     else:
                         bed()
                         if(tutorialSwitch[6] == True):
-                            print('ping')
                             tutorialSwitch[6] = False
                             part = '1'
                             switch[5] = True
@@ -1287,6 +1321,32 @@ def examine(location):
                     cont()
             else:
                 print('The other crickets had fled.')
+    elif (location == '7'):
+        if(c2Switch[4] == True):
+            print('Large trees surrounded him in a neat circle like pillars; the branches formed a mosaic ceiling. There was a light from an unknown source that shone in the center in front of Alder.')
+        else:
+            print('The mouse was holding the sword'"'"'s hilt to Alder'"'"'s hand while ghostly spectors watch.')
+        e = input('Examine: ')
+        if(e == 'trees' or e == 'Trees' or e == 'pillars' or e == 'Pillars'):
+            print('Giant trees formed a perfect circle around the clearing like pillars.')
+        elif(e == 'ceiling' or e == 'Ceiling' or e == 'mosaic' or e == 'Mosaic'):
+            print('The ceiling was covered in various different leaves such as oak, cider, alder and many others which Alder did not recognise, their branches were curved so the whole was a spiralling mosaic.')
+        elif(e == 'light' or e == 'Light'):
+            print('From the centre of the clearing a misty light hung from an unspecifiable source like water from a fountain. It illuminated the area as far as the trees.')            
+            if(c2Switch[4] == True):
+                switch[8] = True
+                part = '4'
+        elif(c2Switch[4] == False):
+            if(e == 'sword' or e == 'Sword'):
+                print('The sword was a double edge and was dark green with silver decorations on the hilt and scabbard. Now that it was close Alder could see what looked like a thorny stem engraved around the grip, the rain-guard was shaped to resemble leaves and the pommel from Alder’s angle was tear-shaped. The scabbard was a dark green and it had a rounded slot carved into it.')
+                cont()
+                sword = input('Take the sword!(y/n)')
+                if(sword == 'y' or sword == 'Y' or sword == 'yes' or sword == 'Yes'):
+                    switch[9] = True
+                    part = '5'
+            elif(e == 'ghosts' or e == 'Ghosts' or e == 'spectors' or e == 'Spectors'):
+                print('The ghostly specters lingered within the darkness between the trees. Every creature of Albion imaginable was there.')
+
 #Talk to a character
 def talk():
     global switch, tutorial1, part, location
@@ -1317,7 +1377,6 @@ def talk():
         else:
             print('There was no one to talk to')
     elif (location == '2'):
-        print(tutorialSwitch[6],' ', c2Switch[0])
         if (tutorialSwitch[5] == False and chapter == '1'):
             if (sQuests[0]['accepted'] != True):
                 print('1: Kyla(!)')
@@ -1477,445 +1536,449 @@ def talk():
         else:
             print('There was no one to talk to')
     elif (location == '3'):
-        if (tutorialSwitch[2] == True):
-            print('1: Florace')
-            t = input('talk to: ')
-            if (t == '1'):
-                dialog = [False, False]
-                while(dialog[0] == False or dialog[1] == False):
-                    print('1: "So what'"'"'s Thay here for?"')
-                    print('2: "How does the magic around the cottage work again?"')
-                    c = input('Alder: ')
-                    if (c == '1'):
-                        print('Florace:')
-                        print('"Potions probably."')
-                        cont()
-                        print('Florace:')
-                        print('"He usually comes here for sanctuary or phantom cloak potion."')
-                        cont()
-                        dialog[0] = True
-                    if (c == '2'):
-                        print('Florace:')
-                        print('"Kyla’s spell hides the cottage in the Wyrd while disguising it as a rock in the Wild."')
-                        cont()
-                        print('Alder:')
-                        print('"I still don’t understand what you mean by Wyrd and Wild?"')
-                        cont()
-                        print('Florace:')
-                        print('"Well there are two realms in Avalon."')
-                        cont()
-                        print('Florace:')
-                        print('"The world of fairies and magical monsters that we called the Wyrd and the world of men, mice and such that the fairies call the Wild."')
-                        cont()
-                        print('Florace:')
-                        print('"The latter is where we are from."')
-                        cont()
-                        print('Florace:')
-                        print('"The former is where we are."')
-                        cont()
-                        print('Florace:')
-                        print('"You can see plants and animals from both so long as you are here."')
-                        cont()
-                        print('Florace:')
-                        print('"It’s not entirely accurate but we tend to call this place the burrow since it cannot be seen from the Wild."')
-                        cont()
-                        dialog[1] = True
-                switch[2] = True
-                tutorial1 = False
-                tutorialSwitch[2] = False
-        elif (tutorialSwitch[3] == True):
-            print('1: Thay')
-            t = input('talk to: ')
-            if (t == '1'):
-                dialog = [False, False, False]
-                dialog2 = [False, False, False, False, False]
-                while(dialog[0] == False or dialog[1] == False or dialog2[4] == False):
-                    print('1: "How was your journey?"')
-                    print('2: "How did it go with Madame Kyla?"')
-                    print('3: "What'"'"'s it like outside the burrow?"')
-                    if (dialog[2] == True):
-                        print('4: What can you tell me about the woods?')
-                        print('5: What can you tell me about the the mouse village?')
-                        print('6: What can you tell me about the river?')
-                        print('7: What can you tell me about the hill?')
-                        print('8: Why are humans so hated?')
-                    c = input('Alder: ')
-                    if (c == '1'):
-                        print('Thay:')
-                        print('"It was quite lovely."')
-                        cont()
-                        print('Thay:')
-                        print('"The summer has been good to us all."')
-                        cont()
-                        dialog[0] = True
-                    if (c == '2'):
-                        print('Thay:')
-                        print('"The usual gave her the herbs she wanted and she gave me the potions I needed."')
-                        cont()
-                        print('Thay takes out a vial of pieces of black liquid it was Phantom Cloak. It was a magic potion that erased a creature’s presence when in darkness. It was one of many potions that brought patrons to the cottage. Alder never asked what they needed them for.')
-                        cont()
-                        dialog[1] = True
-                    if (c == '3'):
-                        print('Thay:')
-                        print('"Well, to the north, there are mostly deep woodlands, nothing much there."')
-                        cont()
-                        print('Thay:')
-                        print('"But to the south, is the settlement in the valley where mice and other small beasts live."')
-                        cont()
-                        print('Thay:')
-                        print('"In the west, you’ll run into the river and if you climb to the treetops you can see a hare hill in the east."')
-                        cont()
-                        print('Thay:')
-                        print('"Wait?"')
-                        cont()
-                        print('With sudden realization of who he was speaking to, Thay panicked at the thought of feeding the curiosity of the boy.')
-                        cont()
-                        print('Thay:')
-                        print('"Alder you aren'"'"'t thinking of going to these places are you!?"')
-                        cont()
-                        print('Alder:')
-                        print('"I..."')
-                        cont()
-                        print('Alder:')
-                        print('"think it would be nice."')
-                        cont()
-                        print('Thay:')
-                        print('"No!"')
-                        cont()
-                        print('Thay:')
-                        print('"NO!! Alder!"')
-                        cont()
-                        print('Thay:')
-                        print('"It’s too dangerous!!"')
-                        cont()
-                        print('Thay:')
-                        print('"If anyone sees you will be hunted and killed!!"')
-                        cont()
-                        print('Thay:')
-                        print('"I cannot exaggerate how much humans are hated!!"')
-                        cont()
-                        print('Alder:')
-                        print('"Ok! Ok!"')
-                        cont()
-                        print('Alder:')
-                        print('"I won’t go wandering!!"')
-                        cont()
-                        print('Alder:')
-                        print('"I'"'"'m Sorry!"')
-                        cont()
-                        print('Thay:')
-                        print('"I hope not!"')
-                        cont()
-                        print('Thay:')
-                        print('"I’d never forgive myself if something were to happen to you."')
-                        cont()
-                        print('Alder realized that the hedgehog was getting agitated and so decided to move on.')
-                        cont()
-                        dialog[2] = True
-                    if (dialog[2] == True):
-                        if (c == '4'):
-                            print('Alder:')
-                            print('"It’s not that I want to go there but I’d like to know."')
-                            cont()
-                            print('Thay:')
-                            print('"Oldwyrm wood is where we are right now."')
-                            cont()
-                            print('Thay:')
-                            print('"It is an ancient wood that goes on for miles."')
-                            cont()
-                            print('Thay:')
-                            print('"Some of the trees are so old and big that creatures have made their homes in its roots and trees."')
-                            cont()
-                            print('Thay:')
-                            print('"But be warned it is also home to birds of prey and bugs big enough to attack travelers."')
-                            cont()
-                            dialog2[0] = True
-                        if (c == '5'):
-                            print('Alder:')
-                            print('"It’s not that I want to go there but I’d like to know."')
-                            cont()
-                            print('Thay:')
-                            print('"It’s called Fort Town."')
-                            cont()
-                            print('Thay:')
-                            print('"It’s known for its great library, taking in orphans within the region and being the resting place of the hero Agrimus."')
-                            cont()
-                            print('Thay:')
-                            print('"It is also one of the few mouse settlements that is not controlled by the woodland church."')
-                            cont()
-                            dialog2[1] = True
-                        if (c == '6'):
-                            print('Alder:')
-                            print('"Me and Florace do sometimes go there to get water."')
-                            cont()
-                            print('Alder:')
-                            print('"With caution of course."')
-                            cont()
-                            print('Alder:')
-                            print('"Once we caught a fish in our bucket."')
-                            cont()
-                            print('Thay:')
-                            print('"Hmm."')
-                            cont()
-                            print('Thay:')
-                            print('"You sure that’s safe?"')
-                            cont()
-                            print('Thay:')
-                            print('"There'"'"'s also a lot of creatures drifting on the river as well."')
-                            cont()
-                            print('Thay:')
-                            print('"Swimming in it too."')
-                            cont()
-                            print('Alder:')
-                            print('"It’s alright."')
-                            cont()
-                            print('Alder:')
-                            print('"Florence has always kept up hidden."')
-                            cont()
-                            print('Thay:')
-                            print('"Err, o-ok then."')
-                            cont()
-                            dialog2[2] = True
-                        if (c == '7'):
-                            print('Alder:')
-                            print('"It’s not that I want to go there but I’d like to know."')
-                            cont()
-                            print('Thay:')
-                            print('"Hare Hill is the largest hill in the region."')
-                            cont()
-                            print('Thay:')
-                            print('"It is home to many hare and rabbit villages."')
-                            cont()
-                            print('Thay:')
-                            print('"At the top is the capital of Breabuck."')
-                            cont()
-                            print('Thay:')
-                            print('"But it is a difficult and exhausting walk and travels need to scramble up rock walls in some places."')
-                            cont()
-                            print('Thay:')
-                            print('"Unless they go through the rabbits tunnels."')
-                            cont()
-                            print('Thay:')
-                            print('"Oh!"')
-                            cont()
-                            print('Thay:')
-                            print('"Nevermind."')
-                            cont()
-                            print('Alder:')
-                            print('"What?"')
-                            cont()
-                            print('Thay:')
-                            print('"Just."')
-                            cont()
-                            print('Thay:')
-                            print('"Nevermind."')
-                            cont()
-                            dialog2[3] = True
-                        if (c == '8'):
-                            print('Thay:')
-                            print('"Well."')
-                            cont()
-                            print('Thay:')
-                            print('"There was a certain king who did very, very bad things."')
-                            cont()
-                            print('Alder:')
-                            print('"What kinds of things?"')
-                            cont()
-                            print('Thay:')
-                            print('"Things you'"'"'re too young to know."')
-                            cont()
-                            print('Thay:')
-                            print('"But all you need to know is that he was cruel and unforgivable."')
-                            cont()
-                            print('Thay:')
-                            print('"So unforgivable in fact that along with his followers, woodland folk even took vengeance on the humans who were against him."')
-                            cont()
-                            print('Alder:')
-                            print('"But why?"')
-                            cont()
-                            print('Alder:')
-                            print('"In what way were they involved?"')
-                            cont()
-                            print('Thay:')
-                            print('"They weren'"'"'t."')
-                            cont()
-                            print('Thay:')
-                            print('"But that doesn’t matter to those who had lost friends and family in the conflict."')
-                            cont()
-                            print('Thay:')
-                            print('"Best for you to stay within the burrows border young one."')
-                            cont()
-                            print('Thay:')
-                            print('"If you are seen."')
-                            cont()
-                            print('Thay:')
-                            print('"You will be assumed alined with the kings ideals and killed."')
-                            cont()
-                            print('Alder gave a sad longing look to the deep wood. He’d like to see more than the tiny patch he called home. But alas as Thay said, the danger was too great.')
-                            cont()
-                            dialog2[4] = True
-                switch[3] = True
-                part = '3'
-                tutorialSwitch[3] = False
-                tutorial1 = False
-        elif (tutorialSwitch[4] == True):
-            print('1: Florace')
-            t = input('talk to: ')
-            if (t == '1'):
-                dialog = [False]
-                while(dialog[0] == False):
-                    print('Florace:')
-                    print('"The knife should be in the shed. I'"'"'ll let you out once you'"'"'ve got it."')
-                    cont()
-                    dialog[0] = True
-        elif (tutorialSwitch[5] == True):
-            print('1: Florace')
-            t = input('talk to: ')
-            if (t == '1'):
-                if (mQuests[0]['accepted'] == True and mQuests[0]['completed'] == False):
+        if (chapter == '1'):
+            if (tutorialSwitch[2] == True):
+                print('1: Florace')
+                t = input('talk to: ')
+                if (t == '1'):
                     dialog = [False, False]
-                    while(dialog[0] == False and dialog[1] == False):                    
-                        print('1: "I have the knife!"')                  
-                        print('2: "Nevermind"')
+                    while(dialog[0] == False or dialog[1] == False):
+                        print('1: "So what'"'"'s Thay here for?"')
+                        print('2: "How does the magic around the cottage work again?"')
                         c = input('Alder: ')
-                        if (c == '1'): 
+                        if (c == '1'):
                             print('Florace:')
-                            print('"Fantastic!"')
+                            print('"Potions probably."')
                             cont()
                             print('Florace:')
-                            print('"I'"'"'ll send you out of the Wyrd."')
-                            cont()
-                            print('Florace:')
-                            print('"When you have some meat, I'"'"'ll let you back in."')
-                            cont()
-                            print('Florace:')
-                            print('"Just please don'"'"'t go too far."')
-                            cont()
-                            location = '6'
-                            print('Florace waved her hands a bright light and smoke appeared in them. Light shone from several points around circling the cottage which then turned into a boulder. Florace and Thay were gone from sight.')    
+                            print('"He usually comes here for sanctuary or phantom cloak potion."')
                             cont()
                             dialog[0] = True
                         if (c == '2'):
+                            print('Florace:')
+                            print('"Kyla’s spell hides the cottage in the Wyrd while disguising it as a rock in the Wild."')
+                            cont()
+                            print('Alder:')
+                            print('"I still don’t understand what you mean by Wyrd and Wild?"')
+                            cont()
+                            print('Florace:')
+                            print('"Well there are two realms in Avalon."')
+                            cont()
+                            print('Florace:')
+                            print('"The world of fairies and magical monsters that we called the Wyrd and the world of men, mice and such that the fairies call the Wild."')
+                            cont()
+                            print('Florace:')
+                            print('"The latter is where we are from."')
+                            cont()
+                            print('Florace:')
+                            print('"The former is where we are."')
+                            cont()
+                            print('Florace:')
+                            print('"You can see plants and animals from both so long as you are here."')
+                            cont()
+                            print('Florace:')
+                            print('"It’s not entirely accurate but we tend to call this place the burrow since it cannot be seen from the Wild."')
+                            cont()
                             dialog[1] = True
-        elif (tutorialSwitch[6] == False and c2Switch[0] == True):
-            print('1: Squirrel')
-            t = input('talk to: ')
-            if (t == '1'):
-                print('The squirrel could not see Alder. He needed to let either Florace or Kyla to let her in.')
-        elif (c2Switch[1] == True):
-            print('1: Trissie')
-            t = input('talk to: ')
-            if (t == '1'):
-                print('Alder:')
-                print('"Hi Trissie!"')
-                cont()
-                print('Trissie:')
-                print('"Please don'"'"'t stand next to me when Miss Kyla is letting me in Alder!"')
-                cont()
-                print('Alder:')
-                print('"Oh!"')
-                cont()
-                print('Alder:')
-                print('"Sorry Triss."')
-                cont()
-                print('Alder found Trissie fun to be around but it sounded like she was in a hurry. He could not help but feel dejected by her hast.')
-                cont()
-                print('Alder:')
-                print('"Ok."')
-                cont()
-                print('Trissie:')
-                print('"Aw."')
-                cont()
-                print('Trissie:')
-                print('"Don’t make that face."')
-                cont()
-                print('Trissie:')
-                print('"Say?"')
-                cont()
-                print('Trissie:')
-                print('"Why don'"'"'t I give you some archery lessons before I leave?"')
-                cont()
-                print('As Alder brightens up at the thought. But those emotions were cut when Trissie mumbled ')
-                cont()
-                print('Trissie:')
-                print('"You might need them."')
-                cont()
-                print('Florace:')
-                print('"Triss!"')
-                cont()
-                print('Florace was staring from the entrance of the cottage door. She went back in with Trissie.')
-                cont()
-                c2Switch[1] = False
-        elif (c2Switch[3] == True):
-            print('1: Trissie')
-            t = input('talk to: ')
-            if (t == '1'):
-                print('Trissie quickly set up a makeshift dummy out of leaves, sticks and a cheaply made old burlap sack that was intended for foraging. She then planted it into the ground so it would stand upright. The finished product was crude and clearly rushed and resembled a sack on a stick with leaves coming out of the openings.')
-                cont()
-                print('Trissie:')
-                print('"That'"'"'ll do."')
-                cont()
-                print('Trissie:')
-                print('"Alder, wait there."')
-                cont()
-                print('Trissie goes into the shed, looks around and finds a bow and some arrows set aside for hunting. Alder thought she looked a little silly as she was dragging the bow which was big even for Alder, that was because the bow was originally meant for Florace but she never used it finding herself unskilled with it. Trissie brought them to Alder.')
-                cont()
-                alder.weapon2 = weapons[3]
-                print('\nTraining bow equiped')
-                itemCount(projec[0], 5)
-                print('\n5 Primative arrows obtained')
-                print('Trissie:')
-                print('"Now set the arrow in the bow, take aim and fire."')
-                cont()
-                print('Trissie:')
-                print('"Let'"'"'s begin."')
-                cont()
-                battle([Dummy(), Null(), Null()])
-                print('Trissie:')
-                print('"Nice shot!"')
-                cont()
-                print('Trissie:')
-                print('"But it will be hard for me to leave these woods if I stay any longer!"')
-                cont()
-                print('Alder:')
-                print('"There’s one more thing I’d like to know Triss."')
-                cont()
-                print('Trissie:')
-                print('"Yes?"')
-                cont()
-                dialog = [False, False]
-                while(dialog[0] == False and dialog[1] == False):
-                    print('1: "What are the Gowls like?"')
-                    print('2: "Will we see each other again soon?"')
-                    c = input('Alder: ')
-                    if (c == '1'):
-                        print('Trissie:')
-                        print('"Well, if I’d have to give an example?"')
-                        cont()
-                        print('Trissie:')
-                        print('"I have a brother in the Gowls"')
-                        cont()
-                        print('Trissie points her thumb at her tail stump.')
-                        cont()
-                        print('Trissie:')
-                        print('"and because I helped a human, he did this to me."')
+                    switch[2] = True
+                    tutorial1 = False
+                    tutorialSwitch[2] = False
+            elif (tutorialSwitch[3] == True):
+                print('1: Thay')
+                t = input('talk to: ')
+                if (t == '1'):
+                    dialog = [False, False, False]
+                    dialog2 = [False, False, False, False, False]
+                    while(dialog[0] == False or dialog[1] == False or dialog2[4] == False):
+                        print('1: "How was your journey?"')
+                        print('2: "How did it go with Madame Kyla?"')
+                        print('3: "What'"'"'s it like outside the burrow?"')
+                        if (dialog[2] == True):
+                            print('4: What can you tell me about the woods?')
+                            print('5: What can you tell me about the the mouse village?')
+                            print('6: What can you tell me about the river?')
+                            print('7: What can you tell me about the hill?')
+                            print('8: Why are humans so hated?')
+                        c = input('Alder: ')
+                        if (c == '1'):
+                            print('Thay:')
+                            print('"It was quite lovely."')
+                            cont()
+                            print('Thay:')
+                            print('"The summer has been good to us all."')
+                            cont()
+                            dialog[0] = True
+                        if (c == '2'):
+                            print('Thay:')
+                            print('"The usual gave her the herbs she wanted and she gave me the potions I needed."')
+                            cont()
+                            print('Thay takes out a vial of pieces of black liquid it was Phantom Cloak. It was a magic potion that erased a creature’s presence when in darkness. It was one of many potions that brought patrons to the cottage. Alder never asked what they needed them for.')
+                            cont()
+                            dialog[1] = True
+                        if (c == '3'):
+                            print('Thay:')
+                            print('"Well, to the north, there are mostly deep woodlands, nothing much there."')
+                            cont()
+                            print('Thay:')
+                            print('"But to the south, is the settlement in the valley where mice and other small beasts live."')
+                            cont()
+                            print('Thay:')
+                            print('"In the west, you’ll run into the river and if you climb to the treetops you can see a hare hill in the east."')
+                            cont()
+                            print('Thay:')
+                            print('"Wait?"')
+                            cont()
+                            print('With sudden realization of who he was speaking to, Thay panicked at the thought of feeding the curiosity of the boy.')
+                            cont()
+                            print('Thay:')
+                            print('"Alder you aren'"'"'t thinking of going to these places are you!?"')
+                            cont()
+                            print('Alder:')
+                            print('"I..."')
+                            cont()
+                            print('Alder:')
+                            print('"think it would be nice."')
+                            cont()
+                            print('Thay:')
+                            print('"No!"')
+                            cont()
+                            print('Thay:')
+                            print('"NO!! Alder!"')
+                            cont()
+                            print('Thay:')
+                            print('"It’s too dangerous!!"')
+                            cont()
+                            print('Thay:')
+                            print('"If anyone sees you will be hunted and killed!!"')
+                            cont()
+                            print('Thay:')
+                            print('"I cannot exaggerate how much humans are hated!!"')
+                            cont()
+                            print('Alder:')
+                            print('"Ok! Ok!"')
+                            cont()
+                            print('Alder:')
+                            print('"I won’t go wandering!!"')
+                            cont()
+                            print('Alder:')
+                            print('"I'"'"'m Sorry!"')
+                            cont()
+                            print('Thay:')
+                            print('"I hope not!"')
+                            cont()
+                            print('Thay:')
+                            print('"I’d never forgive myself if something were to happen to you."')
+                            cont()
+                            print('Alder realized that the hedgehog was getting agitated and so decided to move on.')
+                            cont()
+                            dialog[2] = True
+                        if (dialog[2] == True):
+                            if (c == '4'):
+                                print('Alder:')
+                                print('"It’s not that I want to go there but I’d like to know."')
+                                cont()
+                                print('Thay:')
+                                print('"Oldwyrm wood is where we are right now."')
+                                cont()
+                                print('Thay:')
+                                print('"It is an ancient wood that goes on for miles."')
+                                cont()
+                                print('Thay:')
+                                print('"Some of the trees are so old and big that creatures have made their homes in its roots and trees."')
+                                cont()
+                                print('Thay:')
+                                print('"But be warned it is also home to birds of prey and bugs big enough to attack travelers."')
+                                cont()
+                                dialog2[0] = True
+                            if (c == '5'):
+                                print('Alder:')
+                                print('"It’s not that I want to go there but I’d like to know."')
+                                cont()
+                                print('Thay:')
+                                print('"It’s called Fort Town."')
+                                cont()
+                                print('Thay:')
+                                print('"It’s known for its great library, taking in orphans within the region and being the resting place of the hero Agrimus."')
+                                cont()
+                                print('Thay:')
+                                print('"It is also one of the few mouse settlements that is not controlled by the woodland church."')
+                                cont()
+                                dialog2[1] = True
+                            if (c == '6'):
+                                print('Alder:')
+                                print('"Me and Florace do sometimes go there to get water."')
+                                cont()
+                                print('Alder:')
+                                print('"With caution of course."')
+                                cont()
+                                print('Alder:')
+                                print('"Once we caught a fish in our bucket."')
+                                cont()
+                                print('Thay:')
+                                print('"Hmm."')
+                                cont()
+                                print('Thay:')
+                                print('"You sure that’s safe?"')
+                                cont()
+                                print('Thay:')
+                                print('"There'"'"'s also a lot of creatures drifting on the river as well."')
+                                cont()
+                                print('Thay:')
+                                print('"Swimming in it too."')
+                                cont()
+                                print('Alder:')
+                                print('"It’s alright."')
+                                cont()
+                                print('Alder:')
+                                print('"Florence has always kept up hidden."')
+                                cont()
+                                print('Thay:')
+                                print('"Err, o-ok then."')
+                                cont()
+                                dialog2[2] = True
+                            if (c == '7'):
+                                print('Alder:')
+                                print('"It’s not that I want to go there but I’d like to know."')
+                                cont()
+                                print('Thay:')
+                                print('"Hare Hill is the largest hill in the region."')
+                                cont()
+                                print('Thay:')
+                                print('"It is home to many hare and rabbit villages."')
+                                cont()
+                                print('Thay:')
+                                print('"At the top is the capital of Breabuck."')
+                                cont()
+                                print('Thay:')
+                                print('"But it is a difficult and exhausting walk and travels need to scramble up rock walls in some places."')
+                                cont()
+                                print('Thay:')
+                                print('"Unless they go through the rabbits tunnels."')
+                                cont()
+                                print('Thay:')
+                                print('"Oh!"')
+                                cont()
+                                print('Thay:')
+                                print('"Nevermind."')
+                                cont()
+                                print('Alder:')
+                                print('"What?"')
+                                cont()
+                                print('Thay:')
+                                print('"Just."')
+                                cont()
+                                print('Thay:')
+                                print('"Nevermind."')
+                                cont()
+                                dialog2[3] = True
+                            if (c == '8'):
+                                print('Thay:')
+                                print('"Well."')
+                                cont()
+                                print('Thay:')
+                                print('"There was a certain king who did very, very bad things."')
+                                cont()
+                                print('Alder:')
+                                print('"What kinds of things?"')
+                                cont()
+                                print('Thay:')
+                                print('"Things you'"'"'re too young to know."')
+                                cont()
+                                print('Thay:')
+                                print('"But all you need to know is that he was cruel and unforgivable."')
+                                cont()
+                                print('Thay:')
+                                print('"So unforgivable in fact that along with his followers, woodland folk even took vengeance on the humans who were against him."')
+                                cont()
+                                print('Alder:')
+                                print('"But why?"')
+                                cont()
+                                print('Alder:')
+                                print('"In what way were they involved?"')
+                                cont()
+                                print('Thay:')
+                                print('"They weren'"'"'t."')
+                                cont()
+                                print('Thay:')
+                                print('"But that doesn’t matter to those who had lost friends and family in the conflict."')
+                                cont()
+                                print('Thay:')
+                                print('"Best for you to stay within the burrows border young one."')
+                                cont()
+                                print('Thay:')
+                                print('"If you are seen."')
+                                cont()
+                                print('Thay:')
+                                print('"You will be assumed alined with the kings ideals and killed."')
+                                cont()
+                                print('Alder gave a sad longing look to the deep wood. He’d like to see more than the tiny patch he called home. But alas as Thay said, the danger was too great.')
+                                cont()
+                                dialog2[4] = True
+                    switch[3] = True
+                    part = '3'
+                    tutorialSwitch[3] = False
+                    tutorial1 = False
+            elif (tutorialSwitch[4] == True):
+                print('1: Florace')
+                t = input('talk to: ')
+                if (t == '1'):
+                    dialog = [False]
+                    while(dialog[0] == False):
+                        print('Florace:')
+                        print('"The knife should be in the shed. I'"'"'ll let you out once you'"'"'ve got it."')
                         cont()
                         dialog[0] = True
-                    elif (c == '2'):
-                        print('Trissie:')
-                        print('"I’m not easy to capture but you must be careful and survive."')
-                        cont()
-                        print('Trissie:')
-                        print('"Then I am sure we will meet again."')
-                        cont()
-                        dialog[1] = True
-                print('As soon as Florace let her out, Trissie went towards the nearest tree and in an instant climbed up it and disappeared among the branches. It was as if she vanished. There was not even a rustle of leaves.')
-                cont()
-                c2Switch[3] = False
+            elif (tutorialSwitch[5] == True):
+                print('1: Florace')
+                t = input('talk to: ')
+                if (t == '1'):
+                    if (mQuests[0]['accepted'] == True and mQuests[0]['completed'] == False):
+                        dialog = [False, False]
+                        while(dialog[0] == False and dialog[1] == False):                    
+                            print('1: "I have the knife!"')                  
+                            print('2: "Nevermind"')
+                            c = input('Alder: ')
+                            if (c == '1'): 
+                                print('Florace:')
+                                print('"Fantastic!"')
+                                cont()
+                                print('Florace:')
+                                print('"I'"'"'ll send you out of the Wyrd."')
+                                cont()
+                                print('Florace:')
+                                print('"When you have some meat, I'"'"'ll let you back in."')
+                                cont()
+                                print('Florace:')
+                                print('"Just please don'"'"'t go too far."')
+                                cont()
+                                location = '6'
+                                print('Florace waved her hands a bright light and smoke appeared in them. Light shone from several points around circling the cottage which then turned into a boulder. Florace and Thay were gone from sight.')    
+                                cont()
+                                dialog[0] = True
+                            if (c == '2'):
+                                dialog[1] = True
+        elif(chapter == '2'):
+            if (c2Switch[0] == True):
+                print('1: Squirrel')
+                t = input('talk to: ')
+                if (t == '1'):
+                    print('The squirrel could not see Alder. He needed to let either Florace or Kyla to let her in.')
+            elif (c2Switch[1] == True):
+                print('1: Trissie')
+                t = input('talk to: ')
+                if (t == '1'):
+                    print('Alder:')
+                    print('"Hi Trissie!"')
+                    cont()
+                    print('Trissie:')
+                    print('"Please don'"'"'t stand next to me when Miss Kyla is letting me in Alder!"')
+                    cont()
+                    print('Alder:')
+                    print('"Oh!"')
+                    cont()
+                    print('Alder:')
+                    print('"Sorry Triss."')
+                    cont()
+                    print('Alder found Trissie fun to be around but it sounded like she was in a hurry. He could not help but feel dejected by her hast.')
+                    cont()
+                    print('Alder:')
+                    print('"Ok."')
+                    cont()
+                    print('Trissie:')
+                    print('"Aw."')
+                    cont()
+                    print('Trissie:')
+                    print('"Don’t make that face."')
+                    cont()
+                    print('Trissie:')
+                    print('"Say?"')
+                    cont()
+                    print('Trissie:')
+                    print('"Why don'"'"'t I give you some archery lessons before I leave?"')
+                    cont()
+                    print('As Alder brightens up at the thought. But those emotions were cut when Trissie mumbled ')
+                    cont()
+                    print('Trissie:')
+                    print('"You might need them."')
+                    cont()
+                    print('Florace:')
+                    print('"Triss!"')
+                    cont()
+                    print('Florace was staring from the entrance of the cottage door. She went back in with Trissie.')
+                    cont()
+                    c2Switch[1] = False
+            elif (c2Switch[2] == False and c2Switch[3] == True):
+                print('1: Trissie')
+                t = input('talk to: ')
+                if (t == '1'):
+                    print('Trissie quickly set up a makeshift dummy out of leaves, sticks and a cheaply made old burlap sack that was intended for foraging. She then planted it into the ground so it would stand upright. The finished product was crude and clearly rushed and resembled a sack on a stick with leaves coming out of the openings.')
+                    cont()
+                    print('Trissie:')
+                    print('"That'"'"'ll do."')
+                    cont()
+                    print('Trissie:')
+                    print('"Alder, wait there."')
+                    cont()
+                    print('Trissie goes into the shed, looks around and finds a bow and some arrows set aside for hunting. Alder thought she looked a little silly as she was dragging the bow which was big even for Alder, that was because the bow was originally meant for Florace but she never used it finding herself unskilled with it. Trissie brought them to Alder.')
+                    cont()
+                    alder.weapon2 = weapons[3]
+                    print('\nTraining bow equiped')
+                    itemCount(projec[0], 5)
+                    print('\n5 Primative arrows obtained')
+                    print('Trissie:')
+                    print('"Now set the arrow in the bow, take aim and fire."')
+                    cont()
+                    print('Trissie:')
+                    print('"Let'"'"'s begin."')
+                    cont()
+                    battle([Dummy(), Null(), Null()])
+                    print('Trissie:')
+                    print('"Nice shot!"')
+                    cont()
+                    print('Trissie:')
+                    print('"But it will be hard for me to leave these woods if I stay any longer!"')
+                    cont()
+                    print('Alder:')
+                    print('"There’s one more thing I’d like to know Triss."')
+                    cont()
+                    print('Trissie:')
+                    print('"Yes?"')
+                    cont()
+                    dialog = [False, False]
+                    while(dialog[0] == False and dialog[1] == False):
+                        print('1: "What are the Gowls like?"')
+                        print('2: "Will we see each other again soon?"')
+                        c = input('Alder: ')
+                        if (c == '1'):
+                            print('Trissie:')
+                            print('"Well, if I’d have to give an example?"')
+                            cont()
+                            print('Trissie:')
+                            print('"I have a brother in the Gowls"')
+                            cont()
+                            print('Trissie points her thumb at her tail stump.')
+                            cont()
+                            print('Trissie:')
+                            print('"and because I helped a human, he did this to me."')
+                            cont()
+                            dialog[0] = True
+                        elif (c == '2'):
+                            print('Trissie:')
+                            print('"I’m not easy to capture but you must be careful and survive."')
+                            cont()
+                            print('Trissie:')
+                            print('"Then I am sure we will meet again."')
+                            cont()
+                            dialog[1] = True
+                    print('As soon as Florace let her out, Trissie went towards the nearest tree and in an instant climbed up it and disappeared among the branches. It was as if she vanished. There was not even a rustle of leaves.')
+                    cont()
+                    print(' Alder returned to the cottage a little disappointed with Trissie gone so soon. But he had work to do and he set about his remaining chores.')
+                    cont()
+                    c2Switch[3] = False
                     
 #Move to another location
 def move():
-    global location, part, tutorial1, tutorialSwitch
+    global location, part, tutorial1, tutorialSwitch, c2Switch
     print('\nMove')
     if (location == '1'):
         print('1: Living Room')
@@ -1942,7 +2005,6 @@ def move():
             print('Alder moved outside the cottage through the front door.')
             alder.stamina -= 1
             cont()
-            print(tutorialSwitch[1], chapter)
             if(tutorialSwitch[1] == True and chapter == '1'):
                 part = '2'
                 tutorialSwitch[1] = False
@@ -1982,7 +2044,7 @@ def move():
                 cont()
                 print('Alder withdraws from the cottage.')    
                 cont()
-            elif (c2Switch[0] == False):
+            elif (c2Switch[1] == False and c2Switch[2] == True):
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
                 alder.stamina -= 1
@@ -2048,17 +2110,24 @@ def move():
                 print('*Sigh*')
                 cont()
                 print('Florace:')
-                print('"Give the bugs to me and go relax yourself."')
+                print('"Give the bugs and the knife to me and go relax yourself."')
                 cont()
-                print('Alder passed the bug meat over to her. Florace went inside the cottage to place the crickets most likely in the kitchen for supper. Thay came up to him. He looked ready to go.')
+                print('Alder passed the bug meat and the hunting knife over to her. Florace went inside the cottage to place the crickets most likely in the kitchen for supper. Thay came up to him. He looked ready to go.')
+                for i in inv:
+                    if (i['type'] == 'food'):
+                        if (i['itemId'] == '5'):
+                            inv.remove(i)
+                alder.weapon1 = weapons[0]
+                print('\nHunting Knife unequiped')
+                cont()
                 mQuests[0]['submitted'] = True
-                cont()
                 print('Quest Complete')
                 cont()
                 part = '4'
                 switch[4] = True
             alder.stamina -= 1
-            cont()
+    elif (location == '7'):
+        print('Alder could not move.')
 #Save the game
 def save(location, chapter, part):
     data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, shill, inv, PKSwitch, mQuests, sQuests, alder]
@@ -2238,7 +2307,7 @@ def free(location, chapter, part):
             game_active = False
 
 def game():
-    global switch, tutorial1, location, chapter, part
+    global switch, tutorial1, location, chapter, part, location
     print('Chapter: ', chapter)
     print('The game will now begin. For then next line to print press enter.')
     print('You may skip the dialoge by typing skip then pressing enter.')
@@ -2593,7 +2662,7 @@ def game():
                 cont()
                 print('She was trying to get into the burrow, Alder needed to let someone know about the guest.')
                 cont()
-                loction = '4'
+                location = '3'
                 switch[5] = False
             elif (switch[6] == True and part == '2'):
                 print('Trissie had rested her bow and quiver on the wall and hopped onto one of the chairs on the table. Kyla was opposite her in her rocking chair while everyone else stood around the table as spectators. Alder walked over to take position next to Florace. With everyone gathered Trissie began.')
@@ -2692,6 +2761,74 @@ def game():
                 cont()
                 c2Switch[2] = False
                 switch[6] = False
+            elif (switch[7] == True and part == '3'):
+                print('After a while, the light of day dimmed as the sky turned orange signifying the day was coming to an end. Alder wondered if Thay and Trissie got away all right. The three residents of the cottage had roasted hornet for supper.')
+                cont()
+                print('Alder returns to his bed unaware that this would be his last time in it and that his life would never again be the same as it had been. Change is inevitable whether or not you want or even expect it.')
+                cont()
+                print('Alder:')
+                print('"........."')
+                cont()
+                print('Alder:')
+                print('"................hm?"')
+                cont()
+                print('Alder:')
+                print('"Wha...?"')
+                cont()
+                print('Alder wakes in an empty clearing.')
+                cont()
+                location = '7'
+                switch[7] = False
+            elif (switch[8] == True and part == '4'):
+                print('Countless ghostly figures appear from the darkness between the trees. All of them were creatures of the woodlands from mice to wolves. But there were no humans among them.')
+                cont()
+                print('The ground in front of Alder started to burst up and a bulky mouse wearing a metal chest plate and a belt which was attached to a red cloth covering his waist, it held a sword by his right side. Despite being nearly half the size of Alder'"'"'s leg, Alder was still intimidated. His face was that of a seasoned warrior, with the agile yet strong figure by mouse standards at least.')
+                cont()
+                print('The mouse walked up to Alder until he was standing right in front of him staring him directly in his eyes. In surreality only possible in dreams the mouse picked Alder up and took him over to the hole where he had emerged from. Alder was still surprised by his however and panicked but something was stopping him from moving how he wanted.')
+                cont()
+                print('Alder:')
+                print('"Wait!"')
+                cont()
+                print('Alder:')
+                print('"What’s happening!?"')
+                cont()
+                print('Alder:')
+                print('"What are you doing!?"')
+                cont()
+                print('The mouse gently placed Alder in the hole and carefully reset the soil until Alder’s body was submerged in the soil with his head and hands sticking out at the surface.')
+                cont()
+                print('The mouse then grabbed the handle of his sword with his right paw and pulled it out. It looked as sharp and the metal shone like a star. Alder thought for a second that he was going to use the sword to cut him.')
+                cont()
+                print('Alder:')
+                print('"Ahh!"')
+                cont()
+                print('The mouse’s expression displayed surprise and then an apologetic head scratch conveyed that he did not mean any harm, he pulled out the scabbard and fitted the sword back into it and placed the hilt in Alder’s hand.')
+                cont()
+                c2Switch[4] = False
+                switch[8] = False
+            elif (switch[9] == True and part == '5'):
+                print('Alder took the sword by the grip, to his surprise, it grew in size to fit in his hand. Feeling the sword he found it surprisingly light and was comforting to hold as though it was always meant to be in his grasp.')
+                cont()
+                print('Turning the sword over Alder found another slot the same as the other side.')
+                cont()
+                print('???:')
+                print('"..."')
+                cont()
+                print('The mouse said nothing, only smiled, he beckoned Alder to kneel. Alder compiled and the mouse patted him on his shoulders as he nodded his head and closed his eyes and continued burning Alder. He was still silent but Alder had a strange sensation of a voice in his head saying to him...')
+                cont()
+                print('Good luck. My Scion.')
+                cont()
+                chapter = '3'
+                part = '1'
+                switch[9] = False
+                switch[10] = True
+                part = '1'
+            free(location, chapter, part)
+        if (chapter == '3'):
+            if (switch[10] == True and part == '1'):
+                location = '5'
+                print('\nChapter 3')
+                switch[10] = False
             free(location, chapter, part)
 
 def loadGame():
@@ -2735,7 +2872,7 @@ def menu():
             inv = []
             PKSwitch = [True, True, True, True, True]
             #Story Switches
-            switch = [True, False, False, False, False, False, False]
+            switch = [True, False, False, False, False, False, False, False, False, False, False, False, False]
             tutorialSwitch = [True, True, True, True, True, True, True]
             c2Switch = [True, True, True, True, True]
             for i in mQuests:
