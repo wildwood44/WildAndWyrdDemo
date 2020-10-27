@@ -287,6 +287,12 @@ mQuests = [{'questId':'1','client':'Florace','name':'Bug hunt', 'desc':'Collect 
            ]
 sQuests = [{'questId':'1','client':'Kyla','name':'Servents work', 'desc':['Clean fireplace:', 'Scrub caldron:', 'Grind phantom moss in mortar:'], 'reward' : '',
             'required':[False, False, False], 'qnt' : 1,
+            'accepted':False,'completed':False, 'submitted':False},
+           {'questId':'2','client':'Kyla','name':'Bury Books', 'desc':['Take books from bookshelf:', 'Bury books:'], 'reward' : '',
+            'required':[False, False], 'qnt' : 1,
+            'accepted':False,'completed':False, 'submitted':False},
+           {'questId':'3','client':'Kyla','name':'Provisions', 'desc':['Collect Blackburies:'], 'reward' : '',
+            'required':[False, False, False], 'qnt' : 15,
             'accepted':False,'completed':False, 'submitted':False}
            ]
 
@@ -1074,7 +1080,7 @@ def examine(location):
             print('Alder thought about it, but it was of no intrest to him.')
             cont()
     elif (location == '2'):
-        print('The living room was a homely place that was accessible by both the front and back doors. It had two chairs and a table in front of a fireplace as well as a single bookshelf with three shelves full of books.')
+        print('The living room was a homely place that was accessible by both the front and back door and lit by the windows. It had two chairs and a table in front of a fireplace as well as a single bookshelf with three shelves full of books.')
         e = input('Examine: ')
         if (e == 'bookshelf' or e == 'Bookshelf'):
             print('The books in the living room bookshelf included')
@@ -1121,7 +1127,6 @@ def examine(location):
                         print('Alder says nothing as he picks up the sword. As he does, a new blade starts to grow from the rain-guard until it was back to its original glory.')
                         cont()
                         alder.weapon1 = weapons[1]
-                        print(weapons[1])
                         print(alder.weapon1['name'],'equiped!')
                         cont()
                         print('Florace:')
@@ -1241,12 +1246,22 @@ def examine(location):
             else:
                 print('The fireplace was unlit.')
                 cont()
+        elif (e == 'chairs' or e == 'Chairs'):
+            print('There were two wooden armchairs with partridge feather cushions on each.')
+            cont()
+        elif (e == 'table' or e == 'Table'):
+            print('A single round wooded table sat at a safe distance from the fire but close enough to feel the warmth.')
+            cont()
+        elif (e == 'door' or e == 'Door'):
+            print('There was a door for either side of the house they both led outside.')
+            cont()
         elif (e == 'window' or e == 'Window'):
-            if():
-                print('')
-                cont()
+            if(c3Switch[1] == False):
+                if(c3Switch[2] == True):
+                    switch[11] = True
+                    part = '2'
             else:
-                print('The clearing is out front.')
+                print('There were four windows showing the clearing on either side of the cottage.')
                 cont()
         else:
             print('Alder thought about it, but it was of no interest to him.')
@@ -1687,6 +1702,48 @@ def talk():
                 print('Kyla:')
                 print('"Shame she never stays."')
                 cont()
+        elif (chapter == '3'):
+            if(c3Switch[1] == True):
+                print('1: Florace')
+                print('2: Kyla')
+                t = input('talk to: ')
+                if (t == '1'):
+                    print('Florace:')
+                    print('""')
+                    cont()
+                elif (t == '2'):
+                    print('Kyla:')
+                    print('""')
+                    cont()
+            elif(c3Switch[2] == True):
+                print('1: Florace')
+                print('2: Kyla')
+                t = input('talk to: ')
+                if (t == '1'):
+                    print('Florace:')
+                    print('""')
+                    cont()
+                elif (t == '2'):
+                    print('Kyla:')
+                    print('""')
+                    cont()
+            elif(c3Switch[2] == True):
+                print('1: Jeb')
+                print('2: Florace')
+                print('3: Kyla')
+                t = input('talk to: ')
+                if (t == '1'):
+                    print('Jeb:')
+                    print('""')
+                    cont()
+                elif (t == '2'):
+                    print('Florace:')
+                    print('""')
+                    cont()
+                elif (t == '3'):
+                    print('Kyla:')
+                    print('""')
+                    cont()
         else:
             print('There was no one to talk to')
     elif (location == '3'):
@@ -3107,6 +3164,152 @@ def game():
                 print('"Florace!!"')
                 cont()
                 switch[10] = False
+            elif (switch[11] == True and part == '2'):
+                print('The voice that called out was unknown to the residents. They look through the windows to see a rat. He was new to them and was clad in armour. Kyla was not going to let in a complete stranger, especially given Trissies warning about the Gowls. They watch him for a bit unsure of what to do. Alder notices something moving behind him.')
+                cont()
+                print('Alder:')
+                print('"Look!"')
+                cont()
+                print('Alder:')
+                print('"There'"'"' someone in the bushes!"')
+                cont()
+                print('Kyla:')
+                print('"Hm?!"')
+                cont()
+                print('Kyla:')
+                print('"Good eye boy."')
+                cont()
+                print('Kyla:')
+                print('"Florace."')
+                cont()
+                print('Kyla:')
+                print('"You have better eyesight than me, what do you see?"')
+                cont()
+                print('Florace:')
+                print('"Two- No. Four creatures."')
+                cont()
+                print('Florace:')
+                print('"I’m certain at least one of them is a stoat or a weasel."')
+                cont()
+                print('There was a glint from the bushes where they were.')
+                cont()
+                print('Florace:')
+                print('"Did you see that?"')
+                cont()
+                print('Kyla:')
+                print('"The reflection of light."')
+                cont()
+                print('Kyla:')
+                print('"Most likely a dagger."')
+                cont()
+                print('Kyla:')
+                print('"They'"'"'re Gowls for sure."')
+                cont()
+                print('Rat:')
+                print('"There'"'"'s no one here!"')
+                cont()
+                print('The weasel that Florace spotted arose from the bushes.')
+                cont()
+                print('Weasel:')
+                print('"Don’t call out!"')
+                cont()
+                print('Weasel:')
+                print('*Sigh* "Nevermind."')
+                cont()
+                print('Weasel:')
+                print('"They won’t get very far in the wyrd fairies and monsters will never allow trespassers."')
+                cont()
+                print('Weasel:')
+                print('"Wait here, the rest of you form a perimeter."')
+                cont()
+                print('Weasel:')
+                print('"I’ll bring the wizard."')
+                cont()
+                print('The band started walking away, leaving the rat to guard the area. The rat went over to the bushes and picked up a dagger from the bushes then went over to sit on part of a rock that was part of the disguised cottage. The back of his head was directly in front of the window Alder was looking out of. Even though the rat could not hear them Kyla and Florace discussed their next move in loud whispers to each other.')
+                cont()
+                print('Kyla:')
+                print('"They know we are here we will have to move."')
+                cont()
+                print('Florace:')
+                print('"I agree. But where?"')
+                cont()
+                print('Kyla:')
+                print('"Hmm."')
+                cont()
+                print('Kyla:')
+                print('"The boy can go to Fort Town with that sword the mice and such are sure to take him in."')
+                cont()
+                print('Kyla:')
+                print('"It will be a benefit to all if the Scion can change minds about humans."')
+                cont()
+                print('Florace:')
+                print('"By himself?"')
+                cont()
+                print('Florace:')
+                print('"Shouldn'"'"'t we go with him?"')
+                cont()
+                print('Kyla:')
+                print('"I’m not stepping a foot in another woodlander town."')
+                cont()
+                print('Kyla:')
+                print('"The boy can go by himself."')
+                cont()
+                print('Florace:')
+                print('"Absolutely not! "')
+                cont()
+                print('Florace:')
+                print('"He’ll be killed!"')
+                cont()
+                print('Kyla:')
+                print('"They are not going to kill him."')
+                cont()
+                print('Kyla:')
+                print('"He’s the Scion."')
+                cont()
+                print('Florace:')
+                print('"What about the Gowls!"')
+                cont()
+                print('Kyla:')
+                print('"Again. Scion!"')
+                cont()
+                print('Florace:')
+                print('"Again! Gowls!"')
+                cont()
+                print('Kyla:')
+                print('"Well we can’t go with him!"')
+                cont()
+                print('Florace:')
+                print('"I will!"')
+                cont()
+                print('Kyla:')
+                print('"...What?"')
+                cont()
+                print('Florace:')
+                print('"I will go take care of him as his guardian!"')
+                cont()
+                print('Kyla:')
+                print('"Absolutely not! "')
+                cont()
+                print('Kyla:')
+                print('"You will go with me!"')
+                cont()
+                print('Florace:')
+                print('"I am not leaving Alder alone."')
+                cont()
+                print('Kyla:')
+                print('"So again you would choose our servant over the women who raised, taught and loved you over these long years."')
+                cont()
+                print('Florace:')
+                print('"..."')
+                cont()
+                print('Kyla:')
+                print('*Groan*')
+                cont()
+                print('Kyla:')
+                print('"We’ll discuss this later, we need to get moving."')
+                cont()
+                c3Switch[2] = False
+                switch[11] = False
             free(location, chapter, part)
 
 def loadGame():
@@ -3153,7 +3356,9 @@ def menu():
             for i in PKSwitch:
                 i = True
             #Story Switches
-            switch = [True, False, False, False, False, False, False, False, False, False, False, False, False]
+            for i in switch:
+                i = False
+            switch[0] = True
             for i in tutorialSwitch:
                 i = True
             for i in c2Switch:
