@@ -10,7 +10,7 @@ chapter1 = False
 chapter = '0'
 part = '1'
 tutorComp = False
-switch = [True, False, False, False, False, False, False, False, False, False, False, False, False]
+switch = [True, False, False, False, False, False, False, False, False, False, False, False, False, False]
 tutorialSwitch = [True, True, True, True, True, True, True]
 c2Switch = [True, True, True, True, True]
 c3Switch = [True, True, True, True, True]
@@ -281,18 +281,18 @@ inv = []
 PKSwitch = [True, True, True, True, True]
 
 #Quests
-mQuests = [{'questId':'1','client':'Florace','name':'Bug hunt', 'desc':'Collect two pieces of bug meat', 'reward' : '',
-            'required':{'itemId' : '5', 'name' : 'Raw Bug Meat', 'type' : 'food'}, 'qnt' : 2,
+mQuests = [{'questId':'1','client':'Florace','name':'Bug hunt', 'desc':'Collect two pieces of bug meat', 'reward' : '', 'rewardCount' : 0,
+            'type':'collect', 'required':{'itemId' : '5', 'name' : 'Raw Bug Meat', 'type' : 'food'}, 'qnt' : 2,
             'accepted':False,'completed':False, 'submitted':False}
            ]
-sQuests = [{'questId':'1','client':'Kyla','name':'Servents work', 'desc':['Clean fireplace:', 'Scrub caldron:', 'Grind phantom moss in mortar:'], 'reward' : '',
-            'required':[False, False, False], 'qnt' : 1,
+sQuests = [{'questId':'1','client':'Kyla','name':'Servents work', 'desc':['Clean fireplace:', 'Scrub caldron:', 'Grind phantom moss in mortar:'], 'reward' : '', 'rewardCount' : 0,
+            'type':'action', 'required':[False, False, False], 'qnt' : 1,
             'accepted':False,'completed':False, 'submitted':False},
-           {'questId':'2','client':'Kyla','name':'Bury Books', 'desc':['Take books from bookshelf:', 'Bury books:'], 'reward' : '',
-            'required':[False, False], 'qnt' : 1,
+           {'questId':'2','client':'Florace','name':'Provisions', 'desc':['Collect Blackburies x'], 'reward' : items[0], 'rewardCount' : 3,
+            'type':'collect', 'required':[{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food'}], 'qnt' : [15],
             'accepted':False,'completed':False, 'submitted':False},
-           {'questId':'3','client':'Kyla','name':'Provisions', 'desc':['Collect Blackburies:'], 'reward' : '',
-            'required':[False, False, False], 'qnt' : 15,
+           {'questId':'3','client':'Kyla','name':'Packing up', 'desc':['Take books from bookshelf:', 'Take pots from the shed:'], 'reward' : 'shillings', 'rewardCount' : 2,
+            'type':'action', 'required':[False, False], 'qnt' : 1,
             'accepted':False,'completed':False, 'submitted':False}
            ]
 
@@ -486,42 +486,43 @@ def itemCount(item, amount):
     for i in inv:
         if (item['type'] == 'weapon' and i['type'] == 'weapon'):
             if (i['wpId'] == item['wpId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
         elif (item['type'] == 'sheild' and i['type'] == 'sheild'):
             if (i['wpId'] == item['wpId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
         elif (item['type'] == 'bow' and i['type'] == 'bow'):
             if (i['wpId'] == item['wpId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
         elif (item['type'] == 'armor' and i['type'] == 'armor'):
             if (i['armId'] == item['armId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
         elif (item['type'] == 'food' and i['type'] == 'food'):
             if (i['itemId'] == item['itemId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
         elif (item['type'] == 'healing' and i['type'] == 'healing'):
             if (i['itemId'] == item['itemId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
         elif (item['type'] == 'projectile' and i['type'] == 'projectile'):
             if (i['itemId'] == item['itemId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
         elif (item['type'] == 'toss' and i['type'] == 'toss'):
             if (i['itemId'] == item['itemId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
         elif (item['type'] == 'ingredient' and i['type'] == 'ingredient'):
             if (i['ingId'] == item['ingId']):
-                item['count'] += amount
+                i['count'] += amount
                 inInv = True
     if (inInv == False):
-        item['count'] += amount
+        print(item, amount)
+        item['count'] = amount
         inv.append(item)
 
 #Use Item
@@ -701,6 +702,17 @@ def equip():
             equipable.clear()
         elif (i == 'e'):
             equiping = False
+#Quest Rewards
+def qComp(q):
+    global shill
+    print(q['name'], 'Completed!')
+    if q['reward'] == 'shillings':
+        shill += q['rewardCount']
+    elif q['reward'] == 0:
+        shill += q['rewardCount']
+    else:
+        itemCount(q['reward'], q['rewardCount'])
+#Win battle
 def win(e):
     ex = 0
     rewards = []
@@ -1083,149 +1095,156 @@ def examine(location):
         print('The living room was a homely place that was accessible by both the front and back door and lit by the windows. It had two chairs and a table in front of a fireplace as well as a single bookshelf with three shelves full of books.')
         e = input('Examine: ')
         if (e == 'bookshelf' or e == 'Bookshelf'):
-            print('The books in the living room bookshelf included')
-            cont()
-            print('\tA sorcerers guide to Spirits')
-            print('\tA sorcerers guide to Fairies')
-            print('\tA sorcerers guide to Dragons and Wyverns')
-            print('\tMagical things of history')
-            print('\tPotions that don'"'"'t burn')
-            print('\tSong girls a modern romance')
-            print('\tDevelopers Note - Kyla'"'"'s cottage')
-            print('\tDevelopers Note - Wild and Wyrd Demo')
-            cont()
-            if(c3Switch[0] == False):
-                read = input('Read Magical things of history (y/n)?')
-                if (read == 'y' or read == 'Y' or read == 'yes' or read == 'Yes'):
-                    if(c3Switch[1] == True):
-                        print('Alder:')
-                        print('"A "Cohuleen Druith" hat."')
-                        cont()
-                        print('Alder:')
-                        print('"The "Ring of Eluned"."')
-                        cont()
-                        print('Alder:')
-                        print('"The "Gae Bulg" spear."')
-                        cont()
-                        print('Alder:')
-                        print('"Found it!"')
-                        cont()
-                        print('Alder:')
-                        print('"It’s called "Lief", "The sword of the seasons"."')
-                        cont()
-                        print('Kyla:')
-                        print('"As I thought."')
-                        cont()
-                        print('Kyla:')
-                        print('"But there is only one way to confirm this."')
-                        cont()
-                        print('Kyla unsheathes that sword and holds it in her hand. The blade darkened and bent and it was not long before it dropped off leaving only the handle.')
-                        cont()
-                        print('Kyla:')
-                        print('"Boy you can have the sword back now, make sure you hold it by the grip."')
-                        cont()
-                        print('Alder says nothing as he picks up the sword. As he does, a new blade starts to grow from the rain-guard until it was back to its original glory.')
-                        cont()
-                        alder.weapon1 = weapons[1]
-                        print(alder.weapon1['name'],'equiped!')
-                        cont()
-                        print('Florace:')
-                        print('"What did you do?"')
-                        cont()
-                        print('Kyla:')
-                        print('"The sword only sprouts for the Scion."')
-                        cont()
-                        print('Kyla:')
-                        print('"In order words."')
-                        cont()
-                        print('Kyla:')
-                        print('"You."')
-                        cont()
-                        dialog = [False, False, False]
-                        while(dialog[0] == False or dialog[1] == False or dialog[2] == False):
-                            print('1: "What is a Scion?"')
-                            print('2: "Does this have anything to do with the mouse I saw in my dream?"')
-                            print('3: "What with the sword blade?"')
-                            c = input('Alder: ')
-                            if (c == '1'):
-                                print('Kyla:')
-                                print('"What is…!?"')
-                                cont()
-                                print('Kyla:')
-                                print('"How do you not know what the Scion is!?"')
-                                cont()
-                                print('Florace:')
-                                print('"I thought it was more important that he knew herbs and how to read and write than history."')
-                                cont()
-                                print('Kyla:')
-                                print('*Sigh*')
-                                cont()
-                                print('Kyla:')
-                                print('"The Scion is the great hero of Avalon."')
-                                cont()
-                                print('Kyla:')
-                                print('"They have an ability to pass on their knowledge and natural abilites after death."')
-                                cont()
-                                print('Kyla:')
-                                print('"One previous Scion has killed a dragon while another saved countless innocents from slavers."')
-                                cont()
-                                print('Kyla:')
-                                print('"And I knew one who put kings themselves in their rightful place."')
-                                cont()
-                                print('Kyla:')
-                                print('"But I digress."')
-                                cont()
-                                dialog[0] = True
-                            elif (c == '2'):
-                                print('Kyla:')
-                                print('"That mouse was no doubt Agrimus the Scion before you."')
-                                cont()
-                                print('Kyla:')
-                                print('"He appeared to you to pass on his title and sword."')
-                                cont()
-                                print('Kyla:')
-                                print('"I am shocked he chose you though."')
-                                cont()
-                                print('Kyla:')
-                                print('"He was the hero of the war against the humans of Glorion."')
-                                cont()
-                                print('Kyla:')
-                                print('"And out of countless potentials he goes for my servant."')
-                                cont()
-                                dialog[1] = True
-                            elif (c == '3'):
-                                print('Kyla:')
-                                print('"It’s in the book."')
-                                cont()
-                                print('Kyla:')
-                                print('"The sword blade is like a plant and the grip its roots."')
-                                cont()
-                                print('Kyla:')
-                                print('"It grows when the Scion holds it but when someone else holds the blade dies."')
-                                cont()
-                                dialog[2] = True
-                        
-                        print('???:')
-                        print('"The rabbit seeks his burrow!"')
-                        cont()
-                        print('Kyla:')
-                        print('"..."')
-                        cont()
-                        print('Florace:')
-                        print('"..."')
-                        cont()
-                        print('Alder:')
-                        print('"..."')
-                        cont()
-                        print('Florace:')
-                        print('"Who is that?"')
-                        cont()
-                        c3Switch[1] = False
-                    else:
-                        print('\nLeif - The sword of seasons.')
-                        print('\nAn illustration of a double edged sword and green and silver scabbard and decorations with thorny stem engraved around the grip, a leaf shaped rain-guard and a tear-shaped pommel.')
-                        print('\tThe sword whos only master is the Scion. It blade is not metal from the earth but a leaf from a rare Wyrd tree. When weilded by any other it'"'"'s blade will wilt but in the Scions it will regrow.')
-                        cont()
+            if (sQuests[2]['accepted'] == True and sQuests[2]['required'][0] == False):
+                print('Alder carried each of the books and put them in a neat pile near the stairs.')
+                cont()
+                sQuests[2]['required'][0] = True
+            elif(sQuests[2]['required'][0] == True):
+                print('The bookshelf was empty.')
+            else:
+                print('The books in the living room bookshelf included')
+                cont()
+                print('\tA sorcerers guide to Spirits')
+                print('\tA sorcerers guide to Fairies')
+                print('\tA sorcerers guide to Dragons and Wyverns')
+                print('\tMagical things of history')
+                print('\tPotions that don'"'"'t burn')
+                print('\tSong girls a modern romance')
+                print('\tDevelopers Note - Kyla'"'"'s cottage')
+                print('\tDevelopers Note - Wild and Wyrd Demo')
+                cont()
+                if(c3Switch[0] == False):
+                    read = input('Read Magical things of history (y/n)?')
+                    if (read == 'y' or read == 'Y' or read == 'yes' or read == 'Yes'):
+                        if(c3Switch[1] == True):
+                            print('Alder:')
+                            print('"A "Cohuleen Druith" hat."')
+                            cont()
+                            print('Alder:')
+                            print('"The "Ring of Eluned"."')
+                            cont()
+                            print('Alder:')
+                            print('"The "Gae Bulg" spear."')
+                            cont()
+                            print('Alder:')
+                            print('"Found it!"')
+                            cont()
+                            print('Alder:')
+                            print('"It’s called "Lief", "The sword of the seasons"."')
+                            cont()
+                            print('Kyla:')
+                            print('"As I thought."')
+                            cont()
+                            print('Kyla:')
+                            print('"But there is only one way to confirm this."')
+                            cont()
+                            print('Kyla unsheathes that sword and holds it in her hand. The blade darkened and bent and it was not long before it dropped off leaving only the handle.')
+                            cont()
+                            print('Kyla:')
+                            print('"Boy you can have the sword back now, make sure you hold it by the grip."')
+                            cont()
+                            print('Alder says nothing as he picks up the sword. As he does, a new blade starts to grow from the rain-guard until it was back to its original glory.')
+                            cont()
+                            alder.weapon1 = weapons[1]
+                            print(alder.weapon1['name'],'equiped!')
+                            cont()
+                            print('Florace:')
+                            print('"What did you do?"')
+                            cont()
+                            print('Kyla:')
+                            print('"The sword only sprouts for the Scion."')
+                            cont()
+                            print('Kyla:')
+                            print('"In order words."')
+                            cont()
+                            print('Kyla:')
+                            print('"You."')
+                            cont()
+                            dialog = [False, False, False]
+                            while(dialog[0] == False or dialog[1] == False or dialog[2] == False):
+                                print('1: "What is a Scion?"')
+                                print('2: "Does this have anything to do with the mouse I saw in my dream?"')
+                                print('3: "What with the sword blade?"')
+                                c = input('Alder: ')
+                                if (c == '1'):
+                                    print('Kyla:')
+                                    print('"What is…!?"')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"How do you not know what the Scion is!?"')
+                                    cont()
+                                    print('Florace:')
+                                    print('"I thought it was more important that he knew herbs and how to read and write than history."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('*Sigh*')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"The Scion is the great hero of Avalon."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"They have an ability to pass on their knowledge and natural abilites after death."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"One previous Scion has killed a dragon while another saved countless innocents from slavers."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"And I knew one who put kings themselves in their rightful place."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"But I digress."')
+                                    cont()
+                                    dialog[0] = True
+                                elif (c == '2'):
+                                    print('Kyla:')
+                                    print('"That mouse was no doubt Agrimus the Scion before you."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"He appeared to you to pass on his title and sword."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"I am shocked he chose you though."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"He was the hero of the war against the humans of Glorion."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"And out of countless potentials he goes for my servant."')
+                                    cont()
+                                    dialog[1] = True
+                                elif (c == '3'):
+                                    print('Kyla:')
+                                    print('"It’s in the book."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"The sword blade is like a plant and the grip its roots."')
+                                    cont()
+                                    print('Kyla:')
+                                    print('"It grows when the Scion holds it but when someone else holds the blade dies."')
+                                    cont()
+                                    dialog[2] = True
+                            
+                            print('???:')
+                            print('"The rabbit seeks his burrow!"')
+                            cont()
+                            print('Kyla:')
+                            print('"..."')
+                            cont()
+                            print('Florace:')
+                            print('"..."')
+                            cont()
+                            print('Alder:')
+                            print('"..."')
+                            cont()
+                            print('Florace:')
+                            print('"Who is that?"')
+                            cont()
+                            c3Switch[1] = False
+                        else:
+                            print('\nLeif - The sword of seasons.')
+                            print('\nAn illustration of a double edged sword and green and silver scabbard and decorations with thorny stem engraved around the grip, a leaf shaped rain-guard and a tear-shaped pommel.')
+                            print('\tThe sword whos only master is the Scion. It blade is not metal from the earth but a leaf from a rare Wyrd tree. When weilded by any other it'"'"'s blade will wilt but in the Scions it will regrow.')
+                            cont()
         elif (e == 'fireplace' or e == 'Fireplace'):
             if (sQuests[0]['accepted'] == True and sQuests[0]['required'][0] == False):
                 print('Alder got to work cleaning the fireplace using a brush and cloth. In the end his arms were completely black.')
@@ -1314,6 +1333,15 @@ def examine(location):
                     print('\n5 blackberries(s) obtained')
                     itemCount(food[0], 5)
                     PKSwitch[2] = False
+            if (sQuests[1]['accepted'] == True):
+                for i in inv:
+                    if (i['type'] == food[0]['type'] and i['itemId'] == food[0]['itemId'] and i['count'] < 15):
+                        pickup = input('Do you want to pick up the blackberries.(y/n)')
+                        if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
+                            print('\n5 blackberries(s) obtained')
+                            itemCount(food[0], 5)
+            elif (sQuests[1]['completed'] == True):
+                print('The bush was picked clean.')
             cont()
     elif (location == '4'):
         print('The inside of the shed was illuminated by a window on the left side from the entrance. It was full of gathering, woodwork and gardening tools which were used by Alder, and pots and creates containing ingredients of magic potions. At the other end from the entrance was a table used for crafts.')
@@ -1333,12 +1361,16 @@ def examine(location):
             print('Alder did not need any of them.')
             cont()
         elif (e == 'pots' or e == 'Pots'):
-            print('The pots contained ingredients for potions.')
-            cont()
-            print('They were left in the shed to save space indoors.')
-            cont()
-            print('One of the pots was full of eyeballs.')
-            cont()
+            if (sQuests[2]['accepted'] == True and sQuests[2]['required'][1] == False):
+                print('Alder carried each pot one by one to the living room there weight depended on how full they were and what was in it. The heaviest was a pot full of ground up plant matter and weighed as much as a cannon ball. Alder brought the last one in with a sweat.')
+                cont()
+                location = '2'
+                sQuests[2]['required'][1] = True
+            elif(sQuests[2]['required'][1] == True):
+                print('There weren'"'"'t any pots left.')
+            else:
+                print('The pots contained ingredients for potions. They were left in the shed to save space indoors. One of the pots was full of eyeballs.')
+                cont()
         elif (e == 'crates' or e == 'Crates' or e == 'boxes' or e == 'Boxes'):
             print('Kyla had put space magical tools in boxes to keep them from breaking.')
             cont()
@@ -1657,7 +1689,6 @@ def talk():
                         print('Kyla:')
                         print('"Do as you please."')
                         cont()
-        
         elif (tutorialSwitch[6] == False and c2Switch[0] == True and chapter == '2'):
             print('1: Florace')
             t = input('talk to: ')
@@ -1709,11 +1740,14 @@ def talk():
                 t = input('talk to: ')
                 if (t == '1'):
                     print('Florace:')
-                    print('""')
+                    print('"I think we will need to have a long discussion about that sword Alder."')
                     cont()
                 elif (t == '2'):
                     print('Kyla:')
-                    print('""')
+                    print('"The book is called "Magical thing of history"."')
+                    cont()
+                    print('Kyla:')
+                    print('"Go get it."')
                     cont()
             elif(c3Switch[2] == True):
                 print('1: Florace')
@@ -1721,12 +1755,97 @@ def talk():
                 t = input('talk to: ')
                 if (t == '1'):
                     print('Florace:')
-                    print('""')
+                    print('"I'"'"'ve never heard that voice before."')
                     cont()
                 elif (t == '2'):
                     print('Kyla:')
-                    print('""')
+                    print('"Hmm."')
                     cont()
+            elif(c3Switch[3] == True):
+                if (sQuests[1]['accepted'] != True):
+                    print('1: Florace(!)')
+                else:
+                    print('1: Florace')
+                if (sQuests[2]['accepted'] != True):
+                    print('2: Kyla(!)')
+                else:
+                    print('2: Kyla')
+                t = input('talk to: ')
+                if (t == '1'):
+                    if (sQuests[1]['accepted'] != True):
+                        print('Florace:')
+                        print('"We will need food supplies to get to Fort Town!"')
+                        cont()
+                        print('Florace:')
+                        print('"We won'"'"'t need the bush anymore, so pick and many blackberries as you can!"')
+                        cont()
+                        sQuests[1]['accepted'] = True
+                    elif(sQuests[1]['completed'] != True):
+                        print('Florace:')
+                        print('"I know that blackberries arn'"'"'t the best traveling food but it'"'"'s all we have on hand."')
+                        cont()
+                    elif(sQuests[1]['submitted'] != True):
+                        print('Florace:')
+                        print('"Good work."')
+                        cont()
+                        print('Florace:')
+                        print('"Keep hold of them and make sure you don'"'"'t squish them."')
+                        cont()
+                        sQuests[1]['submitted'] = True
+                        qComp(sQuests[1])
+                    else:
+                        print('Florace:')
+                        print('"You doing alright Alder?"')
+                        cont()
+                        print('Alder:')
+                        print('"Fine."')
+                        cont()
+                        print('Alder:')
+                        print('"But are you sure you want to give up your apprentiship?"')
+                        cont()
+                        print('Florace:')
+                        print('"I'"'"'m not leaving you Alder!"')
+                        cont()
+                        print('Florace:')
+                        print('"I'"'"'ll protect you no matter what!"')
+                        cont()
+                elif (t == '2'):
+                    if (sQuests[2]['accepted'] != True):
+                        print('Kyla:')
+                        print('"Boy before I relieve you of my service I need you to gather my books from the bookshelf and the pots of ingredients from the shed and bring them here."')
+                        cont()
+                        print('Kyla:')
+                        print('"Don'"'"'t concern yourself with any mess we need to get those vaulbles out safely"')
+                        cont()
+                        sQuests[2]['accepted'] = True
+                    elif(sQuests[2]['completed'] != True):
+                        print('Kyla:')
+                        print('"I need the books from the shelves and the pots from the shed."')
+                        cont()
+                    elif(sQuests[2]['submitted'] != True):
+                        print('Kyla:')
+                        print('"Excellent!"')
+                        cont()
+                        print('Kyla:')
+                        print('"Get them in the bag!"')
+                        cont()
+                        print('Kyla had gotten a bag and with Alder'"'"'s assisstance placed the books and pots inside it one by one. The bag itself never got any larger or heavier while the pile eventually disappeared.')
+                        cont()
+                        print('Kyla:')
+                        print('"Finish getting ready."')
+                        cont()
+                        print('Kyla:')
+                        print('"We leave soon."')
+                        cont()
+                        sQuests[2]['submitted'] = True
+                        qComp(sQuests[2])
+                    else:
+                        print('Kyla:')
+                        print('"I was sloppy!"')
+                        cont()
+                        print('Kyla:')
+                        print('"I should have arranged an escape route through the Wyrd the moment Trissie told us about the Gowls!"')
+                        cont()
             elif(c3Switch[2] == True):
                 print('1: Jeb')
                 print('2: Florace')
@@ -1738,11 +1857,17 @@ def talk():
                     cont()
                 elif (t == '2'):
                     print('Florace:')
-                    print('""')
+                    print('"I'"'"'ll admit I'"'"'m going to miss this place."')
+                    cont()
+                    print('Florace:')
+                    print('"I suppose no one place is always safe."')
                     cont()
                 elif (t == '3'):
                     print('Kyla:')
-                    print('""')
+                    print('"Still don'"'"'t like that they knew our password."')
+                    cont()
+                    print('Kyla:')
+                    print('"Someone mush have snitched."')
                     cont()
         else:
             print('There was no one to talk to')
@@ -2196,6 +2321,20 @@ def talk():
                     print('Alder returned to the cottage a little disappointed with Trissie gone so soon. But he had work to do and he set about his remaining chores.')
                     cont()
                     c2Switch[3] = False
+        elif (chapter == '3'):
+            if (c3Switch[2] == False and c3Switch[3] == True):
+                print('1: Rat')
+                t = input('talk to: ')
+                if (t == '1'):
+                    print('Alder did not want to get too close to the rat. Even if he could not touch or speak to him.')
+                    if ((sQuests[1]['accepted'] == True and sQuests[1]['submitted'] != True) or (sQuests[2]['accepted'] == True and sQuests[2]['submitted'] != True)):
+                        ab = input('Abandon quests?(y/n)')
+                        if (ab == 'y' or ab == 'Y' or ab == 'yes' or ab == 'Yes'):
+                            switch[12] = True
+                            part = '3'
+                    else:
+                        switch[12] = True
+                        part = '3'
     elif(location == '7'):
         if(c2Switch[4] == False):
             print('1: Mouse')
@@ -2231,21 +2370,32 @@ def move():
             alder.stamina -= 1    
             cont()
         elif (m == '2'):
-            location = '3'
-            print('Alder moved outside the cottage through the front door.')
-            alder.stamina -= 1
-            cont()
-            if(tutorialSwitch[1] == True and chapter == '1'):
-                part = '2'
-                tutorialSwitch[1] = False
-                switch[1] = True
-                tutorial1 = False
-            elif (c2Switch[0] == False and c2Switch[1] == True and chapter == '2'):
-                print('As soon as Alder left for the outside we went straight towards Trissie. He impatiently waited as the squirrel drew nearer to the house repeating chanting the secret phrase over and over while the other three men had also left the cottage to greet her. After a short while, Kyla finally appeared in the window and waved her hand. Trissie turned to face Alder and jumped back with shock.')
+            if (c3Switch[1] == False and c3Switch[2] == True and chapter == '3'):
+                print('Florace:')
+                print('"Wait Alder!"')
                 cont()
-                print('Trissie:')
-                print('"AHHH!"')
+                print('Florace:')
+                print('"Keep close to me."')
                 cont()
+                print('Florace:')
+                print('"To the window."')
+                cont()
+            else:
+                location = '3'
+                print('Alder moved outside the cottage through the front door.')
+                alder.stamina -= 1
+                cont()
+                if(tutorialSwitch[1] == True and chapter == '1'):
+                    part = '2'
+                    tutorialSwitch[1] = False
+                    switch[1] = True
+                    tutorial1 = False
+                elif (c2Switch[0] == False and c2Switch[1] == True and chapter == '2'):
+                    print('As soon as Alder left for the outside we went straight towards Trissie. He impatiently waited as the squirrel drew nearer to the house repeating chanting the secret phrase over and over while the other three men had also left the cottage to greet her. After a short while, Kyla finally appeared in the window and waved her hand. Trissie turned to face Alder and jumped back with shock.')
+                    cont()
+                    print('Trissie:')
+                    print('"AHHH!"')
+                    cont()
         elif (m == '3'):
             location = '5'
             print('Alder moved upstairs and into his bedroom.')
@@ -2311,7 +2461,6 @@ def move():
         print('1: Living Room')
         m = input('Move to: ')
         if (m == '1'):
-            print(c3Switch)
             location = '2'
             if (chapter == '3' and c3Switch[0] == True):
                 print('Alder jumped out of bed and ran into the living room and is soon joined by Florace.')
@@ -2480,13 +2629,22 @@ def achive():
                     q['completed'] = False
     for q in sQuests:
         if(q['accepted'] == True and q['submitted'] != True):
-            if (q['questId'] == '1'):
+            if (q['type'] == 'action'):
                 count = 0
                 for i in q['required']:
                     if (i == True):
                         count += 1
                 if (count == len(q['required'])):
                     q['completed'] = True
+            if (q['type'] == 'collect'):
+                count = 0
+                for i in q['required']:
+                    for j in inv:
+                        if(i['type'] == j['type']):
+                            if(i['itemId'] == j['itemId']):
+                                if (j['count'] == q['qnt'][count]):
+                                    q['completed'] = True
+                    count += 1
                     
 #Print the objectives
 def objective():
@@ -2517,11 +2675,29 @@ def objective():
     print("Side:")
     for q in sQuests:
         if(q['accepted'] == True and q['submitted'] != True):
-            if (q['questId'] == '1'):
+            print('Quest: ',q['name'], ' Client: ',q['client'])
+            if (q['type'] == 'action'):
                 j = 0
                 for i in q['desc']:
                     print('\t',i, q['required'][j])
                     j += 1
+            elif (q['type'] == 'collect'):
+                j = 0
+                for i in q['desc']:
+                    for k in inv:
+                        for l in q['required']:
+                            amount = 0
+                            if (k['type'] == l['type'] and k['itemId'] == l['itemId']):
+                                amount = k['count']
+                                print('\t',i, '(', amount, '/', q['qnt'][j],')')
+                    j += 1
+            
+            if q['reward'] == 'shillings':
+                print('Shillings', 'x', q['rewardCount'],'\n')
+            elif q['reward'] == 0:
+                print('Shillings', 'x', q['rewardCount'],'\n')
+            else:
+                print(q['reward']['name'], 'x', q['rewardCount'],'\n')
 def helper():
     print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further can get an item to pickup.")
     print("Command: m, move, Move - Move to the next area.")
@@ -3165,13 +3341,13 @@ def game():
                 cont()
                 switch[10] = False
             elif (switch[11] == True and part == '2'):
-                print('The voice that called out was unknown to the residents. They look through the windows to see a rat. He was new to them and was clad in armour. Kyla was not going to let in a complete stranger, especially given Trissies warning about the Gowls. They watch him for a bit unsure of what to do. Alder notices something moving behind him.')
+                print('The voice that called out was unknown to the residents. They looked through the windows to see a rat. He was new to them and was clad in armour. Kyla was not going to let in a complete stranger, especially given Trissies warning about the Gowls. They watch him for a bit unsure of what to do. Alder notices something moving behind him.')
                 cont()
                 print('Alder:')
                 print('"Look!"')
                 cont()
                 print('Alder:')
-                print('"There'"'"' someone in the bushes!"')
+                print('"There'"'"'s someone in the bushes!"')
                 cont()
                 print('Kyla:')
                 print('"Hm?!"')
@@ -3310,6 +3486,87 @@ def game():
                 cont()
                 c3Switch[2] = False
                 switch[11] = False
+            elif (switch[11] == True and part == '2'):
+                print('Everything was happening so fast for Alder. He had barely any time to think about what his life would soon be like when he got to Fort Town or the journey to the place. He had never ventured very far from the cottage and everything  frohe did know was from guests and books. Everyone always said it was too dangerous for him, but now all of a sudden he must leave the cottage forever. To go and live in a town of mice.')
+                cont()
+                print('Rat:')
+                print('"Who goes there!?"')
+                cont()
+                print('Alder felt his heart skip a beat as his body tensed. He looked to where the rat was looking. He could just about make out a small figure carrying a large sack. The rat moved over to it.')
+                cont()
+                print('Rat:')
+                print('"Don'"'"'t Move!!"')
+                cont()
+                print('The rat reached into the grass and dragged out a weasel wearing a chaperon into the opening.')
+                cont()
+                print('Weasel:')
+                print('"Please sir I have nothing of value."')
+                cont()
+                print('Rat:')
+                print('"We’ll see about that."')
+                cont()
+                print('Rat:')
+                print('"Show me what'"'"'s in your sack."')
+                cont()
+                print('Weasel:')
+                print('"Only cloth sir I am just a penniless merchant."')
+                cont()
+                print('The rat takes the sack and digs through it keeping his eyes on the weasel.')
+                cont()
+                print('Rat:')
+                print('"A merchant?"')
+                cont()
+                print('Rat:')
+                print('"What are you doing out here?"')
+                cont()
+                print('Rat:')
+                print('"The Gowl knights have been tasked with finding humans and traitors in this forest."')
+                cont()
+                print('Rat:')
+                print('"What brings a merchant into here?"')
+                cont()
+                print('Rat:')
+                print('"You are not trying to make a deal with them, are you?"')
+                cont()
+                print('Weasel:')
+                print('"No Sir."')
+                cont()
+                print('Weasel:')
+                print('"I am just passing north, but I got lost."')
+                cont()
+                print('The rat pulls out a large cloak from that sack, looks at it for a short moment, turns to the weasel and draws his dagger.')
+                cont()
+                print('Rat:')
+                print('"Oh, lost are we!"')
+                cont()
+                print('Rat:')
+                print('"Then can you explain these man-sized cloaks?"')
+                cont()
+                print('Before the weasel could answer the rat pressed the weasel against his throat.')
+                cont()
+                print('Rat:')
+                print('"Anything to say for yourself."')
+                cont()
+                print('Weasel:')
+                print('"Wait!"')
+                cont()
+                print('Weasel:')
+                print('"Let me explain!"')
+                cont()
+                print('Alder thought the rat was going to kill the weasel. But then Kyla came over, waved her cane and chanted. The weasel took notice of her but the rat remained focused on him. Kyla opened her hand and a green light appeared in it. It sparkled and crackled, alerting the rat. He turned around and Kyla sent the light hurtling towards him. It struck him in the centre of the chest and he flew backwards.')
+                cont()
+                print('Rat:')
+                print('"Aagh!!"')
+                cont()
+                print('He lay on his back. Alder stepped back in horror. Florace ran over and covered Alders’s eyes. He could only smell burning mould and hear the gargled words of the rat paralysed on the ground. Florace moved Alder away from him.')
+                cont()
+                print('Kyla:')
+                print('"Come along!"')
+                cont()
+                print('Kyla and the weasel went indoors. The weasel'"'"'s mouth was hanging open and twitching. Florace kept a firm grip on Alder and they looked at the rat who had now lost consciousness. They remained silent, still processing what had happened.')
+                cont()
+                c3Switch[3] = False
+                switch[12] = False
             free(location, chapter, part)
 
 def loadGame():
