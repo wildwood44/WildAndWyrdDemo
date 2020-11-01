@@ -10,7 +10,7 @@ chapter1 = False
 chapter = '0'
 part = '1'
 tutorComp = False
-switch = [True, False, False, False, False, False, False, False, False, False, False, False, False, False]
+switch = [True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
 tutorialSwitch = [True, True, True, True, True, True, True]
 c2Switch = [True, True, True, True, True]
 c3Switch = [True, True, True, True, True]
@@ -285,7 +285,7 @@ mQuests = [{'questId':'1','client':'Florace','name':'Bug hunt', 'desc':'Collect 
             'type':'collect', 'required':{'itemId' : '5', 'name' : 'Raw Bug Meat', 'type' : 'food'}, 'qnt' : 2,
             'accepted':False,'completed':False, 'submitted':False}
            ]
-sQuests = [{'questId':'1','client':'Kyla','name':'Servents work', 'desc':['Clean fireplace:', 'Scrub caldron:', 'Grind phantom moss in mortar:'], 'reward' : '', 'rewardCount' : 0,
+sQuests = [{'questId':'1','client':'Kyla','name':'Servents work', 'desc':['Clean fireplace:', 'Scrub caldron:', 'Grind phantom moss in mortar:'], 'reward' : 'none', 'rewardCount' : 0,
             'type':'action', 'required':[False, False, False], 'qnt' : 1,
             'accepted':False,'completed':False, 'submitted':False},
            {'questId':'2','client':'Florace','name':'Provisions', 'desc':['Collect Blackburies x'], 'reward' : items[0], 'rewardCount' : 3,
@@ -521,7 +521,6 @@ def itemCount(item, amount):
                 i['count'] += amount
                 inInv = True
     if (inInv == False):
-        print(item, amount)
         item['count'] = amount
         inv.append(item)
 
@@ -706,12 +705,53 @@ def equip():
 def qComp(q):
     global shill
     print(q['name'], 'Completed!')
-    if q['reward'] == 'shillings':
-        shill += q['rewardCount']
-    elif q['reward'] == 0:
-        shill += q['rewardCount']
-    else:
-        itemCount(q['reward'], q['rewardCount'])
+    if(q['reward'] != 'none' and q['rewardCount'] > 0):
+        if q['reward'] == 'shillings':
+            shill += q['rewardCount']
+        elif q['reward'] == 0:
+            shill += q['rewardCount']
+        else:
+            itemCount(q['reward'], q['rewardCount'])
+#The user should buy items from shop
+def shop(seller):
+    shopping = True
+    while(shopping == True):
+        if(seller == 'Jeb'):
+            c3Switch[4] = False
+            print('\nFeel free to brouse my wares.')
+            print('1: Bandage ', 'Remaining: ', '5 Cost: 5')
+            print('2: Dried Fruit' , 'Remaining: ', '5 Cost: 1')
+            print('3: Hazel Nuts ', 'Remaining: ', '5 Cost: 1')
+            print('e - Exit')
+            p = input('Purchise: ')
+            if (p == '1'):
+                cost = 5
+                if (shill >= cost):
+                    print('\nYou bought a Bandage')
+                    shillings(-cost)
+                    itemCount(items[0], 1)
+                else:
+                    print('\nYou don'"'"'t have enough shillings')
+            elif (p == '2'):
+                cost = 1
+                if (shill >= cost):
+                    print('\nYou bought a Dried Fruit')
+                    shillings(-cost)
+                    itemCount(food[1], 1)
+                else:
+                    print('\nYou don'"'"'t have enough shillings')
+            elif (p == '3'):
+                cost = 1
+                if (shill >= cost):
+                    print('\nYou bought a Hazelnut')
+                    shillings(-cost)
+                    itemCount(food[2], 1)
+                else:
+                    print('\nYou don'"'"'t have enough shillings')
+            elif (p == 'e'):
+                print()
+                shopping = False
+            
 #Win battle
 def win(e):
     ex = 0
@@ -802,13 +842,19 @@ def attack(p, e):
     else:
         if (hit < target):
             impact = random.randrange(p.attack() - 5, p.attack() + 5)
-            if (critical >= 90):
-                impact += 10
-            impact = round(impact * (100/(100 + e.defence())))
-            if (impact <= 0):
-                impact = 1
-            e.health -= impact
-            print('\n',p.name,' attacked!')
+            if(p.weapon1['wpId'] != '0'):
+                if (critical >= 90):
+                    impact += 10
+                impact = round(impact * (100/(100 + e.defence())))
+                if (impact <= 0):
+                    impact = 1
+                e.health -= impact
+                print('\n',p.name,' attacked!')
+                if(critical >= 90):
+                    print('Critical Hit!')
+            else:
+                impact = 0
+                print('\nBut',p.name, ' was unarmed')
             if(critical >= 90):
                 print('Critical Hit!')
             print(e.name, ' took ', impact, ' damage!')
@@ -970,7 +1016,6 @@ def battle(e):
                 i = input('Action: ')
                 if (i == '1' or i == 'attack' or i == 'Attack'):
                     print('\nEnemies')
-                    alder.cStatus = 'Attacking'
                     j = 1
                     for i in enemys:
                         if (i.health > 0):
@@ -981,6 +1026,7 @@ def battle(e):
                     for i in enemys:
                         if (i.health > 0):
                             if (target == str(j)):
+                                alder.cStatus = 'Attacking'
                                 attack(alder, i)
                             j += 1
                 elif (i == '2' or i == 'block' or i == 'Block'):
@@ -1269,16 +1315,22 @@ def examine(location):
             print('There were two wooden armchairs with partridge feather cushions on each.')
             cont()
         elif (e == 'table' or e == 'Table'):
-            print('A single round wooded table sat at a safe distance from the fire but close enough to feel the warmth.')
-            cont()
+            if (c3Switch[4] == True):
+                print('Jeb laid out his wares on the table.')
+                cont()
+                shop('Jeb')
+                switch[14] = True
+                part = '4'
+            else:
+                print('A single round wooded table sat at a safe distance from the fire but close enough to feel the warmth.')
+                cont()
         elif (e == 'door' or e == 'Door'):
             print('There was a door for either side of the house they both led outside.')
             cont()
         elif (e == 'window' or e == 'Window'):
-            if(c3Switch[1] == False):
-                if(c3Switch[2] == True):
-                    switch[11] = True
-                    part = '2'
+            if(c3Switch[1] == False and c3Switch[2] == True):
+                switch[11] = True
+                part = '2'
             else:
                 print('There were four windows showing the clearing on either side of the cottage.')
                 cont()
@@ -1344,7 +1396,7 @@ def examine(location):
                 print('The bush was picked clean.')
             cont()
     elif (location == '4'):
-        print('The inside of the shed was illuminated by a window on the left side from the entrance. It was full of gathering, woodwork and gardening tools which were used by Alder, and pots and creates containing ingredients of magic potions. At the other end from the entrance was a table used for crafts.')
+        print('The inside of the shed was illuminated by a window on the left side from the entrance. It was full of gathering, woodwork and gardening tools which were used by Alder, and pots and crates containing ingredients for magic potions. At the other end from the entrance was a table used for crafts.')
         e = input('Examine: ')
         if (e == 'window' or e == 'Window'):
             print('A single window on the left side of the room.')
@@ -1417,7 +1469,7 @@ def examine(location):
                 pickup = input("Amoung the feathers were Alder's savings. Pick them up?(y/n)")
                 if (pickup == 'y' or pickup == 'Y' or pickup == 'yes' or pickup == 'Yes'):
                     coins = random.randrange(+2,+3)
-                    print('\n', coins,' shillings obtained')
+                    print('\n', coins,' shillings obtained!')
                     shillings(coins)
                     PKSwitch[4] = False
                     cont()
@@ -1682,6 +1734,7 @@ def talk():
                         print('Kyla:')
                         print('"Do as you please."')
                         cont()
+                        qComp(sQuests[0])
                     else:
                         print('Kyla:')
                         print('"I have no futher need for you."')
@@ -1846,15 +1899,18 @@ def talk():
                         print('Kyla:')
                         print('"I should have arranged an escape route through the Wyrd the moment Trissie told us about the Gowls!"')
                         cont()
-            elif(c3Switch[2] == True):
+            elif(c3Switch[4] == True):
                 print('1: Jeb')
                 print('2: Florace')
                 print('3: Kyla')
                 t = input('talk to: ')
                 if (t == '1'):
                     print('Jeb:')
-                    print('""')
+                    print('"What would you like Scion?"')
                     cont()
+                    shop('Jeb')
+                    switch[14] = True
+                    part = '4'
                 elif (t == '2'):
                     print('Florace:')
                     print('"I'"'"'ll admit I'"'"'m going to miss this place."')
@@ -2396,6 +2452,8 @@ def move():
                     print('Trissie:')
                     print('"AHHH!"')
                     cont()
+                elif(c3Switch[4] == False):
+                    switch[15] = True
         elif (m == '3'):
             location = '5'
             print('Alder moved upstairs and into his bedroom.')
@@ -2431,6 +2489,11 @@ def move():
                 switch[6] = True
                 part = '2'
                 c2Switch[2] = False
+            elif (c3Switch[3] == False and c3Switch[4] == True):
+                location = '2'
+                print('Alder moved to the living room of the cottage.')
+                alder.stamina -= 1
+                switch[13] = True
             else:
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
@@ -2691,13 +2754,13 @@ def objective():
                                 amount = k['count']
                                 print('\t',i, '(', amount, '/', q['qnt'][j],')')
                     j += 1
-            
-            if q['reward'] == 'shillings':
-                print('Shillings', 'x', q['rewardCount'],'\n')
-            elif q['reward'] == 0:
-                print('Shillings', 'x', q['rewardCount'],'\n')
-            else:
-                print(q['reward']['name'], 'x', q['rewardCount'],'\n')
+            if(q['reward'] != 'none' and q['rewardCount'] > 0):
+                if q['reward'] == 'shillings':
+                    print('Shillings', 'x', q['rewardCount'],'\n')
+                elif q['reward'] == 0:
+                    print('Shillings', 'x', q['rewardCount'],'\n')
+                else:
+                    print(q['reward']['name'], 'x', q['rewardCount'],'\n')
 def helper():
     print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further can get an item to pickup.")
     print("Command: m, move, Move - Move to the next area.")
@@ -2783,7 +2846,7 @@ def free(location, chapter, part):
             game_active = False
 
 def game():
-    global switch, tutorial1, location, chapter, part, location
+    global switch, tutorial1, location, chapter, part, location, shill
     print('Chapter: ', chapter)
     print('The game will now begin. For then next line to print press enter.')
     print('You may skip the dialoge by typing skip then pressing enter.')
@@ -3302,6 +3365,7 @@ def game():
             if(chapter == '2'):
                 free(location, chapter, part)
         if (chapter == '3'):
+            author = False
             if (switch[10] == True and part == '1'):
                 location = '5'
                 print('\nChapter 3')
@@ -3486,7 +3550,7 @@ def game():
                 cont()
                 c3Switch[2] = False
                 switch[11] = False
-            elif (switch[11] == True and part == '2'):
+            elif (switch[12] == True and part == '3'):
                 print('Everything was happening so fast for Alder. He had barely any time to think about what his life would soon be like when he got to Fort Town or the journey to the place. He had never ventured very far from the cottage and everything  frohe did know was from guests and books. Everyone always said it was too dangerous for him, but now all of a sudden he must leave the cottage forever. To go and live in a town of mice.')
                 cont()
                 print('Rat:')
@@ -3567,6 +3631,280 @@ def game():
                 cont()
                 c3Switch[3] = False
                 switch[12] = False
+            elif (switch[13] == True and part == '3'):
+                print('Kyla:')
+                print('"Well?"')
+                cont()
+                print('Kyla:')
+                print('"What do you want?"')
+                cont()
+                print('Kyla:')
+                print('"Who are you?"')
+                cont()
+                print('Weasel:')
+                print('"Uh. Ahem!"')
+                cont()
+                print('Jeb:')
+                print('"M-My name is J-Jeb M-Ma’am."')
+                cont()
+                print('Jeb:')
+                print('"I-I am a merchant."')
+                cont()
+                print('Jeb:')
+                print('"I h-heard that there was a w-witch in these woods who might be in need of p-provisions to e-escape from the Gowls."')
+                cont()
+                print('Jeb:')
+                print('"I-In exchange for something magical perhaps?"')
+                cont()
+                print('Jeb nervously took out some of the supplies he had. Kyla’s temper calmed slightly as she inspected them.')
+                cont()
+                print('Kyla:')
+                print('"Hmmm."')
+                cont()
+                print('Kyla:')
+                print('"I was going to throw you out but you may have brought us exactly what we needed."')
+                cont()
+                print('Kyla:')
+                print('"Florace, take what you and the boy want."')
+                cont()
+                print('Kyla:')
+                print('"I have an idea for his payment."')
+                cont()
+                print('Kyla went upstairs to her room while Jeb unpacked his supplies on the table. There were several nuts and dried fruits in terms of food. He also had two black wool cloaks. They were too big for Alder and small on Florace but they were usable. The only other items were several rolls of clean bandages. Kyla soon returned downstairs with three vials of golden potion and a bag of coins.')
+                cont()
+                print('Kyla:')
+                print('"This vial contains golden dip. It can turn objects into pure gold like so."')
+                cont()
+                print('Kyla took out a bowl and poured one the contains of one of the vials into it. She then took a wooden spoon and dropped it in. The liquid glowed slightly and its volume went down until only the spoon remained. It changed from wood to solid gold. Jeb examined it greedily and Kyla held up the last two vials.')
+                cont()
+                print('Kyla:')
+                print('"I’ll give you one in exchange for the cloaks."')
+                cont()
+                print('Jeb:')
+                print('"Absolutely Ma'"'"'am!"')
+                cont()
+                print('Jeb:')
+                print('"You can have the rest of my provisions for the other!"')
+                cont()
+                print('Kyla:')
+                print('"No, that'"'"'s what these coins are for."')
+                cont()
+                print('Kyla jangled the bag of coins and passed it to Alder.')
+                cont()
+                print('10 shillings obtained!\n')
+                shill += 10
+                print('Kyla:')
+                print('"The other is for you to get this boy to Fort Town."')
+                cont()
+                print('Jeb expression changed from eager to horrified.')
+                cont()
+                print('Jeb:')
+                print('"But, Ma'"'"'am."')
+                cont()
+                print('Jeb:')
+                print('"The Gowls are all over in that direction, with a human they will almost certainly kill me."')
+                cont()
+                print('Jeb:')
+                print('"Even if we get to Fort Town the mice won’t be happy to see him."')
+                cont()
+                print('Kyla picks up Alder’s sword by the scabbard and hands it to Jeb. He is confused at first but he assumes it is additional payment.')
+                cont()
+                print('Jeb:')
+                print('"No matter what you pay me that does not change the perrel of what you want."')
+                cont()
+                print('Kyla:')
+                print('"Draw it."')
+                cont()
+                print('Jeb does what he is asked and to his surprise the blade withers and falls off the hilt.')
+                cont()
+                print('Kyla:')
+                print('"Now pass it to the boy."')
+                cont()
+                print('Jeb now even more wide-eyed did as he was told and a new blade grew from the hilt when Alder took a grip of it.')
+                cont()
+                print('Jeb:')
+                print('"Child..."')
+                cont()
+                print('Jeb:')
+                print('"You are the Scion!"')
+                cont()
+                print('Alder nodded his head. Jeb thought to himself then let his thoughts be known.')
+                cont()
+                print('Jeb:')
+                print('"We might be able to get through then."')
+                cont()
+                print('Jeb:')
+                print('"But we will try to sneak around them."')
+                cont()
+                print('Jeb:')
+                print('"Better safe than sorry."')
+                cont()
+                print('Kyla:')
+                print('"I can create a diversion."')
+                cont()
+                print('Kyla:')
+                print('"I can handle them and get away easily considering the quality of their soldiers in these parts."')
+                cont()
+                print('Florace:')
+                print('"They will be bringing a sorcerer."')
+                cont()
+                print('Florace:')
+                print('"They must know about this place somehow."')
+                cont()
+                print('Jeb:')
+                print('"They know that there is a human witch."')
+                cont()
+                print('Jeb:')
+                print('"Word reached the towns yesterday."')
+                cont()
+                print('Kyla:')
+                print('"It matters not now."')
+                cont()
+                print('Kyla:')
+                print('"You two buy what you need."')
+                cont()
+                print('Kyla:')
+                print('"We leave when this sorcerer gets here."')
+                cont()
+                switch[13] = False
+            elif (switch[14] == True and part == '4'):
+                print('The sun was now setting. From outside the cottage within the dark shadows of the trees, the paw steps of the Gowls knights could be heard. Alder was the first to notice.')
+                cont()
+                print('Alder:')
+                print('"They'"'"'re here!"')
+                cont()
+                print('Florace:')
+                print('"Then it'"'"'s time to go."')
+                cont()
+                print('Kyla:')
+                print('"Are you sure that'"'"'s them?"')
+                cont()
+                print('Jeb:')
+                print('"Must be."')
+                cont()
+                print('Jeb:')
+                print('"I think I can see... six... no seven of them."')
+                cont()
+                print('Jeb and Florace looked concerned, Alder picked up on these feelings and stayed silent but Kyla started smirking which erupted into laughter.')
+                cont()
+                print('Kyla:')
+                print('"Hee hee."')
+                cont()
+                print('Kyla:')
+                print('"Hee hee Ha HA!"')
+                cont()
+                print('Kyla:')
+                print('"That'"'"'s it!"')
+                cont()
+                print('Kyla:')
+                print('"They must know not that it is I they seek!"')
+                cont()
+                print('Kyla:')
+                print('"Hee hee ha!"')
+                cont()
+                print('Kyla:')
+                print('"This may be easier than I expected! "')
+                cont()
+                print('Florace:')
+                print('"There may be more further out there."')
+                cont()
+                print('Kyla:')
+                print('"In that case, I will need one to call for reinforcements."')
+                cont()
+                print('Kyla:')
+                print('"Do you recognize any of the ones here?"')
+                cont()
+                print('The invaders were made up of two foxes, two badgers, an otter, a stoat and weasel. One of the foxes and the otter looked fairly young and stood at the back.')
+                cont()
+                print('Jeb:')
+                print('"Not at this distance but judging by the species present I’m sure they have their best captains as well as what I think are squires with them."')
+                cont()
+                print('Jeb:')
+                print('"Maybe they'"'"'re educating them?"')
+                cont()
+                print('Jeb:')
+                print('"Wait!"')
+                cont()
+                print('Jeb:')
+                print('"The fox out in front! Look at his robes!"')
+                cont()
+                print('Jeb:')
+                print('"He’s the sorcerer!"')
+                cont()
+                print('Kyla:')
+                print('"Florace."')
+                cont()
+                print('Kyla:')
+                print('"Are you truly sure you want to leave with the boy?"')
+                cont()
+                print('Florace:')
+                print('"Yes."')
+                cont()
+                print('Kyla:')
+                print('"It won’t be easy living in Fort Town."')
+                cont()
+                print('Kyla:')
+                print('"The mice may not look fondly in your favour."')
+                cont()
+                print('Florace:')
+                print('"I can live with that."')
+                cont()
+                print('Kyla:')
+                print('"...Fine then go."')
+                cont()
+                print('Kyla:')
+                print('"It is time."')
+                cont()
+                print('Kyla:')
+                print('"Everyone to the edge of the spell."')
+                cont()
+                print('Kyla:')
+                print('"I’ll distract them until morning."')
+                cont()
+                print('Kyla:')
+                print('"When the sorcerer pulls us out of the Wyrd, move out of sight, hide and then continue running when reinforcements pass."')
+                cont()
+                print('The fox was barely visible but was wearing a robe and carrying a staff. The sorcerer for sure. It was time.')
+                cont()
+                switch[14] = False
+            elif (switch[15] == True and part == '4'):
+                print('Alder, Florace and Jeb moved to the edge of the area where Kyla’s spell was active. The soldiers walked past them unaware. The sorcerer Got to the centre of the spell looked around a bit but what he did not realise was that Kyla was standing in front of him, with another green sparkling spell directed at his face.')
+                cont()
+                print('Weasel:')
+                print('"This is the place."')
+                cont()
+                print('Badger:')
+                print('"Where’s Midge?"')
+                cont()
+                print('Weasel:')
+                print('"He should be here."')
+                cont()
+                print('Weasel:')
+                print('"Midge!"')
+                cont()
+                print('Weasel:')
+                print('"MIDGE!!"')
+                cont()
+                print('Sorcerer Fox:')
+                print('"There might very well be something here."')
+                cont()
+                print('Sorcerer Fox:')
+                print('"There is a mushroom ring."')
+                cont()
+                print('Sorcerer Fox:')
+                print('"I’ll pull what'"'"'s in the Wyrd out."')
+                cont()
+                print('Sorcerer Fox:')
+                print('"Get ready to charge!"')
+                cont()
+                print('The sorcerer spun his staff around once above his head and speared the ground. The magic protecting the area shone and the air cracked like glass. The illusion that had protected the cottage was gone and the structure and all else that was hidden by Kyla’s magic was as clear as day to the world including the rat’s body. As soon as it fell, the fox tumbled backwards, a green light singing his face, not even giving him a chance to scream. In front of the shocked knights was Kyla, a dark green water like spell covers her hand and she slams her hands into the ground. As the escapees leave their home they hear the screams of their would-be hunters.')
+                cont()
+                author = True
+                switch[15] = False
+            while (author == True):
+                print('James Stockwell:')
+                print('"Thank you for playing the demo for the Wild and Wyrd. Please let me know if there are any errors or grammer mistakes. Please support me if you want to see more of Alder'"'"'s story."')
+                cont()
             free(location, chapter, part)
 
 def loadGame():
@@ -3592,7 +3930,7 @@ def loadGame():
         alder = data[16]
 
 def menu():
-    global menu_active, chapter, part, chapter1, tutorComp, game_active, switch, tutorialSwitch, c2Switch, shill, inv, PKSwitch
+    global menu_active, chapter, part, chapter1, tutorComp, game_active, switch, tutorialSwitch, c2Switch, c3Switch, shill, inv, PKSwitch
     while (menu_active == True):
         print('Wild and Wyrd')
         print('n - New Game')
