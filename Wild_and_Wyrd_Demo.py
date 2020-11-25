@@ -3,7 +3,7 @@ import pickle
 import random
 #Loop
 menu_active = True
-game_active = True
+game_active = False
 tutorial1 = True
 chapter1 = False
 #Story Switches
@@ -12,8 +12,8 @@ part = '1'
 tutorComp = False
 switch = [True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
 tutorialSwitch = [True, True, True, True, True, True, True]
-c2Switch = [True, True, True, True, True]
-c3Switch = [True, True, True, True, True]
+c2Switch = [True, True, True, True, True, True]
+c3Switch = [True, True, True, True, True, True, True]
 branchSwitch = ['0']
 #Character Base Stats
 class Alder:
@@ -278,7 +278,7 @@ ingre = [{'ingId' : '1', 'name' : 'Phantom moss', 'type' : 'ingredient', 'descri
 #Inventory
 shill = 0
 inv = []
-PKSwitch = [True, True, True, True, True]
+PKSwitch = [True, True, True, True, True, True]
 
 #Quests
 mQuests = [{'questId':'1','client':'Florace','name':'Bug hunt', 'desc':'Collect two pieces of bug meat', 'reward' : '', 'rewardCount' : 0,
@@ -717,7 +717,7 @@ def shop(seller):
     shopping = True
     while(shopping == True):
         if(seller == 'Jeb'):
-            c3Switch[4] = False
+            c3Switch[5] = False
             print('\nFeel free to brouse my wares.')
             print('1: Bandage ', 'Remaining: ', '5 Cost: 5')
             print('2: Dried Fruit' , 'Remaining: ', '5 Cost: 1')
@@ -1327,7 +1327,7 @@ def examine(location):
             print('There were two wooden armchairs with partridge feather cushions on each.')
             cont()
         elif (e == 'table' or e == 'Table'):
-            if (c3Switch[4] == True):
+            if (c3Switch[5] == True):
                 print('Jeb laid out his wares on the table.')
                 cont()
                 shop('Jeb')
@@ -1410,7 +1410,10 @@ def examine(location):
                 print('The bush was picked clean.')
             cont()
     elif (location == '4'):
-        print('The inside of the shed was illuminated by a window on the left side from the entrance. It was full of gathering, woodwork and gardening tools which were used by Alder, and pots and crates containing ingredients for magic potions. At the other end from the entrance was a table used for crafts.')
+        if (c2Switch[2] == True):
+            print('The inside of the shed was illuminated by a window on the left side from the entrance. It was full of gathering, woodwork and gardening tools which were used by Alder, pots and creates containing ingredients of magic potions. At the other end from the entrance was a table used for crafts. Above it a bow and quiver full of arrows were hung and an old sack was slumped at its side.')
+        else:
+            print('The inside of the shed was illuminated by a window on the left side from the entrance. It was full of gathering, woodwork and gardening tools which were used by Alder, pots and crates containing ingredients for magic potions. At the other end from the entrance was a table used for crafts.')
         e = input('Examine: ')
         if (e == 'window' or e == 'Window'):
             print('A single window on the left side of the room.')
@@ -1472,6 +1475,22 @@ def examine(location):
         elif (e == 'knife' or e == 'Knife'):
             print('The knife was designed for hunting but it looks like someone has been using it to cut ingredients.')
             cont()
+        elif (c2Switch[2] == True):
+            if (e == 'sack' or e == 'Sack'):
+                print('A cheaply made old burlap sack that was intended for foraging but it  nearly is on the verge of falling apart.')
+                if (PKSwitch[5] == True):
+                    print('There'"'"'s a bandage inside.')
+                    cont()
+                    pickup = input('Do you want to pick up the bangage.(y/n)')
+                    confirm = yn(pickup)
+                    if (confirm == True):
+                        print('\nBandage obtained')
+                        itemCount(items[0], 1)
+                        PKSwitch[5] = False
+                cont()
+            elif (e == 'bow' or e == 'Bow' or e == 'quiver' or e == 'Quiver' or e == 'arrows' or e == 'Arrows'):
+                print('A practise bow and quiver full of arrows. They were intended as a gift for Florace but she was never interested in archery, so Alder got them instead.')
+                cont()
     elif (location == '5'):
         print('Sunlight entered the room easily through the curtainless window of Alder solitary and small bedroom which only contained a makeshift bed.')
         e = input('Examine: ')
@@ -1503,10 +1522,12 @@ def examine(location):
                                 print(sQuests[0]['name'],' abandoned!')
                                 switch[7] = True
                                 part = '3'
+                                c2Switch[4] = False
                                 bed()
                         else:
                             switch[7] = True
                             part = '3'
+                            c2Switch[4] = False
                             bed()
                     else:
                         bed()
@@ -1595,7 +1616,7 @@ def examine(location):
             else:
                 print('The other crickets had fled.')
     elif (location == '7'):
-        if(c2Switch[4] == True):
+        if(c2Switch[5] == True):
             print('Large trees surrounded him in a neat circle like pillars; the branches formed a mosaic ceiling. There was a light from an unknown source that shone in the center in front of Alder.')
         else:
             print('The mouse was holding the sword'"'"'s hilt to Alder'"'"'s hand while ghostly spectors watch.')
@@ -1606,10 +1627,10 @@ def examine(location):
             print('The ceiling was covered in various different leaves such as oak, cider, alder and many others which Alder did not recognise, their branches were curved so the whole was a spiralling mosaic.')
         elif(e == 'light' or e == 'Light'):
             print('From the centre of the clearing a misty light hung from an unspecifiable source like water from a fountain. It illuminated the area as far as the trees.')            
-            if(c2Switch[4] == True):
+            if(c2Switch[5] == True):
                 switch[8] = True
                 part = '4'
-        elif(c2Switch[4] == False):
+        elif(c2Switch[5] == False):
             if(e == 'sword' or e == 'Sword'):
                 print('The sword was a double edge and was dark green with silver decorations on the hilt and scabbard. Now that it was close Alder could see what looked like a thorny stem engraved around the grip, the rain-guard was shaped to resemble leaves and the pommel from Alder’s angle was tear-shaped. The scabbard was a dark green and it had a rounded slot carved into it.')
                 cont()
@@ -1775,7 +1796,7 @@ def talk():
                 print('"Trissie'"'"'s here!"')
                 cont()
                 print('Alder:')
-                print('"Trissie'"'"'s here!"')
+                print('"Trissie'"'"'s here!!"')
                 cont()
                 print('Florace:')
                 print('"Claim done Alder."')
@@ -1921,7 +1942,7 @@ def talk():
                         print('Kyla:')
                         print('"I should have arranged an escape route through the Wyrd the moment Trissie told us about the Gowls!"')
                         cont()
-            elif(c3Switch[4] == True):
+            elif(c3Switch[5] == True):
                 print('1: Jeb')
                 print('2: Florace')
                 print('3: Kyla')
@@ -2475,8 +2496,9 @@ def move():
                     print('Trissie:')
                     print('"AHHH!"')
                     cont()
-                elif(c3Switch[4] == False):
+                elif(c3Switch[5] == False):
                     switch[15] = True
+                    c3Switch[6] = False
         elif (m == '3'):
             location = '5'
             print('Alder moved upstairs and into his bedroom.')
@@ -2658,10 +2680,25 @@ def move():
 def save(location, chapter, part):
     data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, branchSwitch, shill, inv, PKSwitch, mQuests, sQuests, alder]
     print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, branchSwitch, shill, inv, PKSwitch, mQuests, sQuests, alder)
-    with open(PIK, "wb") as f:
-        print(data)
-        pickle.dump(data, f)
-    print ('Game Saved!')
+    i = input('Save in file "1", "2" or "3":')
+    if (i == '1'):
+        PIK = 'data/file1.dat'
+        with open(PIK, "wb") as f:
+            print(data)
+            pickle.dump(data, f)
+        print ('Game Saved!')
+    elif (i == '2'):
+        PIK = 'data/file2.dat'
+        with open(PIK, "wb") as f:
+            print(data)
+            pickle.dump(data, f)
+        print ('Game Saved!')
+    elif (i == '3'):
+        PIK = 'data/file3.dat'
+        with open(PIK, "wb") as f:
+            print(data)
+            pickle.dump(data, f)
+        print ('Game Saved!')
 
 def inventory():
     bag = True
@@ -2746,19 +2783,52 @@ def objective():
         print('\tTalk(t) to Thay.')
     elif(tutorialSwitch[4] == True):
         print('\tExamine table in shed, pick up knife and equip(x) in main weapons.')
-    for q in mQuests:
-        if(q['accepted'] == True and q['submitted'] != True):
-            if (q['questId'] == '1'):
-                if(alder.weapon1['wpId'] != '2'):
-                    print('Pick up and equip hunting knife.')
-                else:
-                    amount = 0
-                    for i in inv:
-                        if (i['type'] == 'food'):
-                            if (i['itemId'] == '5'):
-                                amount += i['count']
-                    print('\t', q['desc'],' (',amount,'/',q['qnt'],')')
-    print("Side:")
+    elif(tutorialSwitch[5] == True):
+        for q in mQuests:
+            if(q['accepted'] == True and q['submitted'] != True):
+                if (q['questId'] == '1'):
+                    if(alder.weapon1['wpId'] != '2'):
+                        print('\tPick up and equip hunting knife.')
+                    else:
+                        amount = 0
+                        for i in inv:
+                            if (i['type'] == 'food'):
+                                if (i['itemId'] == '5'):
+                                    amount += i['count']
+                        print('\t', q['desc'],' (',amount,'/',q['qnt'],')')
+    elif(tutorialSwitch[6] == True):
+        print('\tReturn to the cottage and examine to bed to end the day.')
+        print('\tTalk to characters if a character has a "!" mark then they will quest for Alder')
+    elif(c2Switch[0] == True):
+        print('\tTalk to someone to let the squirrel in.')
+    elif(c2Switch[1] == True):
+        print('\tTalk to the squirrel.')
+    elif(c2Switch[2] == True):
+        print('\tMove to the living room to attend meeting.')
+    elif(c2Switch[3] == True):
+        print('\tFight dummy')
+    elif(c2Switch[4] == True):
+        print('\tGo to bed.')
+    elif(c2Switch[5] == True):
+        print('\tExplore strange place.')
+    elif(c3Switch[0] == True and chapter == '2'):
+        print('\tTake sword!')
+    elif(c3Switch[0] == True and chapter == '3'):
+        print('\tGet Florace!')
+    elif(c3Switch[1] == True):
+        print('\tRead "Read Magical things of history".')
+    elif(c3Switch[2] == True):
+        print('\tLook out window.')
+    elif(c3Switch[3] == True):
+        print('\tExamine rat.')
+    elif(c3Switch[4] == True):
+        print('\tMove to living room.')
+    elif(c3Switch[5] == True):
+        print('\tBuy from Jeb.')
+    elif(c3Switch[6] == True):
+        print('\tLeave cottage.')
+        
+    print("\nSide:")
     for q in sQuests:
         if(q['accepted'] == True and q['submitted'] != True):
             print('Quest: ',q['name'], ' Client: ',q['client'])
@@ -3055,7 +3125,7 @@ def game():
                             if(s == 'skip'):
                                 skip = True
                 f.close()
-                c2Switch[4] = False
+                c2Switch[5] = False
                 switch[8] = False
             elif (switch[9] == True and part == '5'):
                 skip = False
@@ -3154,6 +3224,7 @@ def game():
                 f.close()
                 print('10 shillings obtained!\n')
                 shill += 10
+                c3Switch[4] = False
                 switch[13] = False
             elif (switch[14] == True and part == '4'):
                 skip = False
@@ -3197,26 +3268,38 @@ def game():
             free(location, chapter, part)
 
 def loadGame():
-    global location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, branchSwitch, shill, inv, PKSwitch,mQuests,sQuests,alder
-    with open(PIK, "rb") as f:
-        data = pickle.load(f)
-        location = data[0]
-        chapter = data[1]
-        part = data[2]
-        tutorial1 = data[3]
-        tutorComp = data[4]
-        chapter1 = data[5]
-        switch = data[6]
-        tutorialSwitch = data[7]
-        c2Switch = data[8]
-        c3Switch = data[9]
-        branchSwitch = data[10]
-        shill = data[11]
-        inv = data[12]
-        PKSwitch = data[13]
-        mQuests = data[14]
-        sQuests = data[15]
-        alder = data[16]
+    global game_active, location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, branchSwitch, shill, inv, PKSwitch,mQuests,sQuests,alder
+    PIK = ''
+    op = input('Open save file "1", "2" or "3": ')
+    if (op == '1'):
+        PIK = 'data/file1.dat'
+    elif (op == '2'):
+        PIK = 'data/file2.dat'
+    elif (op == '3'):
+        PIK = 'data/file3.dat'
+    try:
+        with open(PIK, "rb") as f:
+            data = pickle.load(f)
+            location = data[0]
+            chapter = data[1]
+            part = data[2]
+            tutorial1 = data[3]
+            tutorComp = data[4]
+            chapter1 = data[5]
+            switch = data[6]
+            tutorialSwitch = data[7]
+            c2Switch = data[8]
+            c3Switch = data[9]
+            branchSwitch = data[10]
+            shill = data[11]
+            inv = data[12]
+            PKSwitch = data[13]
+            mQuests = data[14]
+            sQuests = data[15]
+            alder = data[16]
+            game_active = True
+    except:
+        print('Saved file not found!')
 
 def menu():
     global menu_active, chapter, part, chapter1, tutorComp, game_active, switch, tutorialSwitch, c2Switch, c3Switch, shill, inv, PKSwitch
@@ -3279,10 +3362,10 @@ def menu():
             #Start Game
             game()
         elif (action == 'l'):
-            game_active = True
             loadGame()
-            #Start Game
-            game()
+            if (game_active == True):
+                #Start Game
+                game()
         elif (action == 'q'):
             menu_active = False
 menu()

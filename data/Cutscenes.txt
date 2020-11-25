@@ -103,10 +103,10 @@ chapter$ switch$ part$ line$ dialog
 1$ 3$ 3$ 12$ Florace:£"Just outside the burrow."
 1$ 3$ 3$ 13$ Florace:£"There should be a hunting knife on the table in the shed."
 1$ 3$ 3$ 14$ Alder:£"Thank you."
-1$ 4$ 4$ 1$ Thay:£"I’m heading off now lad.
+1$ 4$ 4$ 1$ Thay:£"I’m heading off now lad."
 1$ 4$ 4$ 2$ Alder:£"Already!"
 1$ 4$ 4$ 3$ Alder:£"Well, take care than."
-1$ 4$ 4$ 4$ Thay:£"I will.
+1$ 4$ 4$ 4$ Thay:£"I will."
 1$ 4$ 4$ 5$ Thay:£"Goodbye lad."
 1$ 4$ 4$ 6$ And with that, the hedgehog left. Leaving the burrow for lands unknown to Alder. He headed back to the cottage. Back to his daily chores of cleaning, gathering and grinding leaves until his hands were sore. As the day came to an end the residents of the cottage were unaware of the shadows that came ever closer.
 2$ 5$ 1$ 1$ Chapter 2
@@ -137,7 +137,7 @@ chapter$ switch$ part$ line$ dialog
 2$ 6$ 2$ 19$ Alder:£"Who’s Darrunt?"
 2$ 6$ 2$ 20$ Florace:£"He is the leader of the Gowls."
 2$ 6$ 2$ 21$ Florace:£"He is known for hating humans more than anything."
-2$ 6$ 2$ 22$ Florace:£"He won'"'"'t come here though."
+2$ 6$ 2$ 22$ Florace:£"He won't come here though."
 2$ 6$ 2$ 23$ Florace:£"Too devoid of what he hates."
 2$ 6$ 2$ 24$ While Alder and Florace whispered to each other Kyla had relaxed back into her chair at the end of her rebuttal.
 2$ 6$ 2$ 25$ Kyla:£"We’ll lay low for the next few days, we are well stocked and have enough water to last us a few days."
