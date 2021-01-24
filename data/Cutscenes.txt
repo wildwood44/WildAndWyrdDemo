@@ -64,7 +64,7 @@ chapter$ switch$ part$ line$ dialog
 1$ 0$ 1$ 1$ Chapter 1
 1$ 0$ 1$ 2$ Deep in the Oldwyrm woods north of the Fort a lone creature is wandering through the underbrush. It was a hedgehog. His quills sticking out of his jacket, hood and blue scarf. He had a travelling bag with various herbs and seeds. He was whispering into the air.
 1$ 0$ 1$ 3$ Hedgehog:£"The rabbit seeks his burrow."
-1$ 0$ 1$ 4$ There was a silence excluding the song of birds and insects of the setting summer. Then there were ripples in the air and a nearby boulder turned into a cottage and a nearby nettle bush turned into one of blackberries.
+1$ 0$ 1$ 4$ There was a silence excluding the song of birds and insects of the setting summer. Part of a nearby boulder opened like a door and through it was the living room of a cottage. Out of the doorframe there was a woman. She towered above the hedgehog, his height not even making it to her waist. She had long dark hair that went down her shoulders and fair pale skin.
 1$ 0$ 1$ 5$ In front of him a woman appeared. She towered above the hedgehog, his height not even making it to her waist. She had long dark hair that went down her shoulders and fair pale skin.
 1$ 0$ 1$ 6$ Woman:£"Thay! It's good to see you!"
 1$ 0$ 1$ 7$ Thay:£"And you too Florace."
@@ -80,7 +80,7 @@ chapter$ switch$ part$ line$ dialog
 1$ 1$ 2$ 4$ Thay:£"You’ve gotten bigger too."
 1$ 1$ 2$ 5$ Thay:£"I remember when we were the same size."
 1$ 1$ 2$ 6$ Alder:£"I'm not a toddler anymore."
-1$ 1$ 2$ 7$ Thay smiled warmly at Alder, then turned to look at an elderly woman in one of the top windows of the cottage. She was a short and very wrinkled woman with a bent beak-like nose.
+1$ 1$ 2$ 7$ Thay smiled warmly at Alder, then turned to look at an elderly woman in the cottage door. She was a short and very wrinkled woman with a bent beak-like nose.
 1$ 1$ 2$ 8$ Thay:£"Well."
 1$ 1$ 2$ 9$ Thay:£"Better I'll be meeting with the witch."
 1$ 1$ 2$ 10$ Thay:£"I'll chat with you both soon."
@@ -112,10 +112,22 @@ chapter$ switch$ part$ line$ dialog
 2$ 5$ 1$ 1$ Chapter 2
 2$ 5$ 1$ 2$ Dawn came, sunlight striking Alder’s face through the curtainless window. He began his day like normal, going downstairs to eat his breakfast of nuts and berries scavenged from the foot of trees and bushes, then clean the plates and cups using water gathered from rain or the nearest point of the river. The day was set to be a very mundane one, where Alder could only hope that a guest would come, just as Thay did the day before. Otherwise, today he will only be sweeping floors, chopping wood and foraging mushrooms allowing the hours tick by until it was time for the next chore.
 2$ 5$ 1$ 3$ Alder:£*Yawn*
-2$ 5$ 1$ 4$ The dull boredom was broken to Alder excitement when a squirrel he knew came down from the trees and ran into the area with the cottage. The squirrel was female but wore male clothing, strapped to her back was a bow and quiver and the tip half of her tail missing. She spoke to her surroundings in a loud whisper.
-2$ 5$ 1$ 5$ Squirrel:£"The rabbit seeks his burrow!"
-2$ 5$ 1$ 6$ Squirrel:£"The rabbit seeks his burrow!"
-2$ 5$ 1$ 7$ She was trying to get into the burrow, Alder needed to let someone know about the guest.
+2$ 5$ 1$ 4$ The dull boredom was broken to Alder excitement when a squirrel he knew came down from the trees and ran into the area with the cottage. The squirrel was female but wore male clothing, strapped to her back was a bow and quiver and the tip half of her tail missing. She spoke to Alder in a loud whisper.
+2$ 5$ 1$ 5$ Squirrel:£"Hi Alder!"
+2$ 5$ 1$ 6$ Alder:£"Trissie!"
+2$ 5$ 1$ 7$ Squirrel:£"Shh. Not so loud!"
+2$ 5$ 1$ 8$ Trissie sprand up onto Alder shoulders to cover his mouth. She took a quick look at her surroundings.
+2$ 5$ 1$ 9$ Trissie:£"I need to see Kyla as soon as I can."
+2$ 5$ 1$ 10$ Trissie:£"I have something everyone should hear."
+2$ 5$ 1$ 11$ Alder found Trissie fun to be around but it sounded like she was in a hurry. He could not help but feel dejected by her hast.
+2$ 5$ 1$ 12$ Alder:£"Ok..."
+2$ 5$ 1$ 13$ Trissie:£"Aw. Don’t make that face."
+2$ 5$ 1$ 14$ Trissie:£"Say."
+2$ 5$ 1$ 15$ Trissie:£"Why don't I give you some archery lessons before I leave?"
+2$ 5$ 1$ 16$ As Alder brightens up at the thought. But those emotions were cut when Trissie mumbled.
+2$ 5$ 1$ 17$ Trissie:£"You might need them."
+2$ 5$ 1$ 18$ Florace:£"Triss!"
+2$ 5$ 1$ 19$ Florace was staring from the entrance of the cottage door. She went back in with Trissie.
 2$ 6$ 2$ 1$ Trissie had rested her bow and quiver on the wall and hopped onto one of the chairs on the table. Kyla was opposite her in her rocking chair while everyone else stood around the table as spectators. Alder walked over to take position next to Florace. With everyone gathered Trissie began.
 2$ 6$ 2$ 2$ Trissie:£"I’ll make this quick!"
 2$ 6$ 2$ 3$ Trissie:£"There are Gowl knights patrolling these woods!"
@@ -202,9 +214,8 @@ chapter$ switch$ part$ line$ dialog
 3$ 11$ 2$ 15$ The weasel that Florace spotted arose from the bushes.
 3$ 11$ 2$ 16$ Weasel:£"Don’t call out!"
 3$ 11$ 2$ 17$ Weasel:£*Sigh* "Nevermind."
-3$ 11$ 2$ 18$ Weasel:£"They won’t get very far in the wyrd fairies and monsters will never allow trespassers."
 3$ 11$ 2$ 19$ Weasel:£"Wait here, the rest of you form a perimeter."
-3$ 11$ 2$ 20$ Weasel:£"We’ll get the wizard."
+3$ 11$ 2$ 20$ Weasel:£"I’ll fetch the wizard."
 3$ 11$ 2$ 21$ The band started walking away, leaving the rat to guard the area. The rat went over to the bushes and picked up a dagger from the bushes then went over to sit on part of a rock that was part of the disguised cottage. The back of his head was directly in front of the window Alder was looking out of. Even though the rat could not hear them Kyla and Florace discussed their next move in loud whispers to each other.
 3$ 11$ 2$ 22$ Kyla:£"They know we are here we will have to move."
 3$ 11$ 2$ 23$ Florace:£"I agree. But where?"
@@ -261,7 +272,7 @@ chapter$ switch$ part$ line$ dialog
 3$ 12$ 3$ 26$ Rat:£"Aagh!!"
 3$ 12$ 3$ 27$ He lay on his back. Alder stepped back in horror. Florace ran over and covered Alders’s eyes. He could only smell burning mould and hear the gargled words of the rat paralysed on the ground. Florace moved Alder away from him.
 3$ 12$ 3$ 28$ Kyla:£"Come along!"
-3$ 12$ 3$ 29$ Kyla and the weasel went indoors. The weasel'"'"'s mouth was hanging open and twitching. Florace kept a firm grip on Alder and they looked at the rat who had now lost consciousness. They remained silent, still processing what had happened.
+3$ 12$ 3$ 29$ Kyla and the weasel went indoors. The weasel's mouth was hanging open and twitching. Florace kept a firm grip on Alder and they looked at the rat who had now lost consciousness. They remained silent, still processing what had happened.
 3$ 13$ 3$ 1$ Kyla:£"Well?"
 3$ 13$ 3$ 2$ Kyla:£"What do you want?"
 3$ 13$ 3$ 3$ Kyla:£"Who are you?"
@@ -341,7 +352,7 @@ chapter$ switch$ part$ line$ dialog
 3$ 14$ 4$ 30$ Kyla:£"It is time."
 3$ 14$ 4$ 31$ Kyla:£"Everyone into the undergrowth."
 3$ 14$ 4$ 32$ Kyla:£"I’ll distract them until morning."
-3$ 14$ 4$ 33$ Kyla:£"When the sorcerer pulls us out of the Wyrd, move out of sight, hide and then continue running when reinforcements pass."
+3$ 14$ 4$ 33$ Kyla:£"When the cottage is visable, move out of sight, hide and then continue running when reinforcements pass."
 3$ 14$ 4$ 34$ The fox was barely visible but was wearing a robe and carrying a staff. The sorcerer for sure. It was time.
 3$ 15$ 4$ 1$ Alder, Florace and Jeb moved to the edge where Kyla’s spell was active and hid in a bush. The soldiers walked past them unaware. The sorcerer Got to the centre of the spell looked around a bit but what he did not realise was that Kyla was standing in front of him, with another green sparkling spell directed at his face.
 3$ 15$ 4$ 2$ Weasel:£"This is the place."
@@ -350,7 +361,7 @@ chapter$ switch$ part$ line$ dialog
 3$ 15$ 4$ 5$ Weasel:£"Midge!"
 3$ 15$ 4$ 6$ Weasel:£"MIDGE!!"
 3$ 15$ 4$ 7$ Sorcerer Fox:£"There might very well be something here."
-3$ 15$ 4$ 8$ orcerer Fox:£"There is a mushroom ring."
-3$ 15$ 4$ 9$ Sorcerer Fox:£"I’ll pull what's in the Wyrd out."
+3$ 15$ 4$ 8$ orcerer Fox:£"There are illusions on this stone."
+3$ 15$ 4$ 9$ Sorcerer Fox:£"I’m dispelling them."
 3$ 15$ 4$ 10$ Sorcerer Fox:£"Get ready for battle!"
-3$ 15$ 4$ 11$ The sorcerer spun his staff around once above his head and speared the ground. The magic protecting the area shone and the air cracked like glass. The illusion that had protected the cottage was gone and the structure and all else that was hidden by Kyla’s magic was as clear as day to the world including the rat’s body. As soon as it fell, the fox tumbled backwards, a green light singing his face, not even giving him a chance to scream. In front of the shocked knights was Kyla, a dark green water like spell covers her hand and she slams her hands into the ground. As the escapees leave their home they hear the screams of their would-be hunters.
+3$ 15$ 4$ 11$ The sorcerer spun his staff around once above his head and speared the ground. The stone cracked glass and fell apart revealing the cottage in its true form as clear as day to the world. As soon as it fell, the fox tumbled backwards, a green light singing his face, not even giving him a chance to scream. In front of the shocked knights was Kyla, a dark green water like spell covers her hand and she slams her hands into the ground. As the escapees leave their home they hear the screams of their would-be hunters.
