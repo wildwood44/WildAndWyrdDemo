@@ -1398,6 +1398,9 @@ def examine(location):
             if(c3Switch[1] == False and c3Switch[2] == True):
                 switch[11] = True
                 part = '2'
+            elif(c3Switch[2] == False and c3Switch[3] == True):
+                switch[12] = True
+                part = '3'
             else:
                 print('There were four windows showing the clearing on either side of the cottage.')
                 cont()
@@ -1907,7 +1910,7 @@ def talk():
                     print('Kyla:')
                     print('"Hmm."')
                     cont()
-            elif(c3Switch[3] == True):
+            elif(c3Switch[5] == True):
                 if (sQuests[1]['accepted'] != True):
                     print('1: Florace(!)')
                 else:
@@ -1916,11 +1919,21 @@ def talk():
                     print('2: Kyla(!)')
                 else:
                     print('2: Kyla')
+                if(c3Switch[4] == True):
+                    print('3: Weasel')
+                elif(c3Switch[5] == True):
+                    print('3: Jeb')
                 t = input('talk to: ')
                 if (t == '1'):
                     if (sQuests[1]['accepted'] != True):
+                        print('Alder:')
+                        print('"What the matter Florace?."')
+                        cont()
                         print('Florace:')
-                        print('"We will need food supplies to get to Fort Town!"')
+                        print('"We need food supplies to get to Fort Town!"')
+                        cont()
+                        print('Alder:')
+                        print('"like what?"')
                         cont()
                         print('Florace:')
                         print('"Take what you can from the larder."')
@@ -2007,32 +2020,36 @@ def talk():
                         print('Kyla:')
                         print('"I should have arranged an escape route the moment Trissie told us about the Gowls!"')
                         cont()
-            elif(c3Switch[5] == True):
-                print('1: Jeb')
-                print('2: Florace')
-                print('3: Kyla')
-                t = input('talk to: ')
-                if (t == '1'):
-                    print('Jeb:')
-                    print('"What would you like Scion?"')
-                    cont()
-                    shop('Jeb')
-                    switch[14] = True
-                    part = '4'
-                elif (t == '2'):
-                    print('Florace:')
-                    print('"I'"'"'ll admit I'"'"'m going to miss this place."')
-                    cont()
-                    print('Florace:')
-                    print('"I suppose no one place is always safe."')
-                    cont()
-                elif (t == '3'):
-                    print('Kyla:')
-                    print('"Still don'"'"'t like that they knew our password."')
-                    cont()
-                    print('Kyla:')
-                    print('"Someone mush have snitched."')
-                    cont()
+                        print('Kyla:')
+                        print('"Still I don'"'"'t like that they knew our password."')
+                        cont()
+                        print('Kyla:')
+                        print('"Someone mush have snitched..."')
+                        cont()
+                if(c3Switch[3] == False and c3Switch[4] == True):
+                    if (t == '3'):
+                        switch[13] = True
+                elif(c3Switch[4] == False and c3Switch[5] == True):
+                    if (t == '3'):
+                        print('Jeb:')
+                        print('"What would you like Scion?"')
+                        cont()
+                        shop('Jeb')
+                        if ((sQuests[1]['accepted'] == True and sQuests[1]['submitted'] != True) or (sQuests[2]['accepted'] == True and sQuests[2]['submitted'] != True)):
+                            ab = input('Abandon quests?(y/n)')
+                            confirm = yn(ab)
+                            if (confirm == True):
+                                if (sQuests[1]['accepted'] == True and sQuests[1]['submitted'] != True):
+                                    sQuests[1]['accepted'] = False
+                                    print(sQuests[1]['name'],' abandoned!')
+                                if (sQuests[2]['accepted'] == True and sQuests[2]['submitted'] != True):
+                                    sQuests[2]['accepted'] = False
+                                    print(sQuests[1]['name'],' abandoned!')
+                                switch[14] = True
+                                part = '4'
+                            else:
+                                switch[14] = True
+                                part = '4'
         else:
             print('There was no one to talk to')
     elif (location == '3'):
@@ -2426,15 +2443,7 @@ def talk():
                 t = input('talk to: ')
                 if (t == '1'):
                     print('Alder did not want to get too close to the rat. Even if he could not touch or speak to him.')
-                    if ((sQuests[1]['accepted'] == True and sQuests[1]['submitted'] != True) or (sQuests[2]['accepted'] == True and sQuests[2]['submitted'] != True)):
-                        ab = input('Abandon quests?(y/n)')
-                        confirm = yn(ab)
-                        if (confirm == True):
-                            switch[12] = True
-                            part = '3'
-                    else:
-                        switch[12] = True
-                        part = '3'
+                    
     elif(location == '7'):
         if(c2Switch[4] == False):
             print('1: Mouse')
@@ -2482,7 +2491,7 @@ def move():
                 print('Florace:')
                 print('"To the window."')
                 cont()
-            elif (c3Switch[2] == False):
+            elif (c3Switch[2] == False and c3Switch[5] == True and chapter == '3'):
                 print('with the Gowl'"'"'s outside it wasn'"'"'t worth risking')
             else:
                 location = '3'
@@ -2538,7 +2547,7 @@ def move():
                 switch[6] = True
                 part = '2'
                 c2Switch[1] = False
-            elif (c3Switch[3] == False and c3Switch[4] == True):
+            elif (c3Switch[2] == False and c3Switch[3] == True):
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
                 alder.stamina -= 1
@@ -2837,9 +2846,9 @@ def objective():
     elif(c3Switch[2] == True):
         print('\tLook out window.')
     elif(c3Switch[3] == True):
-        print('\tExamine rat.')
+        print('\tLook out window.')
     elif(c3Switch[4] == True):
-        print('\tMove to living room.')
+        print('\tTalk to weasel')
     elif(c3Switch[5] == True):
         print('\tBuy from Jeb.')
     elif(c3Switch[6] == True):
