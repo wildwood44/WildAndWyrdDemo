@@ -220,7 +220,7 @@ chapter$ switch$ part$ line$ dialog
 3$ 11$ 2$ 22$ Kyla:£"They know we are here we will have to move."
 3$ 11$ 2$ 23$ Florace:£"I agree. But where?"
 3$ 11$ 2$ 24$ Kyla:£"Hmm."
-3$ 11$ 2$ 25$ Kyla:£"The boy can go to Fort Town with that sword the mice and such are sure to take him in."
+3$ 11$ 2$ 25$ Kyla:£"The boy can go to Forton with that sword the mice and such are sure to take him in."
 3$ 11$ 2$ 26$ Kyla:£"It will be a benefit to all if the Scion can change minds about humans."
 3$ 11$ 2$ 27$ Florace:£"By himself?"
 3$ 11$ 2$ 28$ Florace:£"Shouldn'"'"'t we go with him?"
@@ -244,9 +244,9 @@ chapter$ switch$ part$ line$ dialog
 3$ 11$ 2$ 46$ Florace:£"..."
 3$ 11$ 2$ 47$ Kyla:£*Groan*
 3$ 11$ 2$ 48$ Kyla:£"We’ll discuss this later, we need to get moving."
-3$ 12$ 3$ 1$ Everything was happening so fast for Alder. He had barely any time to think about what his life would soon be like when he got to Fort Town or the journey to the place. He had never ventured very far from the cottage and everything  frohe did know was from guests and books. Everyone always said it was too dangerous for him, but now all of a sudden he must leave the cottage forever. To go and live in a town of mice.
+3$ 12$ 3$ 1$ Everything was happening so fast for Alder. He had barely any time to think about what his life would soon be like when he got to Forton or the journey to the place. He had never ventured very far from the cottage and everything that he did know was from guests and books. These feelings were not anxiety but excitement. Everyone always said it was too dangerous for him, but now he had to leave the cottage he was where he was restricted, to go and live in a town of mice. He did not know what was in store for him but he wouldn't be a servant. 
 3$ 12$ 3$ 2$ Rat:£"Who goes there!?"
-3$ 12$ 3$ 3$ Alder felt his heart skip a beat and his body tensed. He looked to where the rat was looking. He could just about make out a small figure carrying a large sack. The rat moved over to it.
+3$ 12$ 3$ 3$ Alder felt his heart skip a beat and his body tensed from the shock of the rats outburst. He looked to where the rat was looking. He could just about make out a small figure carrying a large sack. The rat moved over to it.
 3$ 12$ 3$ 4$ Rat:£"Don't Move!!"
 3$ 12$ 3$ 5$ The rat reached into the grass and dragged out a weasel wearing a chaperon into the opening.
 3$ 12$ 3$ 6$ Weasel:£"Please sir I have nothing of value."
@@ -294,11 +294,11 @@ chapter$ switch$ part$ line$ dialog
 3$ 13$ 3$ 19$ Jeb:£"You can have the rest of my provisions for the other!"
 3$ 13$ 3$ 20$ Kyla:£"No, that's what these coins are for."
 3$ 13$ 3$ 21$ Kyla jangled the bag of coins and passed it to Alder.
-3$ 13$ 3$ 22$ Kyla:£"The other is for you to get this boy to Fort Town."
+3$ 13$ 3$ 22$ Kyla:£"The other is for you to get this boy to Forton."
 3$ 13$ 3$ 23$ Jeb expression changed from eager to horrified.
 3$ 13$ 3$ 24$ Jeb:£"But, Ma'am."
 3$ 13$ 3$ 25$ Jeb:£"The Gowls are all over in that direction, with a human they will almost certainly kill me."
-3$ 13$ 3$ 26$ Jeb:£"Even if we get to Fort Town the mice won’t be happy to see him."
+3$ 13$ 3$ 26$ Jeb:£"Even if we get to Forton, the mice won’t be too comforatble with him around."
 3$ 13$ 3$ 27$ Kyla picks up Alder’s sword by the scabbard and hands it to Jeb. He is confused at first but he assumes it is additional payment.
 3$ 13$ 3$ 28$ Jeb:£"No matter what you pay me that does not change the perrel of what you want."
 3$ 13$ 3$ 29$ Kyla:£"Draw it."
@@ -345,7 +345,7 @@ chapter$ switch$ part$ line$ dialog
 3$ 14$ 4$ 23$ Kyla:£"Florace."
 3$ 14$ 4$ 24$ Kyla:£"Are you truly sure you want to leave with the boy?"
 3$ 14$ 4$ 25$ Florace:£"Yes."
-3$ 14$ 4$ 26$ Kyla:£"It won’t be easy living in Fort Town."
+3$ 14$ 4$ 26$ Kyla:£"It won’t be easy living in Forton."
 3$ 14$ 4$ 27$ Kyla:£"The mice may not look fondly in your favour."
 3$ 14$ 4$ 28$ Florace:£"I can live with that."
 3$ 14$ 4$ 29$ Kyla:£"...Fine then go."
@@ -354,7 +354,7 @@ chapter$ switch$ part$ line$ dialog
 3$ 14$ 4$ 32$ Kyla:£"I’ll distract them until morning."
 3$ 14$ 4$ 33$ Kyla:£"When the cottage is visable, move out of sight, hide and then continue running when reinforcements pass."
 3$ 14$ 4$ 34$ The fox was barely visible but was wearing a robe and carrying a staff. The sorcerer for sure. It was time.
-3$ 15$ 4$ 1$ Alder, Florace and Jeb moved to the edge where Kyla’s spell was active and hid in a bush. The soldiers walked past them unaware. The sorcerer Got to the centre of the spell looked around a bit but what he did not realise was that Kyla was standing in front of him, with another green sparkling spell directed at his face.
+3$ 15$ 4$ 1$ Alder, Florace and Jeb put on enchanted cloaks and moved to hide in a dence bush. The soldiers walked past them unaware. The sorcerer Got to the centre of the spell looked around a bit but what he did not realise was that Kyla was standing in front of him, with another green sparkling spell directed at his face.
 3$ 15$ 4$ 2$ Weasel:£"This is the place."
 3$ 15$ 4$ 3$ Badger:£"Where’s Midge?"
 3$ 15$ 4$ 4$ Weasel:£"He was here."

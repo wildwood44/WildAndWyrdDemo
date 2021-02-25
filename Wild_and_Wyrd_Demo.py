@@ -328,9 +328,8 @@ mQuests = [{'questId':'1','client':'Florace','name':'Bug hunt', 'desc':'Collect 
 sQuests = [{'questId':'1','client':'Kyla','name':'Servents work', 'desc':['Clean fireplace:', 'Scrub caldron:', 'Grind bramble leaves in mortar:'], 'reward' : 'none', 'rewardCount' : 0,
             'type':'action', 'required':[False, False, False], 'qnt' : 1,
             'accepted':False,'completed':False, 'submitted':False},
-           {'questId':'2','client':'Florace','name':'Provisions', 'desc':['Collect food x'], 'reward' : items[0], 'rewardCount' : 3,
-            'type':'collect', 'required':[{'itemId' : '6', 'name' : 'Food', 'type' : 'food',
-          'recovers' : 50, 'count' : 0}], 'qnt' : [1],
+           {'questId':'2','client':'Florace','name':'Provisions', 'desc':['Collect food x'], 'reward' : food[5], 'rewardCount' : 1,
+            'type':'action', 'required':[False], 'qnt' : 1,
             'accepted':False,'completed':False, 'submitted':False},
            {'questId':'3','client':'Kyla','name':'Packing up', 'desc':['Take books from bookshelf:', 'Break down wall', 'Take pots from the shed:'], 'reward' : 'shillings', 'rewardCount' : 2,
             'type':'action', 'required':[False, False, False], 'qnt' : 1,
@@ -1043,7 +1042,7 @@ def battle(e):
                         print('\nTo reduce damage from a incoming attack use command "2" or "block"')
                     elif(count == 3):
                         print('\nTo deal damage to the opponent use command "1" or "attack".')
-                elif (c2Switch[2] == False and c2Switch[3] == True):
+                elif (c2Switch[0] == False and c2Switch[1] == True):
                     print('\nTo use a ranged weapon like the bow select a the supported projectile in this case the primative arrow from items then on the next turn attack to fire it.')
                 print('\n',alder.name)
                 print("Health: ", alder.health, '/', alder.maxHealth, "| Stamina: ", alder.stamina, '/', alder.maxStamina)
@@ -1127,7 +1126,8 @@ def battle(e):
             alder.cStatus = 'None'
 #Yes or no answers
 def yn(yesNo):
-    while(yesNo != 'y' or yesNo != 'n' ):
+    while(yesNo != 'y' or yesNo != 'Y' or yesNo != 'yes' or yesNo != 'Yes' or
+          yesNo != 'n' or yesNo != 'N' or yesNo != 'no' or yesNo != 'No'):
         if (yesNo == 'y' or yesNo == 'Y' or yesNo == 'yes' or yesNo == 'Yes'):
             return True
         elif (yesNo == 'n' or yesNo == 'N' or yesNo == 'no' or yesNo == 'No'):
@@ -1194,7 +1194,7 @@ def examine(location):
         elif (e == 'larder' or e == 'Larder'):
             if (sQuests[1]['accepted'] == True):
                 print('The was only a single loaf of bread in the larder. It will have to do.')
-                itemCount(food[5], 1)
+                sQuests[1]['completed'] = True
             elif (sQuests[1]['completed'] == True):
                 print('The larder was empty.')
             else:
@@ -1340,14 +1340,8 @@ def examine(location):
                             print('???:')
                             print('"The rabbit seeks his burrow!"')
                             cont()
-                            print('Kyla:')
-                            print('"..."')
-                            cont()
-                            print('Florace:')
-                            print('"..."')
-                            cont()
-                            print('Alder:')
-                            print('"..."')
+                            print('Alder, Florace and Kyla:')
+                            print('"...?"')
                             cont()
                             print('Florace:')
                             print('"Who is that?"')
@@ -1561,12 +1555,12 @@ def examine(location):
                     shillings(coins)
                     PKSwitch[4] = False
                     cont()
-            if ((tutorialSwitch[5] == False and tutorialSwitch[6] == True)  or (c2Switch[3] == False and c2Switch[4] == True)):
+            if ((tutorialSwitch[5] == False and tutorialSwitch[6] == True)  or (c2Switch[1] == False and c2Switch[2] == True)):
                 sleep = input('Would you like to rest?(y/n)')
                 confirm = yn(sleep)
                 if (confirm == True):
                     print('Alder got into his makeshift bed and drifted to sleep for the night.')
-                    if (c2Switch[3] == False):
+                    if (c2Switch[1] == False):
                         if(sQuests[0]['accepted'] == True and sQuests[0]['submitted'] == False):
                             ab = input('Abandon quests?(y/n)')
                             confirm = yn(ab)
@@ -1575,12 +1569,12 @@ def examine(location):
                                 print(sQuests[0]['name'],' abandoned!')
                                 switch[7] = True
                                 part = '3'
-                                c2Switch[4] = False
+                                c2Switch[2] = False
                                 bed()
                         else:
                             switch[7] = True
                             part = '3'
-                            c2Switch[4] = False
+                            c2Switch[2] = False
                             bed()
                     else:
                         bed()
@@ -1669,7 +1663,7 @@ def examine(location):
             else:
                 print('The other crickets had fled.')
     elif (location == '7'):
-        if(c2Switch[5] == True):
+        if(c2Switch[3] == True):
             print('Large trees surrounded him in a neat circle like pillars; the branches formed a mosaic ceiling. There was a light from an unknown source that shone in the center in front of Alder.')
         else:
             print('The mouse was holding the sword'"'"'s hilt to Alder'"'"'s hand while ghostly spectors watch.')
@@ -1680,10 +1674,10 @@ def examine(location):
             print('The ceiling was covered in various different leaves such as oak, cider, alder and many others which Alder did not recognise, their branches were curved so the whole was a spiralling mosaic.')
         elif(e == 'light' or e == 'Light'):
             print('From the centre of the clearing a misty light hung from an unspecifiable source like water from a fountain. It illuminated the area as far as the trees.')            
-            if(c2Switch[5] == True):
+            if(c2Switch[3] == True):
                 switch[8] = True
                 part = '4'
-        elif(c2Switch[5] == False):
+        elif(c2Switch[3] == False):
             if(e == 'sword' or e == 'Sword'):
                 print('The sword was a double edge and was dark green with silver decorations on the hilt and scabbard. Now that it was close Alder could see what looked like a thorny stem engraved around the grip, the rain-guard was shaped to resemble leaves and the pommel from Alder’s angle was tear-shaped. The scabbard was a dark green and it had a rounded slot carved into it.')
                 cont()
@@ -1930,7 +1924,7 @@ def talk():
                         print('"What the matter Florace?."')
                         cont()
                         print('Florace:')
-                        print('"We need food supplies to get to Fort Town!"')
+                        print('"We need food supplies to get to Forton!"')
                         cont()
                         print('Alder:')
                         print('"like what?"')
@@ -2047,9 +2041,9 @@ def talk():
                                     print(sQuests[1]['name'],' abandoned!')
                                 switch[14] = True
                                 part = '4'
-                            else:
-                                switch[14] = True
-                                part = '4'
+                        else:
+                            switch[14] = True
+                            part = '4'
         else:
             print('There was no one to talk to')
     elif (location == '3'):
@@ -2200,7 +2194,7 @@ def talk():
                                 print('"It’s not that I want to go there but I’d like to know."')
                                 cont()
                                 print('Thay:')
-                                print('"It’s called Fort Town."')
+                                print('"It’s called Forton."')
                                 cont()
                                 print('Thay:')
                                 print('"It’s known for its great library, taking in orphans within the region and being the resting place of the hero Agrimus."')
@@ -2358,8 +2352,8 @@ def talk():
                 print('1: Squirrel')
                 t = input('talk to: ')
                 if (t == '1'):
-                    print('The squirrel could not see Alder. He needed to let either Florace or Kyla to let her in.')
-            elif (c2Switch[2] == False and c2Switch[3] == True):
+                    print('')
+            elif (c2Switch[0] == False and c2Switch[1] == True):
                 print('1: Trissie')
                 t = input('talk to: ')
                 if (t == '1'):
@@ -2436,7 +2430,7 @@ def talk():
                     cont()
                     print('Alder returned to the cottage a little disappointed with Trissie gone so soon. But he had work to do and he set about his remaining chores.')
                     cont()
-                    c2Switch[3] = False
+                    c2Switch[1] = False
         elif (chapter == '3'):
             if (c3Switch[2] == False and c3Switch[3] == True):
                 print('1: Rat')
@@ -2445,7 +2439,7 @@ def talk():
                     print('Alder did not want to get too close to the rat. Even if he could not touch or speak to him.')
                     
     elif(location == '7'):
-        if(c2Switch[4] == False):
+        if(c2Switch[2] == False):
             print('1: Mouse')
             t = input('talk to: ')
             if (t == '1'):
@@ -2540,13 +2534,12 @@ def move():
                 cont()
                 print('Alder withdraws from the cottage.')    
                 cont()
-            elif (c2Switch[0] == False and c2Switch[1] == True):
+            elif (c2Switch[0] == True):
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
                 alder.stamina -= 1
                 switch[6] = True
                 part = '2'
-                c2Switch[1] = False
             elif (c3Switch[2] == False and c3Switch[3] == True):
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
@@ -2563,18 +2556,13 @@ def move():
             alder.stamina -= 1  
             cont()
         elif (m == '3'):
-            if (mQuests[0]['accepted'] == True and mQuests[0]['completed'] == False):
+            if (mQuests[0]['accepted'] == True and mQuests[0]['completed'] == False and alder.weapon1['wpId'] != '0'):
                 location = '6'
                 print('Alder left the cottage grounds.')
                 alder.stamina -= 1    
                 cont()
             else:
-                print('Alder once got lost after he strayed too far from the cottage.')
-                cont()
-                print('He spent hours in the dark until Florace found him crying and scared.')
-                cont()
-                print('Kyla was indifferent to the situation.')
-                alder.stamina -= 1
+                print('It'"'"'s dangerous to leave the cottage unarmed.')
                 cont()
     elif (location == '4'):
         if (sQuests[2]['required'][1] == True):
@@ -2663,6 +2651,7 @@ def move():
             cont()
     elif (location == '6'):
         print('1: Cottage grounds')
+        print('2: Deep Woods')
         m = input('Move to: ')
         if (m == '1'):
             location = '3'
@@ -2670,7 +2659,7 @@ def move():
                 print('Alder:')
                 print('"Florace! I'"'"'m done!"')
                 cont()
-                print('Florace was having a conversation with Thay, when they took a look at Alder and noticed the swollen red marks where the hornets had stung his exposed skin.')
+                print('Florace was having a conversation with Thay, when they looked at Alder they immediately noticed the swollen red marks where the hornets had stung his exposed skin.')
                 cont()
                 print('Florace:')
                 print('"Alder what happened, are you ok!"')
@@ -2704,6 +2693,13 @@ def move():
                 part = '4'
                 switch[4] = True
             alder.stamina -= 1
+        elif (m == '2'):
+            print('Alder once got lost after he strayed too far from the cottage.')
+            cont()
+            print('He spent hours in the dark until Florace found him crying and scared.')
+            cont()
+            print('Kyla was indifferent to the situation.')
+            cont()
     elif (location == '7'):
         print('Alder could not move.')
 #Save the game
@@ -2831,11 +2827,11 @@ def objective():
         print('\tTalk to characters if a character has a "!" mark then they will quest for Alder')
     elif(c2Switch[0] == True):
         print('\tMove to the living room to attend meeting.')
-    elif(c2Switch[3] == True):
-        print('\tFight dummy')
-    elif(c2Switch[4] == True):
+    elif(c2Switch[1] == True):
+        print('\tTalk to Trissie for archery practise')
+    elif(c2Switch[2] == True):
         print('\tGo to bed.')
-    elif(c2Switch[5] == True):
+    elif(c2Switch[3] == True):
         print('\tExplore strange place.')
     elif(c3Switch[0] == True and chapter == '2'):
         print('\tTake sword!')
@@ -2844,9 +2840,9 @@ def objective():
     elif(c3Switch[1] == True):
         print('\tRead "Read Magical things of history".')
     elif(c3Switch[2] == True):
-        print('\tLook out window.')
+        print('\tLook out window in living room.')
     elif(c3Switch[3] == True):
-        print('\tLook out window.')
+        print('\tLook out window in living room.')
     elif(c3Switch[4] == True):
         print('\tTalk to weasel')
     elif(c3Switch[5] == True):
@@ -2927,7 +2923,7 @@ def free(location, chapter, part):
     elif(tutorialSwitch[3] == True):
         print('Alder'"'"'s job around the cottage is to entertain guests. Let'"'"'s talk to Thay now.')
     elif(tutorialSwitch[4] == True):
-        print('Alder will need the knife in the shed examine the area to find and pick up the knife and "equip"("x") the knife from your "items"("i") inventory.')
+        print('Alder will need the knife in the shed examine the area to find and pick up the knife and "equip"("x") the knife from your "items"("i") inventory as main weapon.')
     elif(tutorialSwitch[5] == True):
         print('Find an opponent to fight. There will be six options available for each turn. Type "h2", "help2" or "Help2" for more details.')
     elif(tutorialSwitch[6] == True):
@@ -3106,7 +3102,6 @@ def game():
                 f.close()
                 location = '3'
                 switch[5] = False
-                c2Switch[0] = False
             elif (switch[6] == True and part == '2'):
                 skip = False
                 f = open("data/Cutscenes.txt", "rt")
@@ -3123,8 +3118,8 @@ def game():
                             if(s == 'skip'):
                                 skip = True
                 f.close()
-                c2Switch[2] = False
                 switch[6] = False
+                c2Switch[0] = False
             elif (switch[7] == True and part == '3'):
                 skip = False
                 f = open("data/Cutscenes.txt", "rt")
@@ -3159,7 +3154,7 @@ def game():
                             if(s == 'skip'):
                                 skip = True
                 f.close()
-                c2Switch[5] = False
+                c2Switch[3] = False
                 switch[8] = False
             elif (switch[9] == True and part == '5'):
                 skip = False
