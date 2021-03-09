@@ -1,7 +1,7 @@
 chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 0$ Prolouge
-0$ Null$ Null$ 1$ In the corridors of a Fort within the upper left of a green field of a valley near the edge of the deep woods and at the foot of a great hill, two of its dwellers were discussing plans for the days to come. They were the lord, an old greyish field mouse and a pudgy vole both in brown clothing. They were discussing daily matters and had taken their talks to a corridor overseeing the great hall filled with tapestries for the warriors and wise creatures their order worships, cut off from the sunlight of the outside.
-0$ Null$ Null$ 2$ It is long into their conversation about their upcoming feast when a young shrew came running from under the archway leading from the nursing chambers. The section of the abbey that served as an orphanage. He was calling for the mouse abbot and panted as he spoke.
+0$ Null$ Null$ 1$ In the corridors of a Fort, two of its dwellers were discussing plans for the days to come. They were the lord, an old greyish field mouse and a pudgy vole both in brown clothing, discussing daily matters and had taken their talks to a corridor overseeing the great hall filled with tapestries of their history.
+0$ Null$ Null$ 2$ It is long into their conversation about their upcoming feast when a young shrew came running up the stairs that lead to the ground floor. He was calling for the mouse lord and panted as he spoke.
 0$ Null$ Null$ 3$ Shrew:£"My Lord!"
 0$ Null$ Null$ 4$ Shrew:£*Pant* "Excuse me!"
 0$ Null$ Null$ 5$ Shrew:£*Pant* *Pant* "Lord Dilecto!"
@@ -11,29 +11,28 @@ chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 9$ Vole:£"He has no authority to call a meeting involving the lord."
 0$ Null$ Null$ 10$ Vole:£"What is it for?"
 0$ Null$ Null$ 11$ Shrew:£"The Gowls… they are… conducting patrols of the woodlands north of here."
-0$ Null$ Null$ 12$ Vole:£"And why does that matter!?"
-0$ Null$ Null$ 13$ Vole:£"That may be unusual but it's none of our concern."
-0$ Null$ Null$ 14$ Vole:£"We are not their target."
-0$ Null$ Null$ 15$ Dilecto:£"But someone could be."
-0$ Null$ Null$ 16$ Dilecto:£"I approve and will be attending."
-0$ Null$ Null$ 17$ Vole:£"But my lord the Gowls are no doubt looking for slavers traitors and humans."
-0$ Null$ Null$ 18$ Vole:£"Enemies who’d do us harm!"
-0$ Null$ Null$ 19$ Vole:£"Surely they are justified."
-0$ Null$ Null$ 20$ Dilecto:£"We shall discuss this."
-0$ Null$ Null$ 21$ Dilecto:£"Though I would prefer there to be no acts of violence near our borders."
-0$ Null$ Null$ 22$ Dilecto:£"Besides, not all humans are evil, we had human friends during the war."
-0$ Null$ Null$ 23$ Dilecto:£"Times would have been far grimmer without them."
-0$ Null$ Null$ 24$ Shrew:£"They were... friends with Agrimus?"
-0$ Null$ Null$ 25$ Vole:£"Why does every conversation we have with you end up involving the Scion Dean."
-0$ Null$ Null$ 26$ Dean:£"I, um."
-0$ Null$ Null$ 27$ Dean was embarrassed. He has always been very invested in this topic and often brought it up.
-0$ Null$ Null$ 28$ Dilecto:£"Hahaha."
-0$ Null$ Null$ 29$ Dilecto:£"It's alright Dean."
-0$ Null$ Null$ 30$ Dilecto:£"It has been so long since his time."
-0$ Null$ Null$ 31$ Vole:£*Sighs* "About thirty years now."
-0$ Null$ Null$ 32$ Dean:£"Um?"
-0$ Null$ Null$ 33$ Dean:£"Do you think the next one will appear soon?"
-0$ Null$ Null$ 34$ Vole:£"As great as that would be, the Woodlands are at peace."
+0$ Null$ Null$ 12$ Vole:£"That may be unusual but it's none of our concern."
+0$ Null$ Null$ 13$ Vole:£"We are not their target."
+0$ Null$ Null$ 14$ Dilecto:£"But someone could be."
+0$ Null$ Null$ 15$ Dilecto:£"I approve and will be attending."
+0$ Null$ Null$ 16$ Vole:£"But my lord the Gowls are no doubt looking for slavers traitors and humans."
+0$ Null$ Null$ 17$ Vole:£"Enemies who’d do us harm!"
+0$ Null$ Null$ 18$ Vole:£"Surely they are justified."
+0$ Null$ Null$ 19$ Dilecto:£"We shall discuss this."
+0$ Null$ Null$ 20$ Dilecto:£"Though I would prefer there to be no acts of violence near our borders."
+0$ Null$ Null$ 21$ Dilecto:£"Besides, not all humans are evil, we had human friends during the war."
+0$ Null$ Null$ 22$ Dilecto:£"Times would have been far grimmer without them."
+0$ Null$ Null$ 23$ Shrew:£"They were... friends with Agrimus?"
+0$ Null$ Null$ 24$ Vole:£"Why does every conversation we have with you end up involving the Scion Dean."
+0$ Null$ Null$ 25$ Dean:£"I, um."
+0$ Null$ Null$ 26$ Dean was embarrassed. He has always been very invested in this topic and often brought it up.
+0$ Null$ Null$ 27$ Dilecto:£"Hahaha."
+0$ Null$ Null$ 28$ Dilecto:£"It's alright Dean."
+0$ Null$ Null$ 29$ Dilecto:£"It has been so long since his time."
+0$ Null$ Null$ 30$ Vole:£*Sighs* "About thirty years now."
+0$ Null$ Null$ 31$ Dean:£"Um?"
+0$ Null$ Null$ 32$ Dean:£"Do you think the next one will appear soon?"
+0$ Null$ Null$ 33$ Vole:£"As great as that would be, the Woodlands are at peace."
 0$ Null$ Null$ 35$ Vole:£"There is no need for a Scion."
 0$ Null$ Null$ 36$ Dilecto:£"Despite the human cullings that is."
 0$ Null$ Null$ 37$ Vole:£"Sir Darrunt and his Gowls Knights have every right to deal with those vermin."
@@ -62,18 +61,19 @@ chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 60$ Dilecto:£"I wonder what kind of creature you have planned?"
 0$ Null$ Null$ 61$ Dilecto:£"Whoever you pick I shall always trust your judgement."
 1$ 0$ 1$ 1$ Chapter 1
-1$ 0$ 1$ 2$ Deep in the Oldwyrm woods north of the Fort a lone creature is wandering through the underbrush. It was a hedgehog. His quills sticking out of his jacket, hood and blue scarf. He had a travelling bag with various herbs and seeds. He was whispering into the air.
+1$ 0$ 1$ 2$ Deep in the Oldwyrm woods north of the Fort a lone creature wandered through the underbrush. It was a hedgehog, with quills sticking out of his jacket, hood and blue scarf and a travelling bag with various herbs and seeds. He was whispering into the air.
 1$ 0$ 1$ 3$ Hedgehog:£"The rabbit seeks his burrow."
-1$ 0$ 1$ 4$ There was a silence excluding the song of birds and insects of the setting summer. Part of a nearby boulder opened like a door and through it was the living room of a cottage. Out of the doorframe there was a woman. She towered above the hedgehog, his height not even making it to her waist. She had long dark hair that went down her shoulders and fair pale skin.
+1$ 0$ 1$ 4$ There was a silence excluding the song of birds and insects of the setting summer air. A door opened up in the face of a nearby boulder and through it was the living room of a cottage. A woman stepped out of the doorway towering over the hedgehog who’s height did not even reach her waist. She had long dark hair that draped over her shoulders contrasting her pale skin.
 1$ 0$ 1$ 5$ In front of him a woman appeared. She towered above the hedgehog, his height not even making it to her waist. She had long dark hair that went down her shoulders and fair pale skin.
 1$ 0$ 1$ 6$ Woman:£"Thay! It's good to see you!"
-1$ 0$ 1$ 7$ Thay:£"And you too Florace."
+1$ 0$ 1$ 7$ Thay:£"And you Florace."
 1$ 0$ 1$ 8$ Thay:£"Where’s young Alder?"
 1$ 0$ 1$ 9$ Florace:£"He’s inside."
 1$ 0$ 1$ 10$ Florace:£"He still has to clean the dishes."
 1$ 0$ 1$ 11$ Florace:£"Alder!!"
 1$ 0$ 1$ 12$ Florace:£"Thay's" here!
-1$ 0$ 1$ 13$ Inside the cottage, a boy with chestnut hair in a similarly light brown tunic that was worn, torn and noticeably small. He was cleaning plates in the kitchen. He was standing on a stool. He knew the hedgehog and enjoyed his company. He hurried to finish his task making sure each plate was spotless so he would not have to repeat the chore. After he had finished drying the last wooden spoon he was rushed to meet him. This Boy is Alder and this is his story.
+1$ 0$ 1$ 13$ Inside the cottage kitchen stood on a stool cleaning plates was a boy with chestnut hair, clothed in a worn, torn and noticeably small tunic. He knew the hedgehog and enjoyed his company, so hurried to finish his task making sure each plate was spotless. After he had finished drying the last wooden spoon he was rushed to meet him.
+1$ 0$ 1$ 14$ This Boy is Alder and this is his story.
 1$ 1$ 2$ 1$ Thay and Florace are waiting for Alder in the clearing.
 1$ 1$ 2$ 2$ Thay:£"Haha! How’ve you been Alder?"
 1$ 1$ 2$ 3$ Alder:£"I’ve been great!"
@@ -84,11 +84,11 @@ chapter$ switch$ part$ line$ dialog
 1$ 1$ 2$ 8$ Thay:£"Well."
 1$ 1$ 2$ 9$ Thay:£"Better I'll be meeting with the witch."
 1$ 1$ 2$ 10$ Thay:£"I'll chat with you both soon."
-1$ 1$ 2$ 11$ Thay went to the cottage and seeing little reason to knock as he was clearly welcome, let himself in.
+1$ 1$ 2$ 11$ Thay went to the cottage and let himself in.
 1$ 2$ 2$ 1$ As Alder talked with Florace, Thay came back out of the cottage.
-1$ 2$ 2$ 2$ Thay:£"Thank you, Madame Kyla.
+1$ 2$ 2$ 2$ Thay:£"Thank you, Madame Kyla."
 1$ 2$ 2$ 3$ Kyla:£"Yes yes. Come again."
-1$ 2$ 2$ 4$ The old witch closed the door behind Thay who approached to speak to Alder and Florace.
+1$ 2$ 2$ 4$ The old witch closed the door behind Thay as he moved to speak to Alder and Florace. She was the owner of the cottage and the caretaker of Florace who in turn was the caretaker of Alder. Alder did not have much of a relationship with the witch outside of being her servant.
 1$ 3$ 3$ 1$ Florace:£"Alder!"
 1$ 3$ 3$ 2$ Florace:£"I need you!"
 1$ 3$ 3$ 3$ Alder looked back at Thay, disappointed that their conversation had to be cut short.
@@ -97,7 +97,7 @@ chapter$ switch$ part$ line$ dialog
 1$ 3$ 3$ 6$ Alder:£*Sigh*
 1$ 3$ 3$ 7$ Alder:£"Yes Florace?"
 1$ 3$ 3$ 8$ Florace:£"We are out of meat."
-1$ 3$ 3$ 9$ Florace:£"I need you to go to hunt an insect or two."
+1$ 3$ 3$ 9$ Florace:£"I need you to go hunt an insect or two."
 1$ 3$ 3$ 10$ Alder:£"Ok."
 1$ 3$ 3$ 11$ Alder:£"Where do you want me to look?"
 1$ 3$ 3$ 12$ Florace:£"Just outside the burrow."
