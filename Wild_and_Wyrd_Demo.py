@@ -2662,24 +2662,24 @@ def move():
 #Save the game
 def save(location, chapter, part):
     data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, branchSwitch, shill, inv, PKSwitch, mQuests, sQuests, alder]
-    print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, branchSwitch, shill, inv, PKSwitch, mQuests, sQuests, alder)
+    #print (location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, branchSwitch, shill, inv, PKSwitch, mQuests, sQuests, alder)
     i = input('Save in file "1", "2" or "3":')
     if (i == '1'):
         PIK = 'data/file1.dat'
         with open(PIK, "wb") as f:
-            print(data)
+            #print(data)
             pickle.dump(data, f)
         print ('Game Saved!')
     elif (i == '2'):
         PIK = 'data/file2.dat'
         with open(PIK, "wb") as f:
-            print(data)
+            #print(data)
             pickle.dump(data, f)
         print ('Game Saved!')
     elif (i == '3'):
         PIK = 'data/file3.dat'
         with open(PIK, "wb") as f:
-            print(data)
+            #print(data)
             pickle.dump(data, f)
         print ('Game Saved!')
 
