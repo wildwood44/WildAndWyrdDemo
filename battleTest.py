@@ -24,7 +24,7 @@ class Alder:
         self.aliment = 'None'
         self.cStatus = 'None'
         self.ammo = {'name': '', 'loaded' : False, 'damage' : 0}
-        self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':True, 'effect':'Increases Evasion for five turns.'},
+        self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Increases Evasion for five turns.'},
                         {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
                         ]
     property
@@ -161,7 +161,7 @@ class Dummy:
     def __init__(self):
         self.enId = '3'
         self.name = 'Dummy'
-        self.maxHealth = 100
+        self.maxHealth = 24
         self.health = self.maxHealth
         self.type = 'puppet'
         self.Exp = 5
@@ -174,7 +174,7 @@ class Dummy:
         self.strat = 'Attacker'
         self.aliment = 'None'
         self.cStatus = 'None'
-        self.desc = 'Made from sticks and a sack. Made to fight.'
+        self.desc = 'Durable but falling apart.'
     property
     def attack(self):
         attack = self.baseAttack
@@ -195,10 +195,48 @@ class Dummy:
     def evasion(self):
         evasion = self.baseEvasion
         return evasion
-
-class Gowl_Rabbit:
+class Wall:
     def __init__(self):
         self.enId = '4'
+        self.name = 'Wall'
+        self.maxHealth = 500
+        self.health = self.maxHealth
+        self.type = 'Puzzle'
+        self.Exp = 5
+        self.drop = []
+        self.baseAttack = 0
+        self.baseDefence = 400
+        self.baseAccuracy = 0
+        self.baseSpeed = 0
+        self.baseEvasion = 0
+        self.strat = 'Attacker'
+        self.aliment = 'None'
+        self.cStatus = 'None'
+        self.desc = 'The wall between the living room and the shed.'
+    property
+    def attack(self):
+        attack = self.baseAttack
+        return attack
+    property
+    def defence(self):
+        defence = self.baseDefence
+        return defence
+    property
+    def accuracy(self):
+        accuracy = self.baseAccuracy
+        return accuracy
+    property
+    def speed(self):
+        speed = self.baseSpeed
+        return speed
+    property
+    def evasion(self):
+        evasion = self.baseEvasion
+        return evasion
+    
+class Gowl_Rabbit:
+    def __init__(self):
+        self.enId = '5'
         self.name = 'Gowls Captain Clipgrea'
         self.maxHealth = 12000
         self.health = self.maxHealth
@@ -508,16 +546,15 @@ def equipment():
         i = input('Set: ')
         if (i == '1'):
             print('\nItem Sets')
-            print('1: tutorial items set')
-            print('2: ranged items set')
+            print('1: primary weaponry')
+            print('2: secondary weaponry')
+            print('3: health and stamina items')
             j = input('Item set:')
             if (j == '1'):
                 print('\nDagger obtained')
                 itemCount(weapons[2], 1)
-                print('\nBlackberries obtained')
-                itemCount(food[0], 5)
-                print('\nBandage obtained')
-                itemCount(items[0], 5)
+                print('\nLeif obtained')
+                itemCount(weapons[1], 1)
             elif (j == '2'):
                 print('\nBow obtained')
                 itemCount(weapons[3], 1)
@@ -527,6 +564,11 @@ def equipment():
                 itemCount(projec[0], 5)
                 print('\nNet obtained')
                 itemCount(projec[1], 1)
+            elif (j == '3'):
+                print('\nBlackberries obtained')
+                itemCount(food[0], 5)
+                print('\nBandage obtained')
+                itemCount(items[0], 5)
         elif (i == '2'):
             inventory()
         elif (i == '3'):
@@ -552,7 +594,8 @@ def setFoe():
             print('1: Cricket')
             print('2: Wasp')
             print('3: Dummy')
-            print('4: Gowls Captain')
+            print('4: Wall')
+            print('5: Gowls Captain')
             j = input('Enemy: ')
             if (j == '1'):
                 enemy[0] = Cricket()
@@ -561,13 +604,16 @@ def setFoe():
             elif (j == '3'):
                 enemy[0] = Dummy()
             elif (j == '4'):
+                enemy[0] = Wall()
+            elif (j == '5'):
                 enemy[0] = Gowl_Rabbit()
         elif (i == '2'):
             print('\nSelect Enemy')
             print('1: Cricket')
             print('2: Wasp')
             print('3: Dummy')
-            print('4: Gowls Captain')
+            print('4: Wall')
+            print('5: Gowls Captain')
             print('c - Blank')
             j = input('Enemy: ')
             if (j == 'c'):
@@ -579,13 +625,16 @@ def setFoe():
             elif (j == '3'):
                 enemy[1] = Dummy()
             elif (j == '4'):
-                enemy[1] = Gowl_Rabbit()
+                enemy[1] = Wall()
+            elif (j == '5'):
+                enemy[0] = Gowl_Rabbit()
         elif (i == '3'):
             print('\nSelect Enemy')
             print('1: Cricket')
             print('2: Wasp')
             print('3: Dummy')
-            print('4: Gowls Captain')
+            print('4: Wall')
+            print('5: Gowls Captain')
             print('c - Blank')
             j = input('Enemy: ')
             if (j == 'c'):
@@ -597,7 +646,9 @@ def setFoe():
             elif (j == '3'):
                 enemy[2] = Dummy()
             elif (j == '4'):
-                enemy[2] = Gowl_Rabbit()
+                enemy[2] = Wall()
+            elif (j == '5'):
+                enemy[0] = Gowl_Rabbit()
         elif (i == '4'):
             if(enemy[0].enId != null.enId):
                 battle(enemy)
@@ -663,14 +714,10 @@ def enemyAttack(e, p, b):
             if (critical >= 90):
                 impact += 10
             impact = round(impact * (100/(100 + p.defence())))
+            if (p.cStatus == 'Blocking'):
+                impact = round(impact/10)
             if (impact <= 0):
                 impact = 1
-            if (p.cStatus == 'Blocking'):
-                temp = impact
-                impact -= b
-                if (impact < 0):
-                    impact = 0
-                alder.cStatus = 'None'
             p.health -= impact
             print('\n',e.name,' attacked!')
             if(critical >= 90):
@@ -711,12 +758,19 @@ def attack(p, e):
     else:
         if (hit < target):
             impact = random.randrange(p.attack() - 5, p.attack() + 5)
-            if (critical >= 90):
-                impact += 10
-            impact = round(impact * (100/(100 + e.defence())))
-            if (impact <= 0):
-                impact = 1
-            e.health -= impact
+            if(p.weapon1['wpId'] != '0'):
+                if (critical >= 90):
+                    impact += 10
+                impact = round(impact * (100/(100 + e.defence())))
+                if (impact <= 0):
+                    impact = 1
+                e.health -= impact
+                print('\n',p.name,' attacked!')
+                if(critical >= 90):
+                    print('Critical Hit!')
+            else:
+                impact = 0
+                print('\nBut',p.name, ' was unarmed')
             print('\n',p.name,' attacked!')
             if(critical >= 90):
                 print('Critical Hit!')
@@ -745,9 +799,13 @@ def inEffect():
 
 def special(p):
     print('\nSpecial Ability')
+    count = 0
     for i in p.special:
         if (i['unlocked'] == True):
             print(i['spId'], ') ',i['name'], ' - ', i['cost'], ' stamina')
+            count += 1
+    if (count == 0):
+        print('None')
     sp = input('Use: ')
     for i in p.special:
         if (i['unlocked'] == True):
@@ -865,7 +923,6 @@ def battle(e):
                 i = input('Action: ')
                 if (i == '1' or i == 'attack' or i == 'Attack'):
                     print('\nEnemies')
-                    alder.cStatus = 'Attacking'
                     j = 1
                     for i in enemys:
                         if (i.health > 0):
@@ -876,6 +933,7 @@ def battle(e):
                     for i in enemys:
                         if (i.health > 0):
                             if (target == str(j)):
+                                alder.cStatus = 'Attacking'
                                 attack(alder, i)
                             j += 1
                 elif (i == '2' or i == 'block' or i == 'Block'):
@@ -898,7 +956,7 @@ def battle(e):
             for i in enemys:
                 if(i.health > 0):
                     if(i.strat == 'Attacker'):
-                        print(i.health)
+                        print(alder.cStatus)
                         if (i.aliment != 'Caught'):
                             enemyAttack(i, alder, bck)
                         else:
