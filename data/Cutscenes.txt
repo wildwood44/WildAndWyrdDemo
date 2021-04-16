@@ -79,7 +79,7 @@ chapter$ switch$ part$ line$ dialog
 1$ 1$ 2$ 4$ Thay:£"You’ve gotten bigger too."
 1$ 1$ 2$ 5$ Thay:£"I remember when we were the same size."
 1$ 1$ 2$ 6$ Alder:£"I'm not a toddler anymore."
-1$ 1$ 2$ 7$ Thay smiled warmly at Alder, then turned to look at an elderly woman in the cottage door. She was a short and very wrinkled woman with a curved beak-like nose.
+1$ 1$ 2$ 7$ Thay smiled warmly at Alder, then turned to look at an elderly woman in the cottage door. She was a short and very wrinkled human with a curved beak-like nose.
 1$ 1$ 2$ 8$ Thay:£"Well."
 1$ 1$ 2$ 9$ Thay:£"Better I'll be meeting with the witch."
 1$ 1$ 2$ 10$ Thay:£"I'll chat with you both soon."
@@ -109,25 +109,28 @@ chapter$ switch$ part$ line$ dialog
 1$ 4$ 4$ 5$ Thay:£"Goodbye lad."
 1$ 4$ 4$ 6$ And with that, the hedgehog left. Leaving the burrow for lands unknown to Alder. He headed back to the cottage. Back to his daily chores of cleaning, gathering and grinding leaves until his hands were sore. As the day came to an end the residents of the cottage were unaware of the shadows that came ever closer.
 2$ 5$ 1$ 1$ Chapter 2
-2$ 5$ 1$ 2$ Dawn came, sunlight striking Alder’s face through the curtainless window. He began his day like normal, going downstairs to eat his breakfast of nuts and berries scavenged from the foot of trees and bushes, then clean the plates and cups using water gathered from rain or the nearest point of the river. The day was set to be a very mundane one, where Alder could only hope that a guest would come, just as Thay did the day before. Otherwise, today he will only be sweeping floors, chopping wood and foraging mushrooms allowing the hours tick by until it was time for the next chore.
+2$ 5$ 1$ 2$ Dawn came, sunlight striking Alder’s face through the curtainless window. He began his day as always, going downstairs to eat his breakfast of scavenged nuts and berries before cleaning the plates and cups. The day was set to be a very mundane one, Alder could only hope that a guest would come just as Thay did the day before. Otherwise, today he would be sweeping floors, chopping wood and foraging mushrooms allowing time to tick by until the next chore.
 2$ 5$ 1$ 3$ Alder:£*Yawn*
-2$ 5$ 1$ 4$ The dull boredom was broken to Alder excitement when a squirrel he knew came down from the trees and ran into the area with the cottage. The squirrel was female but wore male clothing, strapped to her back was a bow and quiver and the tip half of her tail missing. She spoke to Alder in a loud whisper.
+2$ 5$ 1$ 4$ The dull boredom was broken when a familiar squirrel missing half her tail came running down from the trees and into the cottage clearing. She wore male clothing and strapped to her back was a bow and quiver. She spoke to Alder in a loud whisper.
 2$ 5$ 1$ 5$ Squirrel:£"Hi Alder!"
 2$ 5$ 1$ 6$ Alder:£"Trissie!"
-2$ 5$ 1$ 7$ Squirrel:£"Shh. Not so loud!"
-2$ 5$ 1$ 8$ Trissie sprand up onto Alder shoulders to cover his mouth. She took a quick look at her surroundings.
-2$ 5$ 1$ 9$ Trissie:£"I need to see Kyla as soon as I can."
-2$ 5$ 1$ 10$ Trissie:£"I have something everyone should hear."
-2$ 5$ 1$ 11$ Alder found Trissie fun to be around but it sounded like she was in a hurry. He could not help but feel dejected by her hast.
+2$ 5$ 1$ 7$ Trissie:£"Shh. Not so loud!"
+2$ 5$ 1$ 8$ Trissie sprang up onto Alder shoulders to cover his mouth. She quickly surveyed their surroundings.
+2$ 5$ 1$ 9$ Trissie:£"I need to see Kyla as soon as possible."
+2$ 5$ 1$ 10$ Trissie:£"I have something you all should hear."
+2$ 5$ 1$ 11$ Alder found Trissie fun to be around but it sounded like she was in a hurry. He couldn't help but feel dejected by her haste.
 2$ 5$ 1$ 12$ Alder:£"Ok..."
-2$ 5$ 1$ 13$ Trissie:£"Aw. Don’t make that face."
-2$ 5$ 1$ 14$ Trissie:£"Say."
-2$ 5$ 1$ 15$ Trissie:£"Why don't I give you some archery lessons before I leave?"
-2$ 5$ 1$ 16$ As Alder brightens up at the thought. But those emotions were cut when Trissie mumbled.
-2$ 5$ 1$ 17$ Trissie:£"You might need them."
-2$ 5$ 1$ 18$ Florace:£"Triss!"
-2$ 5$ 1$ 19$ Florace was staring from the entrance of the cottage door. She went back in with Trissie.
-2$ 6$ 2$ 1$ Trissie had rested her bow and quiver on the wall and hopped onto one of the chairs on the table. Kyla was opposite her in her rocking chair while everyone else stood around the table as spectators. Alder walked over to take position next to Florace. With everyone gathered Trissie began.
+2$ 5$ 1$ 13$ Alder:£"...The rabbit seeks his burrow!"
+2$ 5$ 1$ 14$ *Click*
+2$ 5$ 1$ 15$ The door to the cottage was unlocked, but Trissie was more concerned about Alder's disappointment.
+2$ 5$ 1$ 16$ Trissie:£"Aw. Don’t make that face."
+2$ 5$ 1$ 17$ Trissie:£"Say."
+2$ 5$ 1$ 18$ Trissie:£"Why don't I give you some archery lessons before I leave?"
+2$ 5$ 1$ 19$ Alder brightened up at the thought, but his glee was cut when Trissie mumbled.
+2$ 5$ 1$ 20$ Trissie:£"You might need them."
+2$ 5$ 1$ 21$ Florace:£"Triss!"
+2$ 5$ 1$ 22$ Florace was looking towards them from the cottage door. Trissie went to join her inside.
+2$ 6$ 2$ 1$ Trissie was sat by the table while her bow and quiver rested against the wall. Kyla sat opposite in her rocking chair while everyone else stood around the table as spectators. Alder walked over to take position next to Florace and with everyone gathered, Trissie began.
 2$ 6$ 2$ 2$ Trissie:£"I’ll make this quick!"
 2$ 6$ 2$ 3$ Trissie:£"There are Gowl knights patrolling these woods!"
 2$ 6$ 2$ 4$ Kyla and Florace sat upright and began muttering to each other.
@@ -135,23 +138,23 @@ chapter$ switch$ part$ line$ dialog
 2$ 6$ 2$ 6$ Kyla:£"Not unless one of our clients has sold us out."
 2$ 6$ 2$ 7$ Kyla:£"Even so their search shall come up empty."
 2$ 6$ 2$ 8$ Trissie:£"I don’t know."
-2$ 6$ 2$ 9$ Trissie:£"There's quite a few of them and they are setting up camps."
+2$ 6$ 2$ 9$ Trissie:£"There's quite a few of them and they're setting up camps."
 2$ 6$ 2$ 10$ Trissie:£"They seemed certain that they would find something."
 2$ 6$ 2$ 11$ Kyla:£"My magic is strong."
 2$ 6$ 2$ 12$ Kyla:£"They’ll never find this place."
 2$ 6$ 2$ 13$ Trissie:£"I hope so."
 2$ 6$ 2$ 14$ Trissie:£"Anyway, the woods are full of soldiers, most of whom appear to be new recruits."
 2$ 6$ 2$ 15$ Kyla:£"That proves my point!"
-2$ 6$ 2$ 16$ Kyla:£"Whatever they know, their sending saplings, they cannot be very confident about it!"
+2$ 6$ 2$ 16$ Kyla:£"Whatever they know, they're sending saplings, they can't be very sure about it!"
 2$ 6$ 2$ 17$ Trissie:£"Being overseen by several captains apparently ordered by Darrunt himself!"
 2$ 6$ 2$ 18$ The mood dimmed but Kyla remained confident. Alder had rarely been involved in conversations about the dangers of the outside world and was unsure how to feel. He whispered to Florace as Kyla dismissed Trissie’s warning.
 2$ 6$ 2$ 19$ Alder:£"Who’s Darrunt?"
-2$ 6$ 2$ 20$ Florace:£"He is the leader of the Gowls."
-2$ 6$ 2$ 21$ Florace:£"He is known for hating humans more than anything."
-2$ 6$ 2$ 22$ Florace:£"He won't come here though."
+2$ 6$ 2$ 20$ Florace:£"He's the leader of the Gowls."
+2$ 6$ 2$ 21$ Florace:£"Known for hating humans more than anything."
+2$ 6$ 2$ 22$ Florace:£"He wouldn't think to look in woods this far north though."
 2$ 6$ 2$ 23$ Florace:£"Too devoid of what he hates."
 2$ 6$ 2$ 24$ While Alder and Florace whispered to each other Kyla had relaxed back into her chair at the end of her rebuttal.
-2$ 6$ 2$ 25$ Kyla:£"We’ll lay low for the next few days, we are well stocked and have enough water to last us a few days."
+2$ 6$ 2$ 25$ Kyla:£"We’ll lay low for the next few days, food is plentiful and have enough water to last us a few days."
 2$ 6$ 2$ 26$ Kyla:£"Thank you for your warnings, Trissie dear."
 2$ 6$ 2$ 27$ Kyla:£"But I think we will be fine."
 2$ 6$ 2$ 28$ Trissie:£"If you say so."
@@ -160,27 +163,29 @@ chapter$ switch$ part$ line$ dialog
 2$ 6$ 2$ 31$ Trissie:£"I promised you archery lessons?"
 2$ 6$ 2$ 32$ Alder:£"Yes!"
 2$ 6$ 2$ 33$ Trissie:£"Then meet me outside."
-2$ 6$ 2$ 34$ Trissie:£"Trissie leaves through the front door. From inside the cottage, Alder could see her picking up a large stick and sticking it into the ground."
-2$ 7$ 3$ 1$ After a while, the light of day dimmed as the sky turned orange signifying the day was coming to an end. Alder wondered if Thay and Trissie got away all right. The three residents of the cottage had roasted hornet for supper.
-2$ 7$ 3$ 2$ Alder returns to his bed unaware that this would be his last time in it and that his life would never again be the same as it had been. Change is inevitable whether or not you want or even expect it.
+2$ 6$ 2$ 34$ Trissie:£"Trissie left through the front door. From inside the cottage, Alder could see her picking up a large stick and forcing it into the ground."
+2$ 7$ 3$ 1$ After a while, the sky turned orange signifying the day was coming to an end. Alder wondered if Thay and Trissie got away all right.
+2$ 7$ 3$ 2$ After a supper of roasted hornets, Alder returned to his bed unaware that this would be his last time in it and that his life would be forever changed.
 2$ 7$ 3$ 3$ Alder:£"........."
 2$ 7$ 3$ 4$ Alder:£"................hm?"
 2$ 7$ 3$ 5$ Alder:£"Wha...?"
-2$ 7$ 3$ 6$ Alder wakes in an empty clearing.
-2$ 8$ 4$ 1$ Countless ghostly figures appear from the darkness between the trees. All of them were creatures of the woodlands from mice to wolves. But there were no humans among them.
-2$ 8$ 4$ 2$ The ground in front of Alder started to burst up and a bulky mouse wearing a metal chest plate and a belt which was attached to a red cloth covering his waist, it held a sword by his right side. Despite being nearly half the size of Alder's leg, Alder was still intimidated. His face was that of a seasoned warrior, with the agile yet strong figure by mouse standards at least.
-2$ 8$ 4$ 3$ The mouse walked up to Alder until he was standing right in front of him staring him directly in his eyes. In surreality only possible in dreams the mouse picked Alder up and took him over to the hole where he had emerged from. Alder was still surprised by his however and panicked but something was stopping him from moving how he wanted.
-2$ 8$ 4$ 4$ Alder:£"Wait!"
-2$ 8$ 4$ 5$ Alder:£"What’s happening!?"
-2$ 8$ 4$ 6$ Alder:£"What are you doing!?"
-2$ 8$ 4$ 7$ The mouse gently placed Alder in the hole and carefully reset the soil until Alder’s body was submerged in the soil with his head and hands sticking out at the surface.
-2$ 8$ 4$ 8$ The mouse then grabbed the handle of his sword with his right paw and pulled it out. It looked as sharp and the metal shone like a star. Alder thought for a second that he was going to use the sword to cut him.
-2$ 8$ 4$ 9$ Alder:£"Ahh!"
-2$ 8$ 4$ 10$ The mouse’s expression displayed surprise and then an apologetic head scratch conveyed that he did not mean any harm, he pulled out the scabbard and fitted the sword back into it and placed the hilt in Alder’s hand.
-2$ 9$ 5$ 1$ Alder took the sword by the grip, to his surprise, it grew in size to fit in his hand. Feeling the sword he found it surprisingly light and was comforting to hold as though it was always meant to be in his grasp.
+2$ 7$ 3$ 6$ Alder wakes in an dark empty clearing.
+2$ 8$ 4$ 1$ Gradually countless ghostly figures appeared from the darkness between the trees. All of them were creatures of the woodlands from mice to wolves, but there were notably no humans among them.
+2$ 8$ 4$ 2$ One of these figure steped out from the mass towards Alder. It was a mouse wearing a metal chest plate and a belt attached to a red cloth covering his waist, it held a sword by his right side. Despite being nearly half the size of Alder's leg, Alder was still intimidated. He had a deminor of a a young but experienced warrior, with an agile yet strong figure by mouse standards at least.
+2$ 8$ 4$ 3$ The mouse walked up to Alder until he was standing right in front of him. 
+2$ 8$ 4$ 4$ To Alder's confusion he floated down to the ground and he realised that he did not have any legs. Just a pair of thin arms and hands. His was also smaller than he realised, enough to fit in the paw of the mouse who was now digging a hole in between them.
+2$ 8$ 4$ 5$ As soon as he was done making it deep enough the mouse picked Alder up. Alder started to panic at the thought of being buried alive.
+2$ 8$ 4$ 6$ Alder:£"Wait!"
+2$ 8$ 4$ 7$ Alder:£"What’s happening!?"
+2$ 8$ 4$ 8$ Alder:£"What are you doing!?"
+2$ 8$ 4$ 9$ The mouse gently placed Alder in the pit and carefully reset the soil until Alder was half submerged in the soil with only what was assumed to be his face and hands exposed.
+2$ 8$ 4$ 10$ The mouse then grabbed the handle of his sword with his right paw and pulled it out. The sharp blade shone like a star and for a moment Alder thought that the mouse would stab him.
+2$ 8$ 4$ 11$ Alder:£"Ahh!"
+2$ 8$ 4$ 12$ The mouse expressed surprise and apologetically scratched his head to convey that he meant no harm, he pulled out the scabbard, sheathed the sword and placed the hilt in Alder’s hand.
+2$ 9$ 5$ 1$ Alder took the sword by the grip, to his surprise, it grew in size to fit in his human hand. Feeling the sword he found it surprisingly light and was comforting to hold as though it was part of him now.
 2$ 9$ 5$ 2$ Turning the sword over Alder found another slot the same as the other side.
 2$ 9$ 5$ 3$ ???:£"..."
-2$ 9$ 5$ 4$ The mouse said nothing, only smiled, he beckoned Alder to kneel. Alder compiled and the mouse patted him on his shoulders as he nodded his head and closed his eyes and continued burning Alder. He was still silent but Alder had a strange sensation of a voice in his head saying to him...
+2$ 9$ 5$ 4$ The mouse said nothing, only smiled, patted the soil around Alder, nodded his head, closed his eyes and continued burning Alder. He was still silent but Alder had a strange sensation of a voice in his head saying to him...
 2$ 9$ 5$ 5$ Good luck. My Scion.
 3$ 10$ 1$ 1$ Chapter 3
 3$ 10$ 1$ 2$ Alder woke up with the memory of what he dreamt still fresh and as clear as glass.

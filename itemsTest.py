@@ -57,35 +57,36 @@ class Alder:
               )
 #Items lists
 weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : '',
-            'attack' : 0, 'weight' : 0, 'count' : 0},
+            'attack' : 0, 'weight' : 0, 'count' : 0, 'priority': 3},
            {'wpId' : '1', 'name' : 'Lief', 'type' : 'weapon', 'description' : 'Legendary sword of the Scion.',
-            'attack' : 100, 'weight' : 5, 'count' : 0},
+            'attack' : 100, 'weight' : 5, 'count' : 0, 'priority': 3},
            {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : 'weapon', 'description' : 'A knife used to hunt insects.',
-            'attack' : 5, 'weight' : 1, 'count' : 0}
+            'attack' : 5, 'weight' : 1, 'count' : 0, 'priority': 3}
            ]
 
 armors = [{'armId' : '1', 'name' : 'None', 'type' : 'hat', 'description' : '',
-          'defence' : 0, 'weight' : 0, 'count' : 0},
+          'defence' : 0, 'weight' : 0, 'count' : 0, 'priority': 4},
           {'armId' : '1', 'name' : 'Old Tunic', 'type' : 'shirt', 'description' : 'An old shirt with holes in it.',
-          'defence' : 1, 'weight' : 1, 'count' : 0},
+          'defence' : 1, 'weight' : 1, 'count' : 0, 'priority': 5},
           {'armId' : '2', 'name' : 'Travelling Cloak', 'type' : 'shirt', 'description' : 'A too large black cloak. Good for keeping ou of sight but heavy.',
-          'defence' : 10, 'weight' : 10, 'count' : 0},
+          'defence' : 10, 'weight' : 10, 'count' : 0, 'priority': 5},
           {'armId' : '1', 'name' : 'Worn Trousers', 'type' : 'trousers', 'description' : 'An old pair of trousers long past their prime',
-          'defence' : 1, 'weight' : 1, 'count' : 0}
+          'defence' : 1, 'weight' : 1, 'count' : 0, 'priority': 6}
           ]
 food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
-          'recovers' : 5, 'count' : 0},
+          'recovers' : 5, 'count' : 0, 'priority': 1},
         {'itemId' : '2', 'name' : 'Dried Fruit', 'type' : 'food',
-          'recovers' : 5, 'count' : 0},
+          'recovers' : 5, 'count' : 0, 'priority': 1},
         {'itemId' : '3', 'name' : 'Hazelnut', 'type' : 'food',
-          'recovers' : 5, 'count' : 0}
+          'recovers' : 5, 'count' : 0, 'priority': 1}
         ]
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
-          'heals' : 10, 'count' : 0}
+          'heals' : 10, 'count' : 0, 'priority': 2}
          ]
 #Money and inventory
 shill = 0
 inv = []
+invSorted = {'food', 'healing', 'weapon', 'hat', 'shirt', 'trousers'}
 PKSwitch = [[True, True, True, True, True], True, True]
 #Set Class
 alder = Alder()
@@ -96,6 +97,10 @@ def shillings(m):
         m == 0
     shill += m
     print('Shillings: ', shill)
+
+def itemLister(e):
+    return e['priority']
+
 #Increment items
 #Add a new item to the inventory if is is not already in there
 def itemCount(item, amount):
@@ -120,6 +125,8 @@ def itemCount(item, amount):
     if (inInv == False):
         item['count'] += amount
         inv.append(item)
+    inv.sort(key=itemLister, reverse=False)
+        
 #Pickup item or money off the ground
 #Ground item should disappear after picked up
 def pickup(s):
@@ -219,9 +226,26 @@ def inventory():
         print('\nInventory')
         print('Shillings: ', shill)
         count = 1
+        print('Food')
         for i in inv:
-            print(count, ') ', i['name'], ' x', i['count'])
-            count += 1
+            if (i['type'] == 'food'):
+                print(count, ') ', i['name'], ' x', i['count'])
+                count += 1
+        print('Healing')
+        for i in inv:
+            if (i['type'] == 'healing'):
+                print(count, ') ', i['name'], ' x', i['count'])
+                count += 1
+        print('Weapons')
+        for i in inv:
+            if (i['type'] == 'weapon'):
+                print(count, ') ', i['name'], ' x', i['count'])
+                count += 1
+        print('Armor')
+        for i in inv:
+            if (i['type'] == 'hat' or i['type'] == 'shirt' or i['type'] == 'trousers'):
+                print(count, ') ', i['name'], ' x', i['count'])
+                count += 1
         print('\n1: Appraise')
         print('2: Equip')
         print('e - Exit')
