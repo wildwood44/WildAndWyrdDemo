@@ -286,7 +286,7 @@ weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : ''
            {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : 'weapon', 'description' : 'A knife used to hunt insects.',
             'attack' : 5, 'weight' : 1, 'count' : 0},
            {'wpId' : '1', 'name' : 'Training Bow', 'type' : 'bow', 'description' : 'A large bow made for practise.',
-            'attack' : 10, 'weight' : 2, 'count' : 0},
+            'attack' : 20, 'weight' : 2, 'count' : 0},
            {'wpId' : '1', 'name' : 'Wooden Sheild', 'type' : 'sheild', 'description' : 'A basic round wooden sheild.',
             'defence' : 20, 'weight' : 1, 'count' : 0}
            ]
@@ -822,60 +822,90 @@ def special(p):
 #Use Item
 def item(p, e):
     use = []
-    count = 1
-    print('\nBag Items')
-    for i in inv:
-        if(i['type'] == 'healing' or i['type'] == 'food'or i['type'] == 'projectile'or i['type'] == 'toss'):
-            print(count, ': ', i['name'], ' x', i['count'])
-            use.append(i)
-            count += 1
-    print('e - exit')
-    if(count != 0):
+    using = True
+    y = ''
+    while(using == True):
+        print('\nBag Items')
         count = 1
-        u = input('use item: ')
-        for i in use:
-            if (u == str(count)):
-                #print(i['name'])
-                if (i['type'] == 'healing'):
-                    p.health += i['heals']
-                    print(p.name, ' recoved ', i['heals'], ' health')
-                    if (p.health > p.maxHealth):
-                        p.health = p.maxHealth
-                        alder.cStatus = 'Using'
-                elif (i['type'] == 'food'):
-                    p.stamina += i['recovers']
-                    print(p.name, ' recoved ', i['recovers'], ' stamina')
-                    if (p.stamina > p.maxStamina):
-                        p.stamina = p.maxStamina
-                        alder.cStatus = 'Using'
-                elif (i['type'] == 'projectile'):
-                    if (i['weapon'] == 'bow'):
-                        if(p.weapon2['type'] == 'bow'):
-                            print('\nArrow loaded!')
-                            p.ammo['name'] = i['name']
-                            p.ammo['loaded'] = True
-                            p.ammo['damage'] = i['damage']
+        if (y == '' or y == 'healing' or y == 'Healing' or
+            y == 'health' or y == 'Health'):
+            print('Healing')
+            for i in inv:
+                if(i['type'] == 'healing'):
+                    print(count, ': ', i['name'], ' x', i['count'])
+                    use.append(i)
+                    count += 1
+        if (y == '' or y == 'food' or y == 'Food' or
+            y == 'consumables' or y == 'Consumables'):
+            print('Food')
+            for i in inv:
+                if(i['type'] == 'food'):
+                    print(count, ': ', i['name'], ' x', i['count'])
+                    use.append(i)
+                    count += 1
+        if (y == '' or y == 'projectiles' or y == 'Projectiles'):
+            print('Projectiles')
+            for i in inv:
+                if(i['type'] == 'projectile' or i['type'] == 'toss'):
+                    print(count, ': ', i['name'], ' x', i['count'])
+                    use.append(i)
+                    count += 1
+        print('e - exit')
+        if(count != 0):
+            count = 1
+            u = input('use item: ')
+            if (u == '' or u == 'food' or u == 'Food' or u == 'consumables' or u == 'Consumables' or u == 'healing' or u == 'Healing' or
+                u == 'health' or u == 'Health' or u == 'projectiles' or u == 'Projectiles' or u == 'e'):
+                y = u
+            for i in use:
+                if (u == str(count)):
+                    if (i['type'] == 'healing'):
+                        p.health += i['heals']
+                        print(p.name, ' recoved ', i['heals'], ' health')
+                        if (p.health > p.maxHealth):
+                            p.health = p.maxHealth
                             alder.cStatus = 'Using'
-                        else:
-                            print('Bow required!')
-                elif (i['type'] == 'toss'):
-                    count = 1
-                    for j in e:
-                        print(count, ': ', j.name)
-                        count += 1
-                    count = 1
-                    target = input('Throw at: ')
-                    for j in e:
-                        if (target == str(count)):
-                            print('\n',p.name,'threw ', i['name'])
-                            j.aliment = 'Caught' 
+                        using = False
+                    elif (i['type'] == 'food'):
+                        p.stamina += i['recovers']
+                        print(p.name, ' recoved ', i['recovers'], ' stamina')
+                        if (p.stamina > p.maxStamina):
+                            p.stamina = p.maxStamina
                             alder.cStatus = 'Using'
-                        count += 1
-                i['count'] -= 1
-                if(i['count'] <= 0):
-                    inv.remove(i)
-            count +=1
-        use.clear()
+                        using = False
+                    elif (i['type'] == 'projectile'):
+                        if (i['weapon'] == 'bow'):
+                            if(p.weapon2['type'] == 'bow'):
+                                print('\nArrow loaded!')
+                                p.ammo['name'] = i['name']
+                                p.ammo['loaded'] = True
+                                p.ammo['damage'] = i['damage']
+                                alder.cStatus = 'Using'
+                                using = False
+                            else:
+                                print('Bow required!')
+                                using = False
+                    elif (i['type'] == 'toss'):
+                        count = 1
+                        for j in e:
+                            print(count, ': ', j.name)
+                            count += 1
+                        count = 1
+                        target = input('Throw at: ')
+                        for j in e:
+                            if (target == str(count)):
+                                print('\n',p.name,'threw ', i['name'])
+                                j.aliment = 'Caught' 
+                                alder.cStatus = 'Using'
+                                using = False
+                            count += 1
+                    i['count'] -= 1
+                    if(i['count'] <= 0):
+                        inv.remove(i)
+                elif u == 'e':
+                    using = False
+                count +=1
+            use.clear()
 
 #Combat interface
 def battle(e):

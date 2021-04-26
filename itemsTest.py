@@ -219,54 +219,73 @@ def shop():
             shopping = False
 #Open the inventory
 def inventory():
+    listItems = []
     bag = True
+    j = ''
     while(bag == True):
         #View the items in inventory
         #The same items should be counted to keep the list clear
+        #Items should be in a order based on the item type
+        #Input should allow the list to be narrowed down or print all items
         print('\nInventory')
         print('Shillings: ', shill)
         count = 1
-        print('Food')
-        for i in inv:
-            if (i['type'] == 'food'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
-        print('Healing')
-        for i in inv:
-            if (i['type'] == 'healing'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
-        print('Weapons')
-        for i in inv:
-            if (i['type'] == 'weapon'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
-        print('Armor')
-        for i in inv:
-            if (i['type'] == 'hat' or i['type'] == 'shirt' or i['type'] == 'trousers'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
+        listItems.clear()
+        if (j == '' or j == 'food' or j == 'Food' or
+            j == 'consumables' or j == 'Consumables'):
+            print('Food')
+            for i in inv:
+                if (i['type'] == 'food'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
+        if (j == '' or j == 'healing' or j == 'Healing' or
+            j == 'health' or j == 'Health'):
+            print('Healing')
+            for i in inv:
+                if (i['type'] == 'healing'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
+        if (j == '' or j == 'weapons' or j == 'Weapons'):
+            print('Weapons')
+            for i in inv:
+                if (i['type'] == 'weapon'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
+        if (j == '' or j == 'armour' or j == 'Armour'):
+            print('Armour')
+            for i in inv:
+                if (i['type'] == 'hat' or i['type'] == 'shirt' or i['type'] == 'trousers'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
         print('\n1: Appraise')
         print('2: Equip')
         print('e - Exit')
-        i = input('Action: ')
-
+        i = input('Item: ')
+        if (i == '' or i == 'food' or i == 'Food' or i == 'consumables' or i == 'Consumables' or i == 'healing' or i == 'Healing' or
+            i == 'health' or i == 'Health' or i == 'weapons' or i == 'Weapons'  or i == 'armour' or i == 'Armour' or
+            i == '1' or i == '2' or i == 'e'):
+            j = i
         #Appraise items in inventory
-        if (i == '1'):
+        if (j == '1'):
             appraise = input('\nItem number: ')
             count = 1
-            for i in inv:
+            for i in listItems:
                 if (appraise == str(count)):
                     if (i['type'] != 'food'):
                         print('Name: ', i['name'], ' - Type: ', i['type'], ' - \nDescription: ', i['description'])
                     else:
                         print('Name: ', i['name'], ' - Type: ', i['type'], ' - \nStamina Recovered: ', i['recovers'])
                 count += 1
-        elif (i == '2'):
+        elif (j == '2'):
             equip()
-        elif (i == 'e'):
-            print()
+        elif (j == 'e'):
             bag = False
+        if (j == '1' or j == '2'):
+            j = ''
 #The item should be equipped
 #If the item is not starting clothing then it should be return to the inventory
 #Only items of speciec type can be equiped

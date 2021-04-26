@@ -35,9 +35,9 @@ class Alder:
         self.baseSpeed = 10
         self.baseEvasion = 5
         self.weapons = ['sword', 'bow', 'dagger']
-        self.head = armors[0]
-        self.body = armors[1]
-        self.legs = armors[3]
+        self.head = armours[0]
+        self.body = armours[1]
+        self.legs = armours[3]
         self.weapon1 = weapons[0]
         self.weapon2 = weapons[0]
         self.aliment = 'None'
@@ -282,7 +282,7 @@ weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : ''
             'defence' : 20, 'weight' : 1, 'count' : 0, 'priority': 4}
            ]
 
-armors = [{'armId' : '1', 'name' : 'None', 'type' : 'hat', 'description' : '',
+armours = [{'armId' : '1', 'name' : 'None', 'type' : 'hat', 'description' : '',
           'defence' : 0, 'weight' : 0, 'count' : 0, 'priority': 5},
           {'armId' : '1', 'name' : 'Old Tunic', 'type' : 'shirt', 'description' : 'An old shirt with holes in it.',
           'defence' : 1, 'weight' : 1, 'count' : 0, 'priority': 6},
@@ -540,7 +540,7 @@ def itemCount(item, amount):
             if (i['wpId'] == item['wpId']):
                 i['count'] += amount
                 inInv = True
-        elif (item['type'] == 'armor' and i['type'] == 'armor'):
+        elif (item['type'] == 'armour' and i['type'] == 'armour'):
             if (i['armId'] == item['armId']):
                 i['count'] += amount
                 inInv = True
@@ -568,39 +568,6 @@ def itemCount(item, amount):
         item['count'] = amount
         inv.append(item)
     inv.sort(key=itemLister, reverse=False)
-
-#Use Item
-def useItem(p):
-    use = []
-    count = 1
-    print('\nBag Items')
-    for i in inv:
-        if(i['type'] == 'healing' or i['type'] == 'food'):
-            print(count, ': ', i['name'], ' x', i['count'])
-            use.append(i)
-            count += 1
-    print('e - exit')
-    if(count != 0):
-        count = 1
-        u = input('use item: ')
-        for i in use:
-            if (u == str(count)):
-                print(i['name'])
-                if (i['type'] == 'healing'):
-                    p.health += i['heals']
-                    print(p.name, ' recoved ', i['heals'], ' health')
-                    if (p.health > p.maxHealth):
-                        p.health = p.maxHealth
-                elif (i['type'] == 'food'):
-                    p.stamina += i['recovers']
-                    print(p.name, ' recoved ', i['recovers'], ' stamina')
-                    if (p.stamina > p.maxStamina):
-                        p.stamina = p.maxStamina
-                i['count'] -= 1
-                if(i['count'] <= 0):
-                    inv.remove(i)
-            count +=1
-        use.clear()
 
 #The item should be equipped
 #If the item is not starting clothing then it should be return to the inventory
@@ -949,64 +916,90 @@ def special(p):
 #Use Item
 def item(p, e):
     use = []
-    count = 1
-    print('\nBag Items')
-    for i in inv:
-        if(i['type'] == 'healing' or i['type'] == 'food'or i['type'] == 'projectile'or i['type'] == 'toss'):
-            print(count, ': ', i['name'], ' x', i['count'])
-            use.append(i)
-            count += 1
-    print('e - exit')
-    if(count != 0):
+    using = True
+    y = ''
+    while(using == True):
+        print('\nBag Items')
         count = 1
-        u = input('use item: ')
-        for i in use:
-            if (u == str(count)):
-                #print(i['name'])
-                if (i['type'] == 'healing'):
-                    p.health += i['heals']
-                    print(p.name, ' recoved ', i['heals'], ' health')
-                    if (p.health > p.maxHealth):
-                        p.health = p.maxHealth
-                        alder.cStatus = 'Using'
-                elif (i['type'] == 'food'):
-                    p.stamina += i['recovers']
-                    print(p.name, ' recoved ', i['recovers'], ' stamina')
-                    if (p.stamina > p.maxStamina):
-                        p.stamina = p.maxStamina
-                        alder.cStatus = 'Using'
-                elif (i['type'] == 'projectile'):
-                    if (i['weapon'] == 'bow'):
-                        if(p.weapon2['type'] == 'bow'):
-                            if(p.ammo['loaded'] != True):
-                                print('\n',i['name'],' loaded!')
+        if (y == '' or y == 'healing' or y == 'Healing' or
+            y == 'health' or y == 'Health'):
+            print('Healing')
+            for i in inv:
+                if(i['type'] == 'healing'):
+                    print(count, ': ', i['name'], ' x', i['count'])
+                    use.append(i)
+                    count += 1
+        if (y == '' or y == 'food' or y == 'Food' or
+            y == 'consumables' or y == 'Consumables'):
+            print('Food')
+            for i in inv:
+                if(i['type'] == 'food'):
+                    print(count, ': ', i['name'], ' x', i['count'])
+                    use.append(i)
+                    count += 1
+        if (y == '' or y == 'projectiles' or y == 'Projectiles'):
+            print('Projectiles')
+            for i in inv:
+                if(i['type'] == 'projectile' or i['type'] == 'toss'):
+                    print(count, ': ', i['name'], ' x', i['count'])
+                    use.append(i)
+                    count += 1
+        print('e - exit')
+        if(count != 0):
+            count = 1
+            u = input('use item: ')
+            if (u == '' or u == 'food' or u == 'Food' or u == 'consumables' or u == 'Consumables' or u == 'healing' or u == 'Healing' or
+                u == 'health' or u == 'Health' or u == 'projectiles' or u == 'Projectiles' or u == 'e'):
+                y = u
+            for i in use:
+                if (u == str(count)):
+                    if (i['type'] == 'healing'):
+                        p.health += i['heals']
+                        print(p.name, ' recoved ', i['heals'], ' health')
+                        if (p.health > p.maxHealth):
+                            p.health = p.maxHealth
+                            alder.cStatus = 'Using'
+                        using = False
+                    elif (i['type'] == 'food'):
+                        p.stamina += i['recovers']
+                        print(p.name, ' recoved ', i['recovers'], ' stamina')
+                        if (p.stamina > p.maxStamina):
+                            p.stamina = p.maxStamina
+                            alder.cStatus = 'Using'
+                        using = False
+                    elif (i['type'] == 'projectile'):
+                        if (i['weapon'] == 'bow'):
+                            if(p.weapon2['type'] == 'bow'):
+                                print('\nArrow loaded!')
                                 p.ammo['name'] = i['name']
                                 p.ammo['loaded'] = True
                                 p.ammo['damage'] = i['damage']
                                 alder.cStatus = 'Using'
+                                using = False
                             else:
-                                print(i['name'],' already loaded!')
-                        else:
-                            print('Bow required!')
-                elif (i['type'] == 'toss'):
-                    count = 1
-                    for j in e:
-                        print(count, ': ', j.name)
-                        count += 1
-                    count = 1
-                    target = input('Throw at: ')
-                    for j in e:
-                        if (target == str(count)):
-                            print('\n',p.name,'threw ', i['name'])
-                            j.aliment = 'Caught' 
-                            alder.cStatus = 'Using'
-                        count += 1
-                if(alder.cStatus == 'Using'):
+                                print('Bow required!')
+                                using = False
+                    elif (i['type'] == 'toss'):
+                        count = 1
+                        for j in e:
+                            print(count, ': ', j.name)
+                            count += 1
+                        count = 1
+                        target = input('Throw at: ')
+                        for j in e:
+                            if (target == str(count)):
+                                print('\n',p.name,'threw ', i['name'])
+                                j.aliment = 'Caught' 
+                                alder.cStatus = 'Using'
+                                using = False
+                            count += 1
                     i['count'] -= 1
                     if(i['count'] <= 0):
                         inv.remove(i)
-            count +=1
-        use.clear()
+                elif u == 'e':
+                    using = False
+                count +=1
+            use.clear()
 
 #Combat interface
 def battle(e):
@@ -2778,67 +2771,89 @@ def save(location, chapter, part):
         print ('Game Saved!')
 
 def inventory():
+    listItems = []
     bag = True
+    j = ''
     while(bag == True):
         #View the items in inventory
         #The same items should be counted to keep the list clear
+        #Items should be in a order based on the item type
+        #Input should allow the list to be narrowed down or print all items
         print('\nInventory')
         print('Shillings: ', shill)
         count = 1
-        print('Food')
-        for i in inv:
-            if (i['type'] == 'food'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
-        print('Healing')
-        for i in inv:
-            if (i['type'] == 'healing'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
-        print('Projectiles')
-        for i in inv:
-            if (i['type'] == 'projectile' or i['type'] == 'projectile'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
-        print('Weapons')
-        for i in inv:
-            if (i['type'] == 'weapon' or i['type'] == 'bow' or i['type'] == 'sheild'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
-        print('Armor')
-        for i in inv:
-            if (i['type'] == 'hat' or i['type'] == 'shirt' or i['type'] == 'trousers'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
-        print('Ingredients')
-        for i in inv:
-            if (i['type'] == 'ingre'):
-                print(count, ') ', i['name'], ' x', i['count'])
-                count += 1
+        listItems.clear()
+        if (j == '' or j == 'food' or j == 'Food' or
+            j == 'consumables' or j == 'Consumables'):
+            print('Food')
+            for i in inv:
+                if (i['type'] == 'food'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
+        if (j == '' or j == 'healing' or j == 'Healing' or
+            j == 'health' or j == 'Health'):
+            print('Healing')
+            for i in inv:
+                if (i['type'] == 'healing'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
+        if (j == '' or j == 'projectiles' or j == 'Projectiles'):
+            print('Projectiles')
+            for i in inv:
+                if (i['type'] == 'projectile' or i['type'] == 'projectile'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
+        if (j == '' or j == 'weapons' or j == 'Weapons'):
+            print('Weapons')
+            for i in inv:
+                if (i['type'] == 'weapon' or i['type'] == 'bow' or i['type'] == 'sheild'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
+        if (j == '' or j == 'armour' or j == 'Armour'):
+            print('armour')
+            for i in inv:
+                if (i['type'] == 'hat' or i['type'] == 'shirt' or i['type'] == 'trousers'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
+        if (j == '' or j == 'ingredients' or j == 'Ingredients'):
+            print('Ingredients')
+            for i in inv:
+                if (i['type'] == 'ingre'):
+                    print(count, ') ', i['name'], ' x', i['count'])
+                    count += 1
+                    listItems.append(i)
         print('\n1: Appraise')
         print('2: Use')
         print('3: Equip')
         print('e - Exit')
-        i = input('Action: ')
-
+        i = input('Item: ')
+        if (i == '' or i == 'food' or i == 'Food' or i == 'consumables' or i == 'Consumables' or i == 'healing' or i == 'Healing' or
+            i == 'health' or i == 'Health' or i == 'weapons' or i == 'Weapons'  or i == 'armour' or i == 'Armour' or
+            i == 'projectiles' or i == 'Projectiles' or i == 'ingredients' or i == 'Ingredients' or
+            i == '1' or i == '2' or i == '3' or i == 'e'):
+            j = i
         #Appraise items in inventory
-        if (i == '1' or i == 'appraise' or i == 'Appraise'):
+        if (j == '1'):
             appraise = input('\nItem number: ')
             count = 1
-            for i in inv:
+            for i in listItems:
                 if (appraise == str(count)):
                     if (i['type'] != 'food'):
                         print('Name: ', i['name'], ' - Type: ', i['type'], ' - \nDescription: ', i['description'])
                     else:
                         print('Name: ', i['name'], ' - Type: ', i['type'], ' - \nStamina Recovered: ', i['recovers'])
                 count += 1
-        elif (i == '2' or i == 'use' or i == 'Use'):
-            useItem(alder)
-        elif (i == '3' or i == 'equip' or i == 'Equip'):
+        elif (j == '2'):
             equip()
-        elif (i == 'e'):
-            print()
+        elif (j == 'e'):
             bag = False
+        if (j == '1' or j == '2' or i == '3'):
+            j = ''
     
 #Achive objectives
 def achive():
@@ -3462,9 +3477,9 @@ def menu():
             alder.baseDefence = 10
             alder.baseSpeed = 5
             alder.baseEvasion = 5
-            alder.head = armors[0]
-            alder.body = armors[1]
-            alder.legs = armors[3]
+            alder.head = armours[0]
+            alder.body = armours[1]
+            alder.legs = armours[3]
             alder.weapon1 = weapons[0]
             alder.weapon2 = weapons[0]
             #Start Game
