@@ -1,6 +1,6 @@
 chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 0$ Prologue
-0$ Null$ Null$ 1$ In the corridors of a Fort, two of its dwellers were discussing plans for the days to come. They were the lord, an old greyish field mouse with a golden buckle and a pudgy vole, both in brown surcoats. While discussing daily matters they had taken their talks to a corridor overseeing the great hall, it's walls filled with tapestries of their history.
+0$ Null$ Null$ 1$ In the corridors of a Fort, two of its dwellers were discussing plans for the days to come. They were the lord, an old greyish field mouse with a golden buckle and a pudgy vole, both in brown surcoats. They had taken their talks to a corridor overseeing the great hall, it's walls filled with tapestries of their history.
 0$ Null$ Null$ 2$ It was long into their conversation about an upcoming feast when a young shrew came running up the stairs that lead to the ground floor. He was calling for the mouse lord and panted as he spoke.
 0$ Null$ Null$ 3$ Shrew:£"My Lord!"
 0$ Null$ Null$ 4$ Shrew:£*Pant* "Excuse me!"
@@ -39,7 +39,7 @@ chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 37$ Dilecto:£"That is too far, no one has any right over another creatures life!"
 0$ Null$ Null$ 38$ Ralph:£"But my lord!"
 0$ Null$ Null$ 39$ Dilecto:£"Enough!"
-0$ Null$ Null$ 40$ Dilecto:£"We shall discuss this during the meeting."
+0$ Null$ Null$ 40$ Dilecto:£"We shall discuss this later."
 0$ Null$ Null$ 41$ Dilecto:£"Hm?"
 0$ Null$ Null$ 42$ Dilecto notices an elderly mole emerging from a nearby room.
 0$ Null$ Null$ 43$ Dilecto:£"Plumm, could you spare a moment?"
@@ -50,16 +50,16 @@ chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 48$ Plumm:£"Why?"
 0$ Null$ Null$ 49$ Ralph:£"They're sending patrols around our town and into Oldwyrm woods."
 0$ Null$ Null$ 50$ Plumm:£"Good heavens!"
-0$ Null$ Null$ 51$ Plumm:£"Well, I’ll be off then."
+0$ Null$ Null$ 51$ Plumm:£"Well, I’d best make haste!"
 0$ Null$ Null$ 52$ Ralph:£"I’ll help spread the word."
 0$ Null$ Null$ 53$ Ralph:£"Off with you Dean."
 0$ Null$ Null$ 54$ Dean:£"Yes sir!"
-0$ Null$ Null$ 55$ Plumm and Ralph head to the gardens, while Dean runs to the keep, leaving Dilecto alone in the corridor. With sombre eyes, he moved to face a tapestry depicting an armoured mouse with a sword fighting a demonic black human-shaped figure with blood-red eyes wearing a tawny furred cloak.
+0$ Null$ Null$ 55$ Plumm and Ralph head to the gardens, while Dean runs to the keep, leaving Dilecto alone in the corridor. With sombre eyes, he moved to face a tapestry depicting an armoured mouse with a sword fighting a demonic black human-shaped figure with blood-red eyes clad in a tawny furred cloak.
 0$ Null$ Null$ 56$ Dilecto:£"Agrimus."
-0$ Null$ Null$ 57$ Dilecto:£"I wonder what kind of creature you have in mind for your successor as Scion?"
+0$ Null$ Null$ 57$ Dilecto:£"What creature do you have in mind for your successor as Scion I wonder?"
 0$ Null$ Null$ 59$ Dilecto:£"Whoever you pick I shall always trust your judgement."
 1$ 0$ 1$ 1$ Chapter 1
-1$ 0$ 1$ 2$ Deep in the Oldwyrm woods north of the Fort a lone creature wandered through the underbrush. It was a hedgehog, with quills sticking out of his jacket, hood and blue scarf shouldering a travelling bag with various herbs and seeds. He was whispering into the air.
+1$ 0$ 1$ 2$ Deep in the Oldwyrm woods north of the Fort a lone creature wandered through the underbrush. It was a hedgehog, quills sticking out of his jacket, hood and blue scarf shouldering a travelling bag with various herbs and seeds. He was whispering into the air.
 1$ 0$ 1$ 3$ Hedgehog:£"The rabbit seeks his burrow."
 1$ 0$ 1$ 4$ There was a silence excluding the song of birds and insects in the setting summer air. A door opened up in the face of a nearby boulder and through it was the living room of a cottage. A human woman stepped out of the doorway, towering over the hedgehog whose height did not even reach her waist. She had long dark hair that draped over her shoulders, contrasting her pale skin.
 1$ 0$ 1$ 5$ Woman:£"Thay! It's good to see you!"
@@ -70,9 +70,9 @@ chapter$ switch$ part$ line$ dialog
 1$ 0$ 1$ 8$ Florace:£"He’s inside."
 1$ 0$ 1$ 9$ Florace:£"He still has to clean the dishes."
 1$ 0$ 1$ 10$ Florace:£"Alder!!"
-1$ 0$ 1$ 11$ Florace:£"Thay's" here!
+1$ 0$ 1$ 11$ Florace:£"Thay's here!"
 1$ 0$ 1$ 12$ Inside the cottage kitchen stood on a stool cleaning plates was a boy with chestnut hair, clothed in a worn, torn and noticeably small tunic. He knew the hedgehog and enjoyed his company, so hurried to finish his task making sure each plate was spotless. After he had finished drying the last wooden spoon he rushed to meet him.
-1$ 0$ 1$ 1$ This Boy is Alder and this is his story.
+1$ 0$ 1$ 1$ This boy is Alder and this is his story.
 1$ 1$ 2$ 1$ Thay and Florace were waiting for Alder in the clearing.
 1$ 1$ 2$ 2$ Thay:£"Haha! How’ve you been Alder?"
 1$ 1$ 2$ 3$ Alder:£"I’ve been great!"
@@ -103,13 +103,13 @@ chapter$ switch$ part$ line$ dialog
 1$ 3$ 3$ 13$ Florace:£"There should be a hunting knife on the table in the shed."
 1$ 3$ 3$ 14$ Alder:£"Thank you."
 1$ 4$ 4$ 1$ Thay:£"I’m heading off now lad."
-1$ 4$ 4$ 2$ Alder:£"Already!?"
-1$ 4$ 4$ 3$ Alder:£"Well, take care than."
+1$ 4$ 4$ 2$ Alder:£"Aw, already?!"
+1$ 4$ 4$ 3$ Alder:£"Well, take care then."
 1$ 4$ 4$ 4$ Thay:£"I will."
 1$ 4$ 4$ 5$ Thay:£"Goodbye lad."
-1$ 4$ 4$ 6$ And with that, the hedgehog left. Leaving the burrow for lands unknown to Alder. He headed back to the cottage. Back to his daily chores of cleaning, gathering and grinding leaves until his hands were sore. As the day came to an end the residents of the cottage were unaware of the shadows that came ever closer.
+1$ 4$ 4$ 6$ And with that, the hedgehog left. Leaving the burrow for lands unknown to Alder. He headed back to the cottage. Back to his daily chores of cleaning, gathering and grinding until his hands were sore. As the day came to an end the residents of the cottage were unaware of the shadows that came ever closer.
 2$ 5$ 1$ 1$ Chapter 2
-2$ 5$ 1$ 2$ Dawn came, sunlight striking Alder’s face through the curtainless window. He began his day as always, going downstairs to eat his breakfast of scavenged nuts and berries before cleaning the plates and cups. The day was set to be a very mundane one, Alder could only hope that a guest would come just as Thay did the day before. Otherwise, today he would be sweeping floors, chopping wood and foraging mushrooms allowing time to tick by until the next chore.
+2$ 5$ 1$ 2$ Dawn came, sunlight striking Alder’s face through the curtainless window. He began his day as always, going downstairs to eat his breakfast of scavenged nuts and berries before cleaning the plates and cups. The day was set to be a very mundane one, Alder could only hope that a guest would come just as Thay had the day before. Otherwise, today he would be sweeping floors, chopping wood and foraging mushrooms letting time tick by until the next chore.
 2$ 5$ 1$ 3$ Alder:£*Yawn*
 2$ 5$ 1$ 4$ The dull boredom was broken when a familiar squirrel missing half her tail came running down from the trees and into the cottage clearing. She wore male clothing and strapped to her back was a bow and quiver. She spoke to Alder in a loud whisper.
 2$ 5$ 1$ 5$ Squirrel:£"Hi Alder!"
@@ -122,7 +122,7 @@ chapter$ switch$ part$ line$ dialog
 2$ 5$ 1$ 12$ Alder:£"Ok..."
 2$ 5$ 1$ 13$ Alder:£"...The rabbit seeks his burrow!"
 2$ 5$ 1$ 14$ *Click*
-2$ 5$ 1$ 15$ The door to the cottage was unlocked, but Trissie was more concerned about Alder's disappointment.
+2$ 5$ 1$ 15$ The door to the cottage was unlocked.
 2$ 5$ 1$ 16$ Trissie:£"Aw. Don’t make that face."
 2$ 5$ 1$ 17$ Trissie:£"Say."
 2$ 5$ 1$ 18$ Trissie:£"Why don't I give you some archery lessons before I leave?"
@@ -132,8 +132,8 @@ chapter$ switch$ part$ line$ dialog
 2$ 5$ 1$ 22$ Florace was looking towards them from the cottage door. Trissie went to join her inside.
 2$ 6$ 2$ 1$ Trissie was sat by the table while her bow and quiver rested against the wall. Kyla sat opposite in her rocking chair while everyone else stood around the table as spectators. Alder walked over to take position next to Florace and with everyone gathered, Trissie began.
 2$ 6$ 2$ 2$ Trissie:£"I’ll make this quick!"
-2$ 6$ 2$ 3$ Trissie:£"There are Gowl knights patrolling these woods!"
-2$ 6$ 2$ 4$ Kyla and Florace sat upright and began muttering to each other.
+2$ 6$ 2$ 3$ Trissie:£"There are Gowl knights patrolling the woods!"
+2$ 6$ 2$ 4$ Kyla and Florace began muttering to each other.
 2$ 6$ 2$ 5$ Florace:£"Do you think they know of the cottage?"
 2$ 6$ 2$ 6$ Kyla:£"Not unless one of our clients has sold us out."
 2$ 6$ 2$ 7$ Kyla:£"Even so their search shall come up empty."
@@ -143,19 +143,19 @@ chapter$ switch$ part$ line$ dialog
 2$ 6$ 2$ 11$ Kyla:£"My magic is strong."
 2$ 6$ 2$ 12$ Kyla:£"They’ll never find this place."
 2$ 6$ 2$ 13$ Trissie:£"I hope so."
-2$ 6$ 2$ 14$ Trissie:£"Anyway, the woods are full of soldiers, most of whom appear to be new recruits."
+2$ 6$ 2$ 14$ Trissie:£"The woods are full of soldiers, most of whom appear to be new recruits."
 2$ 6$ 2$ 15$ Kyla:£"That proves my point!"
-2$ 6$ 2$ 16$ Kyla:£"Whatever they know, they're sending saplings, they can't be very sure about it!"
+2$ 6$ 2$ 16$ Kyla:£"Whatever they know, they're sending saplings. They can't be very sure about it!"
 2$ 6$ 2$ 17$ Trissie:£"Being overseen by several captains apparently ordered by Darrunt himself!"
 2$ 6$ 2$ 18$ The mood dimmed but Kyla remained confident. Alder had rarely been involved in conversations about the dangers of the outside world and was unsure how to feel. He whispered to Florace as Kyla dismissed Trissie’s warning.
 2$ 6$ 2$ 19$ Alder:£"Who’s Darrunt?"
 2$ 6$ 2$ 20$ Florace:£"He's the leader of the Gowls."
 2$ 6$ 2$ 21$ Florace:£"Known for hating humans more than anything."
-2$ 6$ 2$ 22$ Florace:£"He wouldn't think to look in woods this far north though."
-2$ 6$ 2$ 23$ Florace:£"Too devoid of what he hates."
+2$ 6$ 2$ 22$ Florace:£"He wouldn't think to look this far north in the woods though."
+2$ 6$ 2$ 23$ Florace:£"Too barren of humans these days."
 2$ 6$ 2$ 24$ While Alder and Florace whispered to each other Kyla had relaxed back into her chair at the end of her rebuttal.
-2$ 6$ 2$ 25$ Kyla:£"We’ll lay low for the next few days, food is plentiful and have enough water to last us a few days."
-2$ 6$ 2$ 26$ Kyla:£"Thank you for your warnings, Trissie dear."
+2$ 6$ 2$ 25$ Kyla:£"We’ll lay low for the next few days, food is plentiful and we have enough water to last us a few days."
+2$ 6$ 2$ 26$ Kyla:£"Thank you for the warning, Trissie dear."
 2$ 6$ 2$ 27$ Kyla:£"But I think we will be fine."
 2$ 6$ 2$ 28$ Trissie:£"If you say so."
 2$ 6$ 2$ 29$ Trissie:£"I think I’ll scarper out of these woods for the time being until things quiet down."
@@ -163,174 +163,173 @@ chapter$ switch$ part$ line$ dialog
 2$ 6$ 2$ 31$ Trissie:£"I promised you archery lessons?"
 2$ 6$ 2$ 32$ Alder:£"Yes!"
 2$ 6$ 2$ 33$ Trissie:£"Then meet me outside."
-2$ 6$ 2$ 34$ Trissie:£"Trissie left through the front door. From inside the cottage, Alder could see her picking up a large stick and forcing it into the ground."
+2$ 6$ 2$ 34$ Trissie left through the front door. From inside the cottage, Alder could see her picking up a large stick and forcing it into the ground.
 2$ 7$ 3$ 1$ After a while, the sky turned orange signifying the day was coming to an end. Alder wondered if Thay and Trissie got away all right.
 2$ 7$ 3$ 2$ After a supper of roasted hornets, Alder returned to his bed unaware that this would be his last time in it and that his life would be forever changed.
 2$ 7$ 3$ 3$ Alder:£"........."
 2$ 7$ 3$ 4$ Alder:£"................hm?"
 2$ 7$ 3$ 5$ Alder:£"Wha...?"
 2$ 7$ 3$ 6$ Alder wakes in an dark empty clearing.
-2$ 8$ 4$ 1$ Gradually countless ghostly figures appeared from the darkness between the trees. All of them were creatures of the woodlands from mice to wolves, but there were notably no humans among them.
-2$ 8$ 4$ 2$ One of these figure steped out from the mass towards Alder. It was a mouse wearing a metal chest plate and a belt attached to a red cloth covering his waist, it held a sword by his right side. Despite being nearly half the size of Alder's leg, Alder was still intimidated. He had a deminor of a a young but experienced warrior, with an agile yet strong figure by mouse standards at least.
+2$ 8$ 4$ 1$ Countless ghostly figures gradually appeared from the darkness between the trees. All of them were creatures of the woodlands from mice to wolves, but there were notably no humans among them.
+2$ 8$ 4$ 2$ One of these figures stepped out from the mass towards Alder. It was a mouse wearing a metal chest plate and a belt attached to a red cloth covering his waist, he held a sword by his right side. Despite being nearly half the size of Alder's leg, Alder was still intimidated. He had the demeanor of a young but experienced warrior, with an agile yet strong figure by mouse standards at least.
 2$ 8$ 4$ 3$ The mouse walked up to Alder until he was standing right in front of him. 
-2$ 8$ 4$ 4$ To Alder's confusion he floated down to the ground and he realised that he did not have any legs. Just a pair of thin arms and hands. His was also smaller than he realised, enough to fit in the paw of the mouse who was now digging a hole in between them.
-2$ 8$ 4$ 5$ As soon as he was done making it deep enough the mouse picked Alder up. Alder started to panic at the thought of being buried alive.
+2$ 8$ 4$ 4$ The mouse walked up to Alder, stopping a short distance in front of him, before digging a rapidly growing hole between them. To Alder's confusion he floated down to the ground and he realised he was in a corparial form. His body cortorted and shrunk until he was small enough to fit in the hole the mouse has dug.
+2$ 8$ 4$ 5$ Suddenly, the mouse stood and looked towards Alder, who at that moment felt himself being lifted towards the hole. Panicking, he cried out.
 2$ 8$ 4$ 6$ Alder:£"Wait!"
 2$ 8$ 4$ 7$ Alder:£"What’s happening!?"
 2$ 8$ 4$ 8$ Alder:£"What are you doing!?"
-2$ 8$ 4$ 9$ The mouse gently placed Alder in the pit and carefully reset the soil until Alder was half submerged in the soil with only what was assumed to be his face and hands exposed.
-2$ 8$ 4$ 10$ The mouse then grabbed the handle of his sword with his right paw and pulled it out. The sharp blade shone like a star and for a moment Alder thought that the mouse would stab him.
+2$ 8$ 4$ 9$ Alder was gently set in the pit, before it began rapidly refilling with soil, stopping when Alder was submerged below his chest.
+2$ 8$ 4$ 10$ Leaning over the pit the mouse grabbed the handle of his sword with his right paw and pulled it out. The sharp blade shone like a star and for a moment Alder thought that the mouse would stab him.
 2$ 8$ 4$ 11$ Alder:£"Ahh!"
-2$ 8$ 4$ 12$ The mouse expressed surprise and apologetically scratched his head to convey that he meant no harm, he pulled out the scabbard, sheathed the sword and placed the hilt in Alder’s hand.
-2$ 9$ 5$ 1$ Alder took the sword by the grip, to his surprise, it grew in size to fit in his human hand. Feeling the sword he found it surprisingly light and was comforting to hold as though it was part of him now.
-2$ 9$ 5$ 2$ Turning the sword over Alder found another slot the same as the other side.
+2$ 8$ 4$ 12$ The mouse expressed surprise and apologetically scratched his head to convey that he meant no harm. He pulled out the scabbard, sheathed the sword and placed the hilt in Alder’s hand.
+2$ 9$ 5$ 1$ Alder took the sword by the grip and to his surprise, it grew in size to fit in his hand perfecly, feeling like an extention of his arm. Lifting the sword he found it surprisingly light.
+2$ 9$ 5$ 2$ Turning the sword over Alder found another slot identical to the other side.
 2$ 9$ 5$ 3$ ???:£"..."
-2$ 9$ 5$ 4$ The mouse said nothing, only smiled, patted the soil around Alder, nodded his head, closed his eyes and continued burning Alder. He was still silent but Alder had a strange sensation of a voice in his head saying to him...
+2$ 9$ 5$ 4$ Smiling, The mouse continued burying Alder, before patting the soil flat around him, nodding his head and closing his eyes. Dispite not speaking Alder experienced the strange sensation of a voice speaking inside his head.
 2$ 9$ 5$ 5$ Good luck. My Scion.
 3$ 10$ 1$ 1$ Chapter 3
-3$ 10$ 1$ 2$ Alder woke up with the memory of what he dreamt still fresh and as clear as glass.
+3$ 10$ 1$ 2$ Alder woke up with the memory of his dream still fresh and as clear as glass.
 3$ 10$ 1$ 3$ Alder:£"hmmm."
 3$ 10$ 1$ 4$ Alder:£"Oh!"
 3$ 10$ 1$ 5$ Alder:£"It was a dream."
 3$ 10$ 1$ 6$ Alder:£"..."
 3$ 10$ 1$ 7$ Alder:£"Huh!?"
 3$ 10$ 1$ 8$ Alder:£"What is…!?"
-3$ 10$ 1$ 9$ As Alder turned to get up he realized that there was something metal in his hand.
-3$ 10$ 1$ 10$ It was the sword that the mouse in his dream had given him.
+3$ 10$ 1$ 9$ As Alder turned to get up he flet something metal in his hand.
+3$ 10$ 1$ 10$ It was the sword that the mouse had given him in his dream.
 3$ 10$ 1$ 11$ Alder:£"What!?"
 3$ 10$ 1$ 12$ Alder:£"How!?"
-3$ 10$ 1$ 13$ Alder unsheathed the sword partially and inspected the sword intensely. The blade shone in the light.
+3$ 10$ 1$ 13$ Alder partially unsheathed the sword and inspected the sword intensely. The blade shone in the light.
 3$ 10$ 1$ 14$ Alder:£"Florace!!"
-3$ 11$ 2$ 1$ The voice that called out was unknown to the residents. They looked through the windows to see a rat. He was new to them and was clad in armour. Kyla was not going to let in a complete stranger, especially given Trissies warning about the Gowls. They watch him for a bit unsure of what to do. Alder notices something moving behind him.
+3$ 11$ 2$ 1$ The voice that called out was unknown to the residents. They looked through the windows to see an unfamiliar rat clad in armour. Kyla was not going to let in a complete stranger, especially given Trissies warning about the Gowls. While watching him unsure of what to do. Alder noticed something moving behind him.
 3$ 11$ 2$ 2$ Alder:£"Look!"
 3$ 11$ 2$ 3$ Alder:£"There's someone in the bushes!"
 3$ 11$ 2$ 4$ Kyla:£"Hm?!"
 3$ 11$ 2$ 5$ Kyla:£"Good eye boy."
-3$ 11$ 2$ 6$ Kyla:£"Florace, You have better eyesight than me, what do you see?"
+3$ 11$ 2$ 6$ Kyla:£"Florace, You have better eyes than either of us, what do you see?"
 3$ 11$ 2$ 7$ Florace:£"Two- No. Four creatures."
 3$ 11$ 2$ 8$ Florace:£"I’m certain at least one of them is a stoat or a weasel."
 3$ 11$ 2$ 9$ There was a glint from the bushes where they were.
 3$ 11$ 2$ 10$ Florace:£"Did you see that?"
-3$ 11$ 2$ 11$ Kyla:£"The reflection of light."
-3$ 11$ 2$ 12$ Kyla:£"A dagger I should think."
-3$ 11$ 2$ 13$ Kyla:£"They're Gowls for sure."
-3$ 11$ 2$ 14$ Rat:£"There's no one here!"
-3$ 11$ 2$ 15$ The weasel that Florace spotted arose from the bushes.
-3$ 11$ 2$ 16$ Weasel:£"Don’t call out!"
-3$ 11$ 2$ 17$ Weasel:£*Sigh* "Nevermind."
-3$ 11$ 2$ 19$ Weasel:£"Wait here, the rest of you form a perimeter."
-3$ 11$ 2$ 20$ Weasel:£"I’ll fetch the wizard."
-3$ 11$ 2$ 21$ The band started walking away, leaving the rat to guard the area. The rat went over to the bushes and picked up a dagger from the bushes then went over to sit on part of a rock that was part of the disguised cottage. The back of his head was directly in front of the window Alder was looking out of. Even though the rat could not hear them Kyla and Florace discussed their next move in loud whispers to each other.
-3$ 11$ 2$ 22$ Kyla:£"They know we are here we will have to move."
-3$ 11$ 2$ 23$ Florace:£"I agree. But where?"
-3$ 11$ 2$ 24$ Kyla:£"Hmm."
-3$ 11$ 2$ 25$ Kyla:£"The boy can go to Forton with that sword the mice and such are sure to take him in."
-3$ 11$ 2$ 26$ Kyla:£"It will be a benefit to all if the Scion can change minds about humans."
-3$ 11$ 2$ 27$ Florace:£"By himself?"
-3$ 11$ 2$ 28$ Florace:£"Shouldn'"'"'t we go with him?"
-3$ 11$ 2$ 29$ Kyla:£"I’m not stepping a foot in another woodlander town."
-3$ 11$ 2$ 30$ Kyla:£"The boy can go by himself."
-3$ 11$ 2$ 31$ Florace:£"Absolutely not!"
-3$ 11$ 2$ 32$ Florace:£"He’ll be killed!"
-3$ 11$ 2$ 33$ Kyla:£"They are not going to kill him."
-3$ 11$ 2$ 34$ Kyla:£"He’s the Scion."
-3$ 11$ 2$ 35$ Florace:£"What about the Gowls!"
-3$ 11$ 2$ 36$ Kyla:£"Again. Scion!"
-3$ 11$ 2$ 37$ Florace:£"Again! Gowls!"
-3$ 11$ 2$ 38$ Kyla:£"Well we can’t go with him!"
-3$ 11$ 2$ 39$ Florace:£"I will!"
-3$ 11$ 2$ 40$ Kyla:£"...What?"
-3$ 11$ 2$ 41$ Florace:£"I will go take care of him as his guardian!"
-3$ 11$ 2$ 42$ Kyla:£"Absolutely not!"
-3$ 11$ 2$ 43$ Kyla:£"You will go with me!"
-3$ 11$ 2$ 44$ Florace:£"I am not leaving Alder alone."
-3$ 11$ 2$ 45$ Kyla:£"So again you would choose our servant over the women who raised, taught and loved you over these long years."
-3$ 11$ 2$ 46$ Florace:£"..."
-3$ 11$ 2$ 47$ Kyla:£*Groan*
-3$ 11$ 2$ 48$ Kyla:£"We’ll discuss this later, we need to get moving."
-3$ 12$ 3$ 1$ Everything was happening so fast for Alder. He had barely any time to think about what his life would soon be like when he got to Forton or the journey to the place. He had never ventured very far from the cottage and everything that he did know was from guests and books. These feelings were not anxiety but excitement. Everyone always said it was too dangerous for him, but now he had to leave the cottage he was where he was restricted, to go and live in a town of mice. He did not know what was in store for him but he wouldn't be a servant. 
+3$ 11$ 2$ 11$ Kyla:£"A dagger I should think."
+3$ 11$ 2$ 12$ Kyla:£"They're Gowls for sure."
+3$ 11$ 2$ 13$ Rat:£"There's no one here!"
+3$ 11$ 2$ 14$ The weasel that Florace spotted arose from the bushes.
+3$ 11$ 2$ 15$ Weasel:£"Don’t call out!"
+3$ 11$ 2$ 16$ Weasel:£*Sigh* "Nevermind."
+3$ 11$ 2$ 17$ Weasel:£"Wait here, the rest of you form a perimeter."
+3$ 11$ 2$ 18$ Weasel:£"I’ll fetch the wizard."
+3$ 11$ 2$ 19$ The band started walking away, leaving the rat to guard the area. The rat went over to the bushes and picked up a dagger, then went over to sit on rock that was part of the disguised cottage. The back of his head was directly in front of the window Alder was looking out of. Even though the rat could not hear them Kyla and Florace discussed their next move in whispers.
+3$ 11$ 2$ 20$ Kyla:£"They know we're here we'll have to move."
+3$ 11$ 2$ 21$ Florace:£"I agree. But where?"
+3$ 11$ 2$ 22$ Kyla:£"Hmm."
+3$ 11$ 2$ 23$ Kyla:£"The boy can go to Forton. With that sword they're sure to take him in."
+3$ 11$ 2$ 24$ Kyla:£"It will be a benefit to all if the Scion can change minds about humans."
+3$ 11$ 2$ 25$ Florace:£"By himself?"
+3$ 11$ 2$ 26$ Florace:£"Shouldn't we go with him?"
+3$ 11$ 2$ 27$ Kyla:£"I’m not stepping a foot in another woodlander town."
+3$ 11$ 2$ 28$ Kyla:£"The boy can go by himself."
+3$ 11$ 2$ 29$ Florace:£"Absolutely not!"
+3$ 11$ 2$ 30$ Florace:£"He’ll be killed!"
+3$ 11$ 2$ 31$ Kyla:£"They are not going to kill him."
+3$ 11$ 2$ 32$ Kyla:£"He’s the Scion."
+3$ 11$ 2$ 33$ Florace:£"What about the Gowls?!"
+3$ 11$ 2$ 34$ Kyla:£"Again. Scion!"
+3$ 11$ 2$ 35$ Florace:£"Again! Gowls!"
+3$ 11$ 2$ 36$ Kyla:£"Well we can’t go with him!"
+3$ 11$ 2$ 37$ Florace:£"I will!"
+3$ 11$ 2$ 38$ Kyla:£"...What?"
+3$ 11$ 2$ 39$ Florace:£"I'll go with him as his guardian!"
+3$ 11$ 2$ 40$ Kyla:£"Absolutely not!"
+3$ 11$ 2$ 41$ Kyla:£"You will come with me!"
+3$ 11$ 2$ 42$ Florace:£"I am not leaving Alder alone."
+3$ 11$ 2$ 43$ Kyla:£"So you would choose our servant over the women who raised, taught and loved you over these long years?"
+3$ 11$ 2$ 44$ Florace:£"..."
+3$ 11$ 2$ 45$ Kyla:£*Groan*
+3$ 11$ 2$ 46$ Kyla:£"We’ll discuss this later, we need to get moving."
+3$ 12$ 3$ 1$ Everything was happening so fast for Alder. He had barely any time to think about what his life would be like when he got to Forton, or the journey to the place. He had never ventured very far from the cottage and everything that he did know was from guests and books. Yet he felt not anxiety but excitement. Everyone had always said it was too dangerous for him, but now he would leave the cottage where he was restricted, to go and live in a town of mice. He did not know what was in store for him but he surely wouldn't be a servant there. 
 3$ 12$ 3$ 2$ Rat:£"Who goes there!?"
-3$ 12$ 3$ 3$ Alder felt his heart skip a beat and his body tensed from the shock of the rats outburst. He looked to where the rat was looking. He could just about make out a small figure carrying a large sack. The rat moved over to it.
+3$ 12$ 3$ 3$ Alder felt his heart skip a beat and his body tensed from the shock of the rats outburst. He followed the rats glare and could just about make out a small figure carrying a large sack hiding in the bushes. The rat rushed over to it.
 3$ 12$ 3$ 4$ Rat:£"Don't Move!!"
-3$ 12$ 3$ 5$ The rat reached into the grass and dragged out a weasel wearing a chaperon into the opening.
-3$ 12$ 3$ 6$ Weasel:£"Please sir I have nothing of value."
+3$ 12$ 3$ 5$ The rat reached into the grass and dragged out a weasel wearing a chaperon.
+3$ 12$ 3$ 6$ Weasel:£"Please sir, I have nothing of value!"
 3$ 12$ 3$ 7$ Rat:£"We’ll see about that."
 3$ 12$ 3$ 8$ Rat:£"Show me what's in your sack."
 3$ 12$ 3$ 9$ Weasel:£"Only cloth and my traveling supplies sir, I am just a penniless merchant."
-3$ 12$ 3$ 10$ The rat takes the sack and digs through it keeping his eyes on the weasel.
+3$ 12$ 3$ 10$ The rat took the sack and dug through it, keeping his eyes on the weasel.
 3$ 12$ 3$ 11$ Rat:£"A merchant?"
 3$ 12$ 3$ 12$ Rat:£"What are you doing out here?"
 3$ 12$ 3$ 13$ Rat:£"The Gowl knights have been tasked with finding humans and spies in this forest."
 3$ 12$ 3$ 14$ Rat:£"What brings a merchant into here?"
-3$ 12$ 3$ 15$ Rat:£"You are not trying to make a deal with them, are you?"
+3$ 12$ 3$ 15$ Rat:£"You're not trying to make a deal with them, are you?"
 3$ 12$ 3$ 16$ Weasel:£"No Sir!"
-3$ 12$ 3$ 17$ Weasel:£"I am just passing north, but I got lost."
-3$ 12$ 3$ 18$ The rat pulls out a large cloak from that sack, looks at it for a short moment, turns to the weasel and draws his dagger.
+3$ 12$ 3$ 17$ Weasel:£"I was just passing north, but I got lost."
+3$ 12$ 3$ 18$ The rat pulled out a large cloak from the sack and looked at it for a short moment, he then turned to the weasel and drew his dagger.
 3$ 12$ 3$ 19$ Rat:£"Oh, lost are we!"
 3$ 12$ 3$ 20$ Rat:£"Then can you explain why your cloth is tailored into man-sized cloaks?"
-3$ 12$ 3$ 21$ Before the weasel could answer the rat pressed his knife against their throat.
+3$ 12$ 3$ 21$ Before the weasel could answer the rat pressed the blade against his throat.
 3$ 12$ 3$ 22$ Rat:£"Anything to say for yourself."
 3$ 12$ 3$ 23$ Weasel:£"Wait!"
 3$ 12$ 3$ 24$ Weasel:£"Let me explain!"
-3$ 12$ 3$ 25$ Alder thought the rat was going to kill the weasel. But then Kyla came over, waved her cane and chanted. The weasel took notice of her but the rat remained focused on him. Kyla opened her hand and a green light appeared in it. It sparkled and crackled, alerting the rat. He turned around and Kyla sent the light hurtling towards him. It struck him in the centre of the chest and he flew backwards.
+3$ 12$ 3$ 25$ Alder thought the rat was going to kill the weasel. But he heard the door open, Kyla had gone outside and was walking towards them, she waved her cane and chanted. The weasel took notice of her but the rat remained focused on him. Cracks of light appeared in the cane. It sparkled and crackled, alerting the rat. The rat turned around just as Kyla sent the light hurtling towards him. It struck him in the centre of the chest and he flew backwards.
 3$ 12$ 3$ 26$ Rat:£"Aagh!!"
-3$ 12$ 3$ 27$ He lay on his back. Alder stepped back in horror. Florace ran over and covered Alders’s eyes. He could only smell burning mould and hear the gargled words of the rat paralysed on the ground. Florace moved Alder away from him.
+3$ 12$ 3$ 27$ He lay twitching on his back and Alder stepped back in shock. Florace quickly covered Alders’s eyes. But he could smell burning mould and hear the gargled words of the rat immobolised on the ground. Florace shuffled Alder away from the window.
 3$ 12$ 3$ 28$ Kyla:£"Come along!"
-3$ 12$ 3$ 29$ Kyla and the weasel went indoors. The weasel's mouth was hanging open and twitching. Florace kept a firm grip on Alder and they looked at the rat who had now lost consciousness. They remained silent, still processing what had happened.
+3$ 12$ 3$ 29$ Kyla and the weasel hurried indoors. The gawking weasel's mouth was hanging open from shock and awe. Florace kept a firm grip on Alder and they looked out at the now consciousness rat. They remained silent, still processing what had happened.
 3$ 13$ 3$ 1$ Kyla:£"Well?"
 3$ 13$ 3$ 2$ Kyla:£"What do you want?"
 3$ 13$ 3$ 3$ Kyla:£"Who are you?"
 3$ 13$ 3$ 4$ Weasel:£"Uh." *Ahem!*
 3$ 13$ 3$ 5$ Jeb:£"M-My name is J-Jeb M-Ma’am."
 3$ 13$ 3$ 6$ Jeb:£"I-I am a merchant."
-3$ 13$ 3$ 7$ Jeb:£"I h-heard that there was a w-witch in these woods who might be in need of p-provisions to e-escape from the Gowls."
+3$ 13$ 3$ 7$ Jeb:£"I h-heard that there was a w-witch in these woods who might be in need of p-provisions to escape from the Gowls."
 3$ 13$ 3$ 8$ Jeb:£"I-In exchange for something magical perhaps?"
 3$ 13$ 3$ 9$ Jeb nervously took out some of the supplies he had. Kyla’s temper calmed slightly as she inspected them.
 3$ 13$ 3$ 10$ Kyla:£"Hmmm.
 3$ 13$ 3$ 11$ Kyla:£"I was going to throw you out but you may have brought us exactly what we needed."
 3$ 13$ 3$ 12$ Kyla:£"Florace, take what you and the boy want."
 3$ 13$ 3$ 13$ Kyla:£"I have an idea for his payment."
-3$ 13$ 3$ 14$ Kyla went upstairs to her room while Jeb unpacked his supplies on the table. There were several nuts and dried fruits in terms of food. He also had two black wool cloaks. They were too big for Alder and small on Florace but they were usable. The only other items were several rolls of clean bandages. Kyla soon returned downstairs with three vials of golden potion and a bag of coins.
-3$ 13$ 3$ 15$ Kyla:£"This vial contains golden dip. It can turn objects into pure gold like so."
-3$ 13$ 3$ 16$ Kyla took out a bowl and poured one the contains of one of the vials into it. She then took a wooden spoon and dropped it in. The liquid glowed slightly and its volume went down until only the spoon remained. It changed from wood to solid gold. Jeb examined it greedily and Kyla held up the last two vials.
+3$ 13$ 3$ 14$ Kyla went upstairs to her room while Jeb unpacked his supplies on the table. For food there were several nuts and dried fruits. He also had two black woolen cloaks, too big for Alder and small on Florace but they were usable. The only other items were several rolls of clean bandages. Kyla soon returned downstairs with three vials of golden potion and a bag of coins.
+3$ 13$ 3$ 15$ Kyla:£"This vial contains golden dip. It can turn objects into pure gold; like so."
+3$ 13$ 3$ 16$ Kyla took out a bowl and poured the contents of one of the vials into it. She then took a wooden spoon and dropped it in. The liquid began subtley glowing and its volume dropped until only the once wooden spoon, now made of solid gold, remained. Jeb examined it greedily and Kyla held up the last two vials.
 3$ 13$ 3$ 17$ Kyla:£"I’ll give you one in exchange for the cloaks."
 3$ 13$ 3$ 18$ Jeb:£"Absolutely Ma'am!"
 3$ 13$ 3$ 19$ Jeb:£"You can have the rest of my provisions for the other!"
 3$ 13$ 3$ 20$ Kyla:£"No, that's what these coins are for."
 3$ 13$ 3$ 21$ Kyla jangled the bag of coins and passed it to Alder.
 3$ 13$ 3$ 22$ Kyla:£"The other is for you to get this boy to Forton."
-3$ 13$ 3$ 23$ Jeb expression changed from eager to horrified.
+3$ 13$ 3$ 23$ Jeb's expression changed from eager to horrified.
 3$ 13$ 3$ 24$ Jeb:£"But, Ma'am."
 3$ 13$ 3$ 25$ Jeb:£"The Gowls are all over in that direction, with a human they will almost certainly kill me."
-3$ 13$ 3$ 26$ Jeb:£"Even if we get to Forton, the mice won’t be too comforatble with him around."
+3$ 13$ 3$ 26$ Jeb:£"Even if we get to Forton, the mice won’t be too happy to have him around."
 3$ 13$ 3$ 27$ Kyla picks up Alder’s sword by the scabbard and hands it to Jeb. He is confused at first but he assumes it is additional payment.
-3$ 13$ 3$ 28$ Jeb:£"No matter what you pay me that does not change the perrel of what you want."
+3$ 13$ 3$ 28$ Jeb:£"No matter what you pay me that does not change the peril I would face if I took your request."
 3$ 13$ 3$ 29$ Kyla:£"Draw it."
 3$ 13$ 3$ 30$ Jeb does what he is asked and to his surprise the blade withers and falls off the hilt.
 3$ 13$ 3$ 31$ Kyla:£"Now pass it to the boy."
-3$ 13$ 3$ 32$ Jeb now even more wide-eyed did as he was told and a new blade grew from the hilt when Alder took a grip of it.
+3$ 13$ 3$ 32$ Jeb now even more wide-eyed did as he was told and watched as a new blade grew from the hilt when Alder took a grip of it.
 3$ 13$ 3$ 33$ Jeb:£"Child..."
 3$ 13$ 3$ 34$ Jeb:£"You are the Scion!"
 3$ 13$ 3$ 35$ Alder nodded his head. Jeb thought to himself then let his thoughts be known.
-3$ 13$ 3$ 36$ Jeb:£"We might be able to get through then."
-3$ 13$ 3$ 37$ Jeb:£"But we will try to sneak around them."
+3$ 13$ 3$ 36$ Jeb:£"We might be able to get through."
+3$ 13$ 3$ 37$ Jeb:£"But we will have to sneak around them."
 3$ 13$ 3$ 38$ Jeb:£"Better safe than sorry."
 3$ 13$ 3$ 39$ Kyla:£"I can create a diversion."
-3$ 13$ 3$ 40$ Kyla:£"I can handle them and get away easily considering the quality of their soldiers in these parts."
+3$ 13$ 3$ 40$ Kyla:£"I can handle them and get away easily considering the competence of their soldiers this far from the front lines."
 3$ 13$ 3$ 41$ Florace:£"They will be bringing a sorcerer."
 3$ 13$ 3$ 42$ Florace:£"They must know about this place somehow."
 3$ 13$ 3$ 43$ Jeb:£"They know that there is a human witch."
 3$ 13$ 3$ 44$ Jeb:£"Word reached the towns yesterday."
 3$ 13$ 3$ 45$ Kyla:£"It matters not now."
-3$ 13$ 3$ 46$ Kyla:£"You two buy what you need."
+3$ 13$ 3$ 46$ Kyla:£"You two, buy what you need."
 3$ 13$ 3$ 47$ Kyla:£"We leave when this sorcerer gets here."
-3$ 14$ 4$ 1$ The sun was now setting. From outside the cottage within the dark shadows of the trees, the paw steps of the Gowls knights could be heard. Alder was the first to notice.
+3$ 14$ 4$ 1$ The sun was now setting. Outside the cottage within the dark shadows of the trees, the paw steps of the Gowls knights could be heard approaching. Alder was the first to notice.
 3$ 14$ 4$ 2$ Alder:£"They're here!"
 3$ 14$ 4$ 3$ Florace:£"Then it's time to go."
 3$ 14$ 4$ 4$ Kyla:£"Are you sure that's them?"
 3$ 14$ 4$ 5$ Jeb:£"Must be."
-3$ 14$ 4$ 6$ Jeb:£"I think I can see... six... no seven of them."
-3$ 14$ 4$ 7$ Jeb and Florace looked concerned, Alder picked up on these feelings and stayed silent but Kyla started smirking which erupted into laughter.
+3$ 14$ 4$ 6$ Jeb:£"I think I can see... six... no, seven of them."
+3$ 14$ 4$ 7$ Jeb and Florace looked concerned, Alder picked up on their feelings and stayed silent but Kyla started smirking which erupted into laughter.
 3$ 14$ 4$ 8$ Kyla:£"Hee hee."
 3$ 14$ 4$ 9$ Kyla:£"Hee hee Ha HA!"
 3$ 14$ 4$ 10$ Kyla:£"That's it!"
@@ -339,33 +338,33 @@ chapter$ switch$ part$ line$ dialog
 3$ 14$ 4$ 13$ Kyla:£"This will be easier than I expected!"
 3$ 14$ 4$ 14$ Florace:£"There may be more further out there."
 3$ 14$ 4$ 15$ Kyla:£"In that case, I will need one to call for reinforcements."
-3$ 14$ 4$ 16$ Kyla:£"Do you recognize any of the ones here?"
+3$ 14$ 4$ 16$ Kyla:£"Do you recognise any of the ones here?"
 3$ 14$ 4$ 17$ The invaders were made up of two foxes, two badgers, an otter, a stoat and weasel. One of the foxes and the otter looked fairly young and stood at the back.
-3$ 14$ 4$ 18$ Jeb:£"Not at this distance but judging by the species present I’m sure they have their best captains as well as what I think are squires with them."
+3$ 14$ 4$ 18$ Jeb:£"Not at this distance but judging by their armour and ages it looks like a captain, scouts as well as what I think are squires with them."
 3$ 14$ 4$ 19$ Jeb:£"Maybe they're educating them?"
 3$ 14$ 4$ 20$ Jeb:£"Wait!"
 3$ 14$ 4$ 21$ Jeb:£"The fox out in front! Look at his robes!"
-3$ 14$ 4$ 22$ Jeb:£"He’s the sorcerer!"
-3$ 14$ 4$ 23$ Kyla:£"Florace."
-3$ 14$ 4$ 24$ Kyla:£"Are you truly sure you want to leave with the boy?"
-3$ 14$ 4$ 25$ Florace:£"Yes."
-3$ 14$ 4$ 26$ Kyla:£"It won’t be easy living in Forton."
-3$ 14$ 4$ 27$ Kyla:£"The mice may not look fondly in your favour."
-3$ 14$ 4$ 28$ Florace:£"I can live with that."
-3$ 14$ 4$ 29$ Kyla:£"...Fine then go."
-3$ 14$ 4$ 30$ Kyla:£"It is time."
-3$ 14$ 4$ 31$ Kyla:£"Everyone into the undergrowth."
-3$ 14$ 4$ 32$ Kyla:£"I’ll distract them until morning."
-3$ 14$ 4$ 33$ Kyla:£"When the cottage is visable, move out of sight, hide and then continue running when reinforcements pass."
-3$ 14$ 4$ 34$ The fox was barely visible but was wearing a robe and carrying a staff. The sorcerer for sure. It was time.
-3$ 15$ 4$ 1$ Alder, Florace and Jeb put on enchanted cloaks and moved to hide in a dence bush. The soldiers walked past them unaware. The sorcerer Got to the centre of the spell looked around a bit but what he did not realise was that Kyla was standing in front of him, with another green sparkling spell directed at his face.
+3$ 14$ 4$ 22$ The fox was barely visible but was wearing a robe and carrying a staff.
+3$ 14$ 4$ 23$ Jeb:£"He’s the sorcerer!"
+3$ 14$ 4$ 24$ Kyla:£"Florace."
+3$ 14$ 4$ 25$ Kyla:£"Are you truly sure you want to leave with the boy?"
+3$ 14$ 4$ 26$ Florace:£"Yes."
+3$ 14$ 4$ 27$ Kyla:£"It won’t be easy living in Forton."
+3$ 14$ 4$ 28$ Kyla:£"The mice may not look fondly in your favour."
+3$ 14$ 4$ 29$ Florace:£"I can live with that."
+3$ 14$ 4$ 30$ Kyla:£"...Fine then. Go."
+3$ 14$ 4$ 31$ Kyla:£"It is time."
+3$ 14$ 4$ 32$ Kyla:£"Everyone into the undergrowth."
+3$ 14$ 4$ 33$ Kyla:£"I’ll distract them until morning."
+3$ 14$ 4$ 34$ Kyla:£"Keep out of sight until your're far from the cottage. And be wary of reinforcements within the woods!"
+3$ 15$ 4$ 1$ Alder, Florace and Jeb donned their enchanted cloaks and moved to hide in a dense bush. The soldiers walked past them unaware. The sorcerer got to the part of the bolder where the rat had been and scanned his surroundings, unaware that Kyla was standing next to him inside the illusion, a green spell sparkling directed towards his face.
 3$ 15$ 4$ 2$ Weasel:£"This is the place."
 3$ 15$ 4$ 3$ Badger:£"Where’s Midge?"
 3$ 15$ 4$ 4$ Weasel:£"He was here."
 3$ 15$ 4$ 5$ Weasel:£"Midge!"
 3$ 15$ 4$ 6$ Weasel:£"MIDGE!!"
 3$ 15$ 4$ 7$ Sorcerer Fox:£"There might very well be something here."
-3$ 15$ 4$ 8$ orcerer Fox:£"There are illusions on this stone."
+3$ 15$ 4$ 8$ orcerer Fox:£"Theres are illusions on this rock."
 3$ 15$ 4$ 9$ Sorcerer Fox:£"I’m dispelling them."
-3$ 15$ 4$ 10$ Sorcerer Fox:£"Get ready for battle!"
-3$ 15$ 4$ 11$ The sorcerer spun his staff around once above his head and speared the ground. The stone cracked glass and fell apart revealing the cottage in its true form as clear as day to the world. As soon as it fell, the fox tumbled backwards, a green light singing his face, not even giving him a chance to scream. In front of the shocked knights was Kyla, a dark green water like spell covers her hand and she slams her hands into the ground. As the escapees leave their home they hear the screams of their would-be hunters.
+3$ 15$ 4$ 10$ Sorcerer Fox:£"Get ready!"
+3$ 15$ 4$ 11$ The sorcerer chanted and tapped the illusion was his staff. The stone cracked glass and fell apart revealing the cottage in its true form as clear as day to the world. As soon as it fell, the fox tumbled backwards, a green light envoloping him, not even giving him a chance to scream. In front of the shocked knights was Kyla, a dark green water like spell covers her hand and she slams her hands into the ground. As the escapees leave their home they hear the screams of their would-be hunters.

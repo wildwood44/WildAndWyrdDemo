@@ -11,6 +11,8 @@ class Alder:
         self.stamina = self.maxStamina
         self.cLvl = 1
         self.cExp = 0
+        self.cNext = 30
+        self.skillPoints = 0
         self.baseAttack = 10
         self.baseDefence = 10
         self.baseAccuracy = 5
@@ -24,9 +26,11 @@ class Alder:
         self.aliment = 'None'
         self.cStatus = 'None'
         self.ammo = {'name': '', 'loaded' : False, 'damage' : 0}
-        self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Increases Evasion for five turns.'},
+        self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':True, 'effect':'Increases Evasion for five turns.'},
                         {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
                         ]
+        self.spells = [{'spId':'1','name':'Poison nettles', 'type':'Nature', 'attackType' : 'single', 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Poisons an opponent'}
+                       ]
     property
     def attack(self):
         attack = self.baseAttack
@@ -69,6 +73,11 @@ class Alder:
         if (self.special[0]['active'] == True):
             evasion *= 2 
         return evasion
+    property
+    def spell(self):
+        if (self.weapon2['type'] == 'wand'):
+            if(self.weapon2['spId'] == '1'):
+                return self.spells[0]['unlocked'] == True
     def stats(self):
         print('\nName: ', self.name, '- Lvl: ', self.cLvl, 'Exp: ', self.cExp,
               '\nHealth: ', self.health, '/', self.maxHealth, '| Stamina: ', self.stamina, '/', self.maxStamina,
@@ -278,17 +287,75 @@ class Null:
         self.enId = '0'
         self.name = 'Null'
 
+def gainExperience():
+    experience = input('Increase experience by how mush?: ')
+    e = int(experience)
+    #if isinstance(experience, int):
+    alder.cExp += e
+    print(e)
+    
+def levelUP(p):
+    print(p.cNext, ' ', p.cExp)
+    if(p.cExp >= p.cNext):
+        while(p.cExp >= p.cNext and p.cLvl < 60):
+            if(p.cLvl < 60):
+                p.cLvl += 1
+                p.maxHealth += 5
+                p.maxStamina += 5
+                p.health += 5
+                p.stamina += 5
+                p.baseAttack += 2
+                p.baseDefence += 2
+                p.baseAccuracy += 2
+                p.baseSpeed += 2
+                p.baseEvasion += 2
+                p.skillPoints += 1
+                print(p.name,' leveled up!')
+                if(p.cLvl == 60):
+                    print('Max Level')
+                else:
+                    if(p.cLvl < 5):
+                        p.cNext = round(p.cNext*1.65)
+                    elif(p.cLvl < 20):
+                        p.cNext = round(p.cNext*1.55)
+                    elif(p.cLvl < 30):
+                        p.cNext = round(p.cNext*1.45)
+                    elif(p.cLvl < 40):
+                        p.cNext = round(p.cNext*1.35)
+                    elif(p.cLvl < 50):
+                        p.cNext = round(p.cNext*1.25)
+                    elif(p.cLvl < 60):
+                        p.cNext = round(p.cNext*1.15)
+                    print(p.cNext)
+                   
+
 #Items lists
-weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : '',
+weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'sword', 'description' : '',
             'attack' : 0, 'weight' : 0, 'count' : 0},
-           {'wpId' : '1', 'name' : 'Lief', 'type' : 'weapon', 'description' : 'Legendary sword of the Scion.',
+           {'wpId' : '1', 'name' : 'Lief', 'type' : 'sword', 'description' : 'Legendary sword of the Scion.',
             'attack' : 500, 'weight' : 5, 'count' : 0},
-           {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : 'weapon', 'description' : 'A knife used to hunt insects.',
+           {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : 'dagger', 'description' : 'A knife used to hunt insects.',
             'attack' : 5, 'weight' : 1, 'count' : 0},
+           {'wpId' : '3', 'name' : 'Relic Sword', 'type' : 'sword', 'description' : '',
+            'attack' : 5, 'weight' : 3, 'count' : 0},
+           {'wpId' : '4', 'name' : 'Relic Spear', 'type' : 'spear', 'description' : '',
+            'attack' : 5, 'weight' : 3, 'count' : 0},
+           {'wpId' : '5', 'name' : 'Relic Axe', 'type' : 'axe', 'description' : '',
+            'attack' : 5, 'weight' : 3, 'count' : 0},
+           {'wpId' : '6', 'name' : 'Old Club', 'type' : 'mace', 'description' : '',
+            'attack' : 5, 'weight' : 4, 'count' : 0},
+           {'wpId' : '7', 'name' : 'Crooked Stick', 'type' : 'staff', 'description' : '',
+            'attack' : 5, 'weight' : 2, 'count' : 0},
            {'wpId' : '1', 'name' : 'Training Bow', 'type' : 'bow', 'description' : 'A large bow made for practise.',
             'attack' : 20, 'weight' : 2, 'count' : 0},
+           {'wpId' : '1', 'name' : 'Training Crossbow', 'type' : 'crossbow', 'description' : '',
+            'attack' : 20, 'weight' : 2, 'count' : 0},
+           {'wpId' : '1', 'name' : 'Grass Sling', 'type' : 'sling', 'description' : 'A sling made from grass, not very practical',
+            'attack' : 20, 'weight' : 2, 'count' : 0},
            {'wpId' : '1', 'name' : 'Wooden Sheild', 'type' : 'sheild', 'description' : 'A basic round wooden sheild.',
-            'defence' : 20, 'weight' : 1, 'count' : 0}
+            'defence' : 20, 'weight' : 4, 'count' : 0},
+           {'wpId' : '1', 'name' : 'Poison wand', 'type' : 'wand', 'description' : 'A wand containing a weak poison',
+            'spell' : 'Poison Nettle', 'weight' : 1, 'count' : 0}
            ]
 
 armors = [{'armId' : '1', 'name' : 'None', 'type' : 'hat', 'description' : '',
@@ -312,7 +379,11 @@ food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
 projec = [{'itemId' : '1', 'name' : 'Primative Arrow', 'type' : 'projectile',
            'weapon' : 'bow', 'damage' : 10, 'count' : 0},
           {'itemId' : '2', 'name' : 'Rope Net', 'type' : 'toss',
-           'weapon' : 'none', 'damage' : 0, 'count' : 0}
+           'weapon' : 'none', 'damage' : 0, 'count' : 0},
+          {'itemId' : '3', 'name' : 'Wooden Bolt', 'type' : 'projectile',
+           'weapon' : 'crossbow', 'damage' : 10, 'count' : 0},
+          {'itemId' : '4', 'name' : 'Softstone', 'type' : 'projectile',
+           'weapon' : 'sling', 'damage' : 10, 'count' : 0}
           ]
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
           'heals' : 10, 'count' : 0}
@@ -328,7 +399,12 @@ alder = Alder()
 def itemCount(item, amount):
     inInv = False
     for i in inv:
-        if (item['type'] == 'weapon' and i['type'] == 'weapon'):
+        if (item['type'] == 'sword' and i['type'] == 'sword' or
+            item['type'] == 'dagger' and i['type'] == 'dagger' or
+            item['type'] == 'spear' and i['type'] == 'spear' or
+            item['type'] == 'axe' and i['type'] == 'axe' or
+            item['type'] == 'mace' and i['type'] == 'mace' or
+            item['type'] == 'staff' and i['type'] == 'staff'):
             if (i['wpId'] == item['wpId']):
                 item['count'] += amount
                 inInv = True
@@ -337,6 +413,22 @@ def itemCount(item, amount):
                 item['count'] += amount
                 inInv = True
         elif (item['type'] == 'bow' and i['type'] == 'bow'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'crossbow' and i['type'] == 'crossbow'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'sling' and i['type'] == 'sling'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'sheild' and i['type'] == 'sheild'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'wand' and i['type'] == 'wand'):
             if (i['wpId'] == item['wpId']):
                 item['count'] += amount
                 inInv = True
@@ -450,7 +542,8 @@ def equip():
         elif (i == '4'):
             count = 0
             for i in inv:
-                if(i['type'] == 'weapon'):
+                if(i['type'] == 'sword' or i['type'] == 'dagger' or i['type'] == 'spear' or
+                   i['type'] == 'axe' or i['type'] == 'mace' or i['type'] == 'staff'):
                     count +=1
                     equipable.append(i)
                     print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon1['attack'])
@@ -473,11 +566,22 @@ def equip():
         elif (i == '5'):
             count = 0
             for i in inv:
-                if(i['type'] == 'bow' or i['type'] == 'sheild'):
+                if(i['type'] == 'bow' or i['type'] == 'crossbow' or i['type'] == 'sling' or
+                   i['type'] == 'sheild' or i['type'] == 'wand'):
                     count +=1
                     equipable.append(i)
                     if(i['type'] == 'bow'):
-                        if (alder.weapon2['type'] == 'bow'):
+                        if (alder.weapon2['type'] == 'bow' or alder.weapon2['type'] == 'crossbow' or alder.weapon2['type'] == 'sling'):
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon2['attack'])
+                        else:
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
+                    elif(i['type'] == 'crossbow'):
+                        if (alder.weapon2['type'] == 'bow' or alder.weapon2['type'] == 'crossbow' or alder.weapon2['type'] == 'sling'):
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon2['attack'])
+                        else:
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
+                    elif(i['type'] == 'sling'):
+                        if (alder.weapon2['type'] == 'bow' or alder.weapon2['type'] == 'crossbow' or alder.weapon2['type'] == 'sling'):
                             print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon2['attack'])
                         else:
                             print(count, ': ', i['name'], '- Attack: +', i['attack'])
@@ -485,7 +589,12 @@ def equip():
                         if (alder.weapon2['type'] == 'sheild'):
                             print(count, ': ', i['name'], '- Defence: +', i['defence'] - alder.weapon2['defence'])
                         else:
-                            print(count, ': ', i['name'], '- Defence: +', i['defence'])                            
+                            print(count, ': ', i['name'], '- Defence: +', i['defence'])
+                    elif(i['type'] == 'wand'):
+                        print(count, ': ', i['name'], '- Spell: ', i['spell'])
+                        for j in alder.spells:
+                            if (j['spId'] == i['wpId']):
+                                j['unlocked'] = True
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
@@ -557,13 +666,23 @@ def equipment():
                 itemCount(weapons[1], 1)
             elif (j == '2'):
                 print('\nBow obtained')
-                itemCount(weapons[3], 1)
+                itemCount(weapons[8], 1)
+                print('\nCrossbow obtained')
+                itemCount(weapons[9], 1)
+                print('\nSling obtained')
+                itemCount(weapons[10], 1)
                 print('\nSheild obtained')
-                itemCount(weapons[4], 1)
+                itemCount(weapons[11], 1)
+                print('\nWand obtained')
+                itemCount(weapons[12], 1)
                 print('\nArrows obtained')
                 itemCount(projec[0], 5)
                 print('\nNet obtained')
                 itemCount(projec[1], 1)
+                print('\nBolts obtained')
+                itemCount(projec[2], 5)
+                print('\nStones obtained')
+                itemCount(projec[3], 5)
             elif (j == '3'):
                 print('\nBlackberries obtained')
                 itemCount(food[0], 5)
@@ -651,7 +770,12 @@ def setFoe():
                 enemy[0] = Gowl_Rabbit()
         elif (i == '4'):
             if(enemy[0].enId != null.enId):
-                battle(enemy)
+                victory = False
+                victory = battle(enemy)
+                if (victory == True):
+                    print('You won the fight!')
+                else:
+                    print('You lost the fight!')
                 setting = False
             else:
                 print('Please press "1" and select an enemy to fight.')
@@ -668,6 +792,7 @@ def win(e):
         count += 1
     alder.cExp += ex
     print('Alder gained ', ex, ' experience.')
+    levelUP(alder)
     for i in e:
         if (len(i.drop) > 0):
             print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
@@ -714,16 +839,23 @@ def enemyAttack(e, p, b):
             if (critical >= 90):
                 impact += 10
             impact = round(impact * (100/(100 + p.defence())))
+            im = impact
             if (p.cStatus == 'Blocking'):
                 impact = round(impact/10)
-            if (impact <= 0):
-                impact = 1
+                if (impact <= 0):
+                    impact = 1
+                im = impact
+                if (b > 0):
+                    print('Attack blocked!')
+                    impact -= b
+                    if (impact < 0):
+                        impact = 0
             p.health -= impact
             print('\n',e.name,' attacked!')
             if(critical >= 90):
                 print('Critical Hit!')
             print(p.name, ' took ', impact, ' damage!')
-            return b
+            return im
         else:
             print('\n',e.name,' Missed')
     else:
@@ -797,19 +929,41 @@ def inEffect():
                 i['active'] = False
                 print(alder.name,"'s ", i['name'], ' has worn off.')
 
-def special(p):
+def magic(p, e, spell):
+    hit = random.randrange(0,100)
+    if (hit < spell['effectivness']):
+        if (spell['attackType'] == 'single'):
+            count = 1
+            for i in e:
+                print(count, ') ', i.name)
+            target = input('Cast on:')
+            count = 1
+            for i in e:
+                if (target == str(count)):
+                    if (spell['spId'] == '1'):
+                        i.aliment = 'Poison'
+                count +=1
+    
+def special(p, e):
     print('\nSpecial Ability')
     count = 0
     for i in p.special:
         if (i['unlocked'] == True):
-            print(i['spId'], ') ',i['name'], ' - ', i['cost'], ' stamina')
             count += 1
+            print(count, ') ',i['name'], ' - ', i['cost'], ' stamina')
+    print('Spells')
+    for i in p.spells:
+        if (i['unlocked'] == True):
+            count += 1
+            print(count, ') ',i['name'], ' - ', i['cost'], ' stamina')
     if (count == 0):
         print('None')
     sp = input('Use: ')
+    count2 = 0
     for i in p.special:
         if (i['unlocked'] == True):
-            if (sp == i['spId']):
+            count2 += 1
+            if (sp == str(count2)):
                i['active'] = True
                if (i['spId'] == '1'):
                    p.stamina -= i['cost']
@@ -817,6 +971,15 @@ def special(p):
                elif (i['spId'] == '2'):
                    p.stamina -= i['cost']
                    i['inEffect'] = 5
+               print('\n', p.name, ' uses ', i['name'],'.')
+    for i in p.spells:
+        if (i['unlocked'] == True):
+            count2 += 1
+            if (sp == str(count2)):
+               i['active'] = True
+               if (i['spId'] == '1'):
+                   p.stamina -= i['cost']
+                   magic(p, e, i)
                print('\n', p.name, ' uses ', i['name'],'.')
 
 #Use Item
@@ -874,6 +1037,7 @@ def item(p, e):
                             alder.cStatus = 'Using'
                         using = False
                     elif (i['type'] == 'projectile'):
+                        print(u, count)
                         if (i['weapon'] == 'bow'):
                             if(p.weapon2['type'] == 'bow'):
                                 print('\nArrow loaded!')
@@ -884,6 +1048,28 @@ def item(p, e):
                                 using = False
                             else:
                                 print('Bow required!')
+                                using = False
+                        elif (i['weapon'] == 'crossbow'):
+                            if(p.weapon2['type'] == 'crossbow'):
+                                print('\nBolt loaded!')
+                                p.ammo['name'] = i['name']
+                                p.ammo['loaded'] = True
+                                p.ammo['damage'] = i['damage']
+                                alder.cStatus = 'Using'
+                                using = False
+                            else:
+                                print('Crossbow required!')
+                                using = False
+                        elif (i['weapon'] == 'sling'):
+                            if(p.weapon2['type'] == 'sling'):
+                                print('\nStone loaded!')
+                                p.ammo['name'] = i['name']
+                                p.ammo['loaded'] = True
+                                p.ammo['damage'] = i['damage']
+                                alder.cStatus = 'Using'
+                                using = False
+                            else:
+                                print('Sling required!')
                                 using = False
                     elif (i['type'] == 'toss'):
                         count = 1
@@ -918,7 +1104,8 @@ def battle(e):
     fighting = True
     winner = False
     count = 1
-    bck = 0
+    sheild = 0
+    useSheild = True
     while(fighting == True):
         hunger()
         #Win condition
@@ -933,6 +1120,7 @@ def battle(e):
         if(alder.health <= 0):
             fighting = False
             death()
+            return False
         #Win
         elif(winner == True):
             for i in alder.special:
@@ -940,13 +1128,16 @@ def battle(e):
                 i['inEffect'] = 0
             fighting = False
             win(enemys)
+            return True
         else:
             inEffect()
             for i in enemys:
                 if(i.speed() > alder.speed() and count == 1 and i.health > 0):
-                    enemyAttack(i, alder, bck)
+                    enemyAttack(i, alder, sheild)
             while(alder.cStatus == 'None'):
                 print('\n',alder.name)
+                if (alder.ammo['loaded'] == True):
+                    print('Ranged weapon set!')
                 print("Health: ", alder.health, '/', alder.maxHealth, "| Stamina: ", alder.stamina, '/', alder.maxStamina)
                 print("1) Attack     3) Appraise     5) Item")
                 print("2) Block      4) Special      6) Flee")
@@ -968,14 +1159,18 @@ def battle(e):
                             j += 1
                 elif (i == '2' or i == 'block' or i == 'Block'):
                     alder.cStatus = 'Blocking'
-                    bck = alder.defence()
+                    if (alder.weapon2['type'] == 'sheild'):
+                        if (useSheild == True):
+                            sheild = alder.weapon2['defence']
+                            useSheild = False
+                    print(sheild)
                 elif (i == '3' or i == 'appraise' or i == 'Appraise'):
                     for i in enemys:
                         print('\n',i.name, 'Health:', i.health,'/',i.maxHealth)
                         print(i.desc)
                 elif (i == '4' or i == 'special' or i == 'Special'):
                     alder.cStatus = 'Specializing'
-                    special(alder)
+                    special(alder, enemys)
                 elif (i == '5' or i == 'item' or i == 'Item'):
                     item(alder, enemys)
                 elif (i == '6' or i == 'flee' or i == 'Flee'):
@@ -984,11 +1179,19 @@ def battle(e):
                         alder.cStatus = 'Escaping'
                         fighting = False
             for i in enemys:
+                if (i.aliment == 'Poison'):
+                    poison = i.maxHealth / 10
+                    if (round(poison) < 0):
+                        poison = 1
+                    i.health -= round(poison)
+                    print(i.name, 'took', poison, 'damage from poison!')
                 if(i.health > 0):
                     if(i.strat == 'Attacker'):
                         print(alder.cStatus)
                         if (i.aliment != 'Caught'):
-                            enemyAttack(i, alder, bck)
+                            impact = enemyAttack(i, alder, sheild)
+                            if (alder.cStatus == 'Blocking'):
+                                sheild -= impact
                         else:
                             escape = random.randrange(0, 100)
                             if (i.type == 'bug'):
@@ -1012,11 +1215,63 @@ def battle(e):
                     enemys.remove(i)
                     if (len(enemys) == 0):
                         fighting = False
+                        return False
                 else:
                     i.cStatus = 'None'
             count += 1
             alder.cStatus = 'None'
-        
+
+def unit():
+    units = True
+    while(units == True):
+        print('\n1: Print stats.')
+        print('2: Add experience')
+        print('3: Recover')
+        print('4: Reset')
+        print('e - Exit')
+        action = input('Action: ')
+        if (action == '1'):
+            alder.stats()
+        elif (action == '2'):
+            gainExperience()
+            levelUP(alder)
+        elif (action == '3'):
+            alder.health = alder.maxHealth
+            alder.stamina = alder.maxStamina
+        elif (action == '4'):
+            alder.maxHealth = 100
+            alder.health = alder.maxHealth
+            alder.maxStamina = 100
+            alder.stamina = alder.maxStamina
+            alder.cLvl = 1
+            alder.cExp = 0
+            alder.cNext = 30
+            alder.skillPoints = 0
+            alder.baseAttack = 10
+            alder.baseDefence = 10
+            alder.baseAccuracy = 5
+            alder.baseSpeed = 10
+            alder.baseEvasion = 5
+            alder.head = armors[0]
+            alder.body = armors[1]
+            alder.legs = armors[3]
+            alder.weapon1 = weapons[0]
+            alder.weapon2 = weapons[0]
+            alder.aliment = 'None'
+            alder.cStatus = 'None'
+            alder.statBoost = [{'No':'1', 'name':'Health 1', 'active':False, 'boost':10, 'stat' : 'h'}, {'No':'2', 'name':'Health 2', 'active':False, 'boost':50, 'stat' : 'h'}, {'No':'3', 'name':'Health 3', 'active':False, 'boost':300, 'stat' : 'h'},
+                              {'No':'1', 'name':'Stamina 1', 'active':False, 'boost':10, 'stat' : 's'}, {'No':'2', 'name':'Stamina 2', 'active':False, 'boost':50, 'stat' : 's'}, {'No':'3', 'name':'Stamina 3', 'active':False, 'boost':300, 'stat' : 's'},
+                              {'No':'1', 'name':'Attack 1', 'active':False, 'boost':5, 'stat' : 'at'}, {'No':'2', 'name':'Attack 2', 'active':False, 'boost':10, 'stat' : 'at'}, {'No':'3', 'name':'Attack 3', 'active':False, 'boost':50, 'stat' : 'at'},
+                              {'No':'1', 'name':'Defence 1', 'active':False, 'boost':5, 'stat' : 'df'}, {'No':'2', 'name':'Defence 2', 'active':False, 'boost':10, 'stat' : 'df'}, {'No':'3', 'name':'Defence 3', 'active':False, 'boost':50, 'stat' : 'df'},
+                              {'No':'1', 'name':'Accuracy 1', 'active':False, 'boost':5, 'stat' : 'ac'}, {'No':'2', 'name':'Accuracy 2', 'active':False, 'boost':10, 'stat' : 'ac'}, {'No':'3', 'name':'Accuracy 3', 'active':False, 'boost':50, 'stat' : 'ac'},
+                              {'No':'1', 'name':'Speed 1', 'active':False, 'boost':5, 'stat' : 'sp'}, {'No':'2', 'name':'Speed 2', 'active':False, 'boost':10, 'stat' : 'sp'}, {'No':'3', 'name':'Speed 3', 'active':False, 'boost':50, 'stat' : 'sp'},
+                              {'No':'1', 'name':'Evasion 1', 'active':False, 'boost':5, 'stat' : 'ev'}, {'No':'2', 'name':'Evasion 2', 'active':False, 'boost':10, 'stat' : 'ev'}, {'No':'3', 'name':'Evasion 3', 'active':False, 'boost':50, 'stat' : 'ev'},
+                              ]
+            alder.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Doubles Evasion for five turns.'},
+                            {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
+                            ]
+        elif (action == 'e'):
+            units = False
 def active():
     dostuff = True
     while(dostuff == True):
@@ -1025,9 +1280,7 @@ def active():
         print('3: Fight')
         action = input('Action: ')
         if (action == '1'):
-            alder.stats()
-            alder.health = alder.maxHealth
-            alder.stamina = alder.maxStamina
+            unit()
         elif (action == '2'):
             equipment()
         elif (action == '3'):
