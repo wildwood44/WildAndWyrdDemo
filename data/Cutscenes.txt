@@ -11,20 +11,20 @@ chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 9$ Vole:£"He has no authority to call a meeting involving the lord."
 0$ Null$ Null$ 10$ Vole:£"What is it for?"
 0$ Null$ Null$ 11$ Shrew:£"The Gowls… they are… conducting patrols of the woodlands north of here."
-0$ Null$ Null$ 12$ Vole:£"That may be unusual but it's none of our concern."
+0$ Null$ Null$ 12$ Vole:£"That is unusual, but hardly of our concern."
 0$ Null$ Null$ 13$ Vole:£"We are not their target."
-0$ Null$ Null$ 14$ Dilecto:£"But someone could be."
+0$ Null$ Null$ 14$ Dilecto:£"So who is?"
 0$ Null$ Null$ 15$ Dilecto:£"I approve and will be attending."
 0$ Null$ Null$ 16$ Vole:£"But my lord, the Gowls are no doubt looking for slavers, traitors and humans."
-0$ Null$ Null$ 17$ Vole:£"Those who’d do us harm!"
+0$ Null$ Null$ 17$ Vole:£"Heinous enemies of our people!"
 0$ Null$ Null$ 18$ Vole:£"Surely they are justified."
 0$ Null$ Null$ 19$ Dilecto:£"I would prefer there to be no acts of violence near our borders."
-0$ Null$ Null$ 20$ Dilecto:£"Besides, not all humans are evil, we had human friends during the war."
+0$ Null$ Null$ 20$ Dilecto:£"Moreover, humans aren't all evil, we had human friends during the war."
 0$ Null$ Null$ 21$ Dilecto:£"Times would have been far grimmer without them."
 0$ Null$ Null$ 22$ Shrew:£"Were they friends with Agrimus too?"
 0$ Null$ Null$ 23$ Vole:£"Why does every conversation we have with you end up involving the Scion Dean?"
 0$ Null$ Null$ 24$ Dean:£"I, um."
-0$ Null$ Null$ 25$ Dean was embarrassed. He had always been very invested in this topic and often brought it up.
+0$ Null$ Null$ 25$ Dean was embarrassed. He had always loved stories of the late Agrimus and often sought new stories from the veterans.
 0$ Null$ Null$ 26$ Dilecto:£"Hahaha."
 0$ Null$ Null$ 27$ Dilecto:£"It's alright Dean."
 0$ Null$ Null$ 28$ Dilecto:£"It has been so long since his time."
@@ -34,7 +34,7 @@ chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 32$ Vole:£"As momentous as that would be, the Woodlands are at peace."
 0$ Null$ Null$ 33$ Vole:£"There is no need for a new Scion."
 0$ Null$ Null$ 34$ Dilecto:£"Despite the human cullings that is."
-0$ Null$ Null$ 35$ Vole:£"Sir Darrunt and his Gowls Knights have every right to deal with those vermin."
+0$ Null$ Null$ 35$ Vole:£"Likely due to! Sir Darrunt and his Gowls Knights have every right to deal with those vermin."
 0$ Null$ Null$ 36$ Dilecto:£"Ralph!"
 0$ Null$ Null$ 37$ Dilecto:£"That is too far, no one has any right over another creatures life!"
 0$ Null$ Null$ 38$ Ralph:£"But my lord!"
@@ -71,7 +71,7 @@ chapter$ switch$ part$ line$ dialog
 1$ 0$ 1$ 9$ Florace:£"He still has to clean the dishes."
 1$ 0$ 1$ 10$ Florace:£"Alder!!"
 1$ 0$ 1$ 11$ Florace:£"Thay's here!"
-1$ 0$ 1$ 12$ Inside the cottage kitchen stood on a stool cleaning plates was a boy with chestnut hair, clothed in a worn, torn and noticeably small tunic. He knew the hedgehog and enjoyed his company, so hurried to finish his task making sure each plate was spotless. After he had finished drying the last wooden spoon he rushed to meet him.
+1$ 0$ 1$ 12$ Inside the cottage kitchen stood on a stool cleaning plates was a boy with chestnut hair, clothed in a worn, torn and noticeably small tunic. He knew the hedgehog and enjoyed his company, so hurried to finish his task making sure each plate was spotless. After drying the last wooden spoon he rushed to meet him.
 1$ 0$ 1$ 1$ This boy is Alder and this is his story.
 1$ 1$ 2$ 1$ Thay and Florace were waiting for Alder in the clearing.
 1$ 1$ 2$ 2$ Thay:£"Haha! How’ve you been Alder?"
@@ -79,7 +79,7 @@ chapter$ switch$ part$ line$ dialog
 1$ 1$ 2$ 4$ Thay:£"You’ve gotten bigger too."
 1$ 1$ 2$ 5$ Thay:£"I remember when we were the same size."
 1$ 1$ 2$ 6$ Alder:£"I'm not a toddler anymore."
-1$ 1$ 2$ 7$ Thay smiled warmly at Alder, then turned to look at an elderly woman in the cottage door. She was a short and very wrinkled human with a curved beak-like nose.
+1$ 1$ 2$ 7$ Thay smiled warmly at Alder, then turned to look at an elderly woman in the cottage door. She was a short and very wrinkled human with a curved, beak-like nose.
 1$ 1$ 2$ 8$ Thay:£"Well."
 1$ 1$ 2$ 9$ Thay:£"Better I'll be meeting with the witch."
 1$ 1$ 2$ 10$ Thay:£"I'll chat with you both soon."
@@ -87,7 +87,7 @@ chapter$ switch$ part$ line$ dialog
 1$ 2$ 2$ 1$ As Alder spoke with Florace, Thay exited the cottage.
 1$ 2$ 2$ 2$ Thay:£"Thank you, Madame Kyla."
 1$ 2$ 2$ 3$ Kyla:£"Yes yes. Come again."
-1$ 2$ 2$ 4$ The old witch closed the door behind Thay as he moved to speak to Alder and Florace. She was the owner of the cottage and the caretaker of Florace who in turn was the caretaker of Alder. Alder did not have much of a relationship with the witch outside of being her servant.
+1$ 2$ 2$ 4$ The old witch closed the door behind Thay as he moved to speak to Alder and Florace. She was the owner of the cottage and the caretaker of Florace who in turn was the caretaker of Alder. The witch considered and treated Alder as a servant, they did not have much of a relationship, outside of the various household and gathering tasks he did for her.
 1$ 3$ 3$ 1$ Florace:£"Alder!"
 1$ 3$ 3$ 2$ Florace:£"I need you!"
 1$ 3$ 3$ 3$ Alder looked back at Thay, disappointed that their conversation had to be cut short.
@@ -247,6 +247,7 @@ chapter$ switch$ part$ line$ dialog
 3$ 11$ 2$ 44$ Florace:£"..."
 3$ 11$ 2$ 45$ Kyla:£*Groan*
 3$ 11$ 2$ 46$ Kyla:£"We’ll discuss this later, we need to get moving."
+3$ 11$ 2$ 47$ Kyla:£"Tawie will have to make her own way."
 3$ 12$ 3$ 1$ Everything was happening so fast for Alder. He had barely any time to think about what his life would be like when he got to Forton, or the journey to the place. He had never ventured very far from the cottage and everything that he did know was from guests and books. Yet he felt not anxiety but excitement. Everyone had always said it was too dangerous for him, but now he would leave the cottage where he was restricted, to go and live in a town of mice. He did not know what was in store for him but he surely wouldn't be a servant there. 
 3$ 12$ 3$ 2$ Rat:£"Who goes there!?"
 3$ 12$ 3$ 3$ Alder felt his heart skip a beat and his body tensed from the shock of the rats outburst. He followed the rats glare and could just about make out a small figure carrying a large sack hiding in the bushes. The rat rushed over to it.
@@ -329,7 +330,7 @@ chapter$ switch$ part$ line$ dialog
 3$ 14$ 4$ 4$ Kyla:£"Are you sure that's them?"
 3$ 14$ 4$ 5$ Jeb:£"Must be."
 3$ 14$ 4$ 6$ Jeb:£"I think I can see... six... no, seven of them."
-3$ 14$ 4$ 7$ Jeb and Florace looked concerned, Alder picked up on their feelings and stayed silent but Kyla started smirking which erupted into laughter.
+3$ 14$ 4$ 7$ Jeb and Florace looked concerned, Alder consciously stayed silent but Kyla started smirking, soon erupting into laughter.
 3$ 14$ 4$ 8$ Kyla:£"Hee hee."
 3$ 14$ 4$ 9$ Kyla:£"Hee hee Ha HA!"
 3$ 14$ 4$ 10$ Kyla:£"That's it!"
@@ -350,21 +351,21 @@ chapter$ switch$ part$ line$ dialog
 3$ 14$ 4$ 25$ Kyla:£"Are you truly sure you want to leave with the boy?"
 3$ 14$ 4$ 26$ Florace:£"Yes."
 3$ 14$ 4$ 27$ Kyla:£"It won’t be easy living in Forton."
-3$ 14$ 4$ 28$ Kyla:£"The mice may not look fondly in your favour."
+3$ 14$ 4$ 28$ Kyla:£"The mice may not look at you favourably."
 3$ 14$ 4$ 29$ Florace:£"I can live with that."
 3$ 14$ 4$ 30$ Kyla:£"...Fine then. Go."
 3$ 14$ 4$ 31$ Kyla:£"It is time."
 3$ 14$ 4$ 32$ Kyla:£"Everyone into the undergrowth."
 3$ 14$ 4$ 33$ Kyla:£"I’ll distract them until morning."
-3$ 14$ 4$ 34$ Kyla:£"Keep out of sight until your're far from the cottage. And be wary of reinforcements within the woods!"
-3$ 15$ 4$ 1$ Alder, Florace and Jeb donned their enchanted cloaks and moved to hide in a dense bush. The soldiers walked past them unaware. The sorcerer got to the part of the bolder where the rat had been and scanned his surroundings, unaware that Kyla was standing next to him inside the illusion, a green spell sparkling directed towards his face.
+3$ 14$ 4$ 34$ Kyla:£"Keep out of sight until you're far from the cottage. And be wary of reinforcements within the woods!"
+3$ 15$ 4$ 1$ Alder, Florace and Jeb donned their enchanted cloaks and moved to hide in a dense bush. The soldiers walked past them unaware. The sorcerer got to the part of the bolder where the rat had been and scanned his surroundings, unaware that Kyla was standing next to him inside the illusion, a sparkling green spell directed towards his face.
 3$ 15$ 4$ 2$ Weasel:£"This is the place."
 3$ 15$ 4$ 3$ Badger:£"Where’s Midge?"
 3$ 15$ 4$ 4$ Weasel:£"He was here."
 3$ 15$ 4$ 5$ Weasel:£"Midge!"
 3$ 15$ 4$ 6$ Weasel:£"MIDGE!!"
 3$ 15$ 4$ 7$ Sorcerer Fox:£"There might very well be something here."
-3$ 15$ 4$ 8$ orcerer Fox:£"Theres are illusions on this rock."
+3$ 15$ 4$ 8$ Sorcerer Fox:£"There are illusions on this rock."
 3$ 15$ 4$ 9$ Sorcerer Fox:£"I’m dispelling them."
 3$ 15$ 4$ 10$ Sorcerer Fox:£"Get ready!"
-3$ 15$ 4$ 11$ The sorcerer chanted and tapped the illusion was his staff. The stone cracked glass and fell apart revealing the cottage in its true form as clear as day to the world. As soon as it fell, the fox tumbled backwards, a green light envoloping him, not even giving him a chance to scream. In front of the shocked knights was Kyla, a dark green water like spell covers her hand and she slams her hands into the ground. As the escapees leave their home they hear the screams of their would-be hunters.
+3$ 15$ 4$ 11$ The sorcerer chanted and tapped the illusion with his staff. The stone cracked glass and fell apart revealing the cottage in its true form to the world. As soon as it fell, the fox tumbled backwards, a green light enveloping him, not even giving him a chance to scream. In front of the shocked knights was Kyla, a dark green water like spell covered her hands and she slammed it into the ground. As the escapees fled their home they could hear the screams of their would-be hunters.
