@@ -308,9 +308,9 @@ food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : 'food',
 items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : 'healing', 'description' : 'A cloth bandage to treat wounds',
           'heals' : 10, 'count' : 0, 'priority': 2}
          ]
-projec = [{'itemId' : '1', 'name' : 'Primitive Arrow', 'type' : 'projectile',
+projec = [{'itemId' : '1', 'name' : 'Primitive Arrow', 'type' : 'projectile', 'description' : 'Arrows made from readily available materials.',
            'weapon' : 'bow', 'damage' : 10, 'count' : 0, 'priority': 8},
-          {'itemId' : '2', 'name' : 'Rope Net', 'type' : 'toss',
+          {'itemId' : '2', 'name' : 'Rope Net', 'type' : 'toss',  'description' : 'A rope net to catch your enemies.',
            'weapon' : 'none', 'damage' : 0, 'count' : 0, 'priority': 9}
           ]
 ingre = [{'ingId' : '1', 'name' : 'Bramble leaves', 'type' : 'ingredient', 'description' : 'The leaves of a blackberry bush',
@@ -1499,7 +1499,7 @@ def examine(location):
                 print('Alder thought about it, but it was of no interest to him.')
                 cont()
         elif (location == '3'):
-            print("The burrow was within a deep wood, isolated from society. The 'sky' was clear blue and the late summer 'plant' life including 'mushrooms' were abundant amongst the 'trees' and 'rocks' of the forest. Part of the stone disguising the 'cottage', was actually an old 'shed' with a slanted roof, nearby was a large 'bramble' bush.")
+            print("The burrow was within a deep wood, isolated from society. The 'sky' was clear blue and the late summer 'plant' was abundant amongst the 'trees' and 'rocks' of the forest. Part of the stone disguising the 'cottage', was actually an old 'shed' with a slanted roof, nearby was a large 'bramble' bush.")
             e = input('Examine: ')
             if (e == 'sky' or e == 'Sky'):
                 print('It was a bright, clear blue.')
@@ -1520,7 +1520,7 @@ def examine(location):
                 print('While the cottage was made to look like a large boulder from the outside, it actually had two floors and was made from white clay bricks. It was cosy and well protected against the elements, but Alder had always felt constricted.')
                 cont()
             elif (e == 'shed' or e == 'Shed'):
-                print('The shed had a single old door. From the outside it looked like part of the larger stone but it was really made entirely of splintered wooden planks.')
+                print('The shed had a single old door. From the outside it looked like part of the larger stone, but it was really made entirely of splintered wooden planks.')
                 cont()
             elif (e == 'bush' or e == 'Bush' or e == 'blackberry' or e == 'Blackberry' or e == 'blackberry bush' or e == 'Blackberry Bush'  or e == 'bramble' or e == 'Bramble'):
                 if (PKSwitch[2] == True):
@@ -2207,7 +2207,7 @@ def talk():
                     while(dialog[0] == False or dialog[1] == False or dialog2[4] == False):
                         print('1: "How was your journey?"')
                         print('2: "How did it go with Madame Kyla?"')
-                        print('3: "What'"'"'s it like outside the burrow?"')
+                        print('3: "What'"'"'s it like beyond the burrow?"')
                         if (dialog[2] == True):
                             print('4: What can you tell me about the woods?')
                             print('5: What can you tell me about the the mouse village?')
@@ -2227,7 +2227,7 @@ def talk():
                             print('Thay:')
                             print('"The usual, gave her the herbs she wanted in exchange for the potions I need."')
                             cont()
-                            print('Thay reached into his bag and pulled out a vial of black liquid. Phantom Cloak; a magic potion that erased a creature’s presence when in darkness. It was one of many potions that brought patrons to the cottage. Alder never asked what they needed them for.')
+                            print('Thay reached into his bag and pulled out a vial of black liquid. Phantom Cloak; a magic potion that erased a creature’s presence when in darkness. It was one of the many potions that brought patrons to the cottage. Alder never asked what they needed them for.')
                             cont()
                             dialog[1] = True
                         if (c == '3'):
@@ -2238,12 +2238,12 @@ def talk():
                             print('"But to the south is the settlement in the valley where mice and other small beasts live."')
                             cont()
                             print('Thay:')
-                            print('"To the west you’ll run into the river and if you climb to the treetops you can see Hare Hill east from here."')
+                            print('"West you’ll run into the river and if you climb to the treetops you can see Hare Hill east from here."')
                             cont()
                             print('Thay:')
                             print('"Wait!?"')
                             cont()
-                            print('Thay suddenly panicked, realising he was feeding the boys curiosity and growing his interest.')
+                            print('Seeing growing interest and curiosity on Alder'"'"'s face, Thay abruptly began to show concern.')
                             cont()
                             print('Thay:')
                             print('"Alder, you aren'"'"'t thinking of going to these places are you!?"')
@@ -2252,7 +2252,7 @@ def talk():
                             print('"I..."')
                             cont()
                             print('Alder:')
-                            print('"think it would be nice."')
+                            print('"think, it would be nice to see new places."')
                             cont()
                             print('Thay:')
                             print('"No!"')
@@ -2267,7 +2267,7 @@ def talk():
                             print('"If anyone sees you, you will be killed!!"')
                             cont()
                             print('Thay:')
-                            print('"I cannot even express how much humans are hated!!"')
+                            print('"I cannot even express how much humans are hated these days!!"')
                             cont()
                             print('Alder:')
                             print('"Ok! Ok!"')
@@ -2282,9 +2282,9 @@ def talk():
                             print('"I hope not!"')
                             cont()
                             print('Thay:')
-                            print('"I’d never forgive myself if something were to happen to you."')
+                            print('"I’d never forgive myself if anything were to happen to you."')
                             cont()
-                            print('Alder realized that the hedgehog was getting agitated and so decided to move on.')
+                            print('Alder realised that the hedgehog was getting agitated and so decided to move on.')
                             cont()
                             dialog[2] = True
                         if (dialog[2] == True):
@@ -2293,15 +2293,15 @@ def talk():
                                 print('"Oldwyrm woods is where we are right now."')
                                 cont()
                                 print('Thay:')
-                                print('"This ancient woodland that goes on for miles."')
+                                print('"This ancient woodland goes on for miles."')
                                 cont()
                                 print('Thay:')
-                                print('"There are many birds in these woods, unfortunately that includes birds of prey, but most go after small creatures so you'"'"'re alright."')
+                                print('"There are many birds in these woods and unfortunately that includes birds of prey, but most go after small creatures so you'"'"'ll be alright."')
                                 cont()
                                 dialog2[0] = True
                             if (c == '5'):
                                 print('Alder:')
-                                print('"It’s not that I want to go there but I’d like to know."')
+                                print('"It’s not that I want to go there, I’d just like to know."')
                                 cont()
                                 print('Thay:')
                                 print('"It’s called Forton."')
@@ -2353,10 +2353,10 @@ def talk():
                                 print('"It is home to many hare and rabbit villages."')
                                 cont()
                                 print('Thay:')
-                                print('"At the top is the capital of Breabuck."')
+                                print('"At the top is the capital, Breabuck."')
                                 cont()
                                 print('Thay:')
-                                print('"But it is a difficult and exhausting hike and travelers need to scramble up rock walls in some places."')
+                                print('"But it is a difficult and exhausting hike. Some routes lead to rock walls travelers need to scramble up."')
                                 cont()
                                 print('Thay:')
                                 print('"Unless they go through the rabbits tunnels."')
@@ -2400,7 +2400,7 @@ def talk():
                                 print('"But that didn’t matter to those who had lost friends and family in the conflict."')
                                 cont()
                                 print('Thay:')
-                                print('"Best for you to stay within the burrows border young one."')
+                                print('"Best for you to stay within the burrows borders young one."')
                                 cont()
                                 print('Thay:')
                                 print('"If you are seen."')
@@ -3037,7 +3037,7 @@ def objective():
                 else:
                     print('\tReward: ', q['reward']['name'], 'x', q['rewardCount'],'\n')
 def helper():
-    print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further can get an item to pickup.")
+    print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further may reveal an item you can pickup.")
     print("Command: m, move, Move - Move to the next area.")
     print("Command: t, talk, Talk - Talk to a character.")
     print("Command: z, stats, Stats - Print the statistics of the playable characters.")
@@ -3049,7 +3049,7 @@ def helper():
     print("Command: 1, 2, etc - When you have a list of options.")    
     print("Command: y, Y, yes, Yes or, n, N, no, No - (y/n) statments.")
     print("(!) - Quest available")
-    print("Command: q, quit, Quit - Leave to the main menu")
+    print("Command: q, quit, Quit - Exit to the main menu")
 
 def helper2():
     print("Command: 1, attack, Attack - Deal damage to an opponent using a primary weapon.")
