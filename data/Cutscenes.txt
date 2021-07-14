@@ -59,19 +59,19 @@ chapter$ switch$ part$ line$ dialog
 0$ Null$ Null$ 57$ Dilecto:£"What creature do you have in mind for your successor as Scion I wonder?"
 0$ Null$ Null$ 59$ Dilecto:£"Whoever you pick I shall always trust your judgement."
 1$ 0$ 1$ 1$ Chapter 1
-1$ 0$ 1$ 2$ Deep in the Oldwyrm woods north of the Fort a lone creature wandered through the underbrush. It was a hedgehog, quills sticking out of his jacket, hood and blue scarf shouldering a travelling bag with various herbs and seeds. He was whispering into the air.
+1$ 0$ 1$ 2$ Deep in the Oldwyrm woods north of the Fort a lone creature wandered through the underbrush. It was a hedgehog, shouldering a travelling bag with various herbs and seeds. His quills sticking out of his jacket, hood and blue scarf. He whispered into the air.
 1$ 0$ 1$ 3$ Hedgehog:£"The rabbit seeks his burrow."
-1$ 0$ 1$ 4$ There was a silence excluding the song of birds and insects in the setting summer air. A door opened up in the face of a nearby boulder and through it was the living room of a cottage. A human woman stepped out of the doorway, towering over the hedgehog whose height did not even reach her waist. She had long dark hair that draped over her shoulders, contrasting her pale skin.
+1$ 0$ 1$ 4$ There was silence excluding the song of birds and insects in the setting summer air. Suddenly, a door opened up in the face of a nearby boulder, through the homely living room of a cottage could beseen. A human woman stepped out of the doorway, towering over the hedgehog whose height did not even reach her waist. She had long dark hair that draped over her shoulders, contrasting her pale skin.
 1$ 0$ 1$ 5$ Woman:£"Thay! It's good to see you!"
 1$ 0$ 1$ 6$ Thay:£"And you Florace."
 1$ 0$ 1$ 7$ Thay:£"I'm here to see your mistress."
 1$ 0$ 1$ 8$ Florace:£"She’s upstairs, should be down soon though."
 1$ 0$ 1$ 7$ Thay:£"And where’s young Alder?"
 1$ 0$ 1$ 8$ Florace:£"He’s inside."
-1$ 0$ 1$ 9$ Florace:£"He still has to clean the dishes."
+1$ 0$ 1$ 9$ Florace:£"He's still cleaning the dishes."
 1$ 0$ 1$ 10$ Florace:£"Alder!!"
 1$ 0$ 1$ 11$ Florace:£"Thay's here!"
-1$ 0$ 1$ 12$ Inside the cottage kitchen stood on a stool cleaning plates was a boy with chestnut hair, clothed in a worn, torn and noticeably small tunic. He knew the hedgehog and enjoyed his company, so hurried to finish his task making sure each plate was spotless. After drying the last wooden spoon he rushed to meet him.
+1$ 0$ 1$ 12$ Inside the cottage kitchen a boy stood on a stool cleaning plates. He had chestnut hair, clothed in a worn, torn and noticeably small tunic. He knew the hedgehog and enjoyed his company, so hurried to finish his task making sure each plate was spotless. After drying the last wooden spoon he rushed to meet him.
 1$ 0$ 1$ 1$ This boy is Alder and this is his story.
 1$ 1$ 2$ 1$ Thay and Florace were waiting for Alder in the clearing.
 1$ 1$ 2$ 2$ Thay:£"Haha! How’ve you been Alder?"
@@ -99,8 +99,8 @@ chapter$ switch$ part$ line$ dialog
 1$ 3$ 3$ 9$ Florace:£"I need you to go hunt an insect or two."
 1$ 3$ 3$ 10$ Alder:£"Ok."
 1$ 3$ 3$ 11$ Alder:£"Where do you want me to look?"
-1$ 3$ 3$ 12$ Florace:£"Just outside the burrow."
-1$ 3$ 3$ 13$ Florace:£"There should be a hunting knife on the table in the shed."
+1$ 3$ 3$ 12$ Florace:£"In the woods just outside the burrow."
+1$ 3$ 3$ 13$ Florace:£"There should be a hunting knife on the table inside the shed."
 1$ 3$ 3$ 14$ Alder:£"Thank you."
 1$ 4$ 4$ 1$ Thay:£"I’m heading off now lad."
 1$ 4$ 4$ 2$ Alder:£"Aw, already?!"
