@@ -19,12 +19,14 @@ branchSwitch = ['0']
 class Alder:
     def __init__(self):
         self.pId = '1'
+        self.active = True
         self.name = 'Alder'
         self.species = 'Human'
         self.maxHealth = 60
         self.health = self.maxHealth
         self.maxStamina = 60
         self.stamina = self.maxStamina
+        self.type = 'playable'
         self.cLvl = 1
         self.cExp = 0
         self.cNext = 30
@@ -39,7 +41,8 @@ class Alder:
         self.legs = armours[3]
         self.weapon1 = weapons[0]
         self.weapon2 = weapons[0]
-        self.aliment = 'None'
+        self.shield = 0
+        self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False}
         self.cStatus = 'None'
         self.ammo = {'name': '', 'loaded' : False, 'damage' : 0}
         self.statBoost = [{'No':'1', 'name':'Health 1', 'active':False, 'boost':10, 'stat' : 'h'}, {'No':'2', 'name':'Health 2', 'active':False, 'boost':50, 'stat' : 'h'}, {'No':'3', 'name':'Health 3', 'active':False, 'boost':300, 'stat' : 'h'},
@@ -53,8 +56,11 @@ class Alder:
         self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Doubles Evasion for five turns.'},
                         {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
                         ]
-        self.spells = [{'spId':'1','name':'Poison nettles', 'effectivness' : 100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Poisons the opponent.'}
-                        ]
+        self.manver = [{'mvId':'1','name':'Advence', 'type':'manuver', 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
+                       {'mvId':'2','name':'Retreat', 'type':'manuver', 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move out of range.'}
+                       ]
+        self.spells = [{'spId':'1','name':'Poison nettles', 'type':'Nature', 'attackType' : 'single', 'damage' : 1, 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Poisons an opponent'}
+                       ]
     property
     def attack(self):
         attack = self.baseAttack
@@ -115,9 +121,11 @@ class Alder:
 class Cricket:
     def __init__(self):
         self.enId = '1'
+        self.inId = '0'
         self.name = 'Cricket'
         self.maxHealth = 20
         self.health = self.maxHealth
+        self.type = 'enemy'
         self.Exp = 10
         self.drop = [{'item' : food[4], 'quantity':2}]
         self.baseAttack = 0
@@ -125,8 +133,10 @@ class Cricket:
         self.baseAccuracy = 90
         self.baseSpeed = 10
         self.baseEvasion = 25
+        self.weapon1 = {'type':''}
+        self.weapon2 = {'type':''}
         self.strat = 'Prey'
-        self.aliment = 'None'
+        self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False}
         self.cStatus = 'None'
         self.desc = 'Looks like a large grasshopper with long antennae. Can jump a fair distance.'
     def attack(self):
@@ -148,13 +158,38 @@ class Cricket:
     def evasion(self):
         evasion = self.baseEvasion
         return evasion
+    property
+    def message(self, rd):
+        if (rd == 1):
+            say = '\nUse the command "3" or "appraise" to examine enemy health and information.'
+        elif (rd == 2):
+            say = '\nTo reduce damage from a incoming attack use command "2" or "block"'
+        elif (rd == 3):
+            say = '\nTo deal damage to the opponent use command "1" or "attack".'
+        else:
+            say = ''
+        return say
+    property
+    def action(self, e, p, r):
+        if(self.health < self.maxHealth):
+            self.cStatus = 'Escaping'
+            print(self.name, ' fled!')
+            r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
+            return [0, self.cStatus]
+        else:
+            self.cStatus = 'None'
+            print(self.name, ' stood wary.')
+            r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
+            return [0, self.cStatus]
 
 class Hornet:
     def __init__(self):
         self.enId = '2'
+        self.inId = '0'
         self.name = 'Hornet'
         self.maxHealth = 10
         self.health = self.maxHealth
+        self.type = 'enemy'
         self.Exp = 10
         self.drop = [{'item':food[4], 'quantity':1}]
         self.baseAttack = 5
@@ -162,8 +197,10 @@ class Hornet:
         self.baseAccuracy = 90
         self.baseSpeed = 40
         self.baseEvasion = 45
+        self.weapon1 = {'type':''}
+        self.weapon2 = {'type':''}
         self.strat = 'Attacker'
-        self.aliment = 'None'
+        self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False}
         self.cStatus = 'None'
         self.desc = 'More hostile than usual this year. Buzzing, stinging insects full of hate.'
     def attack(self):
@@ -185,13 +222,25 @@ class Hornet:
     def evasion(self):
         evasion = self.baseEvasion
         return evasion
+    property
+    def message(self, rd):
+        return None
+    property
+    def action(self, e, p, r):
+        self.cStatus = 'Attacking'
+        target = ePriority_retaliation(p, e, r)
+        impact = enemyAttack(e, target, target.shield)
+        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status':self.cStatus, 'Hit': target, 'Damage':impact})
+        return [impact, self.cStatus]
 
 class Dummy:
     def __init__(self):
         self.enId = '3'
+        self.inId = '0'
         self.name = 'Dummy'
         self.maxHealth = 24
         self.health = self.maxHealth
+        self.type = 'enemy'
         self.Exp = 0
         self.drop = []
         self.baseAttack = 0
@@ -199,8 +248,10 @@ class Dummy:
         self.baseAccuracy = 0
         self.baseSpeed = 0
         self.baseEvasion = 0
+        self.weapon1 = {'type':''}
+        self.weapon2 = {'type':''}
         self.strat = 'Attacker'
-        self.aliment = 'None'
+        self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False}
         self.cStatus = 'None'
         self.desc = 'Durable for it haphazard construction.'
     property
@@ -223,13 +274,25 @@ class Dummy:
     def evasion(self):
         evasion = self.baseEvasion
         return evasion
+    property
+    def message(self, rd):
+        say = '\nTo use a ranged weapon like the bow select a supported projectile from items, then on the next turn attack to fire.'
+        return say
+    property
+    def action(self, e, p, r):
+        self.cStatus = 'None'
+        print(self.name, ' did not attack!')
+        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
+        return [0, self.cStatus]
+    
 class Wall:
     def __init__(self):
         self.enId = '4'
+        self.inId = '0'
         self.name = 'Wall'
         self.maxHealth = 200
         self.health = self.maxHealth
-        self.type = 'Puzzle'
+        self.type = 'enemy'
         self.Exp = 5
         self.drop = []
         self.baseAttack = 0
@@ -237,8 +300,10 @@ class Wall:
         self.baseAccuracy = 0
         self.baseSpeed = 0
         self.baseEvasion = 0
+        self.weapon1 = {'type':''}
+        self.weapon2 = {'type':''}
         self.strat = 'Attacker'
-        self.aliment = 'None'
+        self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False}
         self.cStatus = 'None'
         self.desc = 'The wall between the living room and the shed.'
     property
@@ -261,6 +326,15 @@ class Wall:
     def evasion(self):
         evasion = self.baseEvasion
         return evasion
+    property
+    def message(self, rd):
+        return None
+    property
+    def action(self, e, p, r):
+        self.cStatus = 'None'
+        print(self.name, ' did not attack!')
+        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
+        return [0, self.cStatus]
         
 Florace = {'pId' : '2', 'name' : 'Florace', 'combatLvl' : '1', 'combatExp' : 0,
          'maxHealth': 150, 'attack' : 15, 'defence' : 10, 'speed' : 7, 'evasion' : 2, 'maxStamina' : 100,
@@ -271,11 +345,11 @@ party = [{'pId' : '1', 'name' : 'Alder', 'title' : 'Servant', 'species' : 'Human
          {'pId' : '3', 'name' : 'Dean', 'title' : 'Watch Squire', 'species' : 'Water Shrew', 'inParty' : False}
          ]
 #Items lists
-weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : '',
+weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'sword', 'description' : '',
             'attack' : 0, 'weight' : 0, 'count' : 0, 'priority': 3},
-           {'wpId' : '1', 'name' : 'Lief', 'type' : 'weapon', 'description' : 'Legendary sword of the Scion.',
+           {'wpId' : '1', 'name' : 'Lief', 'type' : 'sword', 'description' : 'Legendary sword of the Scion.',
             'attack' : 100, 'weight' : 5, 'count' : 0, 'priority': 3},
-           {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : 'weapon', 'description' : 'A knife used to hunt insects.',
+           {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : 'dagger', 'description' : 'A knife used to hunt insects.',
             'attack' : 5, 'weight' : 1, 'count' : 0, 'priority': 3},
            {'wpId' : '1', 'name' : 'Training Bow', 'type' : 'bow', 'description' : 'A large bow made for practice.',
             'attack' : 20, 'weight' : 2, 'count' : 0, 'priority': 4},
@@ -357,7 +431,7 @@ actor = [{'actorId' : '1', 'name' : 'Florace', 'species' : 'human', 'title' : 'W
          ]
 #Save and Load Content
 PIK = 'demo.dat'
-data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, shill, inv, PKSwitch]
+data = [location, chapter, part, tutorial1, tutorComp, chapter1, switch, tutorialSwitch, c2Switch, c3Switch, branchSwitch, shill, inv, PKSwitch, mQuests, sQuests]
 
 #Set Class
 alder = Alder()
@@ -529,7 +603,12 @@ def itemLister(e):
 def itemCount(item, amount):
     inInv = False
     for i in inv:
-        if (item['type'] == 'weapon' and i['type'] == 'weapon'):
+        if (item['type'] == 'sword' and i['type'] == 'sword' or
+            item['type'] == 'dagger' and i['type'] == 'dagger' or
+            item['type'] == 'spear' and i['type'] == 'spear' or
+            item['type'] == 'axe' and i['type'] == 'axe' or
+            item['type'] == 'mace' and i['type'] == 'mace' or
+            item['type'] == 'staff' and i['type'] == 'staff'):
             if (i['wpId'] == item['wpId']):
                 i['count'] += amount
                 inInv = True
@@ -540,6 +619,14 @@ def itemCount(item, amount):
         elif (item['type'] == 'bow' and i['type'] == 'bow'):
             if (i['wpId'] == item['wpId']):
                 i['count'] += amount
+                inInv = True
+        elif (item['type'] == 'crossbow' and i['type'] == 'crossbow'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
+                inInv = True
+        elif (item['type'] == 'sling' and i['type'] == 'sling'):
+            if (i['wpId'] == item['wpId']):
+                item['count'] += amount
                 inInv = True
         elif (item['type'] == 'armour' and i['type'] == 'armour'):
             if (i['armId'] == item['armId']):
@@ -573,7 +660,7 @@ def itemCount(item, amount):
 #The item should be equipped
 #If the item is not starting clothing then it should be return to the inventory
 #Only items of speciec type can be equipped
-def equip():
+def equip(p):
     equiping = True
     while (equiping == True):
         equipable = []
@@ -599,8 +686,8 @@ def equip():
                     if (eq == str(count)):
                         print(i['name'], 'equipped')
                         if(alder.head['armId'] != '0'):
-                            inv.append(alder.head)
-                        alder.head = i
+                            inv.append(p.head)
+                        p.head = i
                         i['count'] -= 1
                         if(i['count'] <= 0):
                             inv.remove(i)
@@ -622,8 +709,8 @@ def equip():
                     if (eq == str(count)):
                         print(i['name'], 'equipped')
                         if(alder.body['armId'] != '1'):
-                            inv.append(alder.body)
-                        alder.body = i
+                            inv.append(p.body)
+                        p.body = i
                         i['count'] -= 1
                         print(i['count'])
                         if(i['count'] <= 0):
@@ -646,8 +733,8 @@ def equip():
                     if (eq == str(count)):
                         print(i['name'], 'equipped')
                         if(alder.legs['armId'] != '1'):
-                            inv.append(alder.legs)
-                        alder.legs = i
+                            inv.append(p.legs)
+                        p.legs = i
                         i['count'] -= 1
                         if(i['count'] <= 0):
                             inv.remove(i)
@@ -658,24 +745,23 @@ def equip():
         elif (i == '4'):
             count = 0
             for i in inv:
-                if(i['type'] == 'weapon'):
+                if(i['type'] == 'sword' or i['type'] == 'dagger' or i['type'] == 'spear' or
+                   i['type'] == 'axe' or i['type'] == 'mace' or i['type'] == 'staff'):
                     count +=1
                     equipable.append(i)
-                    print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon1['attack'])
+                    print(count, ': ', i['name'], '- Attack: +', i['attack'] - p.weapon1['attack'])
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
-                        print(i['name'], 'equipped')
-                        if(alder.weapon1['wpId'] != '0'):
-                            inv.append(alder.weapon1)
-                        alder.weapon1 = i
+                        print(i['name'], 'equiped')
+                        if(p.weapon1['wpId'] != '0'):
+                            inv.append(p.weapon1)
+                        p.weapon1 = i
                         i['count'] -= 1
                         if(i['count'] <= 0):
                             inv.remove(i)
-                        if (tutorialSwitch[4] == True and i['wpId'] == '2'):
-                            tutorialSwitch[4] = False
                     count +=1
             else:
                 print('You have nothing to equip.')
@@ -683,28 +769,44 @@ def equip():
         elif (i == '5'):
             count = 0
             for i in inv:
-                if(i['type'] == 'bow' or i['type'] == 'sheild'):
+                if(i['type'] == 'bow' or i['type'] == 'crossbow' or i['type'] == 'sling' or
+                   i['type'] == 'shield' or i['type'] == 'wand'):
                     count +=1
                     equipable.append(i)
                     if(i['type'] == 'bow'):
-                        if (alder.weapon2['type'] == 'bow'):
-                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - alder.weapon2['attack'])
+                        if (p.weapon2['type'] == 'bow' or p.weapon2['type'] == 'crossbow' or p.weapon2['type'] == 'sling'):
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - p.weapon2['attack'])
                         else:
                             print(count, ': ', i['name'], '- Attack: +', i['attack'])
-                    elif(i['type'] == 'sheild'):
-                        if (alder.weapon2['type'] == 'sheild'):
-                            print(count, ': ', i['name'], '- Defence: +', i['defence'] - alder.weapon2['defence'])
+                    elif(i['type'] == 'crossbow'):
+                        if (p.weapon2['type'] == 'bow' or p.weapon2['type'] == 'crossbow' or p.weapon2['type'] == 'sling'):
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - p.weapon2['attack'])
                         else:
-                            print(count, ': ', i['name'], '- Defence: +', i['defence'])                            
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
+                    elif(i['type'] == 'sling'):
+                        if (p.weapon2['type'] == 'bow' or p.weapon2['type'] == 'crossbow' or p.weapon2['type'] == 'sling'):
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - p.weapon2['attack'])
+                        else:
+                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
+                    elif(i['type'] == 'shield'):
+                        if (p.weapon2['type'] == 'shield'):
+                            print(count, ': ', i['name'], '- Defence: +', i['defence'] - p.weapon2['defence'])
+                        else:
+                            print(count, ': ', i['name'], '- Defence: +', i['defence'])
+                    elif(i['type'] == 'wand'):
+                        print(count, ': ', i['name'], '- Spell: ', i['spell'])
+                        for j in p.spells:
+                            if (j['spId'] == i['wpId']):
+                                j['unlocked'] = True
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
-                        print(i['name'], 'equipped')
-                        if(alder.weapon2['wpId'] != '0'):
-                            inv.append(alder.weapon2)
-                        alder.weapon2 = i
+                        print(i['name'], 'equiped')
+                        if(p.weapon2['wpId'] != '0'):
+                            inv.append(p.weapon2)
+                        p.weapon2 = i
                         i['count'] -= 1
                         if(i['count'] <= 0):
                             inv.remove(i)
@@ -841,70 +943,157 @@ def enemyAttack(e, p, b):
         target = e.accuracy() + 100 - p.evasion()
         hit = random.randrange(0,100)
         critical = random.randrange(0,100)
-        if (hit < target):
-            impact = random.randrange(e.attack() - 5, e.attack() + 5)
-            if (critical >= 90):
-                impact += 10
-            impact = round(impact * (100/(100 + p.defence())))
-            if (p.cStatus == 'Blocking'):
-                impact = round(impact/10)
-            if (impact <= 0):
-                impact = 1
-            p.health -= impact
-            print('\n',e.name,' attacked!')
-            if(critical >= 90):
-                print('Critical Hit!')
-            print(p.name, ' took ', impact, ' damage!')
-            return b
+        if ((e.aliment['outRange'] != True or (e.aliment['outRange'] == True and e.weapon1['type'] == 'spear')) and
+            (p.aliment['outRange'] != True or (p.aliment['outRange'] == True and e.weapon1['type'] == 'spear')) and
+            (e.aliment['outRange'] != True and p.aliment['outRange'] != True)):
+            if (hit < target):
+                impact = random.randrange(e.attack() - 5, e.attack() + 5)
+                if (critical >= 90):
+                    impact += 10
+                impact = round(impact * (100/(100 + p.defence())))
+                im = impact
+                if (p.cStatus == 'Blocking'):
+                    impact = round(impact/10)
+                    if (impact <= 0):
+                        impact = 1
+                    im = impact
+                    if (p.weapon2['type'] == 'shield'):
+                        if (p.shield > 0):
+                            print(p.name,'blocked!')
+                            impact -= p.shield
+                            if (impact < 0):
+                                impact = 0
+                            p.shield -= im
+                elif((p.cStatus == 'Attacking' or p.cStatus == 'Parried') and p.weapon1['type'] == 'sword'):
+                    if(e.weapon1['type'] == 'sword' or e.weapon1['type'] == 'dagger' or
+                       e.weapon1['type'] == 'spear' or e.weapon1['type'] == 'axe' or
+                       e.weapon1['type'] == 'mace' or e.weapon1['type'] == 'staff'):
+                        parry = random.randrange(0,100)
+                        if (parry >= 20):
+                            impact = 0
+                            im = impact
+                            p.cStatus = 'Countered'
+                        elif (parry >= 5):
+                            impact = 0
+                            im = impact
+                            p.cStatus = 'Parried'
+                p.health -= impact
+                print('\n',e.name,' attacked!')
+                if(critical >= 90):
+                    print('Critical Hit!')
+                if (p.cStatus == 'Countered'):
+                    print(p.name,'parried!')
+                    attack(p,e)
+                elif (p.cStatus == 'Parried'):
+                    print(p.name,'parried!')
+                else:
+                    print(p.name, 'took', impact, 'damage!')
+                return im
+            else:
+                print('\n',e.name,' Missed!')
+                return 0
         else:
-            print('\n',e.name,' Missed')
+            print('\n', p.name, ' was out of range')
+            return 0
     else:
-        print('\n',e.name, 'did not attack!')
+        print('\n',e.name, ' did not attack!')
+        return 0
 
 #Attack Enemy
 def attack(p, e):
+    numOfAtk = 1
+    impact = 0
+    if (p.weapon1['type'] == 'dagger'):
+        numOfAtk += 1
     target = p.accuracy() + 100 - e.evasion()
     hit = random.randrange(0,100)
     critical = random.randrange(0,100)
-    alder.stamina -= 5
-    if (p.ammo['loaded'] == True):
-        if (hit < target):
-            impact = random.randrange(p.attackRanged() - 3, p.attackRanged() + 3)
-            impact += p.ammo['damage']
-            if (critical >= 90):
-                impact += 10
-            impact = round(impact * (100/(100 + e.defence())))
-            if (impact <= 0):
-                impact = 1
-            e.health -= impact
-            print('\n',p.name,' fired a', p.ammo['name'], '!')
-            if(critical >= 90):
-                print('Critical Hit!')
-            print(e.name, ' took ', impact, ' damage!')
-            p.ammo['loaded'] = False
-        else:
-            print('\n',p.name,' Missed')
-    else:
-        if (hit < target):
-            impact = random.randrange(p.attack() - 5, p.attack() + 5)
-            if(p.weapon1['wpId'] != '0'):
+    p.stamina -= 5
+    while(numOfAtk > 0):
+        if (p.ammo['loaded'] == True):
+            p.cStatus = 'RAttacking'
+            if (hit < target):
+                impact = random.randrange(p.attackRanged() - 3, p.attackRanged() + 3)
+                impact += p.ammo['damage']
                 if (critical >= 90):
                     impact += 10
                 impact = round(impact * (100/(100 + e.defence())))
-                if (impact <= 0):
-                    impact = 1
-                e.health -= impact
-                print('\n',p.name,' attacked!')
+                im = impact
+                if (e.cStatus == 'Blocking'):
+                    impact = round(impact/10)
+                    if (impact <= 0):
+                        impact = 1
+                    im = impact
+                    if (e.weapon2['type'] == 'shield'):
+                        if (e.weapon2['defence'] > 0):
+                            print('Attack blocked!')
+                            impact -= e.weapon2['defence']
+                            if (impact < 0):
+                                impact = 0
+                print('\n',p.name,' fired a', p.ammo['name'], '!')
                 if(critical >= 90):
                     print('Critical Hit!')
+                    if (p.weapon2['type'] == 'sling'):
+                        e.aliment = 'Stun'
+                e.health -= impact
+                print(e.name, ' took ', impact, ' damage!')
+                p.ammo['loaded'] = False
+                if(e.health <= 0):
+                    print(e.name, ' defeated.')
+                return im
             else:
-                impact = 0
-                print('\nBut',p.name, ' was unarmed')
-            if(critical >= 90):
-                print('Critical Hit!')
-            print(e.name, ' took ', impact, ' damage!')
+                print('\n',p.name,' Missed')
+                return 0
         else:
-            print('\n',p.name,' Missed')
+            p.cStatus = 'Attacking'
+            if ((e.aliment['outRange'] != True or (e.aliment['outRange'] == True and p.weapon1['type'] == 'spear')) and
+                (p.aliment['outRange'] != True or (p.aliment['outRange'] == True and p.weapon1['type'] == 'spear')) and
+                (e.aliment['outRange'] != True and p.aliment['outRange'] != True)):
+                if (hit < target):
+                    impact = random.randrange(p.attack() - 5, p.attack() + 5)
+                    if(p.weapon1['wpId'] != '0'):
+                        if (critical >= 90):
+                            impact += 10
+                        impact = round(impact * (100/(100 + e.defence())))
+                        im = impact
+                        if (impact <= 0):
+                            impact = 1
+                        if (e.cStatus == 'Blocking'):
+                            impact = round(impact/10)
+                            if (impact <= 0):
+                                impact = 1
+                            im = impact
+                            if (e.weapon2['defence'] > 0):
+                                if (p.weapon1['type'] == 'axe'):
+                                    print('Shield repealed!')
+                                    e.cStatus = 'None'
+                                else:
+                                    print('Attack blocked!')
+                                    impact -= e.weapon2['defence']
+                                if (impact < 0):
+                                    impact = 0
+                        e.health -= impact
+                        if (p.cStatus == 'Countered'):
+                            print('\n',p.name,' countered!')
+                        else:
+                            print('\n',p.name,' attacked!')
+                        if(critical >= 90):
+                            print('Critical Hit!')
+                            if (p.weapon1['type'] == 'mace'):
+                                e.aliment['stun'] = True
+                        print(e.name, ' took ', impact, ' damage!')
+                        if(e.health <= 0):
+                            print(e.name, ' defeated.')
+                        return im
+                    else:
+                        print('\nBut',p.name, ' was unarmed')
+                        return 0
+                else:
+                    print('\n',p.name,' Missed')
+                    return 0
+            else:
+                print('\n', e.name, ' was out of range')
+        numOfAtk -= 1
     if(e.health <= 0):
         print(e.name, ' defeated.')
     if (p.ammo['loaded'] == False):
@@ -917,7 +1106,7 @@ def block(barrier, incoming):
     return incoming
 
 #Check if special effect are still active and deactivate them it they are not.
-def inEffect():
+def inEffect(p, e):
     for i in alder.special:
         if(i['active'] == True):
             i['inEffect'] -= 1
@@ -1040,140 +1229,192 @@ def item(p, e):
                     using = False
                 count +=1
             use.clear()
-
+#Combat order
+def fightOrder(e):
+    return e.speed()
+#Enemy Priorities
+#Attacks the enemy with the least health
+def ePriority_weakness(heroes):
+    heroes.sort(key=lambda x: x.health, reverse=False)
+    for i in heroes:
+        if (i.health > 0):
+            return i
+#Attacks the enemy that dealt the most damge
+def ePriority_threat(heroes, record):
+    attacks = []
+    for i in record:
+        if (i['Type'] == 'playable' and i['Status'] == 'Attacking'):
+            attacks.append(i)
+    attacks.sort(key=lambda x: x['Damage'], reverse=True)
+    for i in attacks:
+        for j in heroes:
+            if (i['Id'] == j.pId):
+                if (j.health > 0):
+                    return j
+    if (len(attacks) == 0):
+        return ePriority_weakness(heroes)
+#Attacks the last enemy to attack it
+def ePriority_retaliation(heroes, e, record):
+    attacks = []
+    for i in record:
+        if (i['Type'] == 'playable' and i['Status'] == 'Attacking' and
+            i['Hit'].inId == e.inId):
+                attacks.append(i)
+    for i in attacks:
+        for j in heroes:
+            if (i['Id'] == j.pId):
+                if (j.health > 0):
+                    return j  
+    if (len(attacks) == 0):
+        return ePriority_weakness(heroes)
+#Attacks Alder if he is active in combat
+def ePriority_Alder(heroes):
+    for i in heroes:
+        if (i.health > 0):
+            if (i.pId == '1'):
+                return i
+            elif (i.pId == '2'):
+                return i
+            else:
+                return ePriority_weakness(heroes)
+            
 #Combat interface
 def battle(e):
     os.system('clear')
     global alder
+    heroes = [alder]
     enemys = []
+    record = []
     for i in e:
+        count = 1
         if i.enId != '0':
+            i.inId = str(count)
             enemys.append(i)
+        count += 1
+    combatants = heroes + enemys
     fighting = True
     winner = False
     count = 1
-    bck = 0
+    for i in heroes:
+        if (i.weapon2['type'] == 'shield'):
+            i.shield = i.weapon2['defence']
     while(fighting == True):
-        hunger(fighting)
-        #Win condition
-        if (enemys[0].health <= 0):
-            j = 0
-            for i in enemys:
-                if (i.health <= 0):
-                    j += 1
-            if (j == len(enemys)):
-                winner = True
-        #Death Condition
-        if(alder.health <= 0):
-            fighting = False
-            death()
-            return False
-        #Win
-        elif(winner == True):
-            for i in alder.special:
-                i['active'] = False
-                i['inEffect'] = 0
-            fighting = False
-            win(enemys)
-            return True
-        else:
-            inEffect()
-            for i in enemys:
-                if(i.speed() > alder.speed() and count == 1 and i.health > 0):
-                    enemyAttack(i, alder, bck)
-            while(alder.cStatus == 'None'):
-                if (mQuests[0]['accepted'] == True and mQuests[0]['completed'] == False):
-                    if(count == 1):
-                        print('\nUse the command "3" or "appraise" to examine enemy health and information.')
-                    elif(count == 2):
-                        print('\nTo reduce damage from a incoming attack use command "2" or "block"')
-                    elif(count == 3):
-                        print('\nTo deal damage to the opponent use command "1" or "attack".')
-                elif (c2Switch[0] == False and c2Switch[1] == True):
-                    print('\nTo use a ranged weapon like the bow select a supported projectile from items, then on the next turn attack to fire.')
-                print('\n',alder.name)
-                if (alder.ammo['loaded'] == True):
-                    print('Ranged weapon set')
-                print("Health: ", alder.health, '/', alder.maxHealth, "| Stamina: ", alder.stamina, '/', alder.maxStamina)
-                print("1) Attack     3) Appraise     5) Item")
-                print("2) Block      4) Special      6) Flee")
-                i = input('Action: ')
-                if (i == '1' or i == 'attack' or i == 'Attack'):
-                    print('\nEnemies')
-                    j = 1
-                    for i in enemys:
-                        if (i.health > 0):
-                            print(j, ': ', i.name)
-                            j += 1
-                    target = input('Attack: ')
-                    j = 1
-                    for i in enemys:
-                        if (i.health > 0):
-                            if (target == str(j)):
-                                alder.cStatus = 'Attacking'
-                                attack(alder, i)
-                            j += 1
-                elif (i == '2' or i == 'block' or i == 'Block'):
-                    alder.cStatus = 'Blocking'
-                    bck = alder.defence()
-                elif (i == '3' or i == 'appraise' or i == 'Appraise'):
-                    for i in enemys:
-                        print('\n',i.name, 'Health:', i.health,'/',i.maxHealth)
-                        print(i.desc)
-                elif (i == '4' or i == 'special' or i == 'Special'):
-                    alder.cStatus = 'Specializing'
-                    special(alder)
-                elif (i == '5' or i == 'item' or i == 'Item'):
-                    item(alder, enemys)
-                elif (i == '6' or i == 'flee' or i == 'Flee'):
-                    i = input('Are you sure you want to run?(y/n)')
-                    confirm = yn(i)
-                    if (confirm == True): 
-                        alder.cStatus = 'Escaping'
-                        running = True
-                        for i in enemys:
-                            if (i.speed() > alder.speed()):
-                                print('\nEscape Failed!')
-                                running = False
-                            elif (i.enId == '3'):
-                                print('\nCannot run!')
-                                running = False
-                        if (running == True):
-                            fighting = False
-                            return False
-            for i in enemys:
-                if(i.health > 0):
-                    if(i.strat == 'Attacker'):
-                        if (i.aliment != 'Caught'):
-                            enemyAttack(i, alder, bck)
-                        else:
+        for i in heroes:
+            hunger(i)
+        #Order combatents by fastest to slowest
+        combatants.sort(key=fightOrder, reverse=True)
+        for i in combatants:
+            if (fighting == True):
+                #Win condition
+                if (enemys[0].health <= 0):
+                    k = 0
+                    for remaining in enemys:
+                        if (remaining.health <= 0):
+                            k += 1
+                    if (k == len(enemys)):
+                        winner = True
+                #Death Condition
+                if(i.health <= 0 and i.type == 'playable'):
+                    k = 0
+                    for remaining in heroes:
+                        if (remaining.health <= 0):
+                            k += 1
+                    if (k == len(heroes)):
+                        death()
+                        return False
+                #Win
+                elif(winner == True):
+                    for j in alder.special:
+                        j['active'] = False
+                        j['inEffect'] = 0
+                    fighting = False
+                    win(enemys)
+                    return True
+                if (i.type == 'playable' and i.health > 0):
+                    inEffect(i, enemys)
+                    i.cStatus = 'None'
+                    while(i.cStatus == 'None'):
+                        for j in enemys:
+                            if j.message != None:
+                                print (j.message(count))
+                        print('\n',i.name)
+                        if (i.ammo['loaded'] == True):
+                            print('Ranged weapon set!')
+                        print("Health: ", i.health, '/', i.maxHealth, "| Stamina: ", i.stamina, '/', i.maxStamina)
+                        print("1) Attack     3) Appraise     5) Item")
+                        print("2) Block      4) Special      6) Flee")
+                        j = input('Action: ')
+                        if (j == '1' or j == 'attack' or j == 'Attack'):
+                            print('\nEnemies')
+                            k = 1
+                            for j in enemys:
+                                if (j.health > 0):
+                                    print(k, ': ', j.name)
+                                    k += 1
+                            target = input('Attack: ')
+                            k = 1
+                            for j in enemys:
+                                if (j.health > 0):
+                                    if (target == str(k)):
+                                        impact = attack(i, j)
+                                        if (j.cStatus == 'Blocking' and impact > 0):
+                                            j.weapon2['defence'] -= impact
+                                        record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus, 'Hit': j, 'Damage':impact})
+                                    k += 1
+                        elif (j == '2' or j == 'block' or j == 'Block'):
+                            i.cStatus = 'Blocking'
+                            record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus})
+                        elif (j == '3' or j == 'appraise' or j == 'Appraise'):
+                            for j in enemys:
+                                print('\n',j.name, 'Health:', j.health,'/',j.maxHealth)
+                                print(j.desc)
+                        elif (j == '4' or j == 'special' or j == 'Special'):
+                            special(i, enemys, record)
+                        elif (j == '5' or j == 'item' or j == 'Item'):
+                            item(i, enemys, record)
+                        elif (j == '6' or j == 'flee' or j == 'Flee'):
+                            j = input('Are you sure you want to run?(y/n)')
+                            if (j == 'y' or j == 'Y' or j == 'yes' or j == 'Yes'):
+                                i.cStatus = 'Escaping'
+                                record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus})
+                                return False
+                else:
+                    if(i.health > 0):
+                        if (i.aliment['poison'] == True):
+                            poison = i.maxHealth / 10
+                            if (round(poison) < 0):
+                                poison = 1
+                            i.health -= round(poison)
+                            print(i.name, 'took', round(poison), 'damage from poison!')
+                            record.append({'Id': i.enId, 'Who':i.name, 'Type': i.type, 'Aliment':'poison', 'Damage':round(poison)})
+                        if (i.aliment['caught'] == True):
                             escape = random.randrange(0, 100)
                             if (i.type == 'bug'):
                                 if (escape >= 95):
-                                    print(i.name, 'escaped the net!')
-                                    i.aliment = 'None'
+                                    print('The',i.name, 'escaped the net!')
+                                    i.aliment['caught'] = False
                                 else:
                                     print('The', i.name,' is tangled in a net!')
                             elif (i.type == 'soldier'):
                                 if (escape >= 30):
                                     print(i.name, 'escaped the net!')
+                                    i.aliment['caught'] = False
                                 else:
-                                    print('The', i.name,' is tangled in a net!')
-                        i.cStatus = 'Attacking'
-                    elif(i.strat == 'Prey'):
-                        if(i.health < i.maxHealth):
-                            print(i.name, ' fled!')
-                            i.cStatus = 'Escaping'
-            for i in reversed(enemys):
-                if(i.health > 0):
-                    if (i.cStatus == 'Escaping'):
-                        enemys.remove(i)
+                                    print(i.name,' is tangled in a net!')
+                            record.append({'Id': i.enId, 'Who':i.name, 'Type': i.type, 'Aliment':'caught', 'Caught':i.aliment['caught']})
+                        elif (i.aliment['stun'] == True):
+                            print(i.name, 'was stunned!')
+                            i.aliment['stun'] = False
+                        else:
+                            impact = i.action(i, heroes, record)[0]
+                for j in reversed(enemys):
+                    if (j.cStatus == 'Escaping'):
+                        enemys.remove(j)
                         if (len(enemys) == 0):
                             fighting = False
-                else:
-                    i.cStatus = 'None'
-            count += 1
-            alder.cStatus = 'None'
+                            return True
+        count += 1
+        alder.cStatus = 'None'
 #Yes or no answers
 def yn(yesNo):
     while(yesNo != 'y' or yesNo != 'Y' or yesNo != 'yes' or yesNo != 'Yes' or
@@ -1206,10 +1447,10 @@ def examine(location):
                     sQuests[0]['required'][1] = True
                     examining = False
                 else:
-                    print("It was a small metal cauldron above the stove suspended by a chain. It was empty right now.")
+                    print("A small metal cauldron was suspended above the stove by a chain. It was empty right now.")
                 cont()
             elif (e == 'pots' or e == 'Pots'):
-                print('Various pots and pans were hung on hooks in the wall.')
+                print('Various pots and pans were hung on hooks along the wall.')
                 cont()
             elif (e == 'cupboard' or e == 'Cupboard'):
                 print('The cupboard was full of plates, bowls and other kitchen and dining utensils.')
@@ -1239,10 +1480,10 @@ def examine(location):
                     chapter = '1'
                     tutorialSwitch[0] = False
                 else:
-                    print('The clearing is out front.')
+                    print('The clearing at the front of of the cottage can be seen through the window.')
                 cont()
             elif (e == 'stove' or e == 'Stove'):
-                print('The unlit fireplace was full of dry branches. The fire would heat the metal plates of the stove to cook meat.')
+                print('The stove was made of metal plates above an unlit fireplace full of dry branches. The fire would heat the metal plates of the stove to cook meat.')
                 cont()
             elif (e == 'table' or e == 'Table' or e == 'tables' or e == 'Tables'):
                 print('A rectangular wooden table stood in the centre of the room while a thinner one with a basin stood by the window.')
@@ -1278,10 +1519,10 @@ def examine(location):
                 elif(sQuests[2]['required'][0] == True):
                     print('The bookshelf was empty.')
                 else:
-                    print('The books in the living room bookshelf included:')
+                    print('The books in the living room bookshelf include:')
                     cont()
-                    print('\tMagic: the basics')
-                    print('\tMagical articles of history')
+                    print('\tMagic: The Basics')
+                    print('\tMagical Articles of History')
                     print('\tPotions')
                     print('\tDevelopers Note - Kyla'"'"'s cottage')
                     print('\tDevelopers Note - Wild and Wyrd Demo')
@@ -1417,12 +1658,12 @@ def examine(location):
                                 c3Switch[1] = False
                             else:
                                 print('\nLeif - The sword of seasons.')
-                                print('\nAn illustration of a double edged sword and green and silver scabbard and decorations with thorny stem engraved around the grip, a leaf shaped rain-guard and a tear-shaped pommel.')
-                                print('\tThe sword whos only master is the Scion. It blade is not metal from the earth but a leaf from a rare Wyrd tree. When weilded by any other it'"'"'s blade will wilt but in the Scions it will regrow.')
+                                print('\nAn illustration shows the green and silver scabbard of a double edged sword with a leaf shaped rain-guard and a tear-shaped pommel. Thorny stems were engraved around the grip.')
+                                print('\tThe sword only the Scion can wield. It'"'"'s blade is made not of metal from the earth but of a leaf from a rare fairyland tree. When wielded by any other than the Scion it'"'"'s blade will wilt, regrowing only when returned to the Scion'"'"'s grip.')
                                 cont()
             elif (e == 'fireplace' or e == 'Fireplace'):
                 if (sQuests[0]['accepted'] == True and sQuests[0]['required'][0] == False):
-                    print('Alder got to work cleaning the fireplace using a brush and cloth. By the end his arms were completely black.')
+                    print('Alder got to work cleaning the fireplace using a brush and cloth. By the end his arms were completely blackened by soot.')
                     cont()
                     print('Kyla:')
                     print('"Throw that ash outside."')
@@ -1535,7 +1776,7 @@ def examine(location):
                         itemCount(food[0], 5)
                         PKSwitch[2] = False
                 if (sQuests[0]['accepted'] == True and sQuests[0]['required'][2] == False):
-                    print('Alder picked some bramble leaves trying to avoid the thorns. He wondered what potion Kyla was going to use them for.')
+                    print('Alder picked some bramble leaves, careful to avoid the thorns. He wondered what potion Kyla was going to use them for.')
                     count = 0
                     for i in inv:
                         if (i['type'] == 'ingredient'):
@@ -1553,14 +1794,14 @@ def examine(location):
             if (c2Switch[2] == True):
                 print("The inside of the shed was illuminated by a 'window' on the left side from the entrance. It was full of loose ‘tools’ Alder used for gathering, woodwork and gardening, while ingredients and more fragile equipment for magic potions were held in 'pots' and 'crates'. Opposite the entrance was a 'table' used for crafts with an old 'sack' was slumped against it and a 'bow' and 'quiver' full of 'arrows'.")
             else:
-                print("The inside of the shed was illuminated by a 'window' on the left side from the entrance. It was full of loose ‘tools’ Alder used for gathering, woodwork and gardening, while ingredients and more fragile equipment for magic potions were held in 'pots' and 'crates'.")
+                print("The inside of the shed was illuminated by a 'window' on the left side from the entrance. It was full of loose ‘tools’ Alder used for gathering, woodwork and gardening, while ingredients and more fragile equipment for magic potions were held in 'pots' and 'crates'. Opposite the entrance was a 'table' used for crafts.")
             if (sQuests[2]['required'][1] == True):
                 print('There was a large hole in the wall.')
             e = input('Examine: ')
             if (e == 'window' or e == 'Window'):
                 print('A single window was to the left upon entering through the doorway.')
                 cont()
-                print('Upon looking through it, only the woods were visable at that angle.')
+                print('it'"'s"' angle meant that upon looking through, only the woods could been seen.')
                 cont()
             elif (e == 'tools' or e == 'Tools' or e == 'axe' or e == 'Axe' or e == 'saw' or e == 'Saw' or
                   e == 'pick' or e == 'Pick' or e == 'shovel' or e == 'Shovel' or e == 'sickle' or e == 'Sickle' or
@@ -1834,7 +2075,7 @@ def talk():
                     print('"You look tired."')
                     cont()
                     print('Florace:')
-                    print('"Take a nap you'"'"'ll feel better."')
+                    print('"Take a nap, you'"'"'ll feel better."')
                     cont()
         else:
             print('There was no one to talk to.')
@@ -1853,7 +2094,7 @@ def talk():
                     print('"Yes, Madam."')
                     cont()
                     print('Kyla:')
-                    print('"Then you are free boy?"')
+                    print('"Making you free boy?"')
                     cont()
                     print('Alder:')
                     print('"Yes, Madam."')
@@ -2547,7 +2788,7 @@ def talk():
         print('There was no one to talk to.')
 #Move to another location
 def move():
-    global location, part, tutorial1, tutorialSwitch, c2Switch
+    global location, part, tutorial1, tutorialSwitch, c2Switch, c3Switch
     print('\nMove')
     for i in locations:
         if (location == i['locId']):
@@ -2869,7 +3110,9 @@ def inventory():
         if (j == '' or j == 'weapons' or j == 'Weapons'):
             print('Weapons')
             for i in inv:
-                if (i['type'] == 'weapon' or i['type'] == 'bow' or i['type'] == 'sheild'):
+                if (i['type'] == 'sword' or i['type'] == 'dagger' or i['type'] == 'spear' or
+                   i['type'] == 'axe' or i['type'] == 'mace' or i['type'] == 'staff' or
+                    i['type'] == 'bow' or i['type'] == 'sheild' or i['type'] == 'crossbow' or i['type'] == 'sling'):
                     print(count, ') ', i['name'], ' x', i['count'])
                     count += 1
                     listItems.append(i)
@@ -2911,7 +3154,7 @@ def inventory():
         elif (j == '2'):
             useItem(alder)
         elif (j == '3'):
-            equip()
+            equip(alder)
         elif (j == 'e'):
             bag = False
         if (j == '1' or j == '2' or j == '3'):
@@ -3104,7 +3347,7 @@ def free(location, chapter, part):
                 print('Alder did not have anything with him.')
         elif (action == 'x' or action == 'equip' or action == 'Equip'):
             if (location != '7'):
-                equip()
+                equip(alder)
             else:
                 print('Alder did not have anything with him.')
         elif (action == 'k' or action == 'skill' or action == 'Skill'):
@@ -3528,7 +3771,6 @@ def menu():
                 i['completed'] = False
                 i['submitted'] = False
             #Alder Stats
-            alder.name = 'Alder'
             alder.maxHealth = 60
             alder.health = alder.maxHealth
             alder.maxStamina = 60

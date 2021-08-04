@@ -229,7 +229,7 @@ class Cricket:
         evasion = self.baseEvasion
         return evasion
     property
-    def action(self, e, p, s, r):
+    def action(self, e, p, r):
         if(self.health < self.maxHealth):
             self.cStatus = 'Escaping'
             print(self.name, ' fled!')
@@ -282,10 +282,10 @@ class Wasp:
         evasion = self.baseEvasion
         return evasion
     property
-    def action(self, e, p, s, r):
+    def action(self, e, p, r):
         self.cStatus = 'Attacking'
         target = ePriority_retaliation(p, e, r)
-        impact = enemyAttack(e, target, s)
+        impact = enemyAttack(e, target, target.shield)
         r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status':self.cStatus, 'Hit': target, 'Damage':impact})
         return [impact, self.cStatus]
 
@@ -331,7 +331,7 @@ class Dummy:
         evasion = self.baseEvasion
         return evasion
     property
-    def action(self, e, p, s, r):
+    def action(self, e, p, r):
         self.cStatus = 'None'
         print(self.name, ' did not attack!')
         r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
@@ -378,7 +378,7 @@ class Wall:
         evasion = self.baseEvasion
         return evasion
     property
-    def action(self, e, p, s, r):
+    def action(self, e, p, r):
         self.cStatus = 'None'
         print(self.name, ' did not attack!')
         r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
@@ -426,10 +426,10 @@ class Gowl_Rabbit:
         evasion = self.baseEvasion
         return evasion
     property
-    def action(self, e, p, s, r):
+    def action(self, e, p, r):
         self.cStatus = 'Attacking'
         target = ePriority_Alder(p)
-        impact = enemyAttack(e, target, s)
+        impact = enemyAttack(e, target, target.shield)
         r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status':self.cStatus, 'Hit': target, 'Damage':impact})
         return [impact, self.cStatus]
 
@@ -474,10 +474,10 @@ class YoungCrow:
         evasion = self.baseEvasion
         return evasion
     property
-    def action(self, e, p, s, r):
+    def action(self, e, p, r):
         self.cStatus = 'Attacking'
         target = ePriority_weakness(p)
-        impact = enemyAttack(e, target, s)
+        impact = enemyAttack(e, target, target.shield)
         r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status':self.cStatus, 'Hit': target, 'Damage':impact})
         return [impact, self.cStatus]
 
@@ -522,7 +522,7 @@ class ShieldMaster:
         evasion = self.baseEvasion
         return evasion
     property
-    def action(self, e, p, s, r):
+    def action(self, e, p, r):
         if(self.cStatus == 'None'):
             print(self.name, 'struggled to pick up his shield')
         elif(self.weapon2['defence'] > 0):
@@ -575,10 +575,10 @@ class SwordMaster:
         evasion = self.baseEvasion
         return evasion
     property
-    def action(self, e, p, s, r):
+    def action(self, e, p, r):
         self.cStatus = 'Attacking'
         target = ePriority_threat(p, r)
-        impact = enemyAttack(e, target, s)
+        impact = enemyAttack(e, target, target.shield)
         r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus, 'Hit': target, 'Damage':impact})
         return [impact, self.cStatus]
 
@@ -1479,7 +1479,7 @@ def special(p, e, r):
                     p.stamina -= i['cost']
                     i['inEffect'] = 5
                 print('\n', p.name, ' uses ', i['name'],'.')
-                r.append({'Id': i.pId, 'Who':p.name, 'Type': i.type, 'Status':p.cStatus, 'SpecialType':'special', 'Special':i['name']})
+                r.append({'Id': p.pId, 'Who':p.name, 'Type': i.type, 'Status':p.cStatus, 'SpecialType':'special', 'Special':i['name']})
     for i in p.manver:
         if (i['unlocked'] == True):
             count2 += 1
@@ -1487,7 +1487,7 @@ def special(p, e, r):
                 p.cStatus = 'Specializing'
                 p.stamina -= i['cost']
                 manuver(p,e,i)
-                r.append({'Id': i.pId, 'Who':p.name, 'Type': i.type, 'Status':p.cStatus, 'SpecialType':'manuver', 'Manuver':i['name']})
+                r.append({'Id': p.pId, 'Who':p.name, 'Type': i.type, 'Status':p.cStatus, 'SpecialType':'manuver', 'Manuver':i['name']})
     for i in p.spells:
         if (i['unlocked'] == True):
             count2 += 1
@@ -1497,7 +1497,7 @@ def special(p, e, r):
                 p.stamina -= i['cost']
                 magic(p, e, i)
                 print('\n', p.name, ' uses ', i['name'],'.')
-                r.append({'Id': i.pId, 'Who':p.name, 'Type': i.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':i['name']})
+                r.append({'Id': p.pId, 'Who':p.name, 'Type': i.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':i['name']})
 
 #Use Item
 def item(p, e, r):
@@ -1610,19 +1610,17 @@ def item(p, e, r):
             if u == 'e':
                 using = False
             use.clear()
-
+#Combat order
 def fightOrder(e):
     return e.speed()
-
-def weakest(e):
-    return e.health
-
+#Enemy Priorities
+#Attacks the enemy with the least health
 def ePriority_weakness(heroes):
     heroes.sort(key=lambda x: x.health, reverse=False)
     for i in heroes:
         if (i.health > 0):
             return i
-
+#Attacks the enemy that dealt the most damge
 def ePriority_threat(heroes, record):
     attacks = []
     for i in record:
@@ -1636,7 +1634,7 @@ def ePriority_threat(heroes, record):
                     return j
     if (len(attacks) == 0):
         return ePriority_weakness(heroes)
-    
+#Attacks the last enemy to attack it
 def ePriority_retaliation(heroes, e, record):
     attacks = []
     for i in record:
@@ -1647,11 +1645,10 @@ def ePriority_retaliation(heroes, e, record):
         for j in heroes:
             if (i['Id'] == j.pId):
                 if (j.health > 0):
-                    return j
-            
+                    return j  
     if (len(attacks) == 0):
         return ePriority_weakness(heroes)
-
+#Attacks Alder if he is active in combat
 def ePriority_Alder(heroes):
     for i in heroes:
         if (i.health > 0):
@@ -1682,11 +1679,10 @@ def battle(h, e):
     for i in heroes:
         if (i.weapon2['type'] == 'shield'):
             i.shield = i.weapon2['defence']
-    shield = 0
-    useShield = True
     while(fighting == True):
         for i in heroes:
             hunger(i)
+        #Order combatents by fastest to slowest
         combatants.sort(key=fightOrder, reverse=True)
         #print(combatants)
         for i in combatants:
@@ -1707,7 +1703,6 @@ def battle(h, e):
                         if (remaining.health <= 0):
                             k += 1
                     if (k == len(heroes)):
-                        #fighting = False
                         death()
                         return False
                 #Win
@@ -1750,9 +1745,6 @@ def battle(h, e):
                                     k += 1
                         elif (j == '2' or j == 'block' or j == 'Block'):
                             i.cStatus = 'Blocking'
-                            #if (i.weapon2['type'] == 'shield'):
-                                #if (useShield == True):
-                                    #useShield = False
                             record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus})
                         elif (j == '3' or j == 'appraise' or j == 'Appraise'):
                             for j in enemys:
@@ -1767,7 +1759,6 @@ def battle(h, e):
                             if (j == 'y' or j == 'Y' or j == 'yes' or j == 'Yes'):
                                 i.cStatus = 'Escaping'
                                 record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus})
-                                #fighting = False
                                 return False
                 else:
                     if(i.health > 0):
@@ -1797,9 +1788,9 @@ def battle(h, e):
                             print(i.name, 'was stunned!')
                             i.aliment['stun'] = False
                         else:
-                            impact = i.action(i, heroes, shield, record)[0]
-                            if (alder.cStatus == 'Blocking' and impact > 0):
-                                shield -= impact
+                            impact = i.action(i, heroes, record)[0]
+                            #if (alder.cStatus == 'Blocking' and impact > 0):
+                                #shield -= impact
                 for j in reversed(enemys):
                     if (j.cStatus == 'Escaping'):
                         enemys.remove(j)
