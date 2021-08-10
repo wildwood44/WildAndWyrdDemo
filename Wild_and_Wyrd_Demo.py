@@ -762,6 +762,8 @@ def equip(p):
                         i['count'] -= 1
                         if(i['count'] <= 0):
                             inv.remove(i)
+                        if (tutorialSwitch[4] == True and i['wpId'] == '2'):
+                            tutorialSwitch[4] = False
                     count +=1
             else:
                 print('You have nothing to equip.')
@@ -1143,7 +1145,7 @@ def special(p):
                print('\n', p.name, ' uses ', i['name'],'.')
 
 #Use Item
-def item(p, e):
+def item(p, e, r):
     use = []
     using = True
     y = ''
@@ -1187,16 +1189,17 @@ def item(p, e):
                         print(p.name, ' recoved ', i['heals'], ' health')
                         if (p.health > p.maxHealth):
                             p.health = p.maxHealth
-                            alder.cStatus = 'Using'
+                        p.cStatus = 'Using'
                         using = False
                     elif (i['type'] == 'food'):
                         p.stamina += i['recovers']
                         print(p.name, ' recoved ', i['recovers'], ' stamina')
                         if (p.stamina > p.maxStamina):
                             p.stamina = p.maxStamina
-                            alder.cStatus = 'Using'
+                        p.cStatus = 'Using'
                         using = False
                     elif (i['type'] == 'projectile'):
+                        print(u, count)
                         if (i['weapon'] == 'bow'):
                             if(p.weapon2['type'] == 'bow'):
                                 print('\nArrow loaded!')
@@ -1208,6 +1211,28 @@ def item(p, e):
                             else:
                                 print('Bow required!')
                                 using = False
+                        elif (i['weapon'] == 'crossbow'):
+                            if(p.weapon2['type'] == 'crossbow'):
+                                print('\nBolt loaded!')
+                                p.ammo['name'] = i['name']
+                                p.ammo['loaded'] = True
+                                p.ammo['damage'] = i['damage']
+                                p.cStatus = 'Using'
+                                using = False
+                            else:
+                                print('Crossbow required!')
+                                using = False
+                        elif (i['weapon'] == 'sling'):
+                            if(p.weapon2['type'] == 'sling'):
+                                print('\nStone loaded!')
+                                p.ammo['name'] = i['name']
+                                p.ammo['loaded'] = True
+                                p.ammo['damage'] = i['damage']
+                                p.cStatus = 'Using'
+                                using = False
+                            else:
+                                print('Sling required!')
+                                using = False
                     elif (i['type'] == 'toss'):
                         count = 1
                         for j in e:
@@ -1218,16 +1243,17 @@ def item(p, e):
                         for j in e:
                             if (target == str(count)):
                                 print('\n',p.name,'threw ', i['name'])
-                                j.aliment = 'Caught' 
-                                alder.cStatus = 'Using'
+                                j.aliment['caught'] = True 
+                                p.cStatus = 'Using'
                                 using = False
                             count += 1
                     i['count'] -= 1
                     if(i['count'] <= 0):
                         inv.remove(i)
-                elif u == 'e':
-                    using = False
+                    r.append({'Id': p.pId, 'Who':p.name, 'Item': i['name'], 'Status':p.cStatus, 'ItemType':i['type']})
                 count +=1
+            if u == 'e':
+                using = False
             use.clear()
 #Combat order
 def fightOrder(e):
@@ -1335,7 +1361,7 @@ def battle(e):
                     i.cStatus = 'None'
                     while(i.cStatus == 'None'):
                         for j in enemys:
-                            if j.message != None:
+                            if j.message(count) != None:
                                 print (j.message(count))
                         print('\n',i.name)
                         if (i.ammo['loaded'] == True):
@@ -1425,6 +1451,64 @@ def yn(yesNo):
             return False
         else:
             yesNo = input('"yes" or "no" responses only!: ')
+#Read books
+def reading(series, book):
+    bookPages = []
+    readType = 'lines'
+    f = open("data/books.txt", "rt")
+    skip = False
+    for i in f:
+        line = i.split('$ ')
+        if (line[0] == series and line[1] == book):
+            readType = line[3]
+            bookPages.append(i)
+    print('')
+    if (readType == 'lines'):
+        for i in bookPages:
+            line = i.split('$ ')
+            if (line[0] == series and line[1] == book):
+                image = line[5]
+                content = line[6]
+                tabbedline = line[6].split('£')
+                if (image != 'None'):
+                    print(image)
+                if (len(tabbedline) > 1):
+                    for i in tabbedline:
+                        print('\t',i.strip('\n'))
+                else:
+                    print('\n',content.strip('\n'))
+    elif (readType == 'story'):
+        for i in bookPages:
+            if(skip == False):
+                line = i.split('$ ')
+                if (line[0] == series and line[1] == book):
+                    image = line[5]
+                    content = line[6]
+                    tabbedline = line[6].split('£')
+                    if (image != 'None'):
+                        print(image)
+                    if (len(tabbedline) > 1):
+                        for i in tabbedline:
+                            print('\t',i)
+                    else:
+                        print('\n',content.strip('\n'))
+                    s = input()
+                    if(s == 'skip'):
+                        skip = True
+    elif (readType == 'random'):
+        i = random.choice(bookPages)
+        line = i.split('$ ')
+        if (line[0] == series and line[1] == book):
+            image = line[5]
+            content = line[6]
+            tabbedline = line[6].split('£')
+            if (image != 'None'):
+                print(image)
+            if (len(tabbedline) > 1):
+                for i in tabbedline:
+                    print('\t',i)
+            else:
+                print('\n',content.strip('\n'))
 #Examine background object
 def examine(location):
     global game_active, chapter, part
@@ -1519,20 +1603,20 @@ def examine(location):
                 elif(sQuests[2]['required'][0] == True):
                     print('The bookshelf was empty.')
                 else:
-                    print('The books in the living room bookshelf include:')
-                    cont()
-                    print('\tMagic: The Basics')
-                    print('\tMagical Articles of History')
-                    print('\tPotions')
-                    print('\tDevelopers Note - Kyla'"'"'s cottage')
-                    print('\tDevelopers Note - Wild and Wyrd Demo')
-                    cont()
-                    print('Read books option coming soon!')
-                    if(c3Switch[0] == False):
-                        read = input('Read Magical articles of history (y/n)?')
-                        confirm = yn(read)
-                        if (confirm == True):
-                            if(c3Switch[1] == True):
+                    read = ''
+                    while (read != 'e'):
+                        print('\nThe books in the living room bookshelf include:')
+                        print('\t1) Magic: The Basics')
+                        print('\t2) Magical Articles of History')
+                        print('\t3) Potions')
+                        print('\t4) Developers Note - Kyla'"'"'s cottage')
+                        print('\t5) Developers Note - Wild and Wyrd Demo')
+                        print('\te) Close')
+                        read = input('Read: ')
+                        if(read == '1'):
+                            reading('1', '1')
+                        elif(read == '2'):
+                            if(c3Switch[0] == False and c3Switch[1] == True):
                                 print('Alder:')
                                 print('"A "Cohuleen Druith" hat."')
                                 cont()
@@ -1639,7 +1723,6 @@ def examine(location):
                                         print('"When held by the Scion it grows and strengthens, when held by any other it weakens and dies."')
                                         cont()
                                         dialog[2] = True
-                                
                                 print('???:')
                                 print('"The rabbit seeks his burrow!"')
                                 cont()
@@ -1654,13 +1737,18 @@ def examine(location):
                                 print('Florace:')
                                 print('"Who is that?"')
                                 cont()
+                                read = 'e'
                                 examining = False
                                 c3Switch[1] = False
                             else:
-                                print('\nLeif - The sword of seasons.')
-                                print('\nAn illustration shows the green and silver scabbard of a double edged sword with a leaf shaped rain-guard and a tear-shaped pommel. Thorny stems were engraved around the grip.')
-                                print('\tThe sword only the Scion can wield. It'"'"'s blade is made not of metal from the earth but of a leaf from a rare fairyland tree. When wielded by any other than the Scion it'"'"'s blade will wilt, regrowing only when returned to the Scion'"'"'s grip.')
-                                cont()
+                                reading('1', '2')
+                        elif(read == '3'):
+                            reading('1', '3')
+                        elif(read == '4'):
+                            reading('2', '1')
+                        elif(read == '5'):
+                            reading('2', '2')
+                    
             elif (e == 'fireplace' or e == 'Fireplace'):
                 if (sQuests[0]['accepted'] == True and sQuests[0]['required'][0] == False):
                     print('Alder got to work cleaning the fireplace using a brush and cloth. By the end his arms were completely blackened by soot.')
