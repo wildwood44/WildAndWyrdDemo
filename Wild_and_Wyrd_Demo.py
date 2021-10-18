@@ -53,14 +53,11 @@ class Alder:
                           {'No':'1', 'name':'Speed 1', 'active':False, 'boost':5, 'stat' : 'sp'}, {'No':'2', 'name':'Speed 2', 'active':False, 'boost':10, 'stat' : 'sp'}, {'No':'3', 'name':'Speed 3', 'active':False, 'boost':50, 'stat' : 'sp'},
                           {'No':'1', 'name':'Evasion 1', 'active':False, 'boost':5, 'stat' : 'ev'}, {'No':'2', 'name':'Evasion 2', 'active':False, 'boost':10, 'stat' : 'ev'}, {'No':'3', 'name':'Evasion 3', 'active':False, 'boost':50, 'stat' : 'ev'},
                           ]
-        self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Doubles Evasion for five turns.'},
-                        {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
+        self.abilities = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Doubles Evasion for five turns.'},
                         ]
-        self.manver = [{'mvId':'1','name':'Advence', 'type':'manuver', 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
-                       {'mvId':'2','name':'Retreat', 'type':'manuver', 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move out of range.'}
-                       ]
-        self.spells = [{'spId':'1','name':'Poison nettles', 'type':'Nature', 'attackType' : 'single', 'damage' : 1, 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Poisons an opponent'}
-                       ]
+        self.manver = []
+        self.spells = [{'spId':'1','name':'Poison nettles', 'type':'offence', 'specialType':'spell', 'spellType':'Nature', 'attackType' : 'single', 'damage' : 1, 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Videos'}
+                        ]
     property
     def attack(self):
         attack = self.baseAttack
@@ -102,20 +99,117 @@ class Alder:
     property
     def evasion(self):
         evasion = self.baseEvasion
-        if (self.special[0]['active'] == True):
+        if (self.abilities[0]['active'] == True):
             evasion *= 2 
         return evasion
+    property
+    def special_auto(self):
+        automatic = {'spId':'0','name':'None', 'effect':'', 'type':'automatic', 'cost':0}
+        if (self.weapon2['type'] == 'wand'):
+            for i in spells:
+                if(self.weapon2['spId'] == i['spId'] and i['type'] == "automatic"):
+                    if (self.weapon1['type'] == 'staff'):
+                        confirm = False
+                        for j in spells:
+                            for k in self.weapon1['spells']:
+                                if(k['spId'] == j['spId'] and j['type'] == "automatic"):
+                                    automatic = combine(i,j)
+                                    confirm = True
+                        if(confirm == False):
+                            automatic = i
+                    else:
+                        automatic = i
+        if (self.weapon1['type'] == 'staff' and automatic['spId'] == '0'):
+            for i in spells:
+                for j in self.weapon1['spells']:
+                    if(j['spId'] == i['spId'] and i['type'] == "automatic"):
+                        automatic = i
+        if (automatic['spId'] == '0'):
+            for i in self.abilities:
+                if(i['unlocked'] == True):
+                    automatic = i
+        return automatic
+    property
+    def special_off(self):
+        offence = {'spId':'0','name':'None', 'effect':'', 'type':'offence', 'cost':0}
+        if (self.weapon2['type'] == 'wand'):
+            for i in spells:
+                if(self.weapon2['spId'] == i['spId'] and i['type'] == "offence"):
+                    if (self.weapon1['type'] == 'staff'):
+                        confirm = False
+                        for j in spells:
+                            for k in self.weapon1['spId']:
+                                if(k == j['spId'] and j['type'] == "offence"):
+                                    offence = combine(i,j)
+                                    confirm = True
+                        if(confirm == False):
+                            offence = i
+                    else:
+                        offence = i
+        if (self.weapon1['type'] == 'staff' and offence['spId'] == '0'):
+            for i in spells:
+                for j in self.weapon1['spells']:
+                    if(j['spId'] == i['spId'] and i['type'] == "offence"):
+                        offence = i
+        return offence
+    property
+    def special_sup(self):
+        support = {'spId':'0','name':'None', 'effect':'', 'type':'support', 'cost':0}
+        if (self.weapon2['type'] == 'wand'):
+            for i in spells:
+                if(self.weapon2['spId'] == i['spId'] and i['type'] == "support"):
+                    if (self.weapon1['type'] == 'staff'):
+                        confirm = False
+                        for j in spells:
+                            for k in self.weapon1['spId']:
+                                if(k == j['spId'] and j['type'] == "support"):
+                                    support = combine(i,j)
+                                    confirm = True
+                        if(confirm == False):
+                            support = i
+                    else:
+                        support = i
+        if (self.weapon1['type'] == 'staff' and support['spId'] == '0'):
+            for i in spells:
+                for j in self.weapon1['spells']:
+                    if(j['spId'] == i['spId'] and i['type'] == "support"):
+                        support = i
+        return support
+    property
+    def special_enc(self):
+        enhance = {'spId':'0','name':'None', 'effect':'', 'type':'enhance', 'cost':0}
+        if (self.weapon2['type'] == 'wand'):
+            for i in spells:
+                if(self.weapon2['spId'] == i['spId'] and i['type'] == "enhance"):
+                    if (self.weapon1['type'] == 'staff'):
+                        confirm = False
+                        for j in spells:
+                            for k in self.weapon1['spId']:
+                                if(k == j['spId'] and j['type'] == "enhance"):
+                                    enhance = combine(i,j)
+                                    confirm = True
+                        if(confirm == False):
+                            enhance = i
+                    else:
+                        enhance = i
+        if (self.weapon1['type'] == 'staff' and enhance['spId'] == '0'):
+            for i in spells:
+                for j in self.weapon1['spells']:
+                    if(j['spId'] == i['spId'] and i['type'] == "enhance"):
+                        enhance = i
+        return enhance
     def stats(self):
-        print('\nName: ', self.name, '- Lvl: ', self.cLvl, 'Exp: ', self.cExp,
-              '\nHealth: ', self.health, '/', self.maxHealth, '| Stamina: ', self.stamina, '/', self.maxStamina,
-              '\nAttack: ', self.attack(), '(', self.baseAttack,'+',self.weapon1['attack'], ')',
-              '| Defence: ', self.defence(), '(', self.baseDefence,'+',self.head['defence'] + self.body['defence'] + self.legs['defence'], ')',
-              '| \nAccuracy: ', self.accuracy(), '(', self.baseAccuracy,'+', 0, ')',
-              '| Speed: ', self.speed(), '(', self.baseSpeed,'+', 0, ')',
-              '| Evasion: ', self.evasion(), '(', self.baseEvasion,'+', 0, ')',
-              '\nHead:', self.head['name'], '\nBody:', self.body['name'], '\nLegs:', self.legs['name'],
-              '\nMain Weapon: ', self.weapon1['name'], '\nSecondary Weapon: ', self.weapon2['name'],'\n'
-              '\nSkill Points', self.skillPoints,'\n'
+        print('\nStats: \nName:', self.name, '- Lvl:', self.cLvl, 'Exp:', self.cExp,
+              '\nHealth:', self.health, '/', self.maxHealth, '| Stamina:', self.stamina, '/', self.maxStamina,
+              '\nAttack:', self.attack(), '(', self.baseAttack,'+',self.weapon1['attack'], ')',
+              '| Defence:', self.defence(), '(', self.baseDefence,'+',self.head['defence'] + self.body['defence'] + self.legs['defence'], ')',
+              '| \nAccuracy:', self.accuracy(), '(', self.baseAccuracy,'+', 0, ')',
+              '| Speed:', self.speed(), '(', self.baseSpeed,'+', 0, ')',
+              '| Evasion:', self.evasion(), '(', self.baseEvasion,'+', 0, ')',
+              '\nEquipment: \nHead:', self.head['name'], '\nBody:', self.body['name'], '\nLegs:', self.legs['name'],
+              '\nMain Weapon:', self.weapon1['name'], '\nSecondary Weapon:', self.weapon2['name'],
+              '\nSpecials: \nAutomatic:', self.special_auto()['name'], '\nOffensive:', self.special_off()['name'],
+              '\nSupport:', self.special_sup()['name'], '\nEnhance:', self.special_enc()['name'],'\n'
               )
 #Enemy Units
 class Cricket:
@@ -410,7 +504,12 @@ sQuests = [{'questId':'1','client':'Kyla','name':'Servants work', 'desc':['Clean
             'type':'action', 'required':[False, False, False], 'qnt' : 1,
             'accepted':False,'completed':False, 'submitted':False}
            ]
-
+#Universal Specials
+manuvers = [{'spId':'1','name':'Advence', 'type':'enhance', 'specialType':'manuver', 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
+           {'spId':'2','name':'Retreat', 'type':'enhance', 'specialType':'manuver', 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move out of range.'}
+           ]
+spells = []
+combinations = []
 #Location
 locations = [{"locId" : "1", "name" : "Cottage Kitchen"},
              {"locId" : "2", "name" : "Cottage Living Room"},
@@ -565,13 +664,13 @@ def skillTree(p):
         print('\nSpecial Skills')
         print('Skill Points: ', p.skillPoints)
         count = 1
-        for i in p.special:
+        for i in p.abilities:
             if (i['unlocked'] == False):   
                 print(count,': ', i['name'], ' - ', i['effect'])
                 count += 1
         sa = input('Boost: ')
         count = 1
-        for i in p.special:
+        for i in p.abilities:
             if (i['unlocked'] == False):
                 if(sa == str(count)):
                     if (p.skillPoints > 0):
@@ -1109,40 +1208,155 @@ def block(barrier, incoming):
 
 #Check if special effect are still active and deactivate them it they are not.
 def inEffect(p, e):
-    for i in alder.special:
+    for i in alder.abilities:
         if(i['active'] == True):
             i['inEffect'] -= 1
             if (i['inEffect'] <= 0):
                 i['active'] = False
                 print(alder.name,"'s ", i['name'], ' has worn off.')
 
-def magic(spId, e, effness):
-    hit = random.randrange(0,99)
-    if (hit < effness):
-        if (spId == '1'):
-            e.aliment = 'Poison'
-
-def special(p):
-    print('\nSpecial Ability')
-    count = 0
-    for i in p.special:
-        if (i['unlocked'] == True):
-            print(i['spId'], ') ',i['name'], ' - ', i['cost'], ' stamina')
+def magic(p, t, e, spell):
+    hit = random.randrange(0,100)
+    damage = spell['damage']
+    if (p.weapon1['type'] == 'staff'):
+        boost = damage / 20
+        if (boost < 1):
+            boost = 1
+        damage += round(boost)
+    count = 1
+    if (spell['type'] == 'offence'):
+        for i in e:
+            print(count, ') ', i.name)
             count += 1
-    if (count == 0):
-        print('None')
+    elif (spell['type'] == 'support'):
+        for i in t:
+            if (i.pId != p.pId):
+                print(count, ') ', i.name)
+                count += 1
+    if (hit < spell['effectivness']):
+        if (spell['type'] == 'offence'):
+            target = input('Cast on:')
+            if (spell['attackType'] == 'single'):
+                count = 1
+                for i in e:
+                    if (target == str(count)):
+                        if (spell['spId'] == '1'):
+                            i.aliment['poison'] = True
+                        elif (spell['spId'] == '2'):
+                            i.aliment['fungus'] = True
+                        elif (spell['spId'] == 'comb1'):
+                            i.aliment['poison'] = True
+                            i.aliment['fungus'] = True                        
+                    count +=1
+                if(damage > 0):
+                    i.health -= damage
+                    print(i.name, 'took', damage, 'from', spell['name'],'!')
+        if (spell['type'] == 'support'):
+            target = input('Cast on:')
+            if (spell['attackType'] == 'single'):
+                count = 1
+                for i in t:
+                    if (target == str(count)):
+                        if (spell['spId'] == 'f1'):
+                            i.health += damage
+                            if (i.health > i.maxHealth):
+                                i.health = i.maxHealth
+                        elif (spell['spId'] == '4'):
+                            i.stamina += damage
+                            if (i.stamina > i.maxStamina):
+                                i.stamina = i.maxStamina
+        if (spell['type'] == 'enhance'):
+            if (spell['spId'] == '3'):
+                p.stamina += damage
+    else:
+        print('The spell missed!')
+        
+def manuver(p, e, m):
+    if (m['specialType'] == 'manuver'):
+        if (m['spId'] == 'a1'):
+            if (p.health < p.maxHealth/5):
+                p.stamina -= m['cost']
+                m['inEffect'] = 6
+        if (m['spId'] == '1'):
+            active = True
+            for i in e:
+                if(i.aliment['outRange'] == False):
+                    active = False
+            if (p.aliment['outRange'] == True):
+                p.aliment['outRange'] = False
+                print(p.name,'advanced closer!')
+            elif (active == True):
+                for i in e:
+                    i.aliment['outRange'] = False
+                print(p.name,'advanced closer!')
+            else:
+                print(p.name,'is too close!')
+        if (m['spId'] == '2'):
+            if (p.aliment['outRange'] == False):
+                p.aliment['outRange'] = True
+                print(p.name,'retreated to the rear!')
+            else:
+                print(p.name,'is too far away!')
+
+def combine(spell1, spell2):
+    for i in combinations:
+        if (i['components'][0] == spell1['spId'] and i['components'][1] == spell2['spId']):
+            return i
+    
+def special(p, h, e, r):
+    print('\nSpecial Ability')
+    if(p.aliment['outRange'] == True):
+        print(' 1 Position) Advance - 10 Stamina')
+    else:
+        print(' 1 Position) Retreat - 10 Stamina')
+    offensive = p.special_off()
+    support = p.special_sup()
+    enhance = p.special_enc()
+    print(' 2 Offensive) ',offensive['name'], ' - ', offensive['effect'], ' - ', offensive['cost'], ' stamina\n',
+          '3 Support) ',support['name'], ' - ', support['effect'], ' - ', support['cost'], ' stamina\n',
+          '4 Enhance) ',enhance['name'], ' - ', enhance['effect'], ' - ', enhance['cost'], ' stamina')
     sp = input('Use: ')
-    for i in p.special:
-        if (i['unlocked'] == True):
-            if (sp == i['spId']):
-               i['active'] = True
-               if (i['spId'] == '1'):
-                   p.stamina -= i['cost']
-                   i['inEffect'] = 6
-               elif (i['spId'] == '2'):
-                   p.stamina -= i['cost']
-                   i['inEffect'] = 5
-               print('\n', p.name, ' uses ', i['name'],'.')
+    if (sp == "1" or sp == "advance" or sp == "retreat"):
+        p.cStatus = 'Specializing'
+        if(p.aliment['outRange'] == True):
+            p.stamina -= manuvers[0]['cost']
+            manuver(p,e,manuvers[0])
+            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'manuver', 'Manuver':manuvers[0]['name']})
+        else:
+            p.stamina -= manuvers[1]['cost']
+            manuver(p,e,manuvers[1])
+            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'manuver', 'Manuver':manuvers[1]['name']})
+    elif ((sp == "2" or sp == "offence" or sp == "offensive") and offensive['spId'] != '0'):
+        p.cStatus = 'Specializing'
+        p.stamina -= offensive['cost']
+        if(offensive['specialType'] == 'manuver'):
+            manuver(p,e,offensive)
+            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'manuver', 'Manuver':offensive['name']})
+        elif(offensive['specialType'] == 'spell'):
+            magic(p, h, e, offensive)
+            print('\n', p.name, ' uses ', offensive['name'],'.')
+            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':offensive['name']})
+    elif ((sp == "3" or sp == "support") and support['spId'] != '0'):
+        p.cStatus = 'Specializing'
+        p.stamina -= support['cost']
+        if(offensive['specialType'] == 'manuver'):
+            manuver(p,e,support)
+            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'manuver', 'Manuver':support['name']})
+        elif(offensive['specialType'] == 'spell'):
+            magic(p, h, e, support)
+            print('\n', p.name, ' uses ', support['name'],'.')
+            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':support['name']})
+    if ((sp == "4" or sp == "enhance") and enhance['spId'] != '0'):
+        p.cStatus = 'Specializing'
+        p.stamina -= enhance['cost']
+        if(enhance['specialType'] == 'manuver'):
+            manuver(p,e,enhance)
+            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'manuver', 'Manuver':enhance['name']})
+        elif(enhance['specialType'] == 'spell'):
+            magic(p, h, e, enhance)
+            print('\n', p.name, ' uses ', offensive['name'],'.')
+            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':enhance['name']})
+
 
 #Use Item
 def item(p, e, r):
@@ -1350,13 +1564,24 @@ def battle(e):
                         return False
                 #Win
                 elif(winner == True):
-                    for j in alder.special:
+                    for j in alder.abilities:
                         j['active'] = False
                         j['inEffect'] = 0
                     fighting = False
                     win(enemys)
                     return True
                 if (i.type == 'playable' and i.health > 0):
+                    #Automatic special
+                    automatic = i.special_auto()
+                    if(automatic['spId'] != '0'):
+                        if(automatic['specialType'] == 'manuver'):
+                            manuver(i,e,automatic)
+                            print('\n',automatic['name'],'is active.')
+                            record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus, 'SpecialType':'manuver', 'Manuver':automatic['name']})
+                        elif(automatic['specialType'] == 'spell'):
+                            magic(i, h, e, automatic)
+                            print('\n',automatic['name'],'is active.')
+                            record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus, 'SpecialType':'magic', 'Spell':automatic['name']})
                     inEffect(i, enemys)
                     i.cStatus = 'None'
                     while(i.cStatus == 'None'):
@@ -1395,7 +1620,7 @@ def battle(e):
                                 print('\n',j.name, 'Health:', j.health,'/',j.maxHealth)
                                 print(j.desc)
                         elif (j == '4' or j == 'special' or j == 'Special'):
-                            special(i, enemys, record)
+                            special(i, heroes, enemys, record)
                         elif (j == '5' or j == 'item' or j == 'Item'):
                             item(i, enemys, record)
                         elif (j == '6' or j == 'flee' or j == 'Flee'):
@@ -3470,9 +3695,9 @@ def game():
                     if (line[0] == chapter):
                         newline = line[4].split('£')
                         if (len(newline) > 1):
-                            print(newline[0],'\n',newline[1])
+                            print(newline[0],'\n',newline[1].strip('\n'))
                         else:
-                            print(line[4])
+                            print(line[4].strip('\n'))
                         s = input()
                         if(s == 'skip'):
                             skip = True
@@ -3489,9 +3714,9 @@ def game():
                         if (line[0] == chapter and line[1] == '0' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3506,9 +3731,9 @@ def game():
                         if (line[0] == chapter and line[1] == '1' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3523,9 +3748,9 @@ def game():
                         if (line[0] == chapter and line[1] == '2' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3540,9 +3765,9 @@ def game():
                         if (line[0] == chapter and line[1] == '3' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3558,9 +3783,9 @@ def game():
                         if (line[0] == chapter and line[1] == '4' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3578,9 +3803,9 @@ def game():
                         if (line[0] == chapter and line[1] == '5' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3596,9 +3821,9 @@ def game():
                         if (line[0] == chapter and line[1] == '6' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3614,9 +3839,9 @@ def game():
                         if (line[0] == chapter and line[1] == '7' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3632,9 +3857,9 @@ def game():
                         if (line[0] == chapter and line[1] == '8' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3650,9 +3875,9 @@ def game():
                         if (line[0] == chapter and line[1] == '9' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3676,9 +3901,9 @@ def game():
                         if (line[0] == chapter and line[1] == '10' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3693,9 +3918,9 @@ def game():
                         if (line[0] == chapter and line[1] == '11' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3711,9 +3936,9 @@ def game():
                         if (line[0] == chapter and line[1] == '12' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3729,9 +3954,9 @@ def game():
                         if (line[0] == chapter and line[1] == '13' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3749,9 +3974,9 @@ def game():
                         if (line[0] == chapter and line[1] == '14' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
@@ -3767,9 +3992,9 @@ def game():
                         if (line[0] == chapter and line[1] == '15' and line[2] == part):
                             newline = line[4].split('£')
                             if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1])
+                                print(newline[0],'\n',newline[1].strip('\n'))
                             else:
-                                print(line[4])
+                                print(line[4].strip('\n'))
                             s = input()
                             if(s == 'skip'):
                                 skip = True
