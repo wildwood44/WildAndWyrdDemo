@@ -120,7 +120,7 @@ class Playable():
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
                         for j in spells:
-                            for k in self.weapon1['spells']:
+                            for k in self.weapon1.spells:
                                 if(k['spId'] == j['spId'] and j.itemType == SpecialType2.automatic):
                                     automatic = combine(i,j)
                                     confirm = True
@@ -130,12 +130,12 @@ class Playable():
                         automatic = i
         if (self.weapon1.itemType == Weapon1Type.staff and automatic['spId'] == '0'):
             for i in spells:
-                for j in self.weapon1['spells']:
-                    if(j['spId'] == i['spId'] and i.itemType == SpecialType2.automatic):
+                for j in self.weapon1.spId:
+                    if(j == i['spId'] and i['type'] == SpecialType2.automatic):
                         automatic = i
         if (automatic['spId'] == '0'):
             for i in self.abilities:
-                if(i['unlocked'] == True):
+                if(i['unlocked'] == True and i['type'] == SpecialType2.automatic):
                     automatic = i
         return automatic
     property
@@ -143,11 +143,11 @@ class Playable():
         offence = {'spId':'0','name':'None', 'effect':'', 'type':SpecialType2.offence, 'cost':0}
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2['spId'] == i['spId'] and i.itemType == SpecialType2.offence):
+                if(self.weapon2.spId == i['spId'] and i.itemType == SpecialType2.offence):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
                         for j in spells:
-                            for k in self.weapon1['spId']:
+                            for k in self.weapon1.spId:
                                 if(k == j['spId'] and j.itemType == SpecialType2.offence):
                                     offence = combine(i,j)
                                     confirm = True
@@ -157,20 +157,24 @@ class Playable():
                         offence = i
         if (self.weapon1.itemType == Weapon1Type.staff and offence['spId'] == '0'):
             for i in spells:
-                for j in self.weapon1['spells']:
-                    if(j['spId'] == i['spId'] and i['type'] == SpecialType2.offence):
+                for j in self.weapon1.spId:
+                    if(j == i['spId'] and i['type'] == SpecialType2.offence):
                         offence = i
+        if (offence['spId'] == '0'):
+            for i in self.abilities:
+                if(i['unlocked'] == True and i['type'] == SpecialType2.offence):
+                    offence = i
         return offence
     property
     def special_sup(self):
         support = {'spId':'0','name':'None', 'effect':'', 'type':SpecialType2.support, 'cost':0}
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2['spId'] == i['spId'] and i['type'] == SpecialType2.support):
+                if(self.weapon2.spId == i['spId'] and i['type'] == SpecialType2.support):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
                         for j in spells:
-                            for k in self.weapon1['spId']:
+                            for k in self.weapon1.spId:
                                 if(k == j['spId'] and j['type'] == SpecialType2.support):
                                     support = combine(i,j)
                                     confirm = True
@@ -180,16 +184,20 @@ class Playable():
                         support = i
         if (self.weapon1.itemType == Weapon1Type.staff and support['spId'] == '0'):
             for i in spells:
-                for j in self.weapon1['spells']:
-                    if(j['spId'] == i['spId'] and i['type'] == SpecialType2.support):
+                for j in self.weapon1.spId:
+                    if(j == i['spId'] and i['type'] == SpecialType2.support):
                         support = i
+        if (support['spId'] == '0'):
+            for i in self.abilities:
+                if(i['unlocked'] == True and i['type'] == SpecialType2.support):
+                    support = i
         return support
     property
     def special_enc(self):
         enhance = {'spId':'0','name':'None', 'effect':'', 'type':SpecialType2.enhance, 'cost':0}
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2['spId'] == i['spId'] and i['type'] == SpecialType2.enhance):
+                if(self.weapon2.spId == i['spId'] and i['type'] == SpecialType2.enhance):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
                         for j in spells:
@@ -203,9 +211,13 @@ class Playable():
                         enhance = i
         if (self.weapon1.itemType == Weapon1Type.staff and enhance['spId'] == '0'):
             for i in spells:
-                for j in self.weapon1['spells']:
-                    if(j['spId'] == i['spId'] and i['type'] == SpecialType2.enhance):
+                for j in self.weapon1.spId:
+                    if(j == i['spId'] and i['type'] == SpecialType2.enhance):
                         enhance = i
+        if (enhance['spId'] == '0'):
+            for i in self.abilities:
+                if(i['unlocked'] == True and i['type'] == SpecialType2.enhance):
+                    enhance = i
         return enhance
     def stats(self):
         print('\nStats: \nName:', self.name, '- Lvl:', self.cLvl, 'Exp:', self.cExp,

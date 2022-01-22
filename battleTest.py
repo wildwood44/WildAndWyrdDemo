@@ -1,9 +1,12 @@
 import os
 import random
 import pickle
+import playableChars
+import enemyUnits
+import ItemClasses
+import inventory
+import equipment
 from data import typeSpf
-from data import playableChars
-from data import enemyUnits
 #enumerated classes
 SpecialType1 = typeSpf.SpecialType1
 SpecialType2 = typeSpf.SpecialType2
@@ -14,6 +17,14 @@ ArmourType = typeSpf.ArmourType
 Weapon1Type = typeSpf.Weapon1Type
 Weapon2Type = typeSpf.Weapon2Type
 ItemType = typeSpf.ItemType
+
+
+#Set playable characters
+alder = playableChars.Alder()
+florace = playableChars.Florace()
+item = ItemClasses
+inv = inventory.Inventory()
+eqp = equipment.Equipment()
 
 #Enemy Units
 class Null:
@@ -63,69 +74,39 @@ def levelUP(p):
                         p.cNext = round(p.cNext*1.15)
                     print(p.cNext)
                    
-
 #Items lists
-weapons = [{'wpId' : '0', 'name' : 'None', 'type' : Weapon1Type.sword, 'description' : '',
-            'attack' : 0, 'weight' : 0, 'count' : 0},
-           {'wpId' : '1', 'name' : 'Lief', 'type' : Weapon1Type.sword, 'description' : 'Legendary sword of the Scion.',
-            'attack' : 500, 'weight' : 5, 'count' : 0},
-           {'wpId' : '2', 'name' : 'Hunting Knife', 'type' : Weapon1Type.dagger, 'description' : 'A knife used to hunt insects.',
-            'attack' : 5, 'weight' : 1, 'count' : 0},
-           {'wpId' : '3', 'name' : 'Relic Sword', 'type' : Weapon1Type.sword, 'description' : '',
-            'attack' : 10, 'weight' : 3, 'count' : 0},
-           {'wpId' : '4', 'name' : 'Relic Spear', 'type' : Weapon1Type.spear, 'description' : '',
-            'attack' : 8, 'weight' : 3, 'count' : 0},
-           {'wpId' : '5', 'name' : 'Relic Axe', 'type' : Weapon1Type.axe, 'description' : '',
-            'attack' : 12, 'weight' : 3, 'count' : 0},
-           {'wpId' : '6', 'name' : 'Old Club', 'type' : Weapon1Type.mace, 'description' : '',
-            'attack' : 10, 'weight' : 4, 'count' : 0},
-           {'wpId' : '7', 'name' : 'Crooked Stick', 'type' : Weapon1Type.staff, 'description' : '',
-            'attack' : 3, 'weight' : 2,
-            'spId' : ['0'], 'spells' : [''],'count' : 0},
-           {'wpId' : '1', 'name' : 'Training Bow', 'type' : Weapon2Type.bow, 'description' : 'A large bow made for practise.',
-            'attack' : 20, 'weight' : 2, 'count' : 0},
-           {'wpId' : '1', 'name' : 'Training Crossbow', 'type' : Weapon2Type.crossbow, 'description' : '',
-            'attack' : 20, 'weight' : 2, 'count' : 0},
-           {'wpId' : '1', 'name' : 'Grass Sling', 'type' : Weapon2Type.sling, 'description' : 'A sling made from grass; not very practical',
-            'attack' : 20, 'weight' : 2, 'count' : 0},
-           {'wpId' : '1', 'name' : 'Wooden Shield', 'type' : Weapon2Type.shield, 'description' : 'A basic round wooden shield.',
-            'defence' : 20, 'weight' : 4, 'count' : 0},
-           {'wpId' : '1', 'name' : 'Poison wand', 'type' : Weapon2Type.wand, 'description' : 'A wand containing a weak poison',
-            'spId' : '1', 'spell' : 'Poison Nettle', 'weight' : 1, 'count' : 0},
-           {'wpId' : '8', 'name' : 'Mushroom staff', 'type' : Weapon1Type.staff, 'description' : '',
-            'attack' : 3, 'weight' : 2,
-            'spId' : ['2', '3', '4'], 'spells' : ['Grow mushrooms','Grow mushrooms','Grow mushrooms'], 'count' : 0}
+weapons = [item.Sword('0','None',0,0,''),
+           item.Sword('1','Lief',500,5,'Legendary sword of the Scion.'),
+           item.Dagger('2','Hunting Knife',5,1,'A knife used to hunt insects.'),
+           item.Sword('3','Relic Sword', 10,3, '',),
+           item.Spear('4','Relic Spear',8,3, ''),
+           item.Axe('5','Relic Axe', 12,4, ''),
+           item.Mace('6','Old Club', 10,4,''),
+           item.Staff('7','Crooked Stick', 3,2, ['0'],[''],''),
+           item.Bow('1','Training Bow', 20,2, 'A large bow made for practise.'),
+           item.Crossbow('1','Training Crossbow', 20,2, ''),
+           item.Sling('1','Grass Sling', 20,2, 'A sling made from grass; not very practical'),
+           item.Shield('1','Wooden Shield', 20,4,'A basic round wooden shield.'),
+           item.Wand('1','Poison wand', 1, '1', 'Poison Nettle', 'A wand containing a weak poison'),
+           item.Staff('8', 'Mushroom staff',  3,2, ['2', '3', '4'],['Grow mushrooms','Grow mushrooms','Grow mushrooms'],'')
            ]
 
-armours = [{'armId' : '1', 'name' : 'None', 'type' : ArmourType.hat, 'description' : '',
-          'defence' : 0, 'weight' : 0, 'count' : 0},
-          {'armId' : '1', 'name' : 'Old Tunic', 'type' : ArmourType.shirt, 'description' : 'An old shirt with holes in it.',
-          'defence' : 1, 'weight' : 1, 'count' : 0},
-          {'armId' : '2', 'name' : 'Travelling Cloak', 'type' : ArmourType.shirt, 'description' : 'A too large black cloak. Good for keeping ou of sight but heavy.',
-          'defence' : 10, 'weight' : 10, 'count' : 0},
-          {'armId' : '1', 'name' : 'Worn Trousers', 'type' : ArmourType.trousers, 'description' : 'An old pair of trousers long past their prime',
-          'defence' : 1, 'weight' : 1, 'count' : 0}
+armours = [item.Hat('1','None',0,0,''),
+           item.Shirt('1','Old Tunic', 1,1,'An old shirt with holes in it.'),
+           item.Shirt('2', 'Travelling Cloak', 10,10,'A too large black cloak. Good for keeping ou of sight but heavy.'),
+           item.Trousers('1','Worn Trousers', 1,1,'An old pair of trousers long past their prime')
           ]
-food = [{'itemId' : '1', 'name' : 'Blackberry', 'type' : ItemType.food,
-          'recovers' : 3, 'count' : 0},
-        {'itemId' : '2', 'name' : 'Dried Fruit', 'type' : ItemType.food,
-          'recovers' : 5, 'count' : 0},
-        {'itemId' : '3', 'name' : 'Hazelnut', 'type' : ItemType.food,
-          'recovers' : 3, 'count' : 0},
-        {'itemId' : '4', 'name' : 'Raw Bug Meat', 'type' : ItemType.food,
-          'recovers' : 10, 'count' : 0}
+food = [item.Food('1','Blackberry', 1,3),
+        item.Food('2','Dried Fruit', 1,5),
+        item.Food('3','Hazelnut', 1,3),
+        item.Food('4','Raw Bug Meat', 3,10)
         ]
-projec = [{'itemId' : '1', 'name' : 'Primitive Arrow', 'type' : ItemType.projectile, 'description' : 'Arrows made from stone heads and twigs.',
-           'weapon' : Weapon2Type.bow, 'damage' : 10, 'count' : 0},
-          {'itemId' : '2', 'name' : 'Rope Net', 'type' : ItemType.toss,  'description' : 'A rope net to catch your enemies.',
-           'weapon' : 'none', 'damage' : 0, 'count' : 0},
-          {'itemId' : '3', 'name' : 'Wooden Bolt', 'type' : ItemType.projectile,  'description' : '',
-           'weapon' : Weapon2Type.crossbow, 'damage' : 10, 'count' : 0},
-          {'itemId' : '4', 'name' : 'Softstone', 'type' : ItemType.projectile,  'description' : '',
-           'weapon' : Weapon2Type.sling, 'damage' : 10, 'count' : 0}
+projec = [item.Arrow('1','Primitive Arrow', 10,1,'Arrows made from stone heads and twigs.'),
+          item.Toss('2','Rope Net', 0,1, 'A rope net to catch your enemies.'),
+          item.Bolt('3','Wooden Bolt', 10,1,''),
+          item.Stone('4','Softstone', 10,1,'')
           ]
-items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : ItemType.healing, 'description' : 'A cloth bandage to treat wounds',
-          'heals' : 10, 'count' : 0}
+items = [item.Healing('1', 'Bandage', 10,1, 'A cloth bandage to treat wounds')
          ]
 #Universal Specials
 manuvers = [{'spId':'1','name':'Advence', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
@@ -139,11 +120,6 @@ spells = [{'spId':'1','name':'Poison nettles', 'type':SpecialType2.offence, 'spe
 combinations = [{'spId':'comb1','name':'Poisonous mushrooms', 'type':SpecialType2.offence, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 9, 'cost':0, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False,
                  'components':['1', '2'],'effect':'Grow poisinous mushrooms on the enemy.'}
           ]
-#Inventory
-inv = []
-#Set playable characters
-alder = playableChars.Alder()
-florace = playableChars.Florace()
 
 #Save settings
 def save():
@@ -165,77 +141,6 @@ def loadSet():
     except:
         print('Saved file not found!')
     print ('Data Loaded!')
-    
-
-#Increment items
-#Add a new item to the inventory if is is not already in there
-def itemCount(item, amount):
-    inInv = False
-    for i in inv:
-        if (item['type'] == Weapon1Type.sword and i['type'] == Weapon1Type.sword or
-            item['type'] == Weapon1Type.dagger and i['type'] == Weapon1Type.dagger or
-            item['type'] == Weapon1Type.spear and i['type'] == Weapon1Type.spear or
-            item['type'] == Weapon1Type.axe and i['type'] == Weapon1Type.axe or
-            item['type'] == Weapon1Type.mace and i['type'] == Weapon1Type.mace or
-            item['type'] == Weapon1Type.staff and i['type'] == Weapon1Type.staff):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.shield and i['type'] == Weapon2Type.shield):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.bow and i['type'] == Weapon2Type.bow):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.crossbow and i['type'] == Weapon2Type.crossbow):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.sling and i['type'] == Weapon2Type.sling):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.shield and i['type'] == Weapon2Type.shield):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.wand and i['type'] == Weapon2Type.wand):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ArmourType.hat and i['type'] == ArmourType.hat):
-            if (i['armId'] == item['armId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ArmourType.shirt and i['type'] == ArmourType.shirt):
-            if (i['armId'] == item['armId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ArmourType.trousers and i['type'] == ArmourType.trousers):
-            if (i['armId'] == item['armId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.food and i['type'] == ItemType.food):
-            if (i['itemId'] == item['itemId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.healing and i['type'] == ItemType.healing):
-            if (i['itemId'] == item['itemId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.projectile and i['type'] == ItemType.projectile):
-            if (i['itemId'] == item['itemId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.toss and i['type'] == ItemType.toss):
-            if (i['itemId'] == item['itemId']):
-                item['count'] += amount
-                inInv = True
-    if (inInv == False):
-        item['count'] += amount
-        inv.append(item)
 
 #Items Setter
 def equip(p):
@@ -252,142 +157,111 @@ def equip(p):
         i = input('Action: ')
         if (i == '1'):
             count = 0
-            for i in inv:
-                if(i['type'] == ArmourType.hat):
+            for i in inv.itemList:
+                if(i['item'].itemType == ArmourType.hat):
                     count +=1
                     equipable.append(i)
-                    print(count, ': ', i['name'], '- Defence: +', i['defence'] - alder.head['defence'])
+                    print(count, ': ', i['item'].name, '- Defence: +', i['item'].defence - alder.head.defence)
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
-                        print(i['name'], 'equiped')
-                        if(p.head['armId'] != '0'):
-                            inv.append(p.head)
-                        p.head = i
-                        i['count'] -= 1
-                        if(i['count'] <= 0):
-                            inv.remove(i)
+                        eqp.head(p, i, inv)
                     count +=1
             else:
                 print('You have nothing to equip.')
             equipable.clear()
         elif (i == '2'):
             count = 0
-            for i in inv:
-                if(i['type'] == ArmourType.shirt):
+            for i in inv.itemList:
+                if(i['item'].itemType == ArmourType.shirt):
                     count +=1
                     equipable.append(i)
-                    print(count, ': ', i['name'], '- Defence: +', i['defence'] - alder.body['defence'])
+                    print(count, ': ', i['item'].name, '- Defence: +', i['item'].defence - alder.body.defence)
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
-                        print(i['name'], 'equiped')
-                        if(p.body['armId'] != '1'):
-                            inv.append(p.body)
-                        p.body = i
-                        i['count'] -= 1
-                        print(i['count'])
-                        if(i['count'] <= 0):
-                            inv.remove(i)
+                        eqp.body(p, i, inv)
                     count +=1
             else:
                 print('You have nothing to equip.')
             equipable.clear()
         elif (i == '3'):
             count = 0
-            for i in inv:
-                if(i['type'] == ArmourType.trousers):
+            for i in inv.itemList:
+                if(i['item'].itemType == ArmourType.trousers):
                     count +=1
                     equipable.append(i)
-                    print(count, ': ', i['name'], '- Defence: +', i['defence'] - alder.legs['defence'])
+                    print(count, ': ', i['item'].name, '- Defence: +', i['item'].defence - alder.legs.defence)
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
-                        print(i['name'], 'equiped')
-                        if(p.legs['armId'] != '1'):
-                            inv.append(p.legs)
-                        p.legs = i
-                        i['count'] -= 1
-                        if(i['count'] <= 0):
-                            inv.remove(i)
+                        eqp.legs(p, i, inv)
                     count +=1
             else:
                 print('You have nothing to equip.')
             equipable.clear()
         elif (i == '4'):
             count = 0
-            for i in inv:
-                if(i['type'] == Weapon1Type.sword or i['type'] == Weapon1Type.dagger or i['type'] == Weapon1Type.spear or
-                   i['type'] == Weapon1Type.axe or i['type'] == Weapon1Type.mace or i['type'] == Weapon1Type.staff):
+            for i in inv.itemList:
+                if(i['item'].itemType == Weapon1Type.sword or i['item'].itemType == Weapon1Type.dagger or i['item'].itemType == Weapon1Type.spear or
+                   i['item'].itemType == Weapon1Type.axe or i['item'].itemType == Weapon1Type.mace or i['item'].itemType == Weapon1Type.staff):
                     count +=1
                     equipable.append(i)
-                    print(count, ': ', i['name'], '- Attack: +', i['attack'] - p.weapon1['attack'])
+                    print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack - p.weapon1.attack)
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
-                        print(i['name'], 'equiped')
-                        if(p.weapon1['wpId'] != '0'):
-                            inv.append(p.weapon1)
-                        p.weapon1 = i
-                        i['count'] -= 1
-                        if(i['count'] <= 0):
-                            inv.remove(i)
+                        eqp.primeWeapon(p, i, inv)
                     count +=1
             else:
                 print('You have nothing to equip.')
             equipable.clear()
         elif (i == '5'):
             count = 0
-            for i in inv:
-                if(i['type'] == Weapon2Type.bow or i['type'] == Weapon2Type.crossbow or i['type'] == Weapon2Type.sling or
-                   i['type'] == Weapon2Type.shield or i['type'] == Weapon2Type.wand):
+            for i in inv.itemList:
+                if(i['item'].itemType == Weapon2Type.bow or i['item'].itemType == Weapon2Type.crossbow or i['item'].itemType == Weapon2Type.sling or
+                   i['item'].itemType == Weapon2Type.shield or i['item'].itemType == Weapon2Type.wand):
                     count +=1
                     equipable.append(i)
-                    if(i['type'] == Weapon2Type.bow):
-                        if (p.weapon2['type'] == Weapon2Type.bow or p.weapon2['type'] == Weapon2Type.crossbow or p.weapon2['type'] == Weapon2Type.sling):
-                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - p.weapon2['attack'])
+                    if(i['item'].itemType == Weapon2Type.bow):
+                        if (p.weapon2.itemType == Weapon2Type.bow or p.weapon2.itemType == Weapon2Type.crossbow or p.weapon2.itemType == Weapon2Type.sling):
+                            print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack - p.weapon2.attack)
                         else:
-                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
-                    elif(i['type'] == Weapon2Type.crossbow):
-                        if (p.weapon2['type'] == Weapon2Type.bow or p.weapon2['type'] == Weapon2Type.crossbow or p.weapon2['type'] == Weapon2Type.sling):
-                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - p.weapon2['attack'])
+                            print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack)
+                    elif(i['item'].itemType == Weapon2Type.crossbow):
+                        if (p.weapon2.itemType == Weapon2Type.bow or p.weapon2.itemType == Weapon2Type.crossbow or p.weapon2.itemType == Weapon2Type.sling):
+                            print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack - p.weapon2.attack)
                         else:
-                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
-                    elif(i['type'] == Weapon2Type.sling):
-                        if (p.weapon2['type'] == Weapon2Type.bow or p.weapon2['type'] == Weapon2Type.crossbow or p.weapon2['type'] == Weapon2Type.sling):
-                            print(count, ': ', i['name'], '- Attack: +', i['attack'] - p.weapon2['attack'])
+                            print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack)
+                    elif(i['item'].itemType == Weapon2Type.sling):
+                        if (p.weapon2.itemType == Weapon2Type.bow or p.weapon2.itemType == Weapon2Type.crossbow or p.weapon2.itemType == Weapon2Type.sling):
+                            print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack - p.weapon2.attack)
                         else:
-                            print(count, ': ', i['name'], '- Attack: +', i['attack'])
-                    elif(i['type'] == Weapon2Type.shield):
-                        if (p.weapon2['type'] == Weapon2Type.shield):
-                            print(count, ': ', i['name'], '- Defence: +', i['defence'] - p.weapon2['defence'])
+                            print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack)
+                    elif(i['item'].itemType == Weapon2Type.shield):
+                        if (p.weapon2.itemType == Weapon2Type.shield):
+                            print(count, ': ', i['item'].name, '- Defence: +', i['item'].defence - p.weapon2['defence'])
                         else:
-                            print(count, ': ', i['name'], '- Defence: +', i['defence'])
-                    elif(i['type'] == Weapon2Type.wand):
-                        print(count, ': ', i['name'], '- Spell: ', i['spell'])
+                            print(count, ': ', i['item'].name, '- Defence: +', i['item'].defence)
+                    elif(i['item'].itemType == Weapon2Type.wand):
+                        print(count, ': ', i['item'].name, '- Spell: ', i['item'].spells)
                         for j in p.spells:
-                            if (j['spId'] == i['wpId']):
+                            if (j['spId'] == i.wpId):
                                 j['unlocked'] = True
             if(count != 0):
                 count = 1
                 eq = input('Equip item: ')
                 for i in equipable:
                     if (eq == str(count)):
-                        print(i['name'], 'equiped')
-                        if(p.weapon2['wpId'] != '0'):
-                            inv.append(p.weapon2)
-                        p.weapon2 = i
-                        i['count'] -= 1
-                        if(i['count'] <= 0):
-                            inv.remove(i)
+                        eqp.secondWeapon(p, i, inv)
                     count +=1
             else:
                 print('You have nothing to equip.')
@@ -398,29 +272,21 @@ def equip(p):
 
 #Open the inventory
 def inventory():
+    listItems = []
     bag = True
+    j = ''
     while(bag == True):
         #View the items in inventory
         print('\nInventory')
         count = 1
-        for i in inv:
-            print(count, ') ', i['name'], ' x', i['count'])
-            count += 1
+        inv.printInventory(j,listItems)
         print('\n1: Appraise')
         print('2: Equip')
         print('e - Exit')
         i = input('Action: ')
         #Appraise items in inventory
         if (i == '1'):
-            appraise = input('\nItem number: ')
-            count = 1
-            for i in inv:
-                if (appraise == str(count)):
-                    if (i['type'] != ItemType.food):
-                        print('Name: ', i['name'], ' - Type: ', i['type'].name, ' - \nDescription: ', i['description'])
-                    else:
-                        print('Name: ', i['name'], ' - Type: ', i['type'].name, ' - \nStamina Recovered: ', i['recovers'])
-                count += 1
+            inv.appraise()
         elif (i == '2'):
             print('1: Alder')
             print('2: Florace')
@@ -432,6 +298,8 @@ def inventory():
         elif (i == 'e'):
             print()
             bag = False
+        else:
+            j = i
             
 def equipment():
     manageEquip = True
@@ -449,45 +317,45 @@ def equipment():
             j = input('Item set:')
             if (j == '1'):
                 print('\nDagger obtained')
-                itemCount(weapons[2], 1)
+                inv.addItem(weapons[2], 1)
                 print('\nLeif obtained')
-                itemCount(weapons[1], 1)
+                inv.addItem(weapons[1], 1)
                 print('\nSword obtained')
-                itemCount(weapons[3], 1)
+                inv.addItem(weapons[3], 1)
                 print('\nSpear obtained')
-                itemCount(weapons[4], 1)
+                inv.addItem(weapons[4], 1)
                 print('\nAxe obtained')
-                itemCount(weapons[5], 1)
+                inv.addItem(weapons[5], 1)
                 print('\nClub obtained')
-                itemCount(weapons[6], 1)
+                inv.addItem(weapons[6], 1)
                 print('\nStaff obtained')
-                itemCount(weapons[7], 1)
+                inv.addItem(weapons[7], 1)
                 print('\nStaff obtained')
-                itemCount(weapons[13], 1)
+                inv.addItem(weapons[13], 1)
             elif (j == '2'):
                 print('\nBow obtained')
-                itemCount(weapons[8], 1)
+                inv.addItem(weapons[8], 1)
                 print('\nCrossbow obtained')
-                itemCount(weapons[9], 1)
+                inv.addItem(weapons[9], 1)
                 print('\nSling obtained')
-                itemCount(weapons[10], 1)
+                inv.addItem(weapons[10], 1)
                 print('\nShield obtained')
-                itemCount(weapons[11], 1)
+                inv.addItem(weapons[11], 1)
                 print('\nWand obtained')
-                itemCount(weapons[12], 1)
+                inv.addItem(weapons[12], 1)
                 print('\nArrows obtained')
-                itemCount(projec[0], 5)
+                inv.addItem(projec[0], 5)
                 print('\nNet obtained')
-                itemCount(projec[1], 1)
+                inv.addItem(projec[1], 1)
                 print('\nBolts obtained')
-                itemCount(projec[2], 5)
+                inv.addItem(projec[2], 5)
                 print('\nStones obtained')
-                itemCount(projec[3], 5)
+                inv.addItem(projec[3], 5)
             elif (j == '3'):
                 print('\nBlackberries obtained')
-                itemCount(food[0], 5)
+                inv.addItem(food[0], 5)
                 print('\nBandage obtained')
-                itemCount(items[0], 5)
+                inv.addItem(items[0], 5)
             save()
         elif (i == '2'):
             inventory()
@@ -530,7 +398,7 @@ def setFoe():
             if (j == '1'):
                 enemy[0] = enemyUnits.Cricket()
             elif (j == '2'):
-                enemy[0] = enemyUnits.Wasp()
+                enemy[0] = enemyUnits.Hornet()
             elif (j == '3'):
                 enemy[0] = enemyUnits.Dummy()
             elif (j == '4'):
@@ -560,7 +428,7 @@ def setFoe():
             elif (j == '1'):
                 enemy[1] = enemyUnits.Cricket()
             elif (j == '2'):
-                enemy[1] = enemyUnits.Wasp()
+                enemy[1] = enemyUnits.Hornet()
             elif (j == '3'):
                 enemy[1] = enemyUnits.Dummy()
             elif (j == '4'):
@@ -590,7 +458,7 @@ def setFoe():
             elif (j == '1'):
                 enemy[2] = enemyUnits.Cricket()
             elif (j == '2'):
-                enemy[2] = enemyUnits.Wasp()
+                enemy[2] = enemyUnits.Hornet()
             elif (j == '3'):
                 enemy[2] = enemyUnits.Dummy()
             elif (j == '4'):
@@ -638,8 +506,8 @@ def win(e):
         levelUP(florace)
     for i in e:
         if (len(i.drop) > 0):
-            print(i.name,' dropped ', i.drop[0]['item']['name'], ' x', i.drop[0]['quantity'])
-            itemCount(i.drop[0]['item'], i.drop[0]['quantity'])
+            print(i.name,' dropped ', i.drop[0]['item'].name, ' x', i.drop[0]['quantity'])
+            inv.addItem(i.drop[0]['item'], i.drop[0]['quantity'])
     save()
 
 def death():
@@ -670,7 +538,7 @@ def enemyFlee(e):
 def attack(p, e):
     numOfAtk = 1
     impact = 0
-    if (p.weapon1['type'] == Weapon1Type.dagger):
+    if (p.weapon1.itemType == Weapon1Type.dagger):
         numOfAtk += 1
     target = p.accuracy() + 100 - e.evasion()
     hit = random.randrange(0,100)
@@ -691,16 +559,16 @@ def attack(p, e):
                     if (impact <= 0):
                         impact = 1
                     im = impact
-                    if (e.weapon2['type'] == Weapon2Type.shield):
-                        if (e.weapon2['defence'] > 0):
+                    if (e.weapon2.itemType == Weapon2Type.shield):
+                        if (e.weapon2.defence > 0):
                             print('Attack blocked!')
-                            impact -= e.weapon2['defence']
+                            impact -= e.weapon2.defence
                             if (impact < 0):
                                 impact = 0
                 print('\n',p.name,' fired a', p.ammo['name'], '!')
                 if(critical >= 90):
                     print('Critical Hit!')
-                    if (p.weapon2['type'] == Weapon2Type.sling):
+                    if (p.weapon2.itemType == Weapon2Type.sling):
                         e.aliment = 'Stun'
                 e.health -= impact
                 print(e.name, ' took ', impact, ' damage!')
@@ -719,7 +587,7 @@ def attack(p, e):
                 print(p.aliment['outRange'])
                 if (hit < target):
                     impact = random.randrange(p.attack() - 5, p.attack() + 5)
-                    if(p.weapon1['wpId'] != '0'):
+                    if(p.weapon1.wpId != '0'):
                         if (critical >= 90):
                             impact += 10
                         impact = round(impact * (100/(100 + e.defence())))
@@ -731,13 +599,13 @@ def attack(p, e):
                             if (impact <= 0):
                                 impact = 1
                             im = impact
-                            if (e.weapon2['defence'] > 0):
-                                if (p.weapon1['type'] == Weapon1Type.axe):
+                            if (e.weapon2.defence > 0):
+                                if (p.weapon1.itemType == Weapon1Type.axe):
                                     print('Shield repealed!')
                                     e.cStatus = CombatStatus.Normal
                                 else:
                                     print('Attack blocked!')
-                                    impact -= e.weapon2['defence']
+                                    impact -= e.weapon2.defence
                                 if (impact < 0):
                                     impact = 0
                         e.health -= impact
@@ -747,7 +615,7 @@ def attack(p, e):
                             print('\n',p.name,' attacked!')
                         if(critical >= 90):
                             print('Critical Hit!')
-                            if (p.weapon1['type'] == Weapon1Type.mace):
+                            if (p.weapon1.itemType == Weapon1Type.mace):
                                 e.aliment['stun'] = True
                         print(e.name, ' took ', impact, ' damage!')
                         if(e.health <= 0):
@@ -798,7 +666,7 @@ def inEffect(p, e):
 def magic(p, t, e, spell):
     hit = random.randrange(0,100)
     damage = spell['damage']
-    if (p.weapon1['type'] == Weapon1Type.staff):
+    if (p.weapon1.itemType == Weapon1Type.staff):
         boost = damage / 20
         if (boost < 1):
             boost = 1
@@ -919,10 +787,10 @@ def special(p, h, e, r):
     elif ((sp == "3" or sp == "support") and support['spId'] != '0'):
         p.cStatus = CombatStatus.Specializing
         p.stamina -= support['cost']
-        if(offensive['specialType'] == SpecialType1.manuver):
+        if(support['specialType'] == SpecialType1.manuver):
             manuver(p,e,support)
             r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':SpecialType1.manuver, 'Manuver':support['name']})
-        elif(offensive['specialType'] == SpecialType1.spell):
+        elif(support['specialType'] == SpecialType1.spell):
             magic(p, h, e, support)
             print('\n', p.name, ' uses ', support['name'],'.')
             r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':support['name']})
@@ -948,24 +816,24 @@ def item(p, e, r):
         if (y == '' or y == 'healing' or y == 'Healing' or
             y == 'health' or y == 'Health'):
             print('Healing')
-            for i in inv:
-                if(i['type'] == ItemType.healing):
-                    print(count, ': ', i['name'], ' x', i['count'])
+            for i in inv.itemList:
+                if(i['item'].itemType == ItemType.healing):
+                    print(count, ': ', i['item'].name, ' x', i['count'])
                     use.append(i)
                     count += 1
         if (y == '' or y == 'food' or y == 'Food' or
             y == 'consumables' or y == 'Consumables'):
             print('Food')
-            for i in inv:
-                if(i['type'] == ItemType.food):
-                    print(count, ': ', i['name'], ' x', i['count'])
+            for i in inv.itemList:
+                if(i['item'].itemType == ItemType.food):
+                    print(count, ': ', i['item'].name, ' x', i['count'])
                     use.append(i)
                     count += 1
         if (y == '' or y == 'projectiles' or y == 'Projectiles'):
             print('Projectiles')
-            for i in inv:
-                if(i['type'] == ItemType.projectile or i['type'] == ItemType.toss):
-                    print(count, ': ', i['name'], ' x', i['count'])
+            for i in inv.itemList:
+                if(i['item'].itemType == ItemType.projectile or i['item'].itemType == ItemType.toss):
+                    print(count, ': ', i['item'].name, ' x', i['count'])
                     use.append(i)
                     count += 1
         print('e - exit')
@@ -977,56 +845,56 @@ def item(p, e, r):
                 y = u
             for i in use:
                 if (u == str(count)):
-                    if (i['type'] == ItemType.healing):
-                        p.health += i['heals']
-                        print(p.name, ' recoved ', i['heals'], ' health')
+                    if (i['item'].itemType == ItemType.healing):
+                        p.health += i['item'].recovers
+                        print(p.name, ' recoved ', i['item'].recovers, ' health')
                         if (p.health > p.maxHealth):
                             p.health = p.maxHealth
                         p.cStatus = CombatStatus.Using
                         using = False
-                    elif (i['type'] == ItemType.food):
-                        p.stamina += i['recovers']
-                        print(p.name, ' recoved ', i['recovers'], ' stamina')
+                    elif (i['item'].itemType == ItemType.food):
+                        p.stamina += i['item'].recovers
+                        print(p.name, ' recoved ', i['item'].recovers, ' stamina')
                         if (p.stamina > p.maxStamina):
                             p.stamina = p.maxStamina
                         p.cStatus = CombatStatus.Using
                         using = False
-                    elif (i['type'] == ItemType.projectile):
+                    elif (i['item'].itemType == ItemType.projectile):
                         print(u, count)
-                        if (i['weapon'] == Weapon2Type.bow):
-                            if(p.weapon2['type'] == Weapon2Type.bow):
+                        if (i['item'].weapon == Weapon2Type.bow):
+                            if(p.weapon2.itemType == Weapon2Type.bow):
                                 print('\nArrow loaded!')
-                                p.ammo['name'] = i['name']
+                                p.ammo['name'] = i['item'].name
                                 p.ammo['loaded'] = True
-                                p.ammo['damage'] = i['damage']
+                                p.ammo['damage'] = i['item'].damage
                                 alder.cStatus = CombatStatus.Using
                                 using = False
                             else:
                                 print('Bow required!')
                                 using = False
-                        elif (i['weapon'] == Weapon2Type.crossbow):
-                            if(p.weapon2['type'] == Weapon2Type.crossbow):
+                        elif (i['item'].weapon == Weapon2Type.crossbow):
+                            if(p.weapon2.itemType == Weapon2Type.crossbow):
                                 print('\nBolt loaded!')
-                                p.ammo['name'] = i['name']
+                                p.ammo['name'] = i['item'].name
                                 p.ammo['loaded'] = True
-                                p.ammo['damage'] = i['damage']
+                                p.ammo['damage'] = i['item'].damage
                                 p.cStatus = CombatStatus.Using
                                 using = False
                             else:
                                 print('Crossbow required!')
                                 using = False
-                        elif (i['weapon'] == Weapon2Type.sling):
-                            if(p.weapon2['type'] == Weapon2Type.sling):
+                        elif (i['item'].weapon == Weapon2Type.sling):
+                            if(p.weapon2.itemType == Weapon2Type.sling):
                                 print('\nStone loaded!')
-                                p.ammo['name'] = i['name']
+                                p.ammo['name'] = i['item'].name
                                 p.ammo['loaded'] = True
-                                p.ammo['damage'] = i['damage']
+                                p.ammo['damage'] = i['item'].damage
                                 p.cStatus = CombatStatus.Using
                                 using = False
                             else:
                                 print('Sling required!')
                                 using = False
-                    elif (i['type'] == ItemType.toss):
+                    elif (i['item'].itemType == ItemType.toss):
                         count = 1
                         for j in e:
                             print(count, ': ', j.name)
@@ -1035,15 +903,15 @@ def item(p, e, r):
                         target = input('Throw at: ')
                         for j in e:
                             if (target == str(count)):
-                                print('\n',p.name,'threw ', i['name'])
+                                print('\n',p.name,'threw ', i['item'].name)
                                 j.aliment['caught'] = True 
                                 p.cStatus = CombatStatus.Using
                                 using = False
                             count += 1
                     i['count'] -= 1
                     if(i['count'] <= 0):
-                        inv.remove(i)
-                    r.append({'Id': i.pId, 'Who':p.name, 'Type': i.type, 'Status':p.cStatus, 'ItemType':i['type']})
+                        inv.itemList.remove(i)
+                    r.append({'Id': i['item'].itemId, 'Who':p.name, 'Type': i['item'].itemType, 'Status':p.cStatus})
                 count +=1
             if u == 'e':
                 using = False
@@ -1115,7 +983,7 @@ def battle(h, e):
     winner = False
     count = 1
     for i in heroes:
-        if (i.weapon2['type'] == Weapon2Type.shield):
+        if (i.weapon2.itemType == Weapon2Type.shield):
             i.shield = i.weapon2['defence']
     while(fighting == True):
         for i in heroes:

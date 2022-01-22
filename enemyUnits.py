@@ -147,7 +147,7 @@ class Cricket(Enemy):
 
 class Hornet(Enemy):
     def __init__(self):
-        Enemy.__init__(self,'2','Cricket',19,'bug',10,[{'item' : food[4], 'quantity':1}],
+        Enemy.__init__(self,'2','Hornet',19,'bug',10,[{'item' : food[4], 'quantity':1}],
                 5, 5, 90, 40, 45,{'type':''},{'type':''},'Attacker',
                 'More hostile than usual this year. In the air they are annoying to hit but they are easy to kill.')
         self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False, 'fungus':False}
@@ -298,14 +298,14 @@ def enemyAttack(e, p, b):
                     if (impact <= 0):
                         impact = 1
                     im = impact
-                    if (p.weapon2['type'] == Weapon2Type.shield):
+                    if (p.weapon2.itemType == Weapon2Type.shield):
                         if (p.shield > 0):
                             print(p.name,'blocked!')
                             impact -= p.shield
                             if (impact < 0):
                                 impact = 0
                             p.shield -= im
-                elif((p.cStatus == CombatStatus.Attacking or CombatStatus.Parried) and p.weapon1['type'] == Weapon1Type.sword):
+                elif((p.cStatus == CombatStatus.Attacking or CombatStatus.Parried) and p.weapon1.itemType== Weapon1Type.sword):
                     if(e.weapon1['type'] == Weapon1Type.sword or e.weapon1['type'] == Weapon1Type.dagger or
                        e.weapon1['type'] == Weapon1Type.spear or e.weapon1['type'] == Weapon1Type.axe or
                        e.weapon1['type'] == Weapon1Type.mace or e.weapon1['type'] == Weapon1Type.staff):

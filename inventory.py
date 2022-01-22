@@ -31,7 +31,7 @@ class Inventory():
                 item.itemType == Weapon1Type.axe and i['item'].itemType == Weapon1Type.axe or
                 item.itemType == Weapon1Type.mace and i['item'].itemType == Weapon1Type.mace or
                 item.itemType == Weapon1Type.staff and i['item'].itemType == Weapon1Type.staff):
-                if (i['wpId'] == item['wpId']):
+                if (i['item'].wpId == item.wpId):
                     i['count'] += qnt
                     inInv = True
             elif (item.itemType == Weapon2Type.shield and i['item'].itemType == Weapon2Type.shield):
@@ -153,26 +153,27 @@ class Inventory():
                     print(itemNum,') ',i['item'], 'x',i['count'])
                     itemNum += 1
                     listItems.append(i)
-        if (Itype == '' or Itype == 'projectiles' or Itype == 'Projectiles'):
-            print('Projectiles')
-            for i in self.itemList:
-                if (i['item'].itemType == ItemType.projectile):
-                    print(itemNum,') ',i['item'], 'x',i['count'])
-                    itemNum += 1
-                    listItems.append(i)
         if (Itype == '' or Itype == 'weapons' or Itype == 'Weapons'):
             print('Weapons')
             for i in self.itemList:
                 if (i['item'].itemType == Weapon1Type.sword or i['item'].itemType == Weapon1Type.dagger or i['item'].itemType == Weapon1Type.spear or
                    i['item'].itemType == Weapon1Type.axe or i['item'].itemType == Weapon1Type.mace or i['item'].itemType == Weapon1Type.staff or
-                    i['item'].itemType == Weapon2Type.bow or i['item'].itemType == Weapon2Type.shield or i['item'].itemType == Weapon2Type.crossbow or i['item'].itemType == Weapon2Type.sling):
+                    i['item'].itemType == Weapon2Type.bow or i['item'].itemType == Weapon2Type.shield or i['item'].itemType == Weapon2Type.crossbow or
+                    i['item'].itemType == Weapon2Type.sling or i['item'].itemType == Weapon2Type.wand):
                     print(itemNum,') ',i['item'], 'x',i['count'])
                     itemNum += 1
                     listItems.append(i)
         if (Itype == '' or Itype == 'armour' or Itype == 'Armour'):
-            print('armour')
+            print('Armour')
             for i in self.itemList:
                 if (i['item'].itemType == ArmourType.hat or i['item'].itemType == ArmourType.shirt or i['item'].itemType == ArmourType.trousers):
+                    print(itemNum,') ',i['item'], 'x',i['count'])
+                    itemNum += 1
+                    listItems.append(i)
+        if (Itype == '' or Itype == 'projectiles' or Itype == 'Projectiles'):
+            print('Projectiles')
+            for i in self.itemList:
+                if (i['item'].itemType == ItemType.projectile or i['item'].itemType == ItemType.toss):
                     print(itemNum,') ',i['item'], 'x',i['count'])
                     itemNum += 1
                     listItems.append(i)
@@ -188,13 +189,13 @@ class Inventory():
         appraise = input('\nItem number: ')
         itemNum = 1
         for i in self.itemList:
-            if (appraise == str(count)):
+            if (appraise == str(itemNum)):
                 print('Name: ',i['item'], i['count'])
                 if (i['item'].itemType != ItemType.food):
                     print('Name: ', i['item'],' - Type: ',i['item'].itemType,' - \nDescription: ',i['item'].description)
                 else:
                     print('Name: ', i['item'],' - Type: ',i['item'].itemType,' - \nStamina Recovered: ',i['item'].recovers)
-                itemNum += 1
+            itemNum += 1
     def shillings(self, incre):
         #Increment/Decrement Shillings
         global shill
