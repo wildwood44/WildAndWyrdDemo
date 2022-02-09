@@ -6,6 +6,10 @@ import enemyUnits
 import ItemClasses
 import inventory
 import equipment
+import record
+import spells
+import manuvers
+import combat
 from data import typeSpf
 #enumerated classes
 SpecialType1 = typeSpf.SpecialType1
@@ -23,8 +27,11 @@ ItemType = typeSpf.ItemType
 alder = playableChars.Alder()
 florace = playableChars.Florace()
 item = ItemClasses
+spl = spells
+mnv = manuvers
 inv = inventory.Inventory()
 eqp = equipment.Equipment()
+#com = combat.Combat()
 
 #Enemy Units
 class Null:
@@ -109,16 +116,15 @@ projec = [item.Arrow('1','Primitive Arrow', 10,1,'Arrows made from stone heads a
 items = [item.Healing('1', 'Bandage', 10,1, 'A cloth bandage to treat wounds')
          ]
 #Universal Specials
-manuvers = [{'spId':'1','name':'Advence', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
-           {'spId':'2','name':'Retreat', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move out of range.'}
+manuvers = [mnv.Manuver_Enhance('1','Advence', 0,10,100, 'Move in range.'),
+           mnv.Manuver_Enhance('2','Retreat', 0,10,100, 'Move out of range.')
            ]
-spells = [{'spId':'1','name':'Poison nettles', 'type':SpecialType2.offence, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 1, 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Poisons an opponent'},
-          {'spId':'2','name':'Grow mushrooms', 'type':SpecialType2.offence, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Grow mushrooms on your enemy to hinder them.'},
-          {'spId':'3','name':'Grow mushrooms', 'type':SpecialType2.enhance, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 9, 'cost':0, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':"Grow edable mushrooms for an ally to restore stamina."},
-          {'spId':'4','name':'Grow mushrooms', 'type':SpecialType2.support, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 9, 'cost':0, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Grow edable mushrooms for the caster to restore stamina.'}
+spells = [spl.Nature_Offence('1','Poison nettles', AttackType.single, 1, 10, 100, 'Poisons an opponent'),
+          spl.Nature_Offence('2','Grow mushrooms', AttackType.single, 0, 10, 100, 'Grow mushrooms on your enemy to hinder them.'),
+          spl.Nature_Enhance('3','Grow mushrooms', 9, 0, 100, "Grow edable mushrooms for an ally to restore stamina."),
+          spl.Nature_Support('4','Grow mushrooms', AttackType.single, 9, 0, 100, 'Grow edable mushrooms for the caster to restore stamina.')
           ]
-combinations = [{'spId':'comb1','name':'Poisonous mushrooms', 'type':SpecialType2.offence, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 9, 'cost':0, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False,
-                 'components':['1', '2'],'effect':'Grow poisinous mushrooms on the enemy.'}
+combinations = [{'spell':spl.Nature_Offence('comb1','Poisonous mushrooms', AttackType.single, 9, 10, 100, 'Grow poisinous mushrooms on the enemy.'), 'components':['1', '2']}
           ]
 
 #Save settings
@@ -530,7 +536,6 @@ def hunger(p):
         p.stamina = 0
 
 
-
 def enemyFlee(e):
     print(e.name, ' fled!')
 
@@ -639,14 +644,14 @@ def attack(p, e):
 #Check if special effect are still active and deactivate them it they are not.
 def inEffect(p, e):
     for i in alder.abilities:
-        if(i['active'] == True):
-            i['inEffect'] -= 1
-            if (i['inEffect'] <= 0):
-                i['active'] = False
+        if(i.active == True):
+            i.inEffect -= 1
+            if (i.inEffect <= 0):
+                i.active = False
                 print(alder.name,"'s ", i['name'], ' has worn off.')
     for i in p.manver:
         for en in e:
-            if (i['spId'] == '1' and (p.aliment['outRange'] == 'True' or en.aliment['outRange'] == 'True')):
+            if (i.spId == '1' and (p.aliment['outRange'] == 'True' or en.aliment['outRange'] == 'True')):
                 advencable = False
                 if (en.aliment['outRange'] == 'False'):
                     advancable = False
@@ -654,78 +659,41 @@ def inEffect(p, e):
                     advancable = True
                 if (advancable == True):
                     j = i + 1
-                    i['active'] = True
-                    j['active'] = False
+                    i.active = True
+                    j.active = False
                     print(i, j)
-            elif (i['spId'] == '2' and (p.aliment['outRange'] == 'False')):
+            elif (i.spId == '2' and (p.aliment['outRange'] == 'False')):
                 j = i - 1
-                i['active'] = True
-                j['active'] = False
+                i.active = True
+                j.active = False
 
 
 def magic(p, t, e, spell):
     hit = random.randrange(0,100)
-    damage = spell['damage']
+    damage = spell.damage
     if (p.weapon1.itemType == Weapon1Type.staff):
         boost = damage / 20
         if (boost < 1):
             boost = 1
         damage += round(boost)
     count = 1
-    if (spell['type'] == SpecialType2.offence):
-        for i in e:
-            print(count, ') ', i.name)
-            count += 1
-    elif (spell['type'] == SpecialType2.support):
-        for i in t:
-            if (i.pId != p.pId):
-                print(count, ') ', i.name)
-                count += 1
-    if (hit < spell['effectivness']):
-        if (spell['type'] == SpecialType2.offence):
-            target = input('Cast on:')
-            if (spell['attackType'] == AttackType.single):
-                count = 1
-                for i in e:
-                    if (target == str(count)):
-                        if (spell['spId'] == '1'):
-                            i.aliment['poison'] = True
-                        elif (spell['spId'] == '2'):
-                            i.aliment['fungus'] = True
-                        elif (spell['spId'] == 'comb1'):
-                            i.aliment['poison'] = True
-                            i.aliment['fungus'] = True                        
-                    count +=1
-                if(damage > 0):
-                    i.health -= damage
-                    print(i.name, 'took', damage, 'from', spell['name'],'!')
-        if (spell['type'] == SpecialType2.support):
-            target = input('Cast on:')
-            if (spell['attackType'] == AttackType.single):
-                count = 1
-                for i in t:
-                    if (target == str(count)):
-                        if (spell['spId'] == 'f1'):
-                            i.health += damage
-                            if (i.health > i.maxHealth):
-                                i.health = i.maxHealth
-                        elif (spell['spId'] == '4'):
-                            i.stamina += damage
-                            if (i.stamina > i.maxStamina):
-                                i.stamina = i.maxStamina
-        if (spell['type'] == SpecialType2.enhance):
-            if (spell['spId'] == '3'):
-                p.stamina += damage
+    if (spell.spltype == SpecialType2.offence):
+        spell.findTargets(p, e)
+    elif (spell.spltype == SpecialType2.support):
+        spell.findTargets(p, t)
+    if (hit < spell.effectivness):
+        if (spell.spltype == SpecialType2.offence):
+            spell.cast(spell.getTarget(e))
+        if (spell.spltype == SpecialType2.support):
+            spell.cast(spell.getTarget(t))
+        if (spell.spltype == SpecialType2.enhance):
+            spell.cast(p)
     else:
         print('The spell missed!')
         
 def manuver(p, e, m):
-    if (m['specialType'] == SpecialType1.manuver):
-        if (m['spId'] == 'a1'):
-            if (p.health < p.maxHealth/5):
-                p.stamina -= m['cost']
-                m['inEffect'] = 6
-        if (m['spId'] == '1'):
+    if (m.specialType == SpecialType1.manuver):
+        if (m.spId == '1'):
             active = True
             for i in e:
                 if(i.aliment['outRange'] == False):
@@ -739,18 +707,14 @@ def manuver(p, e, m):
                 print(p.name,'advanced closer!')
             else:
                 print(p.name,'is too close!')
-        if (m['spId'] == '2'):
+        if (m.spId == '2'):
             if (p.aliment['outRange'] == False):
                 p.aliment['outRange'] = True
                 print(p.name,'retreated to the rear!')
             else:
                 print(p.name,'is too far away!')
 
-def combine(spell1, spell2):
-    for i in combinations:
-        if (i['components'][0] == spell1['spId'] and i['components'][1] == spell2['spId']):
-            return i
-    
+
 def special(p, h, e, r):
     print('\nSpecial Ability')
     if(p.aliment['outRange'] == True):
@@ -760,50 +724,50 @@ def special(p, h, e, r):
     offensive = p.special_off()
     support = p.special_sup()
     enhance = p.special_enc()
-    print(' 2 Offensive) ',offensive['name'], ' - ', offensive['effect'], ' - ', offensive['cost'], ' stamina\n',
-          '3 Support) ',support['name'], ' - ', support['effect'], ' - ', support['cost'], ' stamina\n',
-          '4 Enhance) ',enhance['name'], ' - ', enhance['effect'], ' - ', enhance['cost'], ' stamina')
+    print(' 2 Offensive) ',offensive.name, ' - ', offensive.effect, ' - ', offensive.cost, ' stamina\n',
+          '3 Support) ',support.name, ' - ', support.effect, ' - ', support.cost, ' stamina\n',
+          '4 Enhance) ',enhance.name, ' - ', enhance.effect, ' - ', enhance.cost, ' stamina')
     sp = input('Use: ')
     if (sp == "1" or sp == "advance" or sp == "retreat"):
         p.cStatus = CombatStatus.Specializing
         if(p.aliment['outRange'] == True):
-            p.stamina -= manuvers[0]['cost']
+            p.stamina -= manuvers[0].cost
             manuver(p,e,manuvers[0])
-            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':SpecialType1.manuver, 'Manuver':manuvers[0]['name']})
+            r.recordManuver(p.pId,p.name,p.type,p.cStatus, SpecialType1.manuver, manuvers[0].name)
         else:
-            p.stamina -= manuvers[1]['cost']
+            p.stamina -= manuvers[1].cost
             manuver(p,e,manuvers[1])
-            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':SpecialType1.manuver, 'Manuver':manuvers[1]['name']})
-    elif ((sp == "2" or sp == "offence" or sp == "offensive") and offensive['spId'] != '0'):
+            r.recordManuver(p.pId, p.name, p.type, p.cStatus, SpecialType1.manuver, manuvers[1].name)
+    elif ((sp == "2" or sp == "offence" or sp == "offensive") and offensive.spId != '0'):
         p.cStatus = CombatStatus.Specializing
-        p.stamina -= offensive['cost']
-        if(offensive['specialType'] == SpecialType1.manuver):
+        p.stamina -= offensive.cost
+        if(offensive.specialType == SpecialType1.manuver):
             manuver(p,e,offensive)
-            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':SpecialType1.manuver, 'Manuver':offensive['name']})
-        elif(offensive['specialType'] == SpecialType1.spell):
+            r.recordManuver(p.pId, p.name, p.type, p.cStatus, offensive.specialType, offensive.name)
+        elif(offensive.specialType == SpecialType1.spell):
+            print('\n', p.name, ' uses ', offensive.name,'.')
             magic(p, h, e, offensive)
-            print('\n', p.name, ' uses ', offensive['name'],'.')
-            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':offensive['name']})
-    elif ((sp == "3" or sp == "support") and support['spId'] != '0'):
+            r.recordMagic(p.pId, p.name, p.type, p.cStatus, offensive.specialType, offensive.name)
+    elif ((sp == "3" or sp == "support") and support.spId != '0'):
         p.cStatus = CombatStatus.Specializing
-        p.stamina -= support['cost']
-        if(support['specialType'] == SpecialType1.manuver):
+        p.stamina -= support.cost
+        if(support.specialType == SpecialType1.manuver):
             manuver(p,e,support)
-            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':SpecialType1.manuver, 'Manuver':support['name']})
-        elif(support['specialType'] == SpecialType1.spell):
+            r.recordManuver(p.pId, p.name, p.type, p.cStatus, support.specialType, support.name)
+        elif(support.specialType == SpecialType1.spell):
+            print('\n', p.name, ' uses ', support.name,'.')
             magic(p, h, e, support)
-            print('\n', p.name, ' uses ', support['name'],'.')
-            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':support['name']})
-    if ((sp == "4" or sp == "enhance") and enhance['spId'] != '0'):
+            r.recordMagic(p.pId, p.name, p.type, p.cStatus, support.specialType, support.name)
+    if ((sp == "4" or sp == "enhance") and enhance.spId != '0'):
         p.cStatus = CombatStatus.Specializing
-        p.stamina -= enhance['cost']
-        if(enhance['specialType'] == SpecialType1.manuver):
+        p.stamina -= enhance.cost
+        if(enhance.specialType == SpecialType1.manuver):
             manuver(p,e,enhance)
-            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':SpecialType1.manuver, 'Manuver':enhance['name']})
-        elif(enhance['specialType'] == SpecialType1.spell):
+            r.recordManuver(p.pId, p.name, p.type, p.cStatus, enhance.specialType, enhance.name)
+        elif(enhance.specialType == SpecialType1.spell):
+            print('\n', p.name, ' uses ', enhance.name,'.')
             magic(p, h, e, enhance)
-            print('\n', p.name, ' uses ', offensive['name'],'.')
-            r.append({'Id': p.pId, 'Who':p.name, 'Type': p.type, 'Status':p.cStatus, 'SpecialType':'magic', 'Spell':enhance['name']})
+            r.recordMagic(p.pId, p.name, p.type, p.cStatus, enhance.specialType, enhance.name)
 
 #Use Item
 def item(p, e, r):
@@ -911,7 +875,7 @@ def item(p, e, r):
                     i['count'] -= 1
                     if(i['count'] <= 0):
                         inv.itemList.remove(i)
-                    r.append({'Id': i['item'].itemId, 'Who':p.name, 'Type': i['item'].itemType, 'Status':p.cStatus})
+                    r.recordItem(p.pId, i['item'].itemId, p.name, i['item'].name, i['item'].itemType,p.cStatus)
                 count +=1
             if u == 'e':
                 using = False
@@ -919,51 +883,6 @@ def item(p, e, r):
 #Combat order
 def fightOrder(e):
     return e.speed()
-#Enemy Priorities
-#Attacks the enemy with the least health
-def ePriority_weakness(heroes):
-    heroes.sort(key=lambda x: x.health, reverse=False)
-    for i in heroes:
-        if (i.health > 0):
-            return i
-#Attacks the enemy that dealt the most damge
-def ePriority_threat(heroes, record):
-    attacks = []
-    for i in record:
-        if (i['Type'] == 'playable' and i['Status'] == CombatStatus.Attacking):
-            attacks.append(i)
-    attacks.sort(key=lambda x: x['Damage'], reverse=True)
-    for i in attacks:
-        for j in heroes:
-            if (i['Id'] == j.pId):
-                if (j.health > 0):
-                    return j
-    if (len(attacks) == 0):
-        return ePriority_weakness(heroes)
-#Attacks the last enemy to attack it
-def ePriority_retaliation(heroes, e, record):
-    attacks = []
-    for i in record:
-        if (i['Type'] == 'playable' and i['Status'] == CombatStatus.Attacking and
-            i['Hit'].inId == e.inId):
-                attacks.append(i)
-    for i in attacks:
-        for j in heroes:
-            if (i['Id'] == j.pId):
-                if (j.health > 0):
-                    return j  
-    if (len(attacks) == 0):
-        return ePriority_weakness(heroes)
-#Attacks Alder if he is active in combat
-def ePriority_Alder(heroes):
-    for i in heroes:
-        if (i.health > 0):
-            if (i.pId == '1'):
-                return i
-            elif (i.pId == '2'):
-                return i
-            else:
-                return ePriority_weakness(heroes)
 
 #Combat interface
 def battle(h, e):
@@ -971,7 +890,7 @@ def battle(h, e):
     global alder, florace
     heroes = []
     enemys = []
-    record = []
+    rcd = record.Record()
     for i in h:
         if (i.active == True):
             heroes.append(i)
@@ -1014,26 +933,24 @@ def battle(h, e):
                 #Win
                 elif(winner == True):
                     for j in alder.abilities:
-                        j['active'] = False
-                        j['inEffect'] = 0
+                        j.active = False
                     fighting = False
                     win(enemys)
-                    for i in record:
-                        print(i)
+                    rcd.playRecord()
                     return True
                 if (i.type == 'playable' and i.health > 0):
                     #Automatic special
                     automatic = i.special_auto()
-                    if(automatic['spId'] != '0'):
-                        if(automatic['specialType'] == SpecialType1.manuver):
-                            manuver(i,e,automatic)
-                            print('\n',automatic['name'],'is active.')
-                            record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus, 'SpecialType':SpecialType1.manuver, 'Manuver':automatic['name']})
-                        elif(automatic['specialType'] == SpecialType1.spell):
+                    if(automatic.spId != '0'):
+                        i.cStatus = CombatStatus.Specializing
+                        if(automatic.specialType == SpecialType1.manuver):       
+                            automatic.auto_activate(i, automatic)
+                            rcd.recordManuver(i.pId,i.name,i.type,i.cStatus,SpecialType1.manuver,automatic.name)
+                        elif(automatic.specialType == SpecialType1.spell):
                             magic(i, h, e, automatic)
-                            print('\n',automatic['name'],'is active.')
-                            record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus, 'SpecialType':'magic', 'Spell':automatic['name']})
-                    inEffect(i, enemys)
+                            print('\n',automatic.name,'is active.')
+                            rcd.recordMagic(i.pId,i.name,i.type,i.cStatus,SpecialType1.magic,automatic.name)
+                    #inEffect(i, enemys)
                     i.cStatus = CombatStatus.Normal
                     while(i.cStatus == CombatStatus.Normal):
                         print('\n',i.name)
@@ -1058,24 +975,25 @@ def battle(h, e):
                                         impact = attack(i, j)
                                         if (j.cStatus == CombatStatus.Blocking and impact > 0):
                                             j.weapon2['defence'] -= impact
-                                        record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus, 'Hit': j, 'Damage':impact})
+                                        #print(i.pId, i.name, i.type, i.cStatus, j, impact)
+                                        rcd.recordAttack(i.pId, i.name, i.type, i.cStatus, j, impact)
                                     k += 1
                         elif (j == '2' or j == 'block' or j == 'Block'):
                             i.cStatus = CombatStatus.Blocking
-                            record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus})
+                            rcd.recordBlock(i.pId,i.name,i.type,i.cStatus)
                         elif (j == '3' or j == 'appraise' or j == 'Appraise'):
                             for j in enemys:
                                 print('\n',j.name, 'Health:', j.health,'/',j.maxHealth)
                                 print(j.desc)
                         elif (j == '4' or j == 'special' or j == 'Special'):
-                            special(i, heroes, enemys, record)
+                            special(i, heroes, enemys, rcd)
                         elif (j == '5' or j == 'item' or j == 'Item'):
-                            item(i, enemys, record)
+                            item(i, enemys, rcd)
                         elif (j == '6' or j == 'flee' or j == 'Flee'):
                             j = input('Are you sure you want to run?(y/n)')
                             if (j == 'y' or j == 'Y' or j == 'yes' or j == 'Yes'):
                                 i.cStatus = CombatStatus.Escaping
-                                record.append({'Id': i.pId, 'Who':i.name, 'Type': i.type, 'Status':i.cStatus})
+                                rcd.recordFlee(i.pId, i.name, i.type, i.cStatus)
                                 return False
                 else:
                     if(i.health > 0):
@@ -1085,7 +1003,7 @@ def battle(h, e):
                                 poison = 1
                             i.health -= round(poison)
                             print(i.name, 'took', round(poison), 'damage from poison!')
-                            record.append({'Id': i.enId, 'Who':i.name, 'Type': i.type, 'Aliment':'poison', 'Damage':round(poison)})
+                            rcd.recordAliment(i.enId, i.name, i.cStatus, i.type, 'poison', round(poison))
                         if (i.aliment['caught'] == True):
                             escape = random.randrange(0, 100)
                             if (i.type == 'bug'):
@@ -1100,12 +1018,12 @@ def battle(h, e):
                                     i.aliment['caught'] = False
                                 else:
                                     print(i.name,' is tangled in a net!')
-                            record.append({'Id': i.enId, 'Who':i.name, 'Type': i.type, 'Aliment':'caught', 'Caught':i.aliment['caught']})
+                            rcd.recordAliment(i.enId, i.name, i.cStatus, i.type, 'caught', 0)
                         elif (i.aliment['stun'] == True):
                             print(i.name, 'was stunned!')
                             i.aliment['stun'] = False
                         else:
-                            impact = i.action(i, heroes, record)[0]
+                            impact = i.action(i, heroes, rcd)[0]
                             #if (alder.cStatus == CombatStatus.Blocking and impact > 0):
                                 #shield -= impact
                 for j in reversed(enemys):
@@ -1194,6 +1112,8 @@ def unit():
 def active():
     loadSet()
     dostuff = True
+    alder.abilities[0].unlocked = True
+    florace.abilities[0].unlocked = True
     while(dostuff == True):
         print('\n1: Player stats.')
         print('2: Set equipment.')

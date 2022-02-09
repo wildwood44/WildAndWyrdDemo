@@ -140,22 +140,22 @@ class Projectile(Item):
         return self.name
 
 class Ammo(Projectile):
-    def __init__(self,itemId,name,damage,itemType,weight,weapon,description):
+    def __init__(self,itemId,name,damage,weight,weapon,description):
         Projectile.__init__(self,itemId,name,damage,ItemType.projectile,weight,8,description)
         self.itemId = itemId
         self.weapon = weapon
 
 class Arrow(Ammo):
     def __init__(self,itemId,name,damage,weight,description):
-        Ammo.__init__(self,itemId,name,damage,ItemType.projectile,weight,Weapon2Type.bow,description)
+        Ammo.__init__(self,itemId,name,damage,weight,Weapon2Type.bow,description)
 
 class Bolt(Ammo):
     def __init__(self,itemId,name,damage,weight,description):
-        Ammo.__init__(self,itemId,name,damage,ItemType.projectile,weight,Weapon2Type.crossbow,description)
+        Ammo.__init__(self,itemId,name,damage,weight,Weapon2Type.crossbow,description)
 
 class Stone(Ammo):
     def __init__(self,itemId,name,damage,weight,description):
-        Ammo.__init__(self,itemId,name,damage,ItemType.projectile,weight,Weapon2Type.sling,description)
+        Ammo.__init__(self,itemId,name,damage,weight,Weapon2Type.sling,description)
 
 class Toss(Projectile):
     def __init__(self,itemId,name,damage,weight,description):
@@ -163,7 +163,7 @@ class Toss(Projectile):
         self.itemId = itemId
 
 class Ingredient(Item):
-    def __init__(self,itemId,name,itemType,weight,description):
+    def __init__(self,itemId,name,weight,description):
         Item.__init__(self,name,ItemType.ingredient,weight,10)
         self.itemId = itemId
     def __str__(self): 

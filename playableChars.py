@@ -1,5 +1,7 @@
 import ItemClasses
 import inventory
+import spells
+import manuvers
 from data import typeSpf
 SpecialType1 = typeSpf.SpecialType1
 SpecialType2 = typeSpf.SpecialType2
@@ -10,20 +12,21 @@ ArmourType = typeSpf.ArmourType
 Weapon1Type = typeSpf.Weapon1Type
 Weapon2Type = typeSpf.Weapon2Type
 ItemType = typeSpf.ItemType
+#Set classses
+item = ItemClasses
+spl = spells
+mnv = manuvers
 #Universal Specials
 manuvers = [{'spId':'1','name':'Advence', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
            {'spId':'2','name':'Retreat', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move out of range.'}
            ]
-spells = [{'spId':'1','name':'Poison nettles', 'type':SpecialType2.offence, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 1, 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Poisons an opponent'},
-          {'spId':'2','name':'Grow mushrooms', 'type':SpecialType2.offence, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Grow mushrooms on your enemy to hinder them.'},
-          {'spId':'3','name':'Grow mushrooms', 'type':SpecialType2.enhance, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 9, 'cost':0, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':"Grow edable mushrooms for an ally to restore stamina."},
-          {'spId':'4','name':'Grow mushrooms', 'type':SpecialType2.support, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 9, 'cost':0, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Grow edable mushrooms for the caster to restore stamina.'}
+spells = [spl.Nature_Offence('1','Poison nettles', AttackType.single, 1, 10, 100, 'Poisons an opponent'),
+          spl.Nature_Offence('2','Grow mushrooms', AttackType.single, 0, 10, 100, 'Grow mushrooms on your enemy to hinder them.'),
+          spl.Nature_Enhance('3','Grow mushrooms', 9, 0, 100, "Grow edable mushrooms for an ally to restore stamina."),
+          spl.Nature_Support('4','Grow mushrooms', AttackType.single, 9, 0, 100, 'Grow edable mushrooms for the caster to restore stamina.')
           ]
-combinations = [{'spId':'comb1','name':'Poisonous mushrooms', 'type':SpecialType2.offence, 'specialType':SpecialType1.spell, 'spellType':SpellType.Nature, 'attackType' : AttackType.single, 'damage' : 9, 'cost':0, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':False,
-                 'components':['1', '2'],'effect':'Grow poisinous mushrooms on the enemy.'}
+combinations = [{'spell':spl.Nature_Offence('comb1','Poisonous mushrooms', AttackType.single, 9, 10, 100, 'Grow poisinous mushrooms on the enemy.'), 'components':['1', '2']}
           ]
-#Set classses
-item = ItemClasses
 #Character Base Stats
 class Playable():
     def __init__(self, pId, active, name, species, maxHealth, maxStamina, cLvl,
@@ -108,115 +111,119 @@ class Playable():
     property
     def evasion(self):
         evasion = self.baseEvasion
-        if (self.abilities[0]['active'] == True):
-            evasion *= 2 
+        if (self.special_auto().specialType == SpecialType1.manuver):
+            print(self.special_auto().spId == 'a1', self.special_auto().active == True)
+            if (self.special_auto().spId == 'a1' and self.special_auto().active == True):
+                print('Ping')
+                evasion *= 2
         return evasion
     property
     def special_auto(self):
-        automatic = {'spId':'0','name':'None', 'effect':'', 'type':SpecialType2.automatic, 'cost':0}
+        automatic = spl.Nature_Automatic('0','None',  AttackType.single,0,0,0,'')
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2['spId'] == i['spId'] and i.itemType == SpecialType2.automatic):
+                if(self.weapon2.spId == i.spId and i.spltype == SpecialType2.automatic):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
                         for j in spells:
                             for k in self.weapon1.spells:
-                                if(k['spId'] == j['spId'] and j.itemType == SpecialType2.automatic):
-                                    automatic = combine(i,j)
+                                if(k.spId == j.spId and j.spltype == SpecialType2.automatic):
+                                    automatic = i.combine(j)
                                     confirm = True
                         if(confirm == False):
                             automatic = i
                     else:
                         automatic = i
-        if (self.weapon1.itemType == Weapon1Type.staff and automatic['spId'] == '0'):
+        if (self.weapon1.itemType == Weapon1Type.staff and automatic.spId == '0'):
             for i in spells:
                 for j in self.weapon1.spId:
-                    if(j == i['spId'] and i['type'] == SpecialType2.automatic):
+                    if(j == i.spId and i.spltype == SpecialType2.automatic):
                         automatic = i
-        if (automatic['spId'] == '0'):
+        if (automatic.spId == '0'):
             for i in self.abilities:
-                if(i['unlocked'] == True and i['type'] == SpecialType2.automatic):
+                if(i.unlocked == True and i.spltype == SpecialType2.automatic):
                     automatic = i
         return automatic
     property
     def special_off(self):
-        offence = {'spId':'0','name':'None', 'effect':'', 'type':SpecialType2.offence, 'cost':0}
+        offence = spl.Nature_Offence('0','None',AttackType.single, 0,0,0,'')
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2.spId == i['spId'] and i.itemType == SpecialType2.offence):
+                if(self.weapon2.spId == i.spId and i.spltype == SpecialType2.offence):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
                         for j in spells:
                             for k in self.weapon1.spId:
-                                if(k == j['spId'] and j.itemType == SpecialType2.offence):
-                                    offence = combine(i,j)
+                                if(k == j.spId and j.spltype == SpecialType2.offence):
+                                    offence = i.combine(j)
                                     confirm = True
                         if(confirm == False):
                             offence = i
                     else:
                         offence = i
-        if (self.weapon1.itemType == Weapon1Type.staff and offence['spId'] == '0'):
+        if (self.weapon1.itemType == Weapon1Type.staff and offence.spId == '0'):
             for i in spells:
                 for j in self.weapon1.spId:
-                    if(j == i['spId'] and i['type'] == SpecialType2.offence):
+                    if(j == i.spId and i.spltype == SpecialType2.offence):
                         offence = i
-        if (offence['spId'] == '0'):
+        if (offence.spId == '0'):
             for i in self.abilities:
-                if(i['unlocked'] == True and i['type'] == SpecialType2.offence):
+                if(i.unlocked == True and i.spltype == SpecialType2.offence):
                     offence = i
         return offence
     property
     def special_sup(self):
-        support = {'spId':'0','name':'None', 'effect':'', 'type':SpecialType2.support, 'cost':0}
+        support = spl.Nature_Support('0','None', AttackType.single, 0,0,0,'')
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2.spId == i['spId'] and i['type'] == SpecialType2.support):
+                if(self.weapon2.spId == i.spId and i.spltype == SpecialType2.support):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
                         for j in spells:
                             for k in self.weapon1.spId:
-                                if(k == j['spId'] and j['type'] == SpecialType2.support):
-                                    support = combine(i,j)
+                                if(k == j.spId and j.spltype == SpecialType2.support):
+                                    support = i.combine(j)
                                     confirm = True
                         if(confirm == False):
                             support = i
                     else:
                         support = i
-        if (self.weapon1.itemType == Weapon1Type.staff and support['spId'] == '0'):
+        if (self.weapon1.itemType == Weapon1Type.staff and support.spId == '0'):
             for i in spells:
                 for j in self.weapon1.spId:
-                    if(j == i['spId'] and i['type'] == SpecialType2.support):
+                    if(j == i.spId and i.spltype == SpecialType2.support):
                         support = i
-        if (support['spId'] == '0'):
+        if (support.spId == '0'):
             for i in self.abilities:
-                if(i['unlocked'] == True and i['type'] == SpecialType2.support):
+                if(i.unlocked == True and i.spltype == SpecialType2.support):
                     support = i
         return support
     property
     def special_enc(self):
-        enhance = {'spId':'0','name':'None', 'effect':'', 'type':SpecialType2.enhance, 'cost':0}
+        enhance = spl.Nature_Enhance('0','None',0,0,0,'')
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2.spId == i['spId'] and i['type'] == SpecialType2.enhance):
+                if(self.weapon2.spId == i.spId and i.spltype == SpecialType2.enhance):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
                         for j in spells:
-                            for k in self.weapon1['spId']:
-                                if(k == j['spId'] and j['type'] == SpecialType2.enhance):
-                                    enhance = combine(i,j)
+                            for k in self.weapon1.spId:
+                                if(k == j.spId and j.spltype == SpecialType2.enhance):
+                                    enhance = i.combine(j)
                                     confirm = True
                         if(confirm == False):
                             enhance = i
                     else:
                         enhance = i
-        if (self.weapon1.itemType == Weapon1Type.staff and enhance['spId'] == '0'):
+        if (self.weapon1.itemType == Weapon1Type.staff and enhance.spId == '0'):
             for i in spells:
                 for j in self.weapon1.spId:
-                    if(j == i['spId'] and i['type'] == SpecialType2.enhance):
+                    if(j == i.spId and i.spltype == SpecialType2.enhance):
                         enhance = i
-        if (enhance['spId'] == '0'):
+        if (enhance.spId == '0'):
             for i in self.abilities:
-                if(i['unlocked'] == True and i['type'] == SpecialType2.enhance):
+                print(i);
+                if(i.unlocked == True and i.spltype == SpecialType2.enhance):
                     enhance = i
         return enhance
     def stats(self):
@@ -229,8 +236,8 @@ class Playable():
               '| Evasion:', self.evasion(), '(', self.baseEvasion,'+', 0, ')',
               '\nEquipment: \nHead:', self.head.name, '\nBody:', self.body.name, '\nLegs:', self.legs.name,
               '\nMain Weapon:', self.weapon1.name, '\nSecondary Weapon:', self.weapon2.name,
-              '\nSpecials: \nAutomatic:', self.special_auto()['name'], '\nOffensive:', self.special_off()['name'],
-              '\nSupport:', self.special_sup()['name'], '\nEnhance:', self.special_enc()['name'],'\n'
+              '\nSpecials: \nAutomatic:', self.special_auto().name, '\nOffensive:', self.special_off().name,
+              '\nSupport:', self.special_sup().name, '\nEnhance:', self.special_enc().name,'\n'
               )
 #Alder
 class Alder(Playable):
@@ -240,7 +247,7 @@ class Alder(Playable):
                 item.Shirt('0','Old Tunic', 1,1, 'An old shirt with holes in it.'),
                 item.Trousers('0', 'Worn Trousers',1,1,'An old pair of trousers long past their prime'),
                 item.Sword('0','None', 0,0, ''), item.Sword('0','None', 0,0, ''),
-                [{'spId':'a1','name':'Steps of heroes', 'type':SpecialType2.automatic, 'specialType':SpecialType1.manuver, 'spellType':SpellType.Nature, 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Doubles Evasion for five turns.'}])
+                [mnv.Manuver_Automatic('a1','Steps of heroes', AttackType.single, 0,10, 100, 'Doubles Evasion for five turns.')])
         self.shield = 0
         self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False}
         self.cStatus = CombatStatus.Normal
@@ -255,7 +262,7 @@ class Florace(Playable):
                 item.Shirt('0','Old Tunic', 1,1, 'An old shirt with holes in it.'),
                 item.Trousers('0', 'Worn Trousers',1,1,'An old pair of trousers long past their prime'),
                 item.Sword('0','None', 0,0, ''), item.Sword('0','None', 0,0, ''),
-                [{'spId':'f1','name':'Heal', 'type':SpecialType2.support, 'specialType':SpecialType1.spell, 'spellType':'Blessing', 'attackType' : AttackType.single, 'damage' : 100, 'cost':10, 'effectivness':100, 'active':False, 'inEffect':0,'unlocked':True, 'effect':'Heals an ally'}])
+                [spl.Blessing('f1','Heal', 100,10, 100, 'Heals an ally')])
         self.shield = 0
         self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False, 'fungus':False}
         self.cStatus = CombatStatus.Normal
