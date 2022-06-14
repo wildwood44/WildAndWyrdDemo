@@ -68,6 +68,7 @@ class Nature_Offence(Nature):
         Nature.__init__(self, spId,name, SpecialType2.offence, attackType, damage, cost, effectivness, effect)
     property
     def cast(self, i):
+        #if ():
         if (self.spId == '1'):
             i.aliment['poison'] = True
         elif (self.spId == '2'):

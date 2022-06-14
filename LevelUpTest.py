@@ -1,84 +1,9 @@
+import playableChars
+import stats
 #Character Base Stats
-class Alder:
-    def __init__(self):
-        self.pId = '1'
-        self.name = 'Alder'
-        self.maxHealth = 100
-        self.health = self.maxHealth
-        self.maxStamina = 100
-        self.stamina = self.maxStamina
-        self.cLvl = 1
-        self.cExp = 0
-        self.cNext = 30
-        self.skillPoints = 0
-        self.baseAttack = 10
-        self.baseDefence = 10
-        self.baseAccuracy = 5
-        self.baseSpeed = 10
-        self.baseEvasion = 5
-        self.head = armors[0]
-        self.body = armors[1]
-        self.legs = armors[3]
-        self.weapon1 = weapons[0]
-        self.weapon2 = 'None'
-        self.aliment = 'None'
-        self.cStatus = 'None'
-        self.statBoost = [{'No':'1', 'name':'Health 1', 'active':False, 'boost':10, 'stat' : 'h'}, {'No':'2', 'name':'Health 2', 'active':False, 'boost':50, 'stat' : 'h'}, {'No':'3', 'name':'Health 3', 'active':False, 'boost':300, 'stat' : 'h'},
-                          {'No':'1', 'name':'Stamina 1', 'active':False, 'boost':10, 'stat' : 's'}, {'No':'2', 'name':'Stamina 2', 'active':False, 'boost':50, 'stat' : 's'}, {'No':'3', 'name':'Stamina 3', 'active':False, 'boost':300, 'stat' : 's'},
-                          {'No':'1', 'name':'Attack 1', 'active':False, 'boost':5, 'stat' : 'at'}, {'No':'2', 'name':'Attack 2', 'active':False, 'boost':10, 'stat' : 'at'}, {'No':'3', 'name':'Attack 3', 'active':False, 'boost':50, 'stat' : 'at'},
-                          {'No':'1', 'name':'Defence 1', 'active':False, 'boost':5, 'stat' : 'df'}, {'No':'2', 'name':'Defence 2', 'active':False, 'boost':10, 'stat' : 'df'}, {'No':'3', 'name':'Defence 3', 'active':False, 'boost':50, 'stat' : 'df'},
-                          {'No':'1', 'name':'Accuracy 1', 'active':False, 'boost':5, 'stat' : 'ac'}, {'No':'2', 'name':'Accuracy 2', 'active':False, 'boost':10, 'stat' : 'ac'}, {'No':'3', 'name':'Accuracy 3', 'active':False, 'boost':50, 'stat' : 'ac'},
-                          {'No':'1', 'name':'Speed 1', 'active':False, 'boost':5, 'stat' : 'sp'}, {'No':'2', 'name':'Speed 2', 'active':False, 'boost':10, 'stat' : 'sp'}, {'No':'3', 'name':'Speed 3', 'active':False, 'boost':50, 'stat' : 'sp'},
-                          {'No':'1', 'name':'Evasion 1', 'active':False, 'boost':5, 'stat' : 'ev'}, {'No':'2', 'name':'Evasion 2', 'active':False, 'boost':10, 'stat' : 'ev'}, {'No':'3', 'name':'Evasion 3', 'active':False, 'boost':50, 'stat' : 'ev'},
-                          ]
-        self.special = [{'spId':'1','name':'Steps of heroes', 'cost':10, 'active':False, 'inEffect':0,'unlocked':False, 'effect':'Doubles Evasion for five turns.'},
-                        {'spId':'2','name':'Master archer', 'cost':10, 'active':False, 'inEffect':0, 'unlocked':False, 'effect':'Grants a critical for the next arrow fired within the next four turns.'}
-                        ]
-    property
-    def attack(self):
-        attack = self.baseAttack
-        if (self.weapon1['wpId'] != '0'):
-            attack += self.weapon1['attack']
-        else:
-            attack += 0
-        return attack
-    property
-    def defence(self):
-        defence = self.baseDefence
-        if (self.head['type'] == 'hat'):
-            defence += self.head['defence']
-        if (self.body['type'] == 'shirt'):
-            defence += self.body['defence']
-        if (self.legs['type'] == 'trousers'):
-            defence += self.legs['defence']
-        return defence
-    property
-    def accuracy(self):
-        accuracy = self.baseAccuracy
-        return accuracy
-    property
-    def speed(self):
-        speed = self.baseSpeed
-        return speed
-    property
-    def evasion(self):
-        evasion = self.baseEvasion
-        if (self.special[0]['active'] == True):
-            evasion *= 2 
-        return evasion
-    def stats(self):
-        print('\nName: ', self.name, '- Lvl: ', self.cLvl, 'Exp: ', self.cExp,
-              '\nHealth: ', self.health, '/', self.maxHealth, '| Stamina: ', self.stamina, '/', self.maxStamina,
-              '\nAttack: ', self.attack(), '(', self.baseAttack,'+',self.weapon1['attack'], ')',
-              '| Defence: ', self.defence(), '(', self.baseDefence,'+',self.head['defence'] + self.body['defence'] + self.legs['defence'], ')',
-              '| \nAccuracy: ', self.accuracy(), '(', self.baseAccuracy,'+', 0, ')',
-              '| Speed: ', self.speed(), '(', self.baseSpeed,'+', 0, ')',
-              '| Evasion: ', self.evasion(), '(', self.baseEvasion,'+', 0, ')',
-              '\nHead:', self.head['name'], '\nBody:', self.body['name'], '\nLegs:', self.legs['name'],
-              '\nMain Weapon: ', self.weapon1['name'], '\nSecondary Weapon: ', self.weapon2,'\n'
-              '\nSkill Points', self.skillPoints,'\n'
-              )
-
+#Set Classes
+alder = playableChars.Alder()
+stat = stats.Statistics()
 #Items lists
 weapons = [{'wpId' : '0', 'name' : 'None', 'type' : 'weapon', 'description' : '',
             'attack' : 0, 'weight' : 0, 'count' : 0},
@@ -138,10 +63,6 @@ def levelUP(p):
                     elif(p.cLvl < 60):
                         p.cNext = round(p.cNext*1.15)
                     print(p.cNext)
-                    
-
-#Set Class
-alder = Alder()
 
 def stBoost(p, sb):
     if(sb['stat'] == 'h' and sb['active']):
@@ -257,7 +178,7 @@ def active():
             alder.stats()
         elif (action == '2'):
             gainExperience()
-            levelUP(alder)
+            stat.levelUP(alder)
         elif (action == '3'):
-            skillTree(alder)
+            stat.skillTree(alder)
 active()

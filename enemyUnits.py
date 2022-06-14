@@ -1,5 +1,6 @@
 import random
 import ItemClasses
+import record
 from data import typeSpf
 SpecialType1 = typeSpf.SpecialType1
 SpecialType2 = typeSpf.SpecialType2
@@ -12,6 +13,7 @@ Weapon2Type = typeSpf.Weapon2Type
 ItemType = typeSpf.ItemType
 #Set classes
 item = ItemClasses
+rcd = record.Record()
 #Reward Items
 food = [item.Food('1','Blackberry', 1,3),
         item.Food('2','Dried Fruit', 1,5),
@@ -21,7 +23,7 @@ food = [item.Food('1','Blackberry', 1,3),
         ]
 #Inventory order
 def itemLister(e):
-    return e['priority']
+    return e.priority
 ###Enemy Priorities
 #Attacks the enemy with the least health
 def ePriority_weakness(heroes):
@@ -47,8 +49,8 @@ def ePriority_threat(heroes, record):
 def ePriority_retaliation(heroes, e, record):
     attacks = []
     for i in record:
-        if (i['Type'] == 'playable' and i['Status'] == CombatStatus.Attacking and
-            i['Hit'].inId == e.inId):
+        if (i['Type'] == 'playable' and i['Status'] == CombatStatus.Attacking):
+            if (i['Hit'].inId == e.inId):
                 attacks.append(i)
     for i in attacks:
         for j in heroes:
@@ -137,12 +139,12 @@ class Cricket(Enemy):
         if(self.health < self.maxHealth):
             self.cStatus = CombatStatus.Escaping
             print(self.name, ' fled!')
-            r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
+            r.recordFlee(self.inId,self.name,self.type,self.cStatus)
             return [0, self.cStatus]
         else:
             self.cStatus = CombatStatus.Normal
             print(self.name, ' stood wary.')
-            r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
+            r.recordNoAct(self.inId,self.name,self.type,self.cStatus)
             return [0, self.cStatus]
 
 class Hornet(Enemy):
@@ -158,9 +160,9 @@ class Hornet(Enemy):
     property
     def action(self, e, p, r):
         self.cStatus = CombatStatus.Attacking
-        target = ePriority_retaliation(p, e, r)
+        target = ePriority_retaliation(p, e, r.record)
         impact = enemyAttack(e, target, target.shield)
-        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status':self.cStatus, 'Hit': target, 'Damage':impact})
+        r.recordAttack(self.inId,self.name,self.type,self.cStatus,target,impact)
         return [impact, self.cStatus]
 
 class Dummy(Enemy):
@@ -194,7 +196,7 @@ class Wall(Enemy):
     def action(self, e, p, r):
         self.cStatus = CombatStatus.Normal
         print(self.name, ' did not attack!')
-        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
+        r.recordNoAct(self.inId,self.name,self.type,self.cStatus)
         return [0, self.cStatus]
     
 class Gowl_Rabbit(Enemy):
@@ -212,7 +214,7 @@ class Gowl_Rabbit(Enemy):
         self.cStatus = CombatStatus.Attacking
         target = ePriority_Alder(p)
         impact = enemyAttack(e, target, target.shield)
-        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status':self.cStatus, 'Hit': target, 'Damage':impact})
+        r.recordAttack(self.inId,self.name,self.type,self.cStatus,target,impact)
         return [impact, self.cStatus]
 
 class YoungCrow(Enemy):
@@ -230,7 +232,7 @@ class YoungCrow(Enemy):
         self.cStatus = CombatStatus.Attacking
         target = ePriority_weakness(p)
         impact = enemyAttack(e, target, target.shield)
-        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status':self.cStatus, 'Hit': target, 'Damage':impact})
+        r.recordAttack(self.inId,self.name,self.type,self.cStatus,target,impact)
         return [impact, self.cStatus]
 
 class ShieldMaster(Enemy):
@@ -253,7 +255,7 @@ class ShieldMaster(Enemy):
         else:
             self.cStatus = CombatStatus.Blocking
             print(self.name, 'braced himself')
-        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus})
+        r.recordBlock(self.inId,self.name,self.type,self.cStatus)
         return [0, self.cStatus]
 
 class SwordMaster(Enemy):
@@ -269,9 +271,9 @@ class SwordMaster(Enemy):
     property
     def action(self, e, p, r):
         self.cStatus = CombatStatus.Attacking
-        target = ePriority_threat(p, r)
+        target = ePriority_threat(p, r.record)
         impact = enemyAttack(e, target, target.shield)
-        r.append({'Id': self.inId, 'Who':self.name, 'Type': self.type, 'Status' : self.cStatus, 'Hit': target, 'Damage':impact})
+        r.recordAttack(self.inId,self.name,self.type,self.cStatus,target,impact)
         return [impact, self.cStatus]
 
 class Null(Enemy):
@@ -288,7 +290,7 @@ def enemyAttack(e, p, b):
             (p.aliment['outRange'] != True or (p.aliment['outRange'] == True and e.weapon1['type'] == Weapon1Type.spear)) and
             (e.aliment['outRange'] != True and p.aliment['outRange'] != True)):
             if (hit < target):
-                impact = random.randrange(e.attack() - 5, e.attack() + 5)
+                impact = random.randrange(int(e.attack() - 5), int(e.attack() + 5))
                 if (critical >= 90):
                     impact += 10
                 impact = round(impact * (100/(100 + p.defence())))

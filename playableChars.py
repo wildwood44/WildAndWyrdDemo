@@ -114,7 +114,6 @@ class Playable():
         if (self.special_auto().specialType == SpecialType1.manuver):
             print(self.special_auto().spId == 'a1', self.special_auto().active == True)
             if (self.special_auto().spId == 'a1' and self.special_auto().active == True):
-                print('Ping')
                 evasion *= 2
         return evasion
     property
