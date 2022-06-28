@@ -69,13 +69,13 @@ class Objective():
                         for k in inv.itemList:
                             for l in q['required']:
                                 amount = 0
-                                if (k['type'] == l['type'] and k['itemId'] == l['itemId']):
+                                if (k['item'].itemType == l['type'] and k['item'].itemId == l['itemId']):
                                     amount = k['count']
                                     print('\t',i, '(', amount, '/', q['qnt'][j],')')
                                 elif (amount == 0):
                                     if(l['type'] == ItemType.food):
                                         for m in food:
-                                            if (m['type'] == l['type'] and m['itemId'] == l['itemId']):
+                                            if (m['item'].itemType == l['type'] and m['item'].itemId == l['itemId']):
                                                 print('\t',i, '(', amount, '/', q['qnt'][j],')')
                         j += 1
                 if(q['reward'] != 'none' and q['rewardCount'] > 0):
@@ -84,4 +84,4 @@ class Objective():
                     elif q['reward'] == 0:
                         print('\tReward: ', 'Shillings', 'x', q['rewardCount'],'\n')
                     else:
-                        print('\tReward: ', q['reward']['name'], 'x', q['rewardCount'],'\n')
+                        print('\tReward: ', q['reward'].name, 'x', q['rewardCount'],'\n')

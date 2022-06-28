@@ -1,5 +1,11 @@
 import itemList
+import combat
+import playableChars
+import enemyUnits
+import shop
 item = itemList
+com = combat
+shop = shop.Shop()
 
 def cont():
     con = input()
@@ -24,18 +30,18 @@ def talk(game_active, party, location, story, inv):
             print('1: Florence')
             t = input('Talk to: ')
             if (t == '1'):
-                if(alder.health < alder.maxHealth):
+                if(party.alder.health < party.alder.maxHealth):
                     print('Florence:')
                     print('"You look worse for wear."')
                     cont()
                     print('Florence:')
                     print('"Hold still, I'"'"'ll help fix you up."')
                     cont()
-                    alder.health = alder.maxHealth
+                    party.alder.health = party.alder.maxHealth
                     print('Alder:')
                     print('"Thank you."')
                     cont()
-                elif(alder.health == alder.maxHealth):
+                elif(party.alder.health == party.alder.maxHealth):
                     print('Florence:')
                     print('"You look tired."')
                     cont()
@@ -150,7 +156,7 @@ def talk(game_active, party, location, story, inv):
                         print('Kyla:')
                         print('"Do as you please."')
                         cont()
-                        qComp(story.sQuests[0])
+                        story.qComp(story.sQuests[0])
                     else:
                         print('Kyla:')
                         print('"I have no futher need for you."')
@@ -273,7 +279,7 @@ def talk(game_active, party, location, story, inv):
                         print('"Thank you, Alder."')
                         cont()
                         story.sQuests[1]['submitted'] = True
-                        qComp(story.sQuests[1])
+                        story.qComp(story.sQuests[1])
                     else:
                         print('Florence:')
                         print('"Are you doing alright Alder?"')
@@ -328,7 +334,7 @@ def talk(game_active, party, location, story, inv):
                         print('"We leave soon."')
                         cont()
                         story.sQuests[2]['submitted'] = True
-                        qComp(story.sQuests[2])
+                        story.qComp(story.sQuests[2])
                     else:
                         print('Kyla:')
                         print('"I was sloppy!"')
@@ -350,7 +356,7 @@ def talk(game_active, party, location, story, inv):
                         print('Jeb:')
                         print('"What would you like Scion?"')
                         cont()
-                        shop('Jeb')
+                        shop.open(shop.getShopkeeper(0), inv)
                         if ((story.sQuests[1]['accepted'] == True and story.sQuests[1]['submitted'] != True) or (story.sQuests[2]['accepted'] == True and story.sQuests[2]['submitted'] != True)):
                             ab = input('Abandon quests?(y/n)')
                             confirm = yn(ab)
@@ -669,9 +675,9 @@ def talk(game_active, party, location, story, inv):
                     cont()
                     print('Trissie went into the shed and retrived a bow and some arrows set aside for hunting. Alder thought she looked a little silly dragging the bow which was big even for him. The bow was originally meant for Florence, but finding herself unskilled she never used it. Trissie handed them to Alder.')
                     cont()
-                    alder.weapon2 = weapons[3]
+                    party.alder.weapon2 = item.weapons[8]
                     print('\nTraining bow equipped')
-                    itemCount(projec[0], 5)
+                    inv.addItem(item.projec[0], 5)
                     print('\n5 Primitive arrows obtained')
                     print('Trissie:')
                     print('"Now set the arrow in the bow, take aim and fire."')
@@ -679,8 +685,8 @@ def talk(game_active, party, location, story, inv):
                     print('Trissie:')
                     print('"Let'"'"'s begin."')
                     cont()
-                    battle([enemyUnits.Dummy(), Null(), Null()])
-                    if (alder.health > 0 or game_active == True):
+                    com.Battle(party.listParty(), [enemyUnits.Dummy(), enemyUnits.Null(), enemyUnits.Null()],inv)
+                    if (party.alder.health > 0 or game_active == True):
                         print('Trissie:')
                         print('"Nice shot!"')
                         cont()
@@ -745,7 +751,7 @@ def talk(game_active, party, location, story, inv):
                 print('Mouse:')
                 print('"..."')
                 cont()
-                print('The mouse smimled warmly at Alder, but did not say a word.')
+                print('The mouse smiled warmly at Alder, but did not say a word.')
                 cont()
         else:
             print('There was no one to talk to.')

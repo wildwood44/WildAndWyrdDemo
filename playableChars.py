@@ -253,10 +253,10 @@ class Alder(Playable):
         self.ammo = {'name': '', 'loaded' : False, 'damage' : 0}
         self.manver = []
         self.spells = []
-#Florace
-class Florace(Playable):
+#Florence
+class Florence(Playable):
     def __init__(self):
-        Playable.__init__(self, '2', True, 'Florace', 'Human', 150, 150, 1, 6, 14, 10, 11, 4,
+        Playable.__init__(self, '2', True, 'Florence', 'Human', 150, 150, 1, 6, 14, 10, 11, 4,
                 item.Hat('0','None', 0, 0, ''),
                 item.Shirt('0','Old Tunic', 1,1, 'An old shirt with holes in it.'),
                 item.Trousers('0', 'Worn Trousers',1,1,'An old pair of trousers long past their prime'),

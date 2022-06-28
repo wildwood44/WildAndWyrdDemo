@@ -1,7 +1,18 @@
+import itemList
 import playableChars
 import enemyUnits
-#Set Class
-alder = playableChars.Alder()
+from data import typeSpf
+item = itemList
+#enumerated classes
+SpecialType1 = typeSpf.SpecialType1
+SpecialType2 = typeSpf.SpecialType2
+AttackType = typeSpf.AttackType
+SpellType = typeSpf.SpellType
+CombatStatus = typeSpf.CombatStatus
+ArmourType = typeSpf.ArmourType
+Weapon1Type = typeSpf.Weapon1Type
+Weapon2Type = typeSpf.Weapon2Type
+ItemType = typeSpf.ItemType
 #Location
 locations = [{"locId" : "1", "name" : "Cottage Kitchen"},
              {"locId" : "2", "name" : "Cottage Living Room"},
@@ -17,9 +28,7 @@ def cont():
     if (con == 'skip'):
         return
 
-def move(game_active, pty, location, story, inv):
-    alder = pty.alder
-    party = [alder]
+def move(game_active, party, location, story, inv):
     print('\nMove')
     for i in locations:
         if (location == i['locId']):
@@ -31,7 +40,7 @@ def move(game_active, pty, location, story, inv):
             if(story.tutorialSwitch[0] == True):
                 story.tutorialSwitch[0] = False
             print('Alder moved to the living room of the cottage.')
-            alder.stamina -= 1
+            party.alder.stamina -= 1
             location = '2'  
             cont()
     elif (location == '2'):
@@ -44,7 +53,7 @@ def move(game_active, pty, location, story, inv):
         if (m == '1' or m == 'kitchen' or m == 'Kitchen'):
             location = '1'
             print('Alder moved to the kitchen.')
-            alder.stamina -= 1    
+            party.alder.stamina -= 1    
             cont()
         elif (m == '2'):
             if (story.c3Switch[1] == False and story.c3Switch[2] == True and story.part == '3'):
@@ -65,7 +74,7 @@ def move(game_active, pty, location, story, inv):
                     print('The group exited the cottage through the back door.')
                 else:
                     print('Alder exited the cottage through the front door.')
-                alder.stamina -= 1
+                party.alder.stamina -= 1
                 cont()
                 print
                 if(story.tutorialSwitch[1] == True and story.chapter == '1'):
@@ -79,13 +88,13 @@ def move(game_active, pty, location, story, inv):
         elif (m == '3'):
             location = '5'
             print('Alder moved upstairs and into his bedroom.')
-            alder.stamina -= 1    
+            party.alder.stamina -= 1    
             cont()
         elif (story.sQuests[2]['required'][1] == True):
             if (m == '4'):
                 location = '4'
                 print('Alder moved through the hole and into the shed.')
-                alder.stamina -= 1    
+                party.alder.stamina -= 1    
                 cont()
     elif (location == '3'):
         print('1: Living Room')
@@ -113,30 +122,29 @@ def move(game_active, pty, location, story, inv):
             elif (story.c2Switch[0] == True):
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
-                alder.stamina -= 1
+                party.alder.stamina -= 1
                 story.switch[6] = True
                 story.part = '2'
             elif (story.c3Switch[2] == False and story.c3Switch[3] == True):
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
-                alder.stamina -= 1
+                party.alder.stamina -= 1
                 story.switch[13] = True
             else:
                 location = '2'
                 print('Alder moved to the living room of the cottage.')
-                alder.stamina -= 1    
+                party.alder.stamina -= 1    
                 cont()
         elif (m == '2'):        
             location = '4'
             print('Alder entered the shed at the side of the cottage.')  
-            alder.stamina -= 1  
+            party.alder.stamina -= 1  
             cont()
         elif (m == '3'):
-            print(alder.weapon1)
-            if (story.mQuests[0]['accepted'] == True and story.mQuests[0]['completed'] == False and alder.weapon1.wpId != '0'):
+            if (story.mQuests[0]['accepted'] == True and story.mQuests[0]['completed'] == False and party.alder.weapon1.wpId != '0'):
                 location = '6'
                 print('Alder left the cottage grounds.')
-                alder.stamina -= 1    
+                party.alder.stamina -= 1    
                 cont()
             else:
                 print('It'"'"'s dangerous to leave the cottage grounds unarmed.')
@@ -151,14 +159,14 @@ def move(game_active, pty, location, story, inv):
             if (story.sQuests[2]['required'][1] == True):
                 location = '2'
                 print('Alder went back through the hole into the living room of the cottage.')
-                alder.stamina -= 1
+                party.alder.stamina -= 1
                 cont()
             else:
                 location = '3'
                 print('Alder left the shed and returned to the front of the cottage.')
-                if (alder.weapon1.wpId == "2"):
+                if (party.alder.weapon1.wpId == "2"):
                     story.tutorialSwitch[4] = False
-                alder.stamina -= 1
+                party.alder.stamina -= 1
                 cont()
     elif (location == '5'):
         print('1: Living Room')
@@ -226,7 +234,7 @@ def move(game_active, pty, location, story, inv):
                 story.c3Switch[0] = False
             else:
                 print('Alder moved downstairs into the living room.')
-            alder.stamina -= 1
+            party.alder.stamina -= 1
             cont()
     elif (location == '6'):
         print('1: Cottage grounds')
@@ -261,18 +269,18 @@ def move(game_active, pty, location, story, inv):
                 print('"Here some plantain might ease your discomfort."')
                 cont()
                 print('Alder passed the bug meat and the hunting knife over to her. Florence went inside the cottage to prepare the crickets for supper while Thay applied poultice of greater plantain to Alder stings.')
-                for i in inv:
-                    if (i['type'] == ItemType.food):
-                        if (i['itemId'] == '5'):
-                            inv.remove(i)
-                alder.weapon1 = weapons[0]
-                alder.health += 10
+                for i in inv.itemList:
+                    if (i['item'].itemType == ItemType.food):
+                        if (i['item'].itemId == '5'):
+                            inv.removeItem(i)
+                party.alder.weapon1 = item.weapons[0]
+                party.alder.health += 10
                 print('\nHunting Knife unequipped')
                 cont()
                 story.mQuests[0]['submitted'] = True
                 story.part = '4'
                 story.switch[4] = True
-            alder.stamina -= 1
+            party.alder.stamina -= 1
         elif (m == '2'):
             print('Alder once got lost after he strayed too far from the cottage.')
             cont()

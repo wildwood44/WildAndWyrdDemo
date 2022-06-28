@@ -35,7 +35,6 @@ ItemType = typeSpf.ItemType
 #alder = party[0]
 item = ItemClasses
 com = combat
-#inv = inventory.Inventory()
 eqp = equipment.Equipment()
 obj = objective.Objective()
 
@@ -133,50 +132,26 @@ class Story():
                     'type':'action', 'required':[False, False, False], 'qnt' : 1,
                     'accepted':False,'completed':False, 'submitted':False}
                    ]
-
+    #Quest Rewards
+    def qComp(self,q):
+        print(q['name'], 'Completed!')
+        if(q['reward'] != 'none' and q['rewardCount'] > 0):
+            if q['reward'] == 'shillings':
+                inv.shillings(q['rewardCount'])
+            elif q['reward'] == 0:
+                inv.shill += q['rewardCount']
+            else:
+                inv.addItem(q['reward'], q['rewardCount'])
 story = Story('0', '1', False)
 
 def cont():
     con = input()
     if (con == 'skip'):
         return
-#Level up character
-def levelUP(p):
-    #print(p.cNext, ' ', p.cExp)
-    if(p.cExp >= p.cNext):
-        while(p.cExp >= p.cNext and p.cLvl < 60):
-            if(p.cLvl < 60):
-                p.cLvl += 1
-                p.maxHealth += 5
-                p.maxStamina += 5
-                p.health += 5
-                p.stamina += 5
-                p.baseAttack += 2
-                p.baseDefence += 2
-                p.baseAccuracy += 2
-                p.baseSpeed += 2
-                p.baseEvasion += 2
-                p.skillPoints += 1
-                print(p.name,' leveled up!')
-                if(p.cLvl == 60):
-                    print('Max Level')
-                else:
-                    if(p.cLvl < 5):
-                        p.cNext = round(p.cNext*1.65)
-                    elif(p.cLvl < 20):
-                        p.cNext = round(p.cNext*1.55)
-                    elif(p.cLvl < 30):
-                        p.cNext = round(p.cNext*1.45)
-                    elif(p.cLvl < 40):
-                        p.cNext = round(p.cNext*1.35)
-                    elif(p.cLvl < 50):
-                        p.cNext = round(p.cNext*1.25)
-                    elif(p.cLvl < 60):
-                        p.cNext = round(p.cNext*1.15)
-                    print(p.cNext)
+
 #Save and Load Content
 PIK = 'demo.dat'
-data = [location, story, shill, inv]
+data = [location, story, inv]
 
 class Null:
     def __init__(self):
@@ -284,98 +259,7 @@ def skillTree(p):
                     else:
                         print('You do not have enough skill points.')
                 count += 1
-
-#Increment/Decrement Shillings
-def shillings(m):
-    global shill
-    if (m < 0):
-        m == 0
-    shill += m
-    if (shill < 0):
-        shill = 0
-    print('Shillings: ', shill)
-#Recover health and stamina
-def bed():
-    PKSwitch.health = alder.maxHealth
-    alder.stamina = alder.maxStamina
-#Inventory order
-def itemLister(e):
-    return e['priority']
-#Increment items
-#Add a new item to the inventory if is is not already in there
-def itemCount(item, amount):
-    inInv = False
-    for i in inv.itemList:
-        if (item['type'] == Weapon1Type.sword and i['type'] == Weapon1Type.sword or
-            item['type'] == Weapon1Type.dagger and i['type'] == Weapon1Type.dagger or
-            item['type'] == Weapon1Type.spear and i['type'] == Weapon1Type.spear or
-            item['type'] == Weapon1Type.axe and i['type'] == Weapon1Type.axe or
-            item['type'] == Weapon1Type.mace and i['type'] == Weapon1Type.mace or
-            item['type'] == Weapon1Type.staff and i['type'] == Weapon1Type.staff):
-            if (i['wpId'] == item['wpId']):
-                i['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.shield and i['type'] == Weapon2Type.shield):
-            if (i['wpId'] == item['wpId']):
-                i['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.bow and i['type'] == Weapon2Type.bow):
-            if (i['wpId'] == item['wpId']):
-                i['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.crossbow and i['type'] == Weapon2Type.crossbow):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.sling and i['type'] == Weapon2Type.sling):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.shield and i['type'] == Weapon2Type.shield):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == Weapon2Type.wand and i['type'] == Weapon2Type.wand):
-            if (i['wpId'] == item['wpId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ArmourType.hat and i['type'] == ArmourType.hat):
-            if (i['armId'] == item['armId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ArmourType.shirt and i['type'] == ArmourType.shirt):
-            if (i['armId'] == item['armId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ArmourType.trousers and i['type'] == ArmourType.trousers):
-            if (i['armId'] == item['armId']):
-                item['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.food and i['type'] == ItemType.food):
-            if (i['itemId'] == item['itemId']):
-                i['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.healing and i['type'] == ItemType.healing):
-            if (i['itemId'] == item['itemId']):
-                i['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.projectile and i['type'] == ItemType.projectile):
-            if (i['itemId'] == item['itemId']):
-                i['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.toss and i['type'] == ItemType.toss):
-            if (i['itemId'] == item['itemId']):
-                i['count'] += amount
-                inInv = True
-        elif (item['type'] == ItemType.ingredient and i['type'] == ItemType.ingredient):
-            if (i['ingId'] == item['ingId']):
-                i['count'] += amount
-                inInv = True
-    if (inInv == False):
-        item['count'] = amount
-        inv.append(item)
-    inv.sort(key=itemLister, reverse=False)
-
+    
 #The item should be equipped
 #If the item is not starting clothing then it should be return to the inventory
 #Only items of speciec type can be equipped
@@ -408,110 +292,28 @@ def equip(p):
             eqp.secondWeapon(p, eqp.setEquipment(count,equipable), inv)
         elif (i == 'e'):
             equiping = False
-#Quest Rewards
-def qComp(q):
-    global shill
-    print(q['name'], 'Completed!')
-    if(q['reward'] != 'none' and q['rewardCount'] > 0):
-        if q['reward'] == 'shillings':
-            shill += q['rewardCount']
-        elif q['reward'] == 0:
-            shill += q['rewardCount']
-        else:
-            itemCount(q['reward'], q['rewardCount'])
-
-#Use Item
-def useItem(p):
-    use = []
-    count = 1
-    print('\nBag Items')
-    for i in inv.itemList:
-        if(i['type'] == ItemType.healing or i['type'] == ItemType.food):
-            print(count, ': ', i['name'], ' x', i['count'])
-            use.append(i)
-            count += 1
-    print('e - exit')
-    if(count != 0):
-        count = 1
-        u = input('use item: ')
-        for i in use:
-            if (u == str(count)):
-                print(i['name'])
-                if (i['type'] == ItemType.healing):
-                    p.health += i['heals']
-                    print(p.name, ' recoved ', i['heals'], ' health')
-                    if (p.health > p.maxHealth):
-                        p.health = p.maxHealth
-                elif (i['type'] == ItemType.food):
-                    p.stamina += i['recovers']
-                    print(p.name, ' recoved ', i['recovers'], ' stamina')
-                    if (p.stamina > p.maxStamina):
-                        p.stamina = p.maxStamina
-                i['count'] -= 1
-                if(i['count'] <= 0):
-                    inv.remove(i)
-            count +=1
-        use.clear()
-#The user should buy items from shop
-def shop(seller):
-    shopping = True
-    while(shopping == True):
-        if(seller == 'Jeb'):
-            print('\nFeel free to browse my wares.')
-            print('1: Bandage ', 'Remaining: ', '5 Cost: 5')
-            print('2: Dried Fruit' , 'Remaining: ', '5 Cost: 1')
-            print('3: Hazel Nuts ', 'Remaining: ', '5 Cost: 1')
-            print('e - Exit')
-            p = input('Purchase: ')
-            if (p == '1'):
-                cost = 5
-                if (shill >= cost):
-                    print('\nYou bought a Bandage')
-                    shillings(-cost)
-                    itemCount(items[0], 1)
-                else:
-                    print('\nYou don'"'"'t have enough shillings')
-            elif (p == '2'):
-                cost = 1
-                if (shill >= cost):
-                    print('\nYou bought a Dried Fruit')
-                    shillings(-cost)
-                    itemCount(food[1], 1)
-                else:
-                    print('\nYou don'"'"'t have enough shillings')
-            elif (p == '3'):
-                cost = 1
-                if (shill >= cost):
-                    print('\nYou bought a Hazelnut')
-                    shillings(-cost)
-                    itemCount(food[2], 1)
-                else:
-                    print('\nYou don'"'"'t have enough shillings')
-            elif (p == 'e'):
-                print()
-                shopping = False
             
 #If character dies
 def death():
     global game_active
-    loss = shill / 10
+    loss = inv.shill / 10
     if (round(loss) <= 0):
         loss = 1
-    shillings(-loss)
+    inv.shillings(-loss)
     print('\nAlder was slain.')
     cont()
     game_active = False
 #Hunder
 def hunger(inCombat):
-    if(alder.stamina <= 0):
-        alder.health -= 1
-        if (alder.health <= 0):
+    if(party.alder.stamina <= 0):
+        party.alder.health -= 1
+        if (party.alder.health <= 0):
             if(inCombat != True):
                 death()
         else:
             print('You need to eat!')    
-    if(alder.stamina < 0):
-        alder.stamina = 0
+    if(party.alder.stamina < 0):
+        party.alder.stamina = 0
 
 #Yes or no answers
 def yn(yesNo):
@@ -524,16 +326,9 @@ def yn(yesNo):
         else:
             yesNo = input('"yes" or "no" responses only!: ')
 
-#Examine background object
-            
-#Talk to a character
-
-#Move to another location
-
 #Save the game
 def save(location, story):
-    data = [location, story, tutorComp, shill, inv, party]
-    print (location, story.tutorialSwitch, shill, inv, party)
+    data = [location, story, tutorComp, inv, party]
     i = input('Save in file "1", "2" or "3":')
     if (i == '1'):
         PIK = 'data/file1.dat'
@@ -581,7 +376,7 @@ def inventory():
             for i in listItems:
                 inv.appraise();
         elif (j == '2'):
-            useItem(alder)
+            inv.useItem(alder)
         elif (j == '3'):
             equip(alder)
         elif (j == 'e'):
@@ -616,43 +411,11 @@ def achive():
                 count = 0
                 for i in q['required']:
                     for j in inv.itemList:
-                        if(i['type'] == j['type']):
-                            if(i['itemId'] == j['itemId']):
+                        if(i['type'] == j['item'].itemType):
+                            if(i['itemId'] == j['item'].itemId):
                                 if (j['count'] == q['qnt'][count]):
                                     q['completed'] = True
                     count += 1
-        
-    print("\nSide:")
-    for q in story.sQuests:
-        if(q['accepted'] == True and q['submitted'] != True):
-            print('Quest: ',q['name'], ' Client: ',q['client'])
-            if (q['type'] == 'action'):
-                j = 0
-                for i in q['desc']:
-                    print('\t',i, q['required'][j])
-                    j += 1
-            elif (q['type'] == 'collect'):
-                j = 0
-                for i in q['desc']:
-                    for k in inv.itemList:
-                        for l in q['required']:
-                            amount = 0
-                            if (k['type'] == l['type'] and k['itemId'] == l['itemId']):
-                                amount = k['count']
-                                print('\t',i, '(', amount, '/', q['qnt'][j],')')
-                            elif (amount == 0):
-                                if(l['type'] == ItemType.food):
-                                    for m in food:
-                                        if (m['type'] == l['type'] and m['itemId'] == l['itemId']):
-                                            print('\t',i, '(', amount, '/', q['qnt'][j],')')
-                    j += 1
-            if(q['reward'] != 'none' and q['rewardCount'] > 0):
-                if q['reward'] == 'shillings':
-                    print('\tReward: ', 'Shillings', 'x', q['rewardCount'],'\n')
-                elif q['reward'] == 0:
-                    print('\tReward: ', 'Shillings', 'x', q['rewardCount'],'\n')
-                else:
-                    print('\tReward: ', q['reward']['name'], 'x', q['rewardCount'],'\n')
 def helper():
     print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further may reveal an item you can pickup.")
     print("Command: m, move, Move - Move to the next area.")
@@ -724,11 +487,11 @@ def free(story):
                 print('Alder did not have anything with him.')
         elif (action == 'x' or action == 'equip' or action == 'Equip'):
             if (location != '7'):
-                equip(alder)
+                equip(party.alder)
             else:
                 print('Alder did not have anything with him.')
         elif (action == 'k' or action == 'skill' or action == 'Skill'):
-            skillTree(alder)
+            skillTree(party.alder)
         elif (action == 'h' or action == 'help' or action == 'Help'):
             helper()
         elif (action == 'h2' or action == 'help2' or action == 'Help2'):
@@ -742,7 +505,7 @@ def free(story):
                 game_active = False
 
 def game():
-    global story, shill
+    global story, shill, location
     print('Chapter: ', story.chapter)
     print('The game will now begin. Press enter to print the next line.')
     print("You may skip the dialogue by typing 'skip' then pressing enter.")
@@ -775,210 +538,56 @@ def game():
                 free(story)
         if (story.chapter == '2'):
             if (story.switch[5] == True and story.part == '1'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == chapter and line[1] == '5' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '5')
                 location = '3'
                 story.switch[5] = False
             elif (story.switch[6] == True and story.part == '2'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == story.chapter and line[1] == '6' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '6')
                 story.switch[6] = False
                 story.c2Switch[0] = False
             elif (story.switch[7] == True and story.part == '3'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == story.chapter and line[1] == '7' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '7')
                 location = '7'
                 story.switch[7] = False
             elif (story.switch[8] == True and story.part == '4'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == story.chapter and line[1] == '8' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '8')
                 story.c2Switch[3] = False
                 story.switch[8] = False
             elif (story.switch[9] == True and story.part == '5'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == chapter and line[1] == '9' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '9')
                 story.chapter = '3'
                 story.part = '1'
                 story.switch[9] = False
                 story.switch[10] = True
                 story.part = '1'
             elif (game_active == True):
-                free(chapter, part)
+                free(story)
         if (story.chapter == '3'):
             author = False
             if (story.switch[10] == True and story.part == '1'):
                 location = '5'
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == story.chapter and line[1] == '10' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '10')
                 story.switch[10] = False
             elif (story.switch[11] == True and story.part == '2'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == story.chapter and line[1] == '11' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '11')
                 story.c3Switch[2] = False
                 story.switch[11] = False
             elif (story.switch[12] == True and story.part == '3'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == chapter and line[1] == '12' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '12')
                 story.c3Switch[3] = False
                 story.switch[12] = False
             elif (story.switch[13] == True and story.part == '3'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == chapter and line[1] == '13' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '13')
                 print('10 shillings obtained!\n')
-                shill += 10
+                inv.shill += 10
                 story.c3Switch[4] = False
                 story.switch[13] = False
             elif (story.switch[14] == True and story.part == '4'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == chapter and line[1] == '14' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '14')
                 story.c3Switch[5] = False
                 story.switch[14] = False
             elif (story.switch[15] == True and story.part == '4'):
-                skip = False
-                f = open("data/Cutscenes.txt", "rt")
-                for i in f:
-                    if(skip == False):
-                        line = i.split('$ ')
-                        if (line[0] == chapter and line[1] == '15' and line[2] == story.part):
-                            newline = line[4].split('£')
-                            if (len(newline) > 1):
-                                print(newline[0],'\n',newline[1].strip('\n'))
-                            else:
-                                print(line[4].strip('\n'))
-                            s = input()
-                            if(s == 'skip'):
-                                skip = True
-                f.close()
+                dialog.cutscene(story, '15')
                 author = True
                 story.switch[15] = False
             while (author == True):
@@ -986,11 +595,11 @@ def game():
                 print('"Thank you for playing the demo for the Wild and Wyrd. Please let me know if there are any errors or grammer mistakes. Please support me if you want to see more of Alder'"'"'s story."')
                 cont()
             if (game_active == True):
-                free(chapter, part)
+                free(story)
     
 
 def loadGame():
-    global game_active, location, story, tutorComp, shill, inv,party
+    global game_active, location, story, shill, tutorComp, inv,party
     PIK = ''
     op = input('Open save file "1", "2" or "3": ')
     if (op == '1'):
@@ -1004,11 +613,9 @@ def loadGame():
             data = pickle.load(f)
             location = data[0]
             story = data[1]
-            print(story.tutorialSwitch)
             tutorComp = data[2]
-            shill = data[3]
-            inv = data[4]
-            party = data[5]
+            inv = data[3]
+            party = data[4]
             alder = party.alder
             game_active = True
     except:
@@ -1032,7 +639,7 @@ def menu():
             chapter = '0'
             part = '1'
             #inv = []
-            shill = 0
+            #inv.shill = 0
             for i in story.PKSwitch:
                 i = True
             #Story Switches

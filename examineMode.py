@@ -1,10 +1,24 @@
+import random
 import itemList
 import combat
 import playableChars
 import enemyUnits
 import books
+import shop
+from data import typeSpf
 item = itemList
 com = combat
+shop = shop.Shop()
+#enumerated classes
+SpecialType1 = typeSpf.SpecialType1
+SpecialType2 = typeSpf.SpecialType2
+AttackType = typeSpf.AttackType
+SpellType = typeSpf.SpellType
+CombatStatus = typeSpf.CombatStatus
+ArmourType = typeSpf.ArmourType
+Weapon1Type = typeSpf.Weapon1Type
+Weapon2Type = typeSpf.Weapon2Type
+ItemType = typeSpf.ItemType
 #Location
 locations = [{"locId" : "1", "name" : "Cottage Kitchen"},
              {"locId" : "2", "name" : "Cottage Living Room"},
@@ -29,6 +43,10 @@ def yn(yesNo):
             return False
         else:
             yesNo = input('"yes" or "no" responses only!: ')
+#Recover health and stamina
+def bed(party):
+    party.alder.health = party.alder.maxHealth
+    party.alder.stamina = party.alder.maxStamina
 
 def examine(game_over, party, location, story, inv):
     alder = party.alder
@@ -44,9 +62,9 @@ def examine(game_over, party, location, story, inv):
             e = input('Examine: ')
             if (e == 'cauldron' or e == 'Cauldron'):
                 if (story.sQuests[0]['accepted'] == True and story.sQuests[0]['required'][1] == False):
-                    print('Alder got a wet cloth and started scrubbing the cauldron. Florace peeked into the living room at Kyla and then went over to help him.')
+                    print('Alder got a wet cloth and started scrubbing the cauldron. Florence peeked into the living room at Kyla and then went over to help him.')
                     cont()
-                    print('Florace:')
+                    print('Florence:')
                     print('"Shh."')
                     story.sQuests[0]['required'][1] = True
                     examining = False
@@ -77,7 +95,7 @@ def examine(game_over, party, location, story, inv):
                 cont()
             elif (e == 'window' or e == 'Window' or e == 'windows' or e == 'Windows'):
                 if(story.tutorialSwitch[2] == True):
-                    print('Florace and Thay were talking outside the window.')
+                    print('Florence and Thay were talking outside the window.')
                     cont()
                     print('Alder:')
                     print('"I'"'"'m coming out"')
@@ -97,10 +115,11 @@ def examine(game_over, party, location, story, inv):
                     print('The hornets Alder slew were hung up on hooks. To be cooked for supper.')
                     cont()
             elif (e == 'larder' or e == 'Larder'):
-                if (story.sQuests[1]['accepted'] == True):
+                if (story.sQuests[1]['accepted'] == True and story.sQuests[1]['required'][0] == False):
                     print('There was only a single loaf of bread in the larder. It would have to do.')
+                    story.sQuests[1]['required'][0] = True
                     story.sQuests[1]['completed'] = True
-                elif (story.sQuests[1]['completed'] == True):
+                elif (story.sQuests[1]['required'][0] == True):
                     print('The larder was empty.')
                 else:
                     print('A small cool room of shelves and hooks to store food, mostly empty except for a loaf of bread. Kyla’s familiar Tawie was out resupplying. Alder was not looking forward to her return.')
@@ -165,10 +184,10 @@ def examine(game_over, party, location, story, inv):
                                 cont()
                                 print('Alder said nothing as he picked up the sword. As he did, a new blade started to grow from the rain-guard until it was back to its original glory.')
                                 cont()
-                                alder.weapon1 = weapons[1]
-                                print(alder.weapon1['name'],'equipped!')
+                                party.alder.weapon1 = item.weapons[1]
+                                print(party.alder.weapon1.name,'equipped!')
                                 cont()
-                                print('Florace:')
+                                print('Florence:')
                                 print('"What did you do?"')
                                 cont()
                                 print('Kyla:')
@@ -193,7 +212,7 @@ def examine(game_over, party, location, story, inv):
                                         print('Kyla:')
                                         print('"How do you not know what the Scion is!?"')
                                         cont()
-                                        print('Florace:')
+                                        print('Florence:')
                                         print('"I thought it was more important that he knew herbs and how to read and write than history."')
                                         cont()
                                         print('Kyla:')
@@ -251,10 +270,10 @@ def examine(game_over, party, location, story, inv):
                                 cont()
                                 print('The door unlocked and the bell chimed in responce to the words of the voice outside. The ringing filled the resounded throught the cottage but was prevelant in the already alerted living room.')
                                 cont()
-                                print('Alder, Florace and Kyla:')
+                                print('Alder, Florence and Kyla:')
                                 print('"...?"')
                                 cont()
-                                print('Florace:')
+                                print('Florence:')
                                 print('"Who is that?"')
                                 cont()
                                 read = 'e'
@@ -297,7 +316,8 @@ def examine(game_over, party, location, story, inv):
                 if (story.c3Switch[4] == False and story.c3Switch[5] == True):
                     print('Jeb laid out his wares on the table.')
                     cont()
-                    shop('Jeb')
+                    #shop('Jeb')
+                    shop.open(shop.getShopkeeper(0), inv)
                     if ((story.sQuests[1]['accepted'] == True and story.sQuests[1]['submitted'] != True) or (story.sQuests[2]['accepted'] == True and story.sQuests[2]['submitted'] != True)):
                             ab = input('Abandon quests?(y/n)')
                             confirm = yn(ab)
@@ -336,7 +356,7 @@ def examine(game_over, party, location, story, inv):
                 if (story.sQuests[2]['accepted'] == True and story.sQuests[2]['required'][1] == False):
                     print('Alder aligned himself with where the tools hung in the shed on the other side of the wall.')
                     cont()
-                    victory = com.Battle(party, [enemyUnits.Wall(), enemyUnits.Null(), enemyUnits.Null()],inv)
+                    victory = com.Battle(party.listParty(), [enemyUnits.Wall(), enemyUnits.Null(), enemyUnits.Null()],inv)
                     if (victory == True):
                         print('The swords power was incredible. With a bit of force it easily pierced the clay walls and Alder tore it down through the gap he had created, the tools on the other side now fallen amongst rubble. Kyla apparently found this amusing. But the hole allowed Alder to enter the shed.')
                         cont()
@@ -386,9 +406,9 @@ def examine(game_over, party, location, story, inv):
                 if (story.sQuests[0]['accepted'] == True and story.sQuests[0]['required'][2] == False):
                     print('Alder picked some bramble leaves, careful to avoid the thorns. He wondered what potion Kyla was going to use them for.')
                     count = 0
-                    for i in inv:
-                        if (i['type'] == ItemType.ingredient):
-                                if (i['ingId'] == '1'):
+                    for i in inv.itemList:
+                        if (i['item'].itemType == ItemType.ingredient):
+                                if (i['item'].ingId == '1'):
                                     count += 1
                     if (count == 0):
                         inv.addItem(item.ingre[0], 1)
@@ -451,8 +471,8 @@ def examine(game_over, party, location, story, inv):
                 cont()
             elif (e == 'mortar' or e == 'Mortar' or e == 'pestle' or e == 'Pestle'):
                 if (story.sQuests[0]['accepted'] == True and story.sQuests[0]['required'][2] == False):
-                    for i in inv:
-                        if (i['type'] == ItemType.ingredient and i['ingId'] == '1'):
+                    for i in inv.itemList:
+                        if (i['item'].itemType == ItemType.ingredient and i['item'].itemId == '1'):
                             print('Alder ground the leaves with the pestle until they were powder. He then put them in a nearby pot containing remnants of the same powder.')
                             cont()
                             story.sQuests[0]['required'][2] = True
@@ -460,7 +480,7 @@ def examine(game_over, party, location, story, inv):
                 else:
                     print('A mortar and pestle were on the table.')
                     cont()
-                    print('Florace recently used them to grind ingredients for potions.')
+                    print('Florence recently used them to grind ingredients for potions.')
                     cont()
             elif (e == 'knife' or e == 'Knife'):
                 print('The knife was designed for hunting but it looks like someone has been using it to cut ingredients.')
@@ -481,7 +501,7 @@ def examine(game_over, party, location, story, inv):
                             story.PKSwitch[5] = False
                     cont()
                 elif (e == 'bow' or e == 'Bow' or e == 'quiver' or e == 'Quiver' or e == 'arrows' or e == 'Arrows'):
-                    print('A practice bow and a quiver full of arrows. They were intended as a gift for Florace but she was never interested in archery, so they were passed to Alder instead.')
+                    print('A practice bow and a quiver full of arrows. They were intended as a gift for Florence but she was never interested in archery, so they were passed to Alder instead.')
                     cont()
         elif (location == '5'):
             print("Sunlight beamed through the solitary curtainless 'window' of Alder's small bedroom, which contained only a makeshift 'bed'.")
@@ -517,16 +537,16 @@ def examine(game_over, party, location, story, inv):
                                     story.switch[5] = True
                                     story.chapter = '2'
                                     examining = False
-                                    bed()
+                                    bed(party)
                             else:
                                 story.tutorialSwitch[6] = False
                                 story.part = '1'
                                 story.switch[5] = True
                                 examining = False
                                 story.chapter = '2'
-                                bed()
+                                bed(party)
                         else:
-                            bed()
+                            bed(party)
                             if(story.c2Switch[2] == True):
                                 story.switch[7] = True
                                 story.part = '3'
@@ -621,7 +641,7 @@ def examine(game_over, party, location, story, inv):
                             print('Alder:')
                             print('"Did I anger them?"')
                             cont()
-                            print('Alder was puzzled by the attack but regardless it was time to return to Florace.')
+                            print('Alder was puzzled by the attack but regardless it was time to return to Florence.')
                             cont()
                         examining = False
                 else:
@@ -643,7 +663,7 @@ def examine(game_over, party, location, story, inv):
                 examining = False
                 if(story.c2Switch[3] == True):
                     story.switch[8] = True
-                    part = '4'
+                    story.part = '4'
             elif (e == 'e' or e == 'E'):
                 examining = False
             elif(story.c2Switch[3] == False):
