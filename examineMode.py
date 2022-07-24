@@ -61,12 +61,12 @@ def examine(game_over, party, location, story, inv):
             print("The cottage kitchen contained various 'pots' hanging on the wall. It had a 'stove' where a 'cauldron' was dangling on a chain. In addition, a smaller room served as the 'larder'. There was also a 'cupboard' and two 'tables', one of which had a wooden 'bowl' on it. Alder had been washing dishes in a 'basin' on the other table next to the 'window'.")
             e = input('Examine: ')
             if (e == 'cauldron' or e == 'Cauldron'):
-                if (story.sQuests[0]['accepted'] == True and story.sQuests[0]['required'][1] == False):
+                if (story.sQuests[0].accepted == True and story.sQuests[0].required[1] == False):
                     print('Alder got a wet cloth and started scrubbing the cauldron. Florence peeked into the living room at Kyla and then went over to help him.')
                     cont()
                     print('Florence:')
                     print('"Shh."')
-                    story.sQuests[0]['required'][1] = True
+                    story.sQuests[0].required[1] = True
                     examining = False
                 else:
                     print("A small metal cauldron was suspended above the stove by a chain. It was empty right now.")
@@ -115,11 +115,11 @@ def examine(game_over, party, location, story, inv):
                     print('The hornets Alder slew were hung up on hooks. To be cooked for supper.')
                     cont()
             elif (e == 'larder' or e == 'Larder'):
-                if (story.sQuests[1]['accepted'] == True and story.sQuests[1]['required'][0] == False):
+                if (story.sQuests[1].accepted == True and story.sQuests[1].required[0] == False):
                     print('There was only a single loaf of bread in the larder. It would have to do.')
-                    story.sQuests[1]['required'][0] = True
-                    story.sQuests[1]['completed'] = True
-                elif (story.sQuests[1]['required'][0] == True):
+                    story.sQuests[1].required[0] = True
+                    story.sQuests[1].completed = True
+                elif (story.sQuests[1].required[0] == True):
                     print('The larder was empty.')
                 else:
                     print('A small cool room of shelves and hooks to store food, mostly empty except for a loaf of bread. Kyla’s familiar Tawie was out resupplying. Alder was not looking forward to her return.')
@@ -131,15 +131,15 @@ def examine(game_over, party, location, story, inv):
                 cont()
         elif (location == '2'):
             print("The living room was a homely place that was accessible by both the front and back 'door' and lit by the 'windows'. It had two 'chairs' and a 'table' in front of a 'fireplace' as well as a single 'bookshelf' with three shelves full of books.")
-            if (story.sQuests[2]['required'][1] == True):
+            if (story.sQuests[2].required[1] == True):
                 print('There was a large hole in the wall.')
             e = input('Examine: ')
             if (e == 'bookshelf' or e == 'Bookshelf'):
-                if (story.sQuests[2]['accepted'] == True and story.sQuests[2]['required'][0] == False):
+                if (story.sQuests[2].accepted == True and story.sQuests[2].required[0] == False):
                     print('Alder carried each of the books and put them in a neat pile near the stairs.')
                     cont()
-                    story.sQuests[2]['required'][0] = True
-                elif(story.sQuests[2]['required'][0] == True):
+                    story.sQuests[2].required[0] = True
+                elif(story.sQuests[2].required[0] == True):
                     print('The bookshelf was empty.')
                 else:
                     read = ''
@@ -289,7 +289,7 @@ def examine(game_over, party, location, story, inv):
                             books.reading('2', '2')
                     
             elif (e == 'fireplace' or e == 'Fireplace'):
-                if (story.sQuests[0]['accepted'] == True and story.sQuests[0]['required'][0] == False):
+                if (story.sQuests[0].accepted == True and story.sQuests[0].required[0] == False):
                     print('Alder got to work cleaning the fireplace using a brush and cloth. By the end his arms were completely blackened by soot.')
                     cont()
                     print('Kyla:')
@@ -298,9 +298,9 @@ def examine(game_over, party, location, story, inv):
                     print('Kyla:')
                     print('"If it gets on the floor, you'"'"'re cleaning it up."')
                     cont()
-                    story.sQuests[0]['required'][0] = True
+                    story.sQuests[0].required[0] = True
                     examining = False
-                elif (story.sQuests[0]['required'][0] == False):
+                elif (story.sQuests[0].required[0] == False):
                     print('The fireplace was unlit. It was used last night and still had ash and soot in it.')
                     cont()
                     print('Alder:')
@@ -318,16 +318,16 @@ def examine(game_over, party, location, story, inv):
                     cont()
                     #shop('Jeb')
                     shop.open(shop.getShopkeeper(0), inv)
-                    if ((story.sQuests[1]['accepted'] == True and story.sQuests[1]['submitted'] != True) or (story.sQuests[2]['accepted'] == True and story.sQuests[2]['submitted'] != True)):
+                    if ((story.sQuests[1].accepted == True and story.sQuests[1].submitted != True) or (story.sQuests[2].accepted == True and story.sQuests[2].submitted != True)):
                             ab = input('Abandon quests?(y/n)')
                             confirm = yn(ab)
                             if (confirm == True):
-                                if (story.sQuests[1]['accepted'] == True and story.sQuests[1]['submitted'] != True):
-                                    story.sQuests[1]['accepted'] = False
-                                    print(story.sQuests[1]['name'],' abandoned!')
-                                if (story.sQuests[2]['accepted'] == True and story.sQuests[2]['submitted'] != True):
-                                    story.sQuests[2]['accepted'] = False
-                                    print(story.sQuests[1]['name'],' abandoned!')
+                                if (story.sQuests[1].accepted == True and story.sQuests[1].submitted != True):
+                                    story.sQuests[1].accepted = False
+                                    print(story.sQuests[1].name,' abandoned!')
+                                if (story.sQuests[2].accepted == True and story.sQuests[2].submitted != True):
+                                    story.sQuests[2].accepted = False
+                                    print(story.sQuests[1].name,' abandoned!')
                                 story.switch[14] = True
                                 story.part = '4'
                     else:
@@ -353,14 +353,14 @@ def examine(game_over, party, location, story, inv):
                     print('There were four windows showing the clearing on either side of the cottage.')
                     cont()
             elif (e == 'wall' or e == 'Wall'):
-                if (story.sQuests[2]['accepted'] == True and story.sQuests[2]['required'][1] == False):
+                if (story.sQuests[2].accepted == True and story.sQuests[2].required[1] == False):
                     print('Alder aligned himself with where the tools hung in the shed on the other side of the wall.')
                     cont()
                     victory = com.Battle(party.listParty(), [enemyUnits.Wall(), enemyUnits.Null(), enemyUnits.Null()],inv)
                     if (victory == True):
                         print('The swords power was incredible. With a bit of force it easily pierced the clay walls and Alder tore it down through the gap he had created, the tools on the other side now fallen amongst rubble. Kyla apparently found this amusing. But the hole allowed Alder to enter the shed.')
                         cont()
-                        story.sQuests[2]['required'][1] = True
+                        story.sQuests[2].required[1] = True
                         examining = False
             elif (e == 'e' or e == 'E'):
                 examining = False
@@ -403,7 +403,7 @@ def examine(game_over, party, location, story, inv):
                         print('\n5 blackberries obtained')
                         inv.addItem(item.food[0], 5)
                         story.PKSwitch[2] = False
-                if (story.sQuests[0]['accepted'] == True and story.sQuests[0]['required'][2] == False):
+                if (story.sQuests[0].accepted == True and story.sQuests[0].required[2] == False):
                     print('Alder picked some bramble leaves, careful to avoid the thorns. He wondered what potion Kyla was going to use them for.')
                     count = 0
                     for i in inv.itemList:
@@ -423,7 +423,7 @@ def examine(game_over, party, location, story, inv):
                 print("The inside of the shed was illuminated by a 'window' on the left side from the entrance. It was full of loose ‘tools’ Alder used for gathering, woodwork and gardening, while ingredients and more fragile equipment for magic potions were held in 'pots' and 'crates'. Opposite the entrance was a 'table' used for crafts with an old 'sack' was slumped against it and a 'bow' and 'quiver' full of 'arrows'.")
             else:
                 print("The inside of the shed was illuminated by a 'window' on the left side from the entrance. It was full of loose ‘tools’ Alder used for gathering, woodwork and gardening, while ingredients and more fragile equipment for magic potions were held in 'pots' and 'crates'. Opposite the entrance was a 'table' used for crafts.")
-            if (story.sQuests[2]['required'][1] == True):
+            if (story.sQuests[2].required[1] == True):
                 print('There was a large hole in the wall.')
             e = input('Examine: ')
             if (e == 'window' or e == 'Window'):
@@ -437,13 +437,13 @@ def examine(game_over, party, location, story, inv):
                 print('Various tools were hung on the wall and sat on the shelves, including an axe, saw, pick, shovel, sickle and fishing rod.')
                 cont()
             elif (e == 'pots' or e == 'Pots'):
-                if (story.sQuests[2]['accepted'] == True and story.sQuests[2]['required'][2] == False):
+                if (story.sQuests[2].accepted == True and story.sQuests[2].required[2] == False):
                     print('Alder carried each pot one by one to the living room, their weight varyied by how full they were and what was in them. The heaviest pot was full of ground up plant matter and weighed as much as a cannon ball. Alder brought the last one in with great strain.')
                     cont()
                     location = '2'
-                    story.sQuests[2]['required'][2] = True
+                    story.sQuests[2].required[2] = True
                     examining = False
-                elif(story.sQuests[2]['required'][2] == True):
+                elif(story.sQuests[2].required[2] == True):
                     print('There weren'"'"'t any pots left.')
                 else:
                     print('The pots contained potion ingredients, left in the shed to save space in the main cottage. One pot was completely filled with eyeballs.')
@@ -470,12 +470,12 @@ def examine(game_over, party, location, story, inv):
                 print('The candle was placed in a candlestick. It was unlit.')
                 cont()
             elif (e == 'mortar' or e == 'Mortar' or e == 'pestle' or e == 'Pestle'):
-                if (story.sQuests[0]['accepted'] == True and story.sQuests[0]['required'][2] == False):
+                if (story.sQuests[0].accepted == True and story.sQuests[0].required[2] == False):
                     for i in inv.itemList:
                         if (i['item'].itemType == ItemType.ingredient and i['item'].itemId == '1'):
                             print('Alder ground the leaves with the pestle until they were powder. He then put them in a nearby pot containing remnants of the same powder.')
                             cont()
-                            story.sQuests[0]['required'][2] = True
+                            story.sQuests[0].required[2] = True
                             examining = False
                 else:
                     print('A mortar and pestle were on the table.')
@@ -526,12 +526,12 @@ def examine(game_over, party, location, story, inv):
                     if (confirm == True):
                         print('Alder got into his makeshift bed and drifted to sleep for the night.')
                         if (story.tutorialSwitch[5] == False and story.tutorialSwitch[6] == True):
-                            if(story.sQuests[0]['accepted'] == True and story.sQuests[0]['submitted'] == False):
+                            if(story.sQuests[0].accepted == True and story.sQuests[0].submitted == False):
                                 ab = input('Abandon quests?(y/n)')
                                 confirm = yn(ab)
                                 if (confirm == True):
-                                    story.sQuests[0]['accepted'] = False
-                                    print(story.sQuests[0]['name'],' abandoned!')
+                                    story.sQuests[0].accepted = False
+                                    print(story.sQuests[0].name,' abandoned!')
                                     story.tutorialSwitch[6] = False
                                     story.part = '1'
                                     story.switch[5] = True
@@ -556,7 +556,7 @@ def examine(game_over, party, location, story, inv):
             elif (e == 'e' or e == 'E'):
                 examining = False
         elif (location == '6'):
-            if (story.mQuests[0]['accepted'] == True and story.mQuests[0]['completed'] == False):
+            if (story.mQuests[0].accepted == True and story.mQuests[0].completed == False):
                 print("The cottage was out of sight, but being familiar with the surrounding 'plants', and 'rocks' Alder knew where he was. There were some 'crickets' nearby, perfect for tonight’s meal.")
             else:
                 print("The cottage was out of sight, but being familiar with the surrounding 'plants', and 'rocks' Alder knew where he was.")
@@ -590,7 +590,7 @@ def examine(game_over, party, location, story, inv):
                 print('The cottage was gone from sight. Replaced with a large boulder.')
                 cont()
             elif (e == 'cricket' or e == 'Cricket' or e == 'crickets' or e == 'Crickets'):
-                if (story.mQuests[0]['accepted'] == True and story.mQuests[0]['completed'] == False):
+                if (story.mQuests[0].accepted == True and story.mQuests[0].completed == False):
                     print('Some large brown crickets were in the area.')
                     cont()
                     fight = input('Do you want to fight them.(y/n)')

@@ -52,7 +52,7 @@ def talk(game_active, party, location, story, inv):
             print('There was no one to talk to.')
     elif (location == '2'):
         if (story.tutorialSwitch[5] == False and story.chapter == '1'):
-            if (story.sQuests[0]['accepted'] != True):
+            if (story.sQuests[0].accepted != True):
                 print('1: Kyla(!)')
                 t = input('Talk to: ')
                 if (t == '1'):
@@ -98,7 +98,7 @@ def talk(game_active, party, location, story, inv):
                         print('"Excellent!"')
                         cont()
                         print('Alder accepted the chores')
-                        story.sQuests[0]['accepted'] = True
+                        story.sQuests[0].accepted = True
                         cont()
                     else:
                         print('Alder:')
@@ -126,20 +126,20 @@ def talk(game_active, party, location, story, inv):
                         print('"Sorry madam."')
                         cont()
                         print('Alder knew better than to argue back. Alder accepted the chores.')
-                        story.sQuests[0]['accepted'] = True
+                        story.sQuests[0].accepted = True
                         cont()
             else:
                 print('1: Kyla')
                 t = input('Talk to: ')
                 if (t == '1'):
-                    if (story.sQuests[0]['completed'] != True):
+                    if (story.sQuests[0].completed != True):
                         print('Kyla:')
                         print('"Clean the fireplace, scrub the cauldron and grind the leaves."')
                         cont()
                         print('Kyla:')
                         print('"Those are your duties for the day."')
                         cont()
-                    elif (story.sQuests[0]['completed'] == True and story.sQuests[0]['submitted'] != True):
+                    elif (story.sQuests[0].completed == True and story.sQuests[0].submitted != True):
                         print('Kyla:')
                         print('"Have you finished then?"')
                         cont()
@@ -149,14 +149,13 @@ def talk(game_active, party, location, story, inv):
                         print('Kyla:')
                         print('"Good."')
                         cont()
-                        story.sQuests[0]['submitted'] = True
                         print('Kyla:')
                         print('"I have no futher need for you."')
                         cont()
                         print('Kyla:')
                         print('"Do as you please."')
                         cont()
-                        story.qComp(story.sQuests[0])
+                        story.sQuests[0].qComp(inv)
                     else:
                         print('Kyla:')
                         print('"I have no futher need for you."')
@@ -233,11 +232,11 @@ def talk(game_active, party, location, story, inv):
                     print('"Hmm."')
                     cont()
             elif(story.c3Switch[6] == True):
-                if (story.sQuests[1]['accepted'] != True):
+                if (story.sQuests[1].accepted != True):
                     print('1: Florence(!)')
                 else:
                     print('1: Florence')
-                if (story.sQuests[2]['accepted'] != True):
+                if (story.sQuests[2].accepted != True):
                     print('2: Kyla(!)')
                 else:
                     print('2: Kyla')
@@ -247,7 +246,7 @@ def talk(game_active, party, location, story, inv):
                     print('3: Jeb')
                 t = input('Talk to: ')
                 if (t == '1'):
-                    if (story.sQuests[1]['accepted'] != True):
+                    if (story.sQuests[1].accepted != True):
                         print('Alder:')
                         print('"What the matter Florence?."')
                         cont()
@@ -260,12 +259,12 @@ def talk(game_active, party, location, story, inv):
                         print('Florence:')
                         print('"Take what you can from the larder."')
                         cont()
-                        story.sQuests[1]['accepted'] = True
-                    elif(story.sQuests[1]['completed'] != True):
+                        story.sQuests[1].accepted = True
+                    elif(story.sQuests[1].completed != True):
                         print('Florence:')
                         print('"I wish we were better prepaired, but there'"'"'s nothing we can do about it"')
                         cont()
-                    elif(story.sQuests[1]['submitted'] != True):
+                    elif(story.sQuests[1].submitted != True):
                         print('Alder:')
                         print('"This was all there was."')
                         cont()
@@ -278,8 +277,7 @@ def talk(game_active, party, location, story, inv):
                         print('Florence:')
                         print('"Thank you, Alder."')
                         cont()
-                        story.sQuests[1]['submitted'] = True
-                        story.qComp(story.sQuests[1])
+                        story.sQuests[1].qComp(inv)
                     else:
                         print('Florence:')
                         print('"Are you doing alright Alder?"')
@@ -297,7 +295,7 @@ def talk(game_active, party, location, story, inv):
                         print('"I'"'"'ll protect you no matter what!"')
                         cont()
                 elif (t == '2'):
-                    if (story.sQuests[2]['accepted'] != True):
+                    if (story.sQuests[2].accepted != True):
                         print('Kyla:')
                         print('"Boy, gather my books from the bookshelf and the pots of ingredients from the shed and bring them here."')
                         cont()
@@ -313,12 +311,12 @@ def talk(game_active, party, location, story, inv):
                         print('Kyla:')
                         print('"Don'"'"'t concern yourself with any mess we need to get those valuables out safely."')
                         cont()
-                        story.sQuests[2]['accepted'] = True
-                    elif(story.sQuests[2]['completed'] != True):
+                        story.sQuests[2].accepted = True
+                    elif(story.sQuests[2].completed != True):
                         print('Kyla:')
                         print('"I need the books from the shelves and the pots from the shed."')
                         cont()
-                    elif(story.sQuests[2]['submitted'] != True):
+                    elif(story.sQuests[2].submitted != True):
                         print('Kyla:')
                         print('"Excellent!"')
                         cont()
@@ -333,8 +331,7 @@ def talk(game_active, party, location, story, inv):
                         print('Kyla:')
                         print('"We leave soon."')
                         cont()
-                        story.sQuests[2]['submitted'] = True
-                        story.qComp(story.sQuests[2])
+                        story.sQuests[2].qComp(inv)
                     else:
                         print('Kyla:')
                         print('"I was sloppy!"')
@@ -357,16 +354,16 @@ def talk(game_active, party, location, story, inv):
                         print('"What would you like Scion?"')
                         cont()
                         shop.open(shop.getShopkeeper(0), inv)
-                        if ((story.sQuests[1]['accepted'] == True and story.sQuests[1]['submitted'] != True) or (story.sQuests[2]['accepted'] == True and story.sQuests[2]['submitted'] != True)):
+                        if ((story.sQuests[1].accepted == True and story.sQuests[1].submitted != True) or (story.sQuests[2].accepted == True and story.sQuests[2].submitted != True)):
                             ab = input('Abandon quests?(y/n)')
                             confirm = yn(ab)
                             if (confirm == True):
-                                if (story.sQuests[1]['accepted'] == True and story.sQuests[1]['submitted'] != True):
-                                    story.sQuests[1]['accepted'] = False
-                                    print(story.sQuests[1]['name'],' abandoned!')
-                                if (story.sQuests[2]['accepted'] == True and story.sQuests[2]['submitted'] != True):
-                                    story.sQuests[2]['accepted'] = False
-                                    print(story.sQuests[1]['name'],' abandoned!')
+                                if (story.sQuests[1].accepted == True and story.sQuests[1].submitted != True):
+                                    story.sQuests[1].accepted = False
+                                    print(story.sQuests[1].name,' abandoned!')
+                                if (story.sQuests[2].accepted == True and story.sQuests[2].submitted != True):
+                                    story.sQuests[2].accepted = False
+                                    print(story.sQuests[1].name,' abandoned!')
                                 story.switch[14] = True
                                 story.part = '4'
                         else:
@@ -641,7 +638,7 @@ def talk(game_active, party, location, story, inv):
                 print('1: Florence')
                 t = input('Talk to: ')
                 if (t == '1'):
-                    if (story.mQuests[0]['accepted'] == True and story.mQuests[0]['completed'] == False):
+                    if (story.mQuests[0].accepted == True and story.mQuests[0].completed == False):
                         dialog = [False, False]
                         while(dialog[0] == False and dialog[1] == False):                    
                             print('1: "I have the knife!"')                  

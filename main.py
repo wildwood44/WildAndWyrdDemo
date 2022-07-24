@@ -10,6 +10,7 @@ import equipment
 import dialog
 import combat
 import objective
+import quest
 from data import typeSpf
 import playableChars
 import enemyUnits
@@ -37,6 +38,7 @@ item = ItemClasses
 com = combat
 eqp = equipment.Equipment()
 obj = objective.Objective()
+qst = quest
 
 #Items lists
 weapons = [item.Sword('0','None',0,0,''),
@@ -118,30 +120,16 @@ class Story():
         self.PKSwitch = [True, True, True, True, True, True]
 
         #Quests
-        self.mQuests = [{'questId':'1','client':'Florence','name':'Bug hunt', 'desc':'Collect two pieces of bug meat', 'reward' : '', 'rewardCount' : 0,
-                    'type':'collect', 'required':{'itemId' : '5', 'name' : 'Raw Bug Meat', 'type' : ItemType.food}, 'qnt' : 2,
-                    'accepted':False,'completed':False, 'submitted':False}
+        self.mQuests = [qst.Quest('1','Florence','Bug hunt',['Collect two pieces of bug meat'],'',0,
+                    'collect', [food[4]],2)
                    ]
-        self.sQuests = [{'questId':'1','client':'Kyla','name':'Servants work', 'desc':['Clean fireplace:', 'Scrub caldron:', 'Grind bramble leaves in mortar:'], 'reward' : 'none', 'rewardCount' : 0,
-                    'type':'action', 'required':[False, False, False], 'qnt' : 1,
-                    'accepted':False,'completed':False, 'submitted':False},
-                   {'questId':'2','client':'Florence','name':'Provisions', 'desc':['Collect food x'], 'reward' : food[5], 'rewardCount' : 1,
-                    'type':'action', 'required':[False], 'qnt' : 1,
-                    'accepted':False,'completed':False, 'submitted':False},
-                   {'questId':'3','client':'Kyla','name':'Packing up', 'desc':['Take books from bookshelf:', 'Break down wall', 'Take pots from the shed:'], 'reward' : 'shillings', 'rewardCount' : 2,
-                    'type':'action', 'required':[False, False, False], 'qnt' : 1,
-                    'accepted':False,'completed':False, 'submitted':False}
+        self.sQuests = [qst.Quest('1','Kyla','Servants work', ['Clean fireplace:', 'Scrub caldron:', 'Grind bramble leaves in mortar:'], 'none', 0,
+                    'action', [False, False, False], 1),
+                   qst.Quest('2','Florence','Provisions', ['Collect food x'], food[5], 1,
+                    'action', [False], 1),
+                   qst.Quest('3','Kyla','Packing up', ['Take books from bookshelf:', 'Break down wall', 'Take pots from the shed:'], 'shillings', 2,
+                    'action', [False, False, False], 1)
                    ]
-    #Quest Rewards
-    def qComp(self,q):
-        print(q['name'], 'Completed!')
-        if(q['reward'] != 'none' and q['rewardCount'] > 0):
-            if q['reward'] == 'shillings':
-                inv.shillings(q['rewardCount'])
-            elif q['reward'] == 0:
-                inv.shill += q['rewardCount']
-            else:
-                inv.addItem(q['reward'], q['rewardCount'])
 story = Story('0', '1', False)
 
 def cont():
@@ -387,35 +375,37 @@ def inventory():
 #Achive objectives
 def achive():
     for q in story.mQuests:
-        if(q['accepted'] == True and q['submitted'] != True):
-            if (q['questId'] == '1'):
-                amount = 0
-                for i in inv.itemList:
-                    if (i['item'].itemType == ItemType.food):
-                        if (i['item'].itemId == q['required']['itemId']):
-                            amount += i['count']
-                if (amount >= 2):
-                    q['completed'] = True
-                else:
-                    q['completed'] = False
+        q.questProgress(inv)
+        #if(q['accepted'] == True and q['submitted'] != True):
+        #    if (q['questId'] == '1'):
+        #        amount = 0
+        #        for i in inv.itemList:
+        #            if (i['item'].itemType == ItemType.food):
+        #                if (i['item'].itemId == q['required']['itemId']):
+        #                    amount += i['count']
+        #        if (amount >= 2):
+        #            q['completed'] = True
+        #        else:
+        #            q['completed'] = False
     for q in story.sQuests:
-        if(q['accepted'] == True and q['submitted'] != True):
-            if (q['type'] == 'action'):
-                count = 0
-                for i in q['required']:
-                    if (i == True):
-                        count += 1
-                if (count == len(q['required'])):
-                    q['completed'] = True
-            if (q['type'] == 'collect'):
-                count = 0
-                for i in q['required']:
-                    for j in inv.itemList:
-                        if(i['type'] == j['item'].itemType):
-                            if(i['itemId'] == j['item'].itemId):
-                                if (j['count'] == q['qnt'][count]):
-                                    q['completed'] = True
-                    count += 1
+        q.questProgress(inv)
+            # #if(q['accepted'] == True and q['submitted'] != True):
+            #if (q['type'] == 'action'):
+            #    count = 0
+            #    for i in q['required']:
+            #        if (i == True):
+            #            count += 1
+            #    if (count == len(q['required'])):
+            #        q['completed'] = True
+            #if (q['type'] == 'collect'):
+            #    count = 0
+            #    for i in q['required']:
+            #        for j in inv.itemList:
+            #            if(i['type'] == j['item'].itemType):
+            #                if(i['itemId'] == j['item'].itemId):
+            #                    if (j['count'] == q['qnt'][count]):
+            #                        q['completed'] = True
+            #        count += 1
 def helper():
     print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further may reveal an item you can pickup.")
     print("Command: m, move, Move - Move to the next area.")
@@ -529,7 +519,7 @@ def game():
                 story.switch[2] = False
             elif (story.switch[3] == True and story.part == '3'):
                 dialog.cutscene(story, '3')
-                story.mQuests[0]['accepted'] = True
+                story.mQuests[0].accepted = True
                 story.switch[3] = False
             elif (story.switch[4] == True and story.part == '4'):
                 dialog.cutscene(story, '4')
@@ -655,13 +645,13 @@ def menu():
             for i in story.branchSwitch:
                 i = '0'
             for i in story.mQuests:
-                i['accepted'] = False
-                i['completed'] = False
-                i['submitted'] = False
+                i.accepted = False
+                i.completed = False
+                i.submitted = False
             for i in story.sQuests:
-                i['accepted'] = False
-                i['completed'] = False
-                i['submitted'] = False
+                i.accepted = False
+                i.completed = False
+                i.submitted = False
             #Alder Stats
             alder.maxHealth = 60
             alder.health = alder.maxHealth

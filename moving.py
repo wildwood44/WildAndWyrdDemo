@@ -47,7 +47,7 @@ def move(game_active, party, location, story, inv):
         print('1: Kitchen')
         print('2: Outside')
         print('3: Alder'"'"'s room')
-        if (story.sQuests[2]['required'][1] == True):
+        if (story.sQuests[2].required[1] == True):
             print('4: Shed')
         m = input('Move to: ')
         if (m == '1' or m == 'kitchen' or m == 'Kitchen'):
@@ -90,7 +90,7 @@ def move(game_active, party, location, story, inv):
             print('Alder moved upstairs and into his bedroom.')
             party.alder.stamina -= 1    
             cont()
-        elif (story.sQuests[2]['required'][1] == True):
+        elif (story.sQuests[2].required[1] == True):
             if (m == '4'):
                 location = '4'
                 print('Alder moved through the hole and into the shed.')
@@ -141,7 +141,7 @@ def move(game_active, party, location, story, inv):
             party.alder.stamina -= 1  
             cont()
         elif (m == '3'):
-            if (story.mQuests[0]['accepted'] == True and story.mQuests[0]['completed'] == False and party.alder.weapon1.wpId != '0'):
+            if (story.mQuests[0].accepted == True and story.mQuests[0].completed == False and party.alder.weapon1.wpId != '0'):
                 location = '6'
                 print('Alder left the cottage grounds.')
                 party.alder.stamina -= 1    
@@ -150,13 +150,13 @@ def move(game_active, party, location, story, inv):
                 print('It'"'"'s dangerous to leave the cottage grounds unarmed.')
                 cont()
     elif (location == '4'):
-        if (story.sQuests[2]['required'][1] == True):
+        if (story.sQuests[2].required[1] == True):
             print('1: Living room')
         else:
             print('1: Outside')
         m = input('Move to: ')
         if (m == '1'):
-            if (story.sQuests[2]['required'][1] == True):
+            if (story.sQuests[2].required[1] == True):
                 location = '2'
                 print('Alder went back through the hole into the living room of the cottage.')
                 party.alder.stamina -= 1
@@ -277,7 +277,7 @@ def move(game_active, party, location, story, inv):
                 party.alder.health += 10
                 print('\nHunting Knife unequipped')
                 cont()
-                story.mQuests[0]['submitted'] = True
+                story.mQuests[0].submitted = True
                 story.part = '4'
                 story.switch[4] = True
             party.alder.stamina -= 1
