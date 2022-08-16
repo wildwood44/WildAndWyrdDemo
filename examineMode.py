@@ -556,7 +556,7 @@ def examine(game_over, party, location, story, inv):
             elif (e == 'e' or e == 'E'):
                 examining = False
         elif (location == '6'):
-            if (story.mQuests[0].accepted == True and story.mQuests[0].completed == False):
+            if (story.mQuests[1].accepted == True and story.mQuests[1].completed == False):
                 print("The cottage was out of sight, but being familiar with the surrounding 'plants', and 'rocks' Alder knew where he was. There were some 'crickets' nearby, perfect for tonight’s meal.")
             else:
                 print("The cottage was out of sight, but being familiar with the surrounding 'plants', and 'rocks' Alder knew where he was.")
@@ -590,7 +590,7 @@ def examine(game_over, party, location, story, inv):
                 print('The cottage was gone from sight. Replaced with a large boulder.')
                 cont()
             elif (e == 'cricket' or e == 'Cricket' or e == 'crickets' or e == 'Crickets'):
-                if (story.mQuests[0].accepted == True and story.mQuests[0].completed == False):
+                if (story.mQuests[1].accepted == True and story.mQuests[1].completed == False):
                     print('Some large brown crickets were in the area.')
                     cont()
                     fight = input('Do you want to fight them.(y/n)')

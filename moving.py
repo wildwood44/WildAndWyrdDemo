@@ -141,7 +141,7 @@ def move(game_active, party, location, story, inv):
             party.alder.stamina -= 1  
             cont()
         elif (m == '3'):
-            if (story.mQuests[0].accepted == True and story.mQuests[0].completed == False and party.alder.weapon1.wpId != '0'):
+            if (story.mQuests[0].completed == True and party.alder.weapon1.wpId != '0'):
                 location = '6'
                 print('Alder left the cottage grounds.')
                 party.alder.stamina -= 1    
@@ -277,7 +277,8 @@ def move(game_active, party, location, story, inv):
                 party.alder.health += 10
                 print('\nHunting Knife unequipped')
                 cont()
-                story.mQuests[0].submitted = True
+                story.mQuests[0].qComp(party, inv)
+                story.mQuests[1].qComp(party, inv)
                 story.part = '4'
                 story.switch[4] = True
             party.alder.stamina -= 1

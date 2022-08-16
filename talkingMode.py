@@ -638,7 +638,7 @@ def talk(game_active, party, location, story, inv):
                 print('1: Florence')
                 t = input('Talk to: ')
                 if (t == '1'):
-                    if (story.mQuests[0].accepted == True and story.mQuests[0].completed == False):
+                    if (story.mQuests[0].completed == True):
                         dialog = [False, False]
                         while(dialog[0] == False and dialog[1] == False):                    
                             print('1: "I have the knife!"')                  
