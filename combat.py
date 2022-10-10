@@ -9,6 +9,9 @@ import record
 import spells
 import manuvers
 import stats
+import specialList
+import spells
+import manuvers
 from data import typeSpf
 #enumerated classes
 SpecialType1 = typeSpf.SpecialType1
@@ -23,7 +26,7 @@ ItemType = typeSpf.ItemType
 
 #Set playable characters
 alder = playableChars.Alder()
-florace = playableChars.Florace()
+florence = playableChars.Florence()
 item = ItemClasses
 spl = spells
 mnv = manuvers
@@ -32,16 +35,9 @@ eqp = equipment.Equipment()
 stat = stats.Statistics()
 
 #Universal Specials
-manuvers = [mnv.Manuver_Enhance('1','Advence', 0,10,100, 'Move in range.'),
-           mnv.Manuver_Enhance('2','Retreat', 0,10,100, 'Move out of range.')
-           ]
-spells = [spl.Nature_Offence('1','Poison nettles', AttackType.single, 1, 10, 100, 'Poisons an opponent'),
-          spl.Nature_Offence('2','Grow mushrooms', AttackType.single, 0, 10, 100, 'Grow mushrooms on your enemy to hinder them.'),
-          spl.Nature_Enhance('3','Grow mushrooms', 9, 0, 100, "Grow edable mushrooms for an ally to restore stamina."),
-          spl.Nature_Support('4','Grow mushrooms', AttackType.single, 9, 0, 100, 'Grow edable mushrooms for the caster to restore stamina.')
-          ]
-combinations = [{'spell':spl.Nature_Offence('comb1','Poisonous mushrooms', AttackType.single, 9, 10, 100, 'Grow poisinous mushrooms on the enemy.'), 'components':['1', '2']}
-          ]
+manuvers = specialList.manuvers
+spells = specialList.spells
+combinations = specialList.combinations
 
 def fightOrder(e):
     return e.speed()
@@ -82,10 +78,10 @@ class Combat():
                 i.cExp += ex
                 print(i.name, ' gained ', ex, ' experience.')
                 stat.levelUP(i)
-        #if (florace.active == True):
-        #    florace.cExp += ex
+        #if (florence.active == True):
+        #    florence.cExp += ex
         #    print('Florence gained ', ex, ' experience.')
-        #    stat.levelUP(florace)
+        #    stat.levelUP(florence)
         for i in e:
             if (len(i.drop) > 0):
                 print(i.name,' dropped ', i.drop[0]['item'].name, ' x', i.drop[0]['quantity'])
@@ -101,8 +97,8 @@ class Combat():
             i.stamina = i.maxStamina
         #alder.health = alder.maxHealth
         #alder.stamina = alder.maxHealth
-        #florace.health = florace.maxHealth
-        #florace.stamina = florace.maxHealth
+        #florence.health = florence.maxHealth
+        #florence.stamina = florence.maxHealth
         print('\nAlder was slain.')
         i = input()
         return p
@@ -168,7 +164,6 @@ class Combat():
                 if ((e.aliment['outRange'] != True or (e.aliment['outRange'] == True and p.weapon1['type'] == Weapon1Type.spear)) and
                     (p.aliment['outRange'] != True or (p.aliment['outRange'] == True and p.weapon1['type'] == Weapon1Type.spear)) and
                     (e.aliment['outRange'] != True and p.aliment['outRange'] != True)):
-                    print(p.aliment['outRange'])
                     if (hit < target):
                         impact = random.randrange(p.attack() - 5, p.attack() + 5)
                         if(p.weapon1.wpId != '0'):
@@ -327,7 +322,8 @@ class Combat():
                     r.recordMagic(p.pId, p.name, p.type, p.cStatus, offensive.specialType, offensive.name)
                 p.cStatus = CombatStatus.Specializing
                 p.stamina -= support.cost
-            except:
+            except Exception as err:
+                #print(err)
                 p.cStatus = CombatStatus.Normal
         elif ((sp == "3" or sp == "support") and support.spId != '0'):
             try:
@@ -340,7 +336,9 @@ class Combat():
                     r.recordMagic(p.pId, p.name, p.type, p.cStatus, support.specialType, support.name)
                 p.cStatus = CombatStatus.Specializing
                 p.stamina -= support.cost
+                print(p.cStatus)
             except:
+                print("ping")
                 p.cStatus = CombatStatus.Normal
         if ((sp == "4" or sp == "enhance") and enhance.spId != '0'):
             try:
@@ -474,7 +472,7 @@ class Combat():
 class Battle():
     def __new__(self, h, e, inv):
         os.system('clear')
-        global alder, florace
+        global alder, florence
         com = Combat()
         shield = 0
         aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False, 'fungus':False}
@@ -534,12 +532,15 @@ class Battle():
                                 automatic.auto_activate(i, automatic)
                                 rcd.recordManuver(i.pId,i.name,i.type,i.cStatus,SpecialType1.manuver,automatic.name)
                             elif(automatic.specialType == SpecialType1.spell):
-                                magic(i, h, e, automatic)
+                                com.magic(i, h, e, automatic)
                                 print('\n',automatic.name,'is active.')
-                                rcd.recordMagic(i.pId,i.name,i.type,i.cStatus,SpecialType1.magic,automatic.name)
+                                rcd.recordMagic(i.pId,i.name,i.type,i.cStatus,SpecialType1.spell,automatic.name)
                         #inEffect(i, enemys)
                         i.cStatus = CombatStatus.Normal
-                        while(i.cStatus == CombatStatus.Normal):
+                        while(i.cStatus == CombatStatus.Normal):                            
+                            for j in com.enemys:
+                                if j.message(count) != None:
+                                    print (j.message(count))
                             print('\n',i.name)
                             if (i.ammo['loaded'] == True):
                                 print('Ranged weapon set!')
@@ -573,6 +574,7 @@ class Battle():
                                     print('\n',j.name, 'Health:', j.health,'/',j.maxHealth)
                                     print(j.desc)
                             elif (j == '4' or j == 'special' or j == 'Special'):
+                                print(i, com.heroes, com.enemys, rcd)
                                 com.special(i, com.heroes, com.enemys, rcd)
                             elif (j == '5' or j == 'item' or j == 'Item'):
                                 com.item(i, com.enemys, rcd, inv)
@@ -610,7 +612,6 @@ class Battle():
                                 print(i.name, 'was stunned!')
                                 i.aliment['stun'] = False
                             else:
-                                print(i.health)
                                 try:
                                     impact = i.action(i, com.heroes, rcd)[0]
                                 except:

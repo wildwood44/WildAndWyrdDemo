@@ -1,8 +1,11 @@
 import random
 import ItemClasses
+import sqlite3
 import inventory
 import equipment
 import playableChars
+import game_database
+import createDatabase
 from data import typeSpf
 
 #enumerated classes
@@ -15,32 +18,49 @@ ArmourType = typeSpf.ArmourType
 Weapon1Type = typeSpf.Weapon1Type
 Weapon2Type = typeSpf.Weapon2Type
 ItemType = typeSpf.ItemType
+ProjectileType = typeSpf.ProjectileType
+
+# connecting to database
+connection = sqlite3.connect("waw.db")
+# cursor
+crsr = connection.cursor()
 
 #Set Classes
 alder = playableChars.Alder()
 item = ItemClasses
 inv = inventory.Inventory()
 eqp = equipment.Equipment()
-
+db = game_database.DB(connection, crsr)
 
 #Items lists
-weapons = [item.Sword('0','None',0,0,''),
-           item.Sword('1','Lief',100,5,'Legendary sword of the Scion.'),
-           item.Dagger('2','Hunting Knife',5,1,'A knife used to hunt insects.')
-           ]
+weapons = []
+for i in db.GetItemByItemType(crsr, Weapon1Type.sword):
+    weapons.append(item.Sword(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.dagger):
+    weapons.append(item.Dagger(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.spear):
+    weapons.append(item.Spear(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.axe):
+    weapons.append(item.Axe(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.mace):
+    weapons.append(item.Mace(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.staff):
+    weapons.append(item.Staff(*(i)))
 
-armors = [item.Hat('1','None',0,0,''),
-          item.Shirt('1','Old Tunic',1,1,'An old shirt with holes in it.'),
-          item.Shirt('2','Travelling Cloak',10,10,'A too large black cloak. Good for keeping ou of sight but heavy.'),
-          item.Trousers('1','Worn Trousers',1,1,'An old pair of trousers long past their prime'),
-          ]
+armors = []
+for i in db.GetItemByItemType(crsr, ArmourType.hat):
+    armors.append(item.Hat(*(i)))
+for i in db.GetItemByItemType(crsr, ArmourType.shirt):
+    armors.append(item.Shirt(*(i)))
+for i in db.GetItemByItemType(crsr, ArmourType.trousers):
+    armors.append(item.Trousers(*(i)))
 #Food(Id, Name, Weight, Stamina recovered)
-food = [item.Food('1','Blackberry',1,5),
-        item.Food('2','Dried Fruit',1,5),
-        item.Food('3','Hazelnut',1,5)
-        ]
-items = [item.Healing('1','Bandage',2,10,'A cloth bandage to treat wounds')
-         ]
+food = []
+for i in db.GetItemByItemType(crsr, ItemType.food):
+    food.append(item.Food(*(i)))
+items = []
+for i in db.GetItemByItemType(crsr, ItemType.healing):
+    items.append(item.Healing(*(i)))
 #Money and inventory
 shill = 0
 PKSwitch = [[True, True, True, True, True], True, True]
@@ -88,11 +108,11 @@ def pickup(s):
                     PKSwitch[0][3] = False
                 PKSwitch[0][4] = False
         elif (p == '2'):
-            print('\nBlackberries obtained')
+            print('\n'+food[0].name+' obtained')
             inv.addItem(food[0], 1)
             PKSwitch[1] = False
         elif (p == '3'):
-            print('\nDagger obtained')
+            print('\n'+weapons[2].name+' obtained')
             inv.addItem(weapons[2], 1)
             PKSwitch[2] = False
         elif (p == 'e'):

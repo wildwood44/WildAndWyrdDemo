@@ -1,6 +1,8 @@
 import os
 import random
 import pickle
+import sqlite3
+from data import createDatabase
 import playableChars
 import enemyUnits
 import inventory
@@ -10,6 +12,8 @@ import spells
 import manuvers
 import combat
 import ItemClasses
+import itemList
+from data import game_database
 from data import typeSpf
 #enumerated classes
 SpecialType1 = typeSpf.SpecialType1
@@ -21,17 +25,23 @@ ArmourType = typeSpf.ArmourType
 Weapon1Type = typeSpf.Weapon1Type
 Weapon2Type = typeSpf.Weapon2Type
 ItemType = typeSpf.ItemType
+ProjectileType = typeSpf.ProjectileType
 
+# connecting to database
+#connection = sqlite3.connect("waw.db")
+# cursor
+#crsr = connection.cursor()
 
 #Set playable characters
 alder = playableChars.Alder()
-florace = playableChars.Florace()
+florace = playableChars.Florence()
 item = ItemClasses
 spl = spells
 mnv = manuvers
 inv = inventory.Inventory()
 eqp = equipment.Equipment()
 com = combat
+#db = game_database.DB(connection, crsr)
 
 class Combatent(playableChars.Playable, enemyUnits.Enemy):
     def __init__(self):
@@ -89,39 +99,7 @@ def levelUP(p):
                     print(p.cNext)
                    
 #Items lists
-weapons = [item.Sword('0','None',0,0,''),
-           item.Sword('1','Lief',500,5,'Legendary sword of the Scion.'),
-           item.Dagger('2','Hunting Knife',5,1,'A knife used to hunt insects.'),
-           item.Sword('3','Relic Sword', 10,3, '',),
-           item.Spear('4','Relic Spear',8,3, ''),
-           item.Axe('5','Relic Axe', 12,4, ''),
-           item.Mace('6','Old Club', 10,4,''),
-           item.Staff('7','Crooked Stick', 3,2, ['0'],[''],''),
-           item.Bow('1','Training Bow', 20,2, 'A large bow made for practise.'),
-           item.Crossbow('1','Training Crossbow', 20,2, ''),
-           item.Sling('1','Grass Sling', 20,2, 'A sling made from grass; not very practical'),
-           item.Shield('1','Wooden Shield', 20,4,'A basic round wooden shield.'),
-           item.Wand('1','Poison wand', 1, '1', 'Poison Nettle', 'A wand containing a weak poison'),
-           item.Staff('8', 'Mushroom staff',  3,2, ['2', '3', '4'],['Grow mushrooms','Grow mushrooms','Grow mushrooms'],'')
-           ]
-
-armours = [item.Hat('1','None',0,0,''),
-           item.Shirt('1','Old Tunic', 1,1,'An old shirt with holes in it.'),
-           item.Shirt('2', 'Travelling Cloak', 10,10,'A too large black cloak. Good for keeping ou of sight but heavy.'),
-           item.Trousers('1','Worn Trousers', 1,1,'An old pair of trousers long past their prime')
-          ]
-food = [item.Food('1','Blackberry', 1,3),
-        item.Food('2','Dried Fruit', 1,5),
-        item.Food('3','Hazelnut', 1,3),
-        item.Food('4','Raw Bug Meat', 3,10)
-        ]
-projec = [item.Arrow('1','Primitive Arrow', 10,1,'Arrows made from stone heads and twigs.'),
-          item.Toss('2','Rope Net', 0,1, 'A rope net to catch your enemies.'),
-          item.Bolt('3','Wooden Bolt', 10,1,''),
-          item.Stone('4','Softstone', 10,1,'')
-          ]
-items = [item.Healing('1', 'Bandage', 10,1, 'A cloth bandage to treat wounds')
-         ]
+items = itemList
 #Universal Specials
 manuvers = [mnv.Manuver_Enhance('1','Advence', 0,10,100, 'Move in range.'),
            mnv.Manuver_Enhance('2','Retreat', 0,10,100, 'Move out of range.')
@@ -234,46 +212,47 @@ def equipment():
             print('3: health and stamina items')
             j = input('Item set:')
             if (j == '1'):
+                print(items.weapons)
                 print('\nDagger obtained')
-                inv.addItem(weapons[2], 1)
+                inv.addItem(items.weapons[3], 1)
                 print('\nLeif obtained')
-                inv.addItem(weapons[1], 1)
+                inv.addItem(items.weapons[2], 1)
                 print('\nSword obtained')
-                inv.addItem(weapons[3], 1)
+                inv.addItem(items.weapons[1], 1)
                 print('\nSpear obtained')
-                inv.addItem(weapons[4], 1)
+                inv.addItem(items.weapons[4], 1)
                 print('\nAxe obtained')
-                inv.addItem(weapons[5], 1)
+                inv.addItem(items.weapons[5], 1)
                 print('\nClub obtained')
-                inv.addItem(weapons[6], 1)
+                inv.addItem(items.weapons[6], 1)
                 print('\nStaff obtained')
-                inv.addItem(weapons[7], 1)
+                inv.addItem(items.weapons[7], 1)
                 print('\nStaff obtained')
-                inv.addItem(weapons[13], 1)
+                inv.addItem(items.weapons[8], 1)
             elif (j == '2'):
                 print('\nBow obtained')
-                inv.addItem(weapons[8], 1)
+                inv.addItem(items.weapons[9], 1)
                 print('\nCrossbow obtained')
-                inv.addItem(weapons[9], 1)
+                inv.addItem(items.weapons[10], 1)
                 print('\nSling obtained')
-                inv.addItem(weapons[10], 1)
+                inv.addItem(items.weapons[11], 1)
                 print('\nShield obtained')
-                inv.addItem(weapons[11], 1)
+                inv.addItem(items.weapons[12], 1)
                 print('\nWand obtained')
-                inv.addItem(weapons[12], 1)
+                inv.addItem(items.weapons[13], 1)
                 print('\nArrows obtained')
-                inv.addItem(projec[0], 5)
+                inv.addItem(items.projec[0], 5)
                 print('\nNet obtained')
-                inv.addItem(projec[1], 1)
+                inv.addItem(items.projec[1], 1)
                 print('\nBolts obtained')
-                inv.addItem(projec[2], 5)
+                inv.addItem(items.projec[2], 5)
                 print('\nStones obtained')
-                inv.addItem(projec[3], 5)
+                inv.addItem(items.projec[3], 5)
             elif (j == '3'):
                 print('\nBlackberries obtained')
-                inv.addItem(food[0], 5)
+                inv.addItem(items.food[0], 5)
                 print('\nBandage obtained')
-                inv.addItem(items[0], 5)
+                inv.addItem(items.items[0], 5)
             save()
         elif (i == '2'):
             inventory()

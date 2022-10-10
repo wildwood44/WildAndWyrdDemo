@@ -1,38 +1,75 @@
+import sqlite3
 import ItemClasses
+from data import game_database
+from data import typeSpf
 item = ItemClasses
-#Items lists
-weapons = [item.Sword('0','None',0,0,''),
-           item.Sword('1','Lief',500,5,'Legendary sword of the Scion.'),
-           item.Dagger('2','Hunting Knife',5,1,'A knife used to hunt insects.'),
-           item.Sword('3','Relic Sword', 10,3, '',),
-           item.Spear('4','Relic Spear',8,3, ''),
-           item.Axe('5','Relic Axe', 12,4, ''),
-           item.Mace('6','Old Club', 10,4,''),
-           item.Staff('7','Crooked Stick', 3,2, ['0'],[''],''),
-           item.Bow('1','Training Bow', 20,2, 'A large bow made for practice.'),
-           item.Crossbow('1','Training Crossbow', 20,2, ''),
-           item.Sling('1','Grass Sling', 20,2, 'A sling made from grass; not very practical'),
-           item.Shield('1','Wooden Shield', 20,4,'A basic round wooden shield.'),
-           item.Wand('1','Poison wand', 1, '1', 'Poison Nettle', 'A wand containing a weak poison'),
-           item.Staff('8', 'Mushroom staff',  3,2, ['2', '3', '4'],['Grow mushrooms','Grow mushrooms','Grow mushrooms'],'')
-           ]
+#enumerated classes
+SpecialType1 = typeSpf.SpecialType1
+SpecialType2 = typeSpf.SpecialType2
+AttackType = typeSpf.AttackType
+SpellType = typeSpf.SpellType
+CombatStatus = typeSpf.CombatStatus
+ArmourType = typeSpf.ArmourType
+Weapon1Type = typeSpf.Weapon1Type
+Weapon2Type = typeSpf.Weapon2Type
+ItemType = typeSpf.ItemType
+ProjectileType = typeSpf.ProjectileType
 
-armours = [item.Hat('1','None',0,0,''),
-           item.Shirt('1','Old Tunic', 1,1,'An old shirt with holes in it.'),
-           item.Shirt('2', 'Travelling Cloak', 10,10,'A too large black cloak. Good for keeping ou of sight but heavy.'),
-           item.Trousers('1','Worn Trousers', 1,1,'An old pair of trousers long past their prime')
-           ]
-food = [item.Food('1','Blackberry',1,5),
-        item.Food('2','Dried Fruit',1,5),
-        item.Food('3','Hazelnut',1,5),
-        item.Food('4', 'Mushroom', 1,5),
-        item.Food('5', 'Raw Bug Meat',3,10),
-        item.Food('6', 'Brown Bread',3,50)
-        ]
-projec = [item.Arrow('1','Primitive Arrow', 10,1,'Arrows made from stone heads and twigs.'),
-          item.Toss('2','Rope Net', 0,1, 'A rope net to catch your enemies.'),
-          item.Bolt('3','Wooden Bolt', 10,1,''),
-          item.Stone('4','Softstone', 10,1,'')
-          ]
-items = [item.Healing('1', 'Bandage', 10,1, 'A cloth bandage to treat wounds')
-         ]
+# connecting to database
+connection = sqlite3.connect("waw.db", isolation_level=None)
+# cursor
+crsr = connection.cursor()
+db = game_database.DB(connection, crsr)
+
+weapons = []
+for i in db.GetItemByItemType(crsr, Weapon1Type.sword):
+    weapons.append(item.Sword(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.dagger):
+    weapons.append(item.Dagger(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.spear):
+    weapons.append(item.Spear(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.axe):
+    weapons.append(item.Axe(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.mace):
+    weapons.append(item.Mace(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon1Type.staff):
+    item_id = i[0]
+    weapons.append(item.Staff(*(i), db.GetSpells(crsr, item_id)))
+for i in db.GetItemByItemType(crsr, Weapon2Type.bow):
+    weapons.append(item.Bow(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon2Type.crossbow):
+    weapons.append(item.Crossbow(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon2Type.sling):
+    weapons.append(item.Sling(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon2Type.shield):
+    weapons.append(item.Shield(*(i)))
+for i in db.GetItemByItemType(crsr, Weapon2Type.wand):
+    item_id = i[0]
+    weapons.append(item.Wand(*(i), db.GetSpells(crsr, item_id)))
+armours = []
+for i in db.GetItemByItemType(crsr, ArmourType.hat):
+    armours.append(item.Hat(*(i)))
+for i in db.GetItemByItemType(crsr, ArmourType.shirt):
+    armours.append(item.Shirt(*(i)))
+for i in db.GetItemByItemType(crsr, ArmourType.trousers):
+    armours.append(item.Trousers(*(i)))
+food = []
+for i in db.GetItemByItemType(crsr, ItemType.food):
+    food.append(item.Food(*(i)))
+projec = []
+for i in db.GetItemByItemType(crsr, ProjectileType.arrow):
+    projec.append(item.Arrow(*(i)))
+for i in db.GetItemByItemType(crsr, ProjectileType.bolt):
+    projec.append(item.Bolt(*(i)))
+for i in db.GetItemByItemType(crsr, ProjectileType.stone):
+    projec.append(item.Stone(*(i)))
+for i in db.GetItemByItemType(crsr, ProjectileType.toss):
+    projec.append(item.Toss(*(i)))
+items = []
+for i in db.GetItemByItemType(crsr, ItemType.healing):
+    items.append(item.Healing(*(i)))
+ingre = []
+for i in db.GetItemByItemType(crsr, ItemType.ingredient):
+    ingre.append(item.Ingredient(*(i)))
+crsr.close()
+connection.close()
