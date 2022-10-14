@@ -69,13 +69,13 @@ def examine(game_over, party, location, story, inv):
                     story.sQuests[0].required[1] = True
                     examining = False
                 else:
-                    print("A small metal cauldron was suspended above the stove by a chain. It was empty right now.")
+                    print("A small metal cauldron was suspended above the stove by a chain. It was empty.")
                 cont()
             elif (e == 'pots' or e == 'Pots'):
                 print('Various pots and pans were hung on hooks along the wall.')
                 cont()
             elif (e == 'cupboard' or e == 'Cupboard'):
-                print('The cupboard was full of plates, bowls and other kitchen and dining utensils.')
+                print('The cupboard was full of plates, bowls and other kitchen and dining ware.')
                 cont()
             elif (e == 'bowl' or e == 'Bowl'):
                 if (story.PKSwitch[0] == True):
@@ -459,7 +459,7 @@ def examine(game_over, party, location, story, inv):
                         confirm = yn(pickup)
                         if (confirm == True):
                             print('\nHunting Knife obtained')
-                            inv.addItem(item.weapons[2], 1)
+                            inv.addItem(item.weapons[3], 1)
                             story.PKSwitch[1] = False
                             examining = False
                             cont()
@@ -472,7 +472,7 @@ def examine(game_over, party, location, story, inv):
             elif (e == 'mortar' or e == 'Mortar' or e == 'pestle' or e == 'Pestle'):
                 if (story.sQuests[0].accepted == True and story.sQuests[0].required[2] == False):
                     for i in inv.itemList:
-                        if (i['item'].itemType == ItemType.ingredient and i['item'].itemId == '1'):
+                        if (i['item'].itemType == ItemType.ingredient and i['item'].itemId == 1030):
                             print('Alder ground the leaves with the pestle until they were powder. He then put them in a nearby pot containing remnants of the same powder.')
                             cont()
                             story.sQuests[0].required[2] = True
@@ -628,7 +628,6 @@ def examine(game_over, party, location, story, inv):
                             cont()
                             win =com.Battle(party.listParty(), [enemyUnits.Hornet(), enemyUnits.Hornet(), enemyUnits.Null()],inv)
                         if (win == False):
-                            #print('When Alder is defeated he will lose some of his possessions such as currency. The story will be taken back to before the fight so another attempt can be made.')
                             location = '3'
                             party.alder.health = party.alder.maxHealth
                             party.alder.stamina = party.alder.maxStamina

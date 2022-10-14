@@ -141,7 +141,7 @@ def move(game_active, party, location, story, inv):
             party.alder.stamina -= 1  
             cont()
         elif (m == '3'):
-            if (story.mQuests[0].completed == True and party.alder.weapon1.wpId != '0'):
+            if (story.mQuests[0].completed == True and party.alder.weapon1.wpId != 1008):
                 location = '6'
                 print('Alder left the cottage grounds.')
                 party.alder.stamina -= 1    
@@ -164,7 +164,7 @@ def move(game_active, party, location, story, inv):
             else:
                 location = '3'
                 print('Alder left the shed and returned to the front of the cottage.')
-                if (party.alder.weapon1.wpId == "2"):
+                if (party.alder.weapon1.wpId == 1010):
                     story.tutorialSwitch[4] = False
                 party.alder.stamina -= 1
                 cont()
@@ -271,7 +271,7 @@ def move(game_active, party, location, story, inv):
                 print('Alder passed the bug meat and the hunting knife over to her. Florence went inside the cottage to prepare the crickets for supper while Thay applied poultice of greater plantain to Alder stings.')
                 for i in inv.itemList:
                     if (i['item'].itemType == ItemType.food):
-                        if (i['item'].itemId == '5'):
+                        if (i['item'].itemId == 1005):
                             inv.removeItem(i)
                 party.alder.weapon1 = item.weapons[0]
                 party.alder.health += 10

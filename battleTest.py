@@ -212,7 +212,6 @@ def equipment():
             print('3: health and stamina items')
             j = input('Item set:')
             if (j == '1'):
-                print(items.weapons)
                 print('\nDagger obtained')
                 inv.addItem(items.weapons[3], 1)
                 print('\nLeif obtained')

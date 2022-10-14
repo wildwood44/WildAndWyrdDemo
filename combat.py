@@ -23,6 +23,7 @@ ArmourType = typeSpf.ArmourType
 Weapon1Type = typeSpf.Weapon1Type
 Weapon2Type = typeSpf.Weapon2Type
 ItemType = typeSpf.ItemType
+ProjectileType = typeSpf.ProjectileType
 
 #Set playable characters
 alder = playableChars.Alder()
@@ -336,9 +337,7 @@ class Combat():
                     r.recordMagic(p.pId, p.name, p.type, p.cStatus, support.specialType, support.name)
                 p.cStatus = CombatStatus.Specializing
                 p.stamina -= support.cost
-                print(p.cStatus)
             except:
-                print("ping")
                 p.cStatus = CombatStatus.Normal
         if ((sp == "4" or sp == "enhance") and enhance.spId != '0'):
             try:
@@ -381,7 +380,8 @@ class Combat():
             if (y == '' or y == 'projectiles' or y == 'Projectiles'):
                 print('Projectiles')
                 for i in inv.itemList:
-                    if(i['item'].itemType == ItemType.projectile or i['item'].itemType == ItemType.toss):
+                    if(i['item'].itemType == ProjectileType.arrow or i['item'].itemType == ProjectileType.bolt or
+                       i['item'].itemType == ProjectileType.stone or i['item'].itemType == ProjectileType.toss):
                         print(count, ': ', i['item'].name, ' x', i['count'])
                         use.append(i)
                         count += 1
@@ -408,7 +408,8 @@ class Combat():
                                 p.stamina = p.maxStamina
                             p.cStatus = CombatStatus.Using
                             using = False
-                        elif (i['item'].itemType == ItemType.projectile):
+                        elif (i['item'].itemType == ProjectileType.arrow or i['item'].itemType == ProjectileType.bolt or
+                              i['item'].itemType == ProjectileType.stone):
                             if (i['item'].weapon == Weapon2Type.bow):
                                 if(p.weapon2.itemType == Weapon2Type.bow):
                                     print('\nArrow loaded!')
@@ -526,7 +527,7 @@ class Battle():
                     if (i.type == 'playable' and i.health > 0):
                         #Automatic special
                         automatic = i.special_auto()
-                        if(automatic.spId != '0'):
+                        if(automatic.spId != 0):
                             i.cStatus = CombatStatus.Specializing
                             if(automatic.specialType == SpecialType1.manuver):       
                                 automatic.auto_activate(i, automatic)
@@ -574,7 +575,6 @@ class Battle():
                                     print('\n',j.name, 'Health:', j.health,'/',j.maxHealth)
                                     print(j.desc)
                             elif (j == '4' or j == 'special' or j == 'Special'):
-                                print(i, com.heroes, com.enemys, rcd)
                                 com.special(i, com.heroes, com.enemys, rcd)
                             elif (j == '5' or j == 'item' or j == 'Item'):
                                 com.item(i, com.enemys, rcd, inv)

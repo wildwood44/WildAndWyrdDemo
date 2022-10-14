@@ -48,7 +48,11 @@ class Equipment():
                i['item'].itemType == Weapon1Type.axe or i['item'].itemType == Weapon1Type.mace or i['item'].itemType == Weapon1Type.staff):
                 count +=1
                 equipable.append(i)
-                print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack - p.weapon1.attack)
+                
+                if(i['item'].itemType == Weapon1Type.staff and len(i['item'].spells) != 0):
+                    print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack - p.weapon1.attack, '- Spells: ', list(zip(*i['item'].spells))[1])
+                else:
+                    print(count, ': ', i['item'].name, '- Attack: +', i['item'].attack - p.weapon1.attack)
         return count
     def getSecondWeapon(self, p, inv,equipable):
         count = 0
@@ -78,7 +82,7 @@ class Equipment():
                     else:
                         print(count, ': ', i['item'].name, '- Defence: +', i['item'].defence)
                 elif(i['item'].itemType == Weapon2Type.wand):
-                    print(count, ': ', i['item'].name, '- Spell: ', i['item'].spells)
+                    print(count, ': ', i['item'].name, '- Spells: ', list(zip(*i['item'].spells))[1])
                     for j in p.spells:
                         if (j['spId'] == i.wpId):
                             j['unlocked'] = True
@@ -89,7 +93,6 @@ class Equipment():
             eq = input('Equip item: ')
             for i in equipable:
                 if (eq == str(count)):
-                    print(i)
                     return i
                 count +=1
         else:
@@ -108,7 +111,7 @@ class Equipment():
     def body(self,p,i,inv):
         if (i != None):
             print(i['item'].name, 'equiped')
-            if(p.body.armId != '1'):
+            if(p.body.armId != 1):
                 inv.addItem(p.body,1)
             p.body = i['item']
             i['count'] -= 1
@@ -118,16 +121,16 @@ class Equipment():
     def legs(self,p,i,inv):
         if (i != None):
             print(i['item'].name, 'equiped')
-            if(p.legs.armId != '1'):
+            if(p.legs.armId != 1):
                 inv.addItem(p.legs,1)
             p.legs = i['item']
             i['count'] -= 1
             if(i['count'] <= 0):
                 inv.removeItem(i)
     def primeWeapon(self,p,i,inv):
-        if (i != None):
+        if (i != None ):
             print(i['item'].name, 'equiped')
-            if(p.weapon1.wpId != '0'):
+            if(p.weapon1.wpId != 1008):
                 inv.addItem(p.weapon1,1)
             p.weapon1 = i['item']
             i['count'] -= 1
@@ -136,7 +139,7 @@ class Equipment():
     def secondWeapon(self,p,i,inv):
         if (i != None):
             print(i['item'].name, 'equiped')
-            if(p.weapon2.wpId != '0'):
+            if(p.weapon2.wpId != 1008):
                 inv.addItem(p.weapon2,1)
             p.weapon2 = i['item']
             i['count'] -= 1

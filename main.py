@@ -1,16 +1,20 @@
 import os
 import pickle
 import random
+import sqlite3
+from data import createDatabase
 import examineMode
 import talkingMode
 import moving
 import ItemClasses
+import itemList
 import inventory
 import equipment
 import dialog
 import combat
 import objective
 import quest
+from data import game_database
 from data import typeSpf
 import playableChars
 import enemyUnits
@@ -18,8 +22,6 @@ import enemyUnits
 menu_active = True
 game_active = False
 game_over = False
-tutorial1 = True
-chapter1 = False
 #enumerated classes
 SpecialType1 = typeSpf.SpecialType1
 SpecialType2 = typeSpf.SpecialType2
@@ -30,6 +32,12 @@ ArmourType = typeSpf.ArmourType
 Weapon1Type = typeSpf.Weapon1Type
 Weapon2Type = typeSpf.Weapon2Type
 ItemType = typeSpf.ItemType
+ProjectileType = typeSpf.ProjectileType
+
+# connecting to database
+connection = sqlite3.connect("waw.db")
+# cursor
+crsr = connection.cursor()
 
 #Set Class
 #party = [playableChars.Alder()]
@@ -39,47 +47,20 @@ com = combat
 eqp = equipment.Equipment()
 obj = objective.Objective()
 qst = quest
+db = game_database.DB(connection, crsr)
+
+#Create Items Database
+#db.DropItemDB(crsr)
+#db.CreateItemDB(crsr)
+#db.CreateSpellDB(crsr)
+#db.CreateItemSpellDB(crsr)
 
 #Items lists
-weapons = [item.Sword('0','None',0,0,''),
-           item.Sword('1','Lief',500,5,'Legendary sword of the Scion.'),
-           item.Dagger('2','Hunting Knife',5,1,'A knife used to hunt insects.'),
-           item.Bow('1','Training Bow', 20,2, 'A large bow made for practice.'),
-           item.Shield('1','Wooden Shield', 20,4,'A basic round wooden shield.')
-           ]
-
-armours = [item.Hat('1','None',0,0,''),
-           item.Shirt('1','Old Tunic', 1,1,'An old shirt with holes in it.'),
-           item.Shirt('2', 'Travelling Cloak', 10,10,'A too large black cloak. Good for keeping ou of sight but heavy.'),
-           item.Trousers('1','Worn Trousers', 1,1,'An old pair of trousers long past their prime')
-           ]
-food = [item.Food('1','Blackberry',1,5),
-        item.Food('2','Dried Fruit',1,5),
-        item.Food('3','Hazelnut',1,5),
-        item.Food('4', 'Mushroom', 1,5),
-        item.Food('5', 'Raw Bug Meat',3,10),
-        item.Food('6', 'Brown Bread',3,50)
-        ]
-items = [{'itemId' : '1', 'name' : 'Bandage', 'type' : ItemType.healing, 'description' : 'A cloth bandage to treat wounds',
-          'heals' : 10, 'count' : 0, 'priority': 2}
-         ]
-projec = [{'itemId' : '1', 'name' : 'Primitive Arrow', 'type' : ItemType.projectile, 'description' : 'Arrows made from readily available materials.',
-           'weapon' : Weapon2Type.bow, 'damage' : 10, 'count' : 0, 'priority': 8},
-          {'itemId' : '2', 'name' : 'Rope Net', 'type' : ItemType.toss,  'description' : 'A rope net to catch your enemies.',
-           'weapon' : 'none', 'damage' : 0, 'count' : 0, 'priority': 9}
-          ]
-ingre = [{'ingId' : '1', 'name' : 'Bramble leaves', 'type' : ItemType.ingredient, 'description' : 'The leaves of a blackberry bush',
-          'count' : 0, 'priority': 10}
-         ]
+items = itemList
 #Inventory
 shill = 0
 inv = inventory.Inventory()
-#Universal Specials
-manuvers = [{'spId':'1','name':'Advence', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
-           {'spId':'2','name':'Retreat', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move out of range.'}
-           ]
-spells = []
-combinations = []
+
 #Location
 locations = [{"locId" : "1", "name" : "Cottage Kitchen"},
              {"locId" : "2", "name" : "Cottage Living Room"},
@@ -105,13 +86,17 @@ class Party():
         return [self.alder]
 party = Party()
 alder = party.alder
+
+class Reward_Item():
+    def __init__(self, item, qnt):
+        self.item = item
+        self.qnt = qnt
         
 class Story():
-    def __init__(self, chapter, part, tutorComp):
+    def __init__(self, chapter, part):
         #Story Switches
         self.chapter = '0'
         self.part = '1'
-        self.tutorComp = False
         self.switch = [True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
         self.tutorialSwitch = [True, True, True, True, True, True, True]
         self.c2Switch = [True, True, True, True, True, True]
@@ -120,17 +105,19 @@ class Story():
         self.PKSwitch = [True, True, True, True, True, True]
 
         #Quests
-        self.mQuests = [qst.Quest('1','Florence','Bug hunt',['Collect two pieces of bug meat'],'',0,
-                    'collect', [food[4]],2)
+        self.mQuests = [qst.E_Quest('1','Florence','Tutorial: Equip',['Equip hunting knife'],self.tutorialSwitch[4],1,
+                                    [items.weapons[3]],party.alder),
+                        qst.C_Quest('2','Florence','Bug hunt',['Collect two pieces of bug meat'],'',0,
+                                    [items.food[4]],2)
                    ]
-        self.sQuests = [qst.Quest('1','Kyla','Servants work', ['Clean fireplace:', 'Scrub caldron:', 'Grind bramble leaves in mortar:'], 'none', 0,
-                    'action', [False, False, False], 1),
-                   qst.Quest('2','Florence','Provisions', ['Collect food x'], food[5], 1,
-                    'action', [False], 1),
-                   qst.Quest('3','Kyla','Packing up', ['Take books from bookshelf:', 'Break down wall', 'Take pots from the shed:'], 'shillings', 2,
-                    'action', [False, False, False], 1)
+        self.sQuests = [qst.A_Quest('1','Kyla','Servants work', ['Clean fireplace:', 'Scrub caldron:', 'Grind bramble leaves in mortar:'], 'none', 0,
+                                    [False, False, False], 1),
+                        qst.A_Quest('2','Florence','Provisions', ['Collect food x'], items.food[5], 1,
+                                    [False], 1),
+                        qst.A_Quest('3','Kyla','Packing up', ['Take books from bookshelf:', 'Break down wall', 'Take pots from the shed:'], 'shillings', 2,
+                                    [False, False, False], 1)
                    ]
-story = Story('0', '1', False)
+story = Story('0', '1')
 
 def cont():
     con = input()
@@ -316,7 +303,7 @@ def yn(yesNo):
 
 #Save the game
 def save(location, story):
-    data = [location, story, tutorComp, inv, party]
+    data = [location, story, inv, party]
     i = input('Save in file "1", "2" or "3":')
     if (i == '1'):
         PIK = 'data/file1.dat'
@@ -375,37 +362,11 @@ def inventory():
 #Achive objectives
 def achive():
     for q in story.mQuests:
-        q.questProgress(inv)
-        #if(q['accepted'] == True and q['submitted'] != True):
-        #    if (q['questId'] == '1'):
-        #        amount = 0
-        #        for i in inv.itemList:
-        #            if (i['item'].itemType == ItemType.food):
-        #                if (i['item'].itemId == q['required']['itemId']):
-        #                    amount += i['count']
-        #        if (amount >= 2):
-        #            q['completed'] = True
-        #        else:
-        #            q['completed'] = False
+        q.questProgress(party, inv)
+        if (q.completed == True and q.submitted == False):
+            story.tutorialSwitch[4] = q.qComp(party, inv)
     for q in story.sQuests:
-        q.questProgress(inv)
-            # #if(q['accepted'] == True and q['submitted'] != True):
-            #if (q['type'] == 'action'):
-            #    count = 0
-            #    for i in q['required']:
-            #        if (i == True):
-            #            count += 1
-            #    if (count == len(q['required'])):
-            #        q['completed'] = True
-            #if (q['type'] == 'collect'):
-            #    count = 0
-            #    for i in q['required']:
-            #        for j in inv.itemList:
-            #            if(i['type'] == j['item'].itemType):
-            #                if(i['itemId'] == j['item'].itemId):
-            #                    if (j['count'] == q['qnt'][count]):
-            #                        q['completed'] = True
-            #        count += 1
+        q.questProgress(party, inv)
 def helper():
     print("\nCommand: e, examine, Examine - Allows Alder to investigate his surroundings. Examinating further may reveal an item you can pickup.")
     print("Command: m, move, Move - Move to the next area.")
@@ -469,7 +430,7 @@ def free(story):
         elif (action == 'z' or action == 'stats' or action == 'Stats:'):
             party.alder.stats()
         elif (action == 'o' or action == 'objective' or action == 'Objective'):
-            obj.printObjective(story, inv, party)
+            obj.printObjective(story, inv, party.listParty())
         elif (action == 'i' or action == 'items' or action == 'Items'):
             if (location != '7'):
                 inventory()
@@ -500,8 +461,6 @@ def game():
     print('The game will now begin. Press enter to print the next line.')
     print("You may skip the dialogue by typing 'skip' then pressing enter.")
     while (game_active == True):
-        if (tutorComp == False):
-            tutorial1 = True
         if (story.chapter == '0'):
             prologue = True
             dialog.cutscene(story, '0')
@@ -520,6 +479,7 @@ def game():
             elif (story.switch[3] == True and story.part == '3'):
                 dialog.cutscene(story, '3')
                 story.mQuests[0].accepted = True
+                story.mQuests[1].accepted = True
                 story.switch[3] = False
             elif (story.switch[4] == True and story.part == '4'):
                 dialog.cutscene(story, '4')
@@ -582,14 +542,14 @@ def game():
                 story.switch[15] = False
             while (author == True):
                 print('James Stockwell:')
-                print('"Thank you for playing the demo for the Wild and Wyrd. Please let me know if there are any errors or grammer mistakes. Please support me if you want to see more of Alder'"'"'s story."')
+                print('"Thank you for playing the demo for the Wild and Wyrd. Please let me know if there are any errors or grammer mistakes. Please support this project if you want to see more of Alder'"'"'s story."')
                 cont()
             if (game_active == True):
                 free(story)
     
 
 def loadGame():
-    global game_active, location, story, shill, tutorComp, inv,party
+    global game_active, location, story, shill, inv,party
     PIK = ''
     op = input('Open save file "1", "2" or "3": ')
     if (op == '1'):
@@ -603,16 +563,15 @@ def loadGame():
             data = pickle.load(f)
             location = data[0]
             story = data[1]
-            tutorComp = data[2]
-            inv = data[3]
-            party = data[4]
+            inv = data[2]
+            party = data[3]
             alder = party.alder
             game_active = True
     except:
         print('Saved file not found!')
 
 def menu():
-    global menu_active, chapter, part, chapter1, tutorComp, game_active, game_over, switch, tutorialSwitch, c2Switch, c3Switch, shill, inv, PKSwitch, location
+    global menu_active, chapter, part, game_active, game_over, switch, tutorialSwitch, c2Switch, c3Switch, shill, inv, PKSwitch, location
     while (menu_active == True):
         print('Wild and Wyrd')
         print('n - New Game')
@@ -622,9 +581,6 @@ def menu():
         action = input('Enter Command: ')
         if (action == 'n'):
             game_active = True
-            tutorial1 = True
-            tutorComp = False
-            chapter1 = False
             location = '1'
             chapter = '0'
             part = '1'
@@ -663,11 +619,11 @@ def menu():
             alder.baseDefence = 10
             alder.baseSpeed = 5
             alder.baseEvasion = 5
-            alder.head = armours[0]
-            alder.body = armours[1]
-            alder.legs = armours[3]
-            alder.weapon1 = weapons[0]
-            alder.weapon2 = weapons[0]
+            alder.head = items.armours[0]
+            alder.body = items.armours[1]
+            alder.legs = items.armours[3]
+            alder.weapon1 = items.weapons[0]
+            alder.weapon2 = items.weapons[0]
             #Start Game
             game()
         elif (action == 'l'):

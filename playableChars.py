@@ -1,5 +1,6 @@
 import ItemClasses
 import inventory
+import specialList
 import spells
 import manuvers
 from data import typeSpf
@@ -17,16 +18,19 @@ item = ItemClasses
 spl = spells
 mnv = manuvers
 #Universal Specials
-manuvers = [{'spId':'1','name':'Advence', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
-           {'spId':'2','name':'Retreat', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move out of range.'}
-           ]
-spells = [spl.Nature_Offence('1','Poison nettles', AttackType.single, 1, 10, 100, 'Poisons an opponent'),
-          spl.Nature_Offence('2','Grow mushrooms', AttackType.single, 0, 10, 100, 'Grow mushrooms on your enemy to hinder them.'),
-          spl.Nature_Enhance('3','Grow mushrooms', 9, 0, 100, "Grow edable mushrooms for an ally to restore stamina."),
-          spl.Nature_Support('4','Grow mushrooms', AttackType.single, 9, 0, 100, 'Grow edable mushrooms for the caster to restore stamina.')
-          ]
-combinations = [{'spell':spl.Nature_Offence('comb1','Poisonous mushrooms', AttackType.single, 9, 10, 100, 'Grow poisinous mushrooms on the enemy.'), 'components':['1', '2']}
-          ]
+manuvers = specialList.manuvers
+#[{'spId':'1','name':'Advence', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move towards out of ranged opponents or move in range.'},
+#           {'spId':'2','name':'Retreat', 'type':SpecialType2.enhance, 'specialType':SpecialType1.manuver, 'damage' : 0, 'cost':10, 'effectivness':100, 'active':False, 'unlocked':True, 'effect':'Move out of range.'}
+#           ]
+spells = specialList.spells
+#[spl.Nature_Offence('1','Poison nettles', AttackType.single, 1, 10, 100, 'Poisons an opponent'),
+#          spl.Nature_Offence('2','Grow mushrooms', AttackType.single, 0, 10, 100, 'Grow mushrooms on your enemy to hinder them.'),
+#          spl.Nature_Enhance('3','Grow mushrooms', 9, 0, 100, "Grow edable mushrooms for an ally to restore stamina."),
+#          spl.Nature_Support('4','Grow mushrooms', AttackType.single, 9, 0, 100, 'Grow edable mushrooms for the caster to restore stamina.')
+#          ]
+combinations = specialList.combinations
+#[{'spell':spl.Nature_Offence('comb1','Poisonous mushrooms', AttackType.single, 9, 10, 100, 'Grow poisinous mushrooms on the enemy.'), 'components':['1', '2']}
+#          ]
 #Character Base Stats
 class Playable():
     def __init__(self, pId, active, name, species, maxHealth, maxStamina, cLvl,
@@ -112,116 +116,117 @@ class Playable():
     def evasion(self):
         evasion = self.baseEvasion
         if (self.special_auto().specialType == SpecialType1.manuver):
-            print(self.special_auto().spId == 'a1', self.special_auto().active == True)
+            #print(self.special_auto().spId == 'a1', self.special_auto().active == True)
             if (self.special_auto().spId == 'a1' and self.special_auto().active == True):
                 evasion *= 2
         return evasion
     property
     def special_auto(self):
-        automatic = spl.Nature_Automatic('0','None',  AttackType.single,0,0,0,'')
+        automatic = spl.Nature_Automatic(0,'None',  AttackType.single,0,0,0,'')
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2.spId == i.spId and i.spltype == SpecialType2.automatic):
+                #print(self.weapon2.spells[0][0])
+                if(self.weapon2.spells[0][0] == i.spId and i.spltype == SpecialType2.automatic):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
-                        for j in spells:
-                            for k in self.weapon1.spells:
-                                if(k.spId == j.spId and j.spltype == SpecialType2.automatic):
-                                    automatic = i.combine(j)
+                        for k in self.weapon1.spells:
+                            for j in combinations:
+                                if(j[0].spId == i.combine(i.spId, k[0])):
+                                    automatic = j[0]
                                     confirm = True
                         if(confirm == False):
                             automatic = i
                     else:
                         automatic = i
-        if (self.weapon1.itemType == Weapon1Type.staff and automatic.spId == '0'):
+        if (self.weapon1.itemType == Weapon1Type.staff and automatic.spId == 0):
             for i in spells:
-                for j in self.weapon1.spId:
-                    if(j == i.spId and i.spltype == SpecialType2.automatic):
+                for j in self.weapon1.spells:
+                    if(j[0] == i.spId and i.spltype == SpecialType2.automatic):
                         automatic = i
-        if (automatic.spId == '0'):
+        if (automatic.spId == 0):
             for i in self.abilities:
                 if(i.unlocked == True and i.spltype == SpecialType2.automatic):
                     automatic = i
         return automatic
     property
     def special_off(self):
-        offence = spl.Nature_Offence('0','None',AttackType.single, 0,0,0,'')
+        offence = spl.Nature_Offence(0,'None',AttackType.single, 0,0,0,'')
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2.spId == i.spId and i.spltype == SpecialType2.offence):
+                if(self.weapon2.spells[0][0] == i.spId and i.spltype == SpecialType2.offence):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
-                        for j in spells:
-                            for k in self.weapon1.spId:
-                                if(k == j.spId and j.spltype == SpecialType2.offence):
-                                    offence = i.combine(j)
+                        for k in self.weapon1.spells:
+                            for j in combinations:
+                                if(j[0].spId == i.combine(i.spId, k[0])):
+                                    offence = j[0]
                                     confirm = True
                         if(confirm == False):
                             offence = i
                     else:
                         offence = i
-        if (self.weapon1.itemType == Weapon1Type.staff and offence.spId == '0'):
+        if (self.weapon1.itemType == Weapon1Type.staff and offence.spId == 0):
             for i in spells:
-                for j in self.weapon1.spId:
-                    if(j == i.spId and i.spltype == SpecialType2.offence):
+                for j in self.weapon1.spells:
+                    if(j[0] == i.spId and i.spltype == SpecialType2.offence):
                         offence = i
-        if (offence.spId == '0'):
+        if (offence.spId == 0):
             for i in self.abilities:
                 if(i.unlocked == True and i.spltype == SpecialType2.offence):
                     offence = i
         return offence
     property
     def special_sup(self):
-        support = spl.Nature_Support('0','None', AttackType.single, 0,0,0,'')
+        support = spl.Nature_Support(0,'None', AttackType.single, 0,0,0,'')
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2.spId == i.spId and i.spltype == SpecialType2.support):
+                if(self.weapon2.spells[0][0] == i.spId and i.spltype == SpecialType2.support):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
-                        for j in spells:
-                            for k in self.weapon1.spId:
-                                if(k == j.spId and j.spltype == SpecialType2.support):
-                                    support = i.combine(j)
+                        for k in self.weapon1.spells:
+                            for j in combinations:
+                                if(j[0].spId == i.combine(i.spId, k[0])):
+                                    support = j[0]
                                     confirm = True
                         if(confirm == False):
                             support = i
                     else:
                         support = i
-        if (self.weapon1.itemType == Weapon1Type.staff and support.spId == '0'):
+        if (self.weapon1.itemType == Weapon1Type.staff and support.spId == 0):
             for i in spells:
-                for j in self.weapon1.spId:
-                    if(j == i.spId and i.spltype == SpecialType2.support):
+                for j in self.weapon1.spells:
+                    if(j[0] == i.spId and i.spltype == SpecialType2.support):
                         support = i
-        if (support.spId == '0'):
+        if (support.spId == 0):
             for i in self.abilities:
                 if(i.unlocked == True and i.spltype == SpecialType2.support):
                     support = i
         return support
     property
     def special_enc(self):
-        enhance = spl.Nature_Enhance('0','None',0,0,0,'')
+        enhance = spl.Nature_Enhance(0,'None',0,0,0,'')
         if (self.weapon2.itemType == Weapon2Type.wand):
             for i in spells:
-                if(self.weapon2.spId == i.spId and i.spltype == SpecialType2.enhance):
+                #print(i.spId, " ", self.weapon1.spells[0][0])
+                if(self.weapon2.spells[0][0] == i.spId and i.spltype == SpecialType2.enhance):
                     if (self.weapon1.itemType == Weapon1Type.staff):
                         confirm = False
-                        for j in spells:
-                            for k in self.weapon1.spId:
-                                if(k == j.spId and j.spltype == SpecialType2.enhance):
-                                    enhance = i.combine(j)
+                        for k in self.weapon1.spells:
+                            for j in combinations:
+                                if(j[0].spId == i.combine(i.spId, k[0])):
+                                    enhance = j[0]
                                     confirm = True
                         if(confirm == False):
                             enhance = i
                     else:
                         enhance = i
-        if (self.weapon1.itemType == Weapon1Type.staff and enhance.spId == '0'):
+        if (self.weapon1.itemType == Weapon1Type.staff and enhance.spId == 0):
             for i in spells:
-                for j in self.weapon1.spId:
-                    if(j == i.spId and i.spltype == SpecialType2.enhance):
+                for j in self.weapon1.spells:
+                    if(j[0] == i.spId and i.spltype == SpecialType2.enhance):
                         enhance = i
-        if (enhance.spId == '0'):
+        if (enhance.spId == 0):
             for i in self.abilities:
-                print(i);
                 if(i.unlocked == True and i.spltype == SpecialType2.enhance):
                     enhance = i
         return enhance
@@ -245,7 +250,7 @@ class Alder(Playable):
                 item.Hat('0','None', 0, 0, ''),
                 item.Shirt('0','Old Tunic', 1,1, 'An old shirt with holes in it.'),
                 item.Trousers('0', 'Worn Trousers',1,1,'An old pair of trousers long past their prime'),
-                item.Sword('0','None', 0,0, ''), item.Sword('0','None', 0,0, ''),
+                item.Sword(1008,'None', 0,0, ''), item.Sword(1008,'None', 0,0, ''),
                 [mnv.Manuver_Automatic('a1','Steps of heroes', AttackType.single, 0,10, 100, 'Doubles Evasion for five turns.')])
         self.shield = 0
         self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False}
@@ -260,8 +265,8 @@ class Florence(Playable):
                 item.Hat('0','None', 0, 0, ''),
                 item.Shirt('0','Old Tunic', 1,1, 'An old shirt with holes in it.'),
                 item.Trousers('0', 'Worn Trousers',1,1,'An old pair of trousers long past their prime'),
-                item.Sword('0','None', 0,0, ''), item.Sword('0','None', 0,0, ''),
-                [spl.Blessing('f1','Heal', 100,10, 100, 'Heals an ally')])
+                item.Sword(1008,'None', 0,0, ''), item.Sword(1008,'None', 0,0, ''),
+                [spells[4]])
         self.shield = 0
         self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False, 'fungus':False}
         self.cStatus = CombatStatus.Normal

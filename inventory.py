@@ -11,7 +11,7 @@ ArmourType = typeSpf.ArmourType
 Weapon1Type = typeSpf.Weapon1Type
 Weapon2Type = typeSpf.Weapon2Type
 ItemType = typeSpf.ItemType
-
+ProjectileType = typeSpf.ProjectileType
 
 item = ItemClasses
 def itemLister(e):
@@ -44,23 +44,23 @@ class Inventory():
                     inInv = True
             elif (item.itemType == Weapon2Type.crossbow and i['item'].itemType == Weapon2Type.crossbow):
                 if (i['item'].wpId == item.wpId):
-                    item['count'] += qnt
+                    i['count'] += qnt
                     inInv = True
             elif (item.itemType == Weapon2Type.sling and i['item'].itemType == Weapon2Type.sling):
                 if (i['item'].wpId == item.wpId):
-                    item['count'] += qnt
+                    i['count'] += qnt
                     inInv = True
             elif (item.itemType == Weapon2Type.shield and i['item'].itemType == Weapon2Type.shield):
                 if (i['item'].wpId == item.wpId):
-                    item['count'] += qnt
+                    i['count'] += qnt
                     inInv = True
             elif (item.itemType == Weapon2Type.wand and i['item'].itemType == Weapon2Type.wand):
                 if (i['item'].wpId == item.wpId):
-                    item['count'] += qnt
+                    i['count'] += qnt
                     inInv = True
             elif (item.itemType == ArmourType.hat and i['item'].itemType == ArmourType.hat):
                 if (i['item'].armId == item.armId):
-                    item['count'] += qnt
+                    i['count'] += qnt
                     inInv = True
             elif (item.itemType == ArmourType.shirt and i['item'].itemType == ArmourType.shirt):
                 if (i['item'].armId == item.armId):
@@ -68,7 +68,7 @@ class Inventory():
                     inInv = True
             elif (item.itemType == ArmourType.trousers and i['item'].itemType == ArmourType.trousers):
                 if (i['item'].armId == item.armId):
-                    item['count'] += qnt
+                    i['count'] += qnt
                     inInv = True
             elif (item.itemType == ItemType.food and i['item'].itemType == ItemType.food):
                 if (i['item'].itemId == item.itemId):
@@ -78,12 +78,14 @@ class Inventory():
                 if (i['item'].itemId == item.itemId):
                     i['count'] += qnt
                     inInv = True
-            elif (item.itemType == ItemType.projectile and i['item'].itemType == ItemType.projectile):
+            elif (item.itemType == ProjectileType.arrow and i['item'].itemType == ProjectileType.arrow or
+                  item.itemType == ProjectileType.bolt and i['item'].itemType == ProjectileType.bolt or
+                  item.itemType == ProjectileType.stone and i['item'].itemType == ProjectileType.stone):
                 if (i['item'].itemId == item.itemId):
                     i['count'] += qnt
                     inInv = True
-            elif (item.itemType == ItemType.toss and i['item'].itemType == ItemType.toss):
-                if (i['itemId'] == item.itemId):
+            elif (item.itemType == ProjectileType.toss and i['item'].itemType == ProjectileType.toss):
+                if (i['item'].itemId == item.itemId):
                     i['count'] += qnt
                     inInv = True
             elif (item.itemType == ItemType.ingredient and i['item'].itemType == ItemType.ingredient):
@@ -101,9 +103,9 @@ class Inventory():
         use = []
         count = 1
         print('\nBag Items')
-        for i in itemList:
+        for i in self.itemList:
             if(i['item'].itemType == ItemType.healing or i['item'].itemType == ItemType.food):
-                print(count, ': ', i['name'], ' x', i['count'])
+                print(count, ': ', i['item'].name, ' x', i['count'])
                 use.append(i)
                 count += 1
         print('e - exit')
@@ -112,15 +114,15 @@ class Inventory():
             u = input('use item: ')
             for i in use:
                 if (u == str(count)):
-                    print(i['name'])
+                    print(i['item'].name)
                     if (i['item'].itemType == ItemType.healing):
-                        p.health += i['heals']
-                        print(p.name, ' recoved ', i['heals'], ' health')
+                        p.health += i['item'].heals
+                        print(p.name, ' recoved ', i['item'].heals, ' health')
                         if (p.health > p.maxHealth):
                             p.health = p.maxHealth
                     elif (i['item'].itemType == ItemType.food):
-                        p.stamina += i['recovers']
-                        print(p.name, ' recoved ', i['recovers'], ' stamina')
+                        p.stamina += i['item'].recovers
+                        print(p.name, ' recoved ', i['item'].recovers, ' stamina')
                         if (p.stamina > p.maxStamina):
                             p.stamina = p.maxStamina
                     i['count'] -= 1
@@ -173,7 +175,10 @@ class Inventory():
         if (Itype == '' or Itype == 'projectiles' or Itype == 'Projectiles'):
             print('Projectiles')
             for i in self.itemList:
-                if (i['item'].itemType == ItemType.projectile or i['item'].itemType == ItemType.toss):
+                if (i['item'].itemType == ProjectileType.arrow or i['item'].itemType == ProjectileType.arrow or
+                    i['item'].itemType == ProjectileType.bolt or i['item'].itemType == ProjectileType.bolt or
+                    i['item'].itemType == ProjectileType.stone or i['item'].itemType == ProjectileType.stone or
+                    i['item'].itemType == ProjectileType.toss or i['item'].itemType == ProjectileType.toss):
                     print(itemNum,') ',i['item'], 'x',i['count'])
                     itemNum += 1
                     listItems.append(i)
@@ -205,3 +210,8 @@ class Inventory():
         if (self.shill < 0):
             self.shill = 0
         print('Shillings: ', self.shill)
+    def inventorySize(self, carriers):
+        maxSize = 10 * carriers.length
+        for i in carriers:
+            maxSize += i.baseAttack
+        return maxSize

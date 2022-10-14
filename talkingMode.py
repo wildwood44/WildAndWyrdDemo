@@ -155,7 +155,7 @@ def talk(game_active, party, location, story, inv):
                         print('Kyla:')
                         print('"Do as you please."')
                         cont()
-                        story.sQuests[0].qComp(inv)
+                        story.sQuests[0].qComp(party, inv)
                     else:
                         print('Kyla:')
                         print('"I have no futher need for you."')
@@ -277,7 +277,7 @@ def talk(game_active, party, location, story, inv):
                         print('Florence:')
                         print('"Thank you, Alder."')
                         cont()
-                        story.sQuests[1].qComp(inv)
+                        story.sQuests[1].qComp(party, inv)
                     else:
                         print('Florence:')
                         print('"Are you doing alright Alder?"')
@@ -331,7 +331,7 @@ def talk(game_active, party, location, story, inv):
                         print('Kyla:')
                         print('"We leave soon."')
                         cont()
-                        story.sQuests[2].qComp(inv)
+                        story.sQuests[2].qComp(party, inv)
                     else:
                         print('Kyla:')
                         print('"I was sloppy!"')
@@ -672,7 +672,7 @@ def talk(game_active, party, location, story, inv):
                     cont()
                     print('Trissie went into the shed and retrived a bow and some arrows set aside for hunting. Alder thought she looked a little silly dragging the bow which was big even for him. The bow was originally meant for Florence, but finding herself unskilled she never used it. Trissie handed them to Alder.')
                     cont()
-                    party.alder.weapon2 = item.weapons[8]
+                    party.alder.weapon2 = item.weapons[9]
                     print('\nTraining bow equipped')
                     inv.addItem(item.projec[0], 5)
                     print('\n5 Primitive arrows obtained')
