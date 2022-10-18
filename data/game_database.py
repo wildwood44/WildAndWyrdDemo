@@ -26,7 +26,7 @@ class DB():
         crsr.execute("""INSERT INTO items VALUES(1004,'Mushroom','ItemType.food', 1,5,1,'')"""), 
         crsr.execute("""INSERT INTO items VALUES(1005,'Raw Bug Meat','ItemType.food',3,10,1,'')"""), 
         crsr.execute("""INSERT INTO items VALUES(1006,'Brown Bread','ItemType.food',3,50,1,'')"""),
-        crsr.execute("""INSERT INTO items VALUES(1007,'Bandage', 'ItemType.healing',1,10,2,'A cloth bandage to treat wounds')"""),
+        crsr.execute("""INSERT INTO items VALUES(1007,'Bandage','ItemType.healing',1,10,2,'A cloth bandage to treat wounds')"""),
         crsr.execute("""INSERT INTO items VALUES(1008,'None','Weapon1Type.sword',0,0,0,'')"""),
         crsr.execute("""INSERT INTO items VALUES(1009,'Lief','Weapon1Type.sword',5,500,3,'Legendary sword of the Scion.')"""),
         crsr.execute("""INSERT INTO items VALUES(1010,'Hunting Knife','Weapon1Type.dagger',1,5,3,'A knife used to hunt insects.')"""),

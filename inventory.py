@@ -114,10 +114,11 @@ class Inventory():
             u = input('use item: ')
             for i in use:
                 if (u == str(count)):
+                    print(p.health,p.stamina)
                     print(i['item'].name)
                     if (i['item'].itemType == ItemType.healing):
-                        p.health += i['item'].heals
-                        print(p.name, ' recoved ', i['item'].heals, ' health')
+                        p.health += i['item'].recovers
+                        print(p.name, ' recoved ', i['item'].recovers, ' health')
                         if (p.health > p.maxHealth):
                             p.health = p.maxHealth
                     elif (i['item'].itemType == ItemType.food):
@@ -127,7 +128,8 @@ class Inventory():
                             p.stamina = p.maxStamina
                     i['count'] -= 1
                     if(i['count'] <= 0):
-                        inv.remove(i)
+                        self.itemList.remove(i)
+                    print(p.health,p.stamina)
                 count +=1
             use.clear()
     def printInventory(self, Itype, listItems):
