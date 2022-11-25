@@ -45,10 +45,13 @@ class Weapon2Type(enum.Enum):
     sling = 3
     shield = 4
     wand = 5
+class ProjectileType(enum.Enum):
+    arrow = 1
+    bolt = 2
+    stone = 3
+    toss = 4
 class ItemType(enum.Enum):
     food = 1
     healing = 2
     status = 3
-    projectile = 4
-    toss = 5
-    ingredient = 6
+    ingredient = 4

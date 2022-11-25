@@ -1,0 +1,133 @@
+item$ varient$ line$ dialog
+kitchen$ default$ 1$ The cottage kitchen contained various 'pots' hanging on the wall. It had a 'hearth' where a 'cauldron' was dangling on a chain. In addition, a smaller room served as the 'larder'. There was also a 'cupboard' and two 'tables', one of which had a wooden 'bowl' on it. Alder had been washing dishes in a 'basin' on the other table next to the 'window'.
+cauldron$ default$ 1$ A small metal cauldron was suspended above the stove by a chain. It was empty.
+cauldron$ 1$ 1$ Alder got a wet cloth and started scrubbing the cauldron. Florence peeked into the living room at Kyla and then went over to help him.
+cauldron$ 1$ 2$ Florence:£"Shh."
+pots$ default$ 1$ Various pots and pans were hung on hooks along the wall.
+cupboard$ default$ 1$ The cupboard was full of plates, bowls and other kitchen and dining ware.
+bowl$ default$ 1$ A large wooden bowl. It's empty.
+bowl$ 1$ 1$ A large wooden bowl. It has hazelnuts in it.
+basin$ default$ 1$ The basin Alder was washing in was full of water from Alder cleaning dishes. Clean plates were lined up to the side.
+window$ default$ 1$ The clearing at the front of of the cottage can be seen through the window.
+window$ 1$ 1$ Florence and Thay were talking outside the window.
+window$ 1$ 2$ Alder:£"I'm coming out"
+hearth$ default$ 1$ The hearth was designed for cooking. It had metal plates above an unlit fireplace full of dry branches. The fire would heat the metal plates to cook meat.
+table$ default$ 1$ A rectangular wooden table stood in the centre of the room while a thinner one with a basin stood by the window.
+hornets$ default$ 1$ The hornets Alder slew were hung up on hooks. To be cooked for supper.
+larder$ default$ 1$ A small cool room of shelves and hooks to store food, mostly empty except for a loaf of bread. Kyla’s familiar Tawie was out resupplying. Alder was not looking forward to her return.
+larder$ 1$ 1$ There was only a single loaf of bread in the larder. It would have to do.
+larder$ 2$ 1$ The larder was empty.
+living$ default$ 1$ The living room was a homely place that was accessible by both the front and back 'door' and lit by the 'windows'. It had two 'chairs' and a 'table' in front of a 'fireplace' as well as a single 'bookshelf' with three shelves full of books.
+living$ 1$ 1$ There was a large hole in the wall.
+bookshelf$ 1$ 1$ Alder:£"A "Cohuleen Druith" hat."
+bookshelf$ 1$ 2$ Alder:£"The "Ring of Eluned"."
+bookshelf$ 1$ 3$ Alder:£"The "Gae Bulg" spear."
+bookshelf$ 1$ 4$ Alder:£"Found it!"
+bookshelf$ 1$ 5$ Alder:£"It’s called "Lief", "The sword of the seasons"."
+bookshelf$ 1$ 6$ Kyla:£"As I thought."
+bookshelf$ 1$ 7$ Kyla:£"But there is only one way to confirm this."
+bookshelf$ 1$ 8$ Kyla unsheathed that sword and held it in her hand. The blade darkened and bent and it was not long before it dropped off leaving only the handle.
+bookshelf$ 1$ 9$ Kyla:£"Boy you can have the sword back now, make sure you hold it by the grip."
+bookshelf$ 1$ 10$ Alder said nothing as he picked up the sword. As he did, a new blade started to grow from the rain-guard until it was back to its original glory.
+bookshelf$ 2$ 1$ Florence:£"What did you do?"
+bookshelf$ 2$ 2$ Kyla:£"The sword only sprouts for the Scion."
+bookshelf$ 2$ 3$ Kyla:£"In order words."
+bookshelf$ 2$ 4$ Kyla:£"You."
+bookshelf$ 3$ 1$ Kyla:£"What is…!?"
+bookshelf$ 3$ 2$ Kyla:£"How do you not know what the Scion is!?"
+bookshelf$ 3$ 3$ Florence:£"I thought it was more important that he knew herbs and how to read and write than history."
+bookshelf$ 3$ 4$ Kyla:£*Sigh*
+bookshelf$ 3$ 5$ Kyla:£"The Scion is the great hero of Avalon."
+bookshelf$ 3$ 6$ Kyla:£"They are able to pass on their knowledge and natural abilites after death."
+bookshelf$ 3$ 7$ Kyla:£"One previous Scion killed a dragon, while another saved countless innocents from slavers."
+bookshelf$ 3$ 8$ Kyla:£"And I knew one who put kings themselves in their rightful place."
+bookshelf$ 3$ 9$ Kyla:£"But I digress."
+bookshelf$ 4$ 1$ Kyla:£"That mouse was no doubt Agrimus; the Scion before you."
+bookshelf$ 4$ 2$ Kyla:£"He appeared to you to pass on his title and sword."
+bookshelf$ 4$ 3$ Kyla:£"I am shocked he chose you though."
+bookshelf$ 4$ 4$ Kyla:£"He was the hero of the war against the humans of Glorion."
+bookshelf$ 4$ 5$ Kyla:£"And out of countless potentials he goes for my servant."
+bookshelf$ 5$ 1$ Kyla:£"It’s in the book."
+bookshelf$ 5$ 2$ Kyla:£"The sword blade is like a plant and the grip its roots."
+bookshelf$ 5$ 3$ Kyla:£"When held by the Scion it grows and strengthens, when held by any other it weakens and dies."
+bookshelf$ 6$ 1$ ???:£"The rabbit seeks his burrow!"
+bookshelf$ 6$ 2$ *Click*
+bookshelf$ 6$ 3$ *Ring*
+bookshelf$ 6$ 4$ The door unlocked and the bell chimed in responce to the words of the voice outside. The ringing resounded throught the cottage but was prevelant in the already alerted living room.
+bookshelf$ 6$ 5$ Alder, Florence and Kyla:£"...!?"
+bookshelf$ 6$ 6$ Florence:£"Who is that!?"
+bookshelf$ 7$ 1$ Alder carried each of the books and put them in a neat pile near the stairs.
+bookshelf$ 8$ 1$ The bookshelf was empty.
+fireplace$ default$ 1$ The fireplace was unlit.
+fireplace$ 1$ 1$ Alder got to work cleaning the fireplace using a brush and cloth. By the end his arms were completely blackened by soot.
+fireplace$ 1$ 2$ Kyla:£"Throw that ash outside."
+fireplace$ 1$ 3$ Kyla:£"If it gets on the floor, you're cleaning it up."
+fireplace$ 2$ 1$ The fireplace was unlit. It was used last night and still had ash and soot in it.
+fireplace$ 2$ 2$ Alder:£"I’ll clean it up later."
+chairs$ default$ 1$ There were two wooden armchairs both with partridge feather cushions.
+table$ default$ 1$ A single round wooden table sat a safe distance from the fire, but close enough to feel its warmth.
+door$ default$ 1$ There was a door for either side of the house, both leading outside.
+window$ default$ 1$ There were four windows showing the clearing on either side of the cottage.
+wall$ 1$ 1$ Alder aligned himself with where the tools hung in the shed on the other side of the wall.
+wall$ 2$ 1$ The swords power was incredible. With a bit of force it easily pierced the clay walls and Alder tore it down through the gap he had created, the tools on the other side now fallen amongst rubble. Kyla apparently found this amusing. But the hole allowed Alder to enter the shed.
+outside$ default$ 1$ The burrow was within a deep wood, isolated from society. The 'sky' was clear blue and the late summer 'plant' was abundant amongst the 'trees' and 'rocks' of the forest. Part of the stone disguising the 'cottage', was actually an old 'shed' with a slanted roof, nearby was a large 'bramble' bush.
+sky$ default$ 1$ It was a bright, clear blue.
+mushroom$ default$ 1$ There were a variety of late-summer mushrooms growinig around the area.
+mushroom$ 1$ 1$ There were a variety of late-summer mushrooms growing around the area. Many of which are edible.'
+plants$ default$ 1$ Various weeds, wildflowers and moss.
+plants$ 1$ 1$ Various weeds, wildflowers and moss interspersed with bramble bushes holding ripe blackberries.
+trees$ default$ 1$ Various trees made up the woodland, the majority were birch, rowen and holly.
+rocks$ default$ 1$ There were a few boulders in the area. There was a large one were the cottage was.
+rocks$ 1$ 1$ There were a few boulders in the area. None were as large as the cottage.
+cottage$ default$ 1$ While the cottage was made to look like a large boulder from the outside, it actually had two floors and was made from white clay bricks. It was cosy and well protected against the elements, but Alder had always felt constricted.
+cottage$ 1$ 1$ The cottage was gone from sight. Replaced with a large boulder.
+shed$ default$ 1$ The shed had a single old door. From the outside it looked like part of the larger stone, but it was really made entirely of splintered wooden planks.
+bush$ default$ 1$ The bramble bush was a convenient source of fresh fruit at this time of year. It still had a few blackberries on it.
+bush$ 1$ 1$ It still had a few blackberries on it but they were out of reach and Alder did not want to get pricked by its thorns.
+bush$ 2$ 1$ Alder picked some bramble leaves, careful to avoid the thorns. He wondered what potion Kyla was going to use them for.
+shed$ default$ 1$ The inside of the shed was illuminated by a 'window' on the left side from the entrance. It was full of loose ‘tools’ Alder used for gathering, woodwork and gardening, while ingredients and more fragile equipment for magic potions were held in 'pots' and 'crates'. Opposite the entrance was a 'table' used for crafts.
+shed$ 1$ 1$ The inside of the shed was illuminated by a 'window' on the left side from the entrance. It was full of loose ‘tools’ Alder used for gathering, woodwork and gardening, while ingredients and more fragile equipment for magic potions were held in 'pots' and 'crates'. Opposite the entrance was a 'table' used for crafts with an old 'sack' was slumped against it and a 'bow' and 'quiver' full of 'arrows'.
+shed$ 2$ 1$ There was a large hole in the wall.
+shed_window$ default$ 1$ A single window was to the left upon entering through the doorway.
+shed_window$ default$ 2$ It's angle meant that upon looking through, only the woods could been seen.
+tools$ default$ 1$ Various tools were hung on the wall and sat on the shelves, including an axe, saw, pick, shovel, sickle and fishing rod.
+shed_pots$ default$ 1$ The pots contained potion ingredients, left in the shed to save space in the main cottage. One pot was completely filled with eyeballs.
+shed_pots$ 1$ 1$ e in the main cottage. One pot was completely filled with eyeballs.Alder carried each pot one by one to the living room, their weight varyied by how full they were and what was in them. The heaviest pot was full of ground up plant matter and weighed as much as a cannon ball. Alder brought the last one in with great strain.
+shed_pots$ 2$ 1$ There weren't any pots left.
+crates$ default$ 1$ Kyla had put spare magical tools in sturdy crates to keep them from breaking.
+shed_table$ default$ 1$ On the table was an unlit 'candle', a 'mortar' and 'pestle'.
+shed_table$ 1$ 1$ On the table was an unlit 'candle', a 'mortar' and 'pestle' and a hunting 'knife'.
+candle$ default$ 1$ The candle was placed in a candlestick. It was unlit.
+mortar$ default$ 1$ A mortar and pestle were on the table.
+mortar$ default$ 2$ Florence recently used them to grind ingredients for potions.
+mortar$ 1$ 1$ Alder ground the leaves with the pestle until they were powder. He then put them in a nearby pot containing remnants of the same powder.
+knife$ default$ 1$ The knife was designed for hunting but it looks like someone has been using it to cut ingredients.
+sack$ default$ 1$ The old burlap sack was intended for foraging, but was cheaply made and on the verge of falling apart.
+bow$ default$ 1$ A practice bow and a quiver full of arrows. They were intended as a gift for Florence but she was never interested in archery, so they were passed to Alder instead.
+alder_room$ default$ 1$ Sunlight beamed through the solitary curtainless 'window' of Alder's small bedroom, which contained only a makeshift 'bed'.
+alder_window$ default$ 1$ Through the small, curtainless window, Alder could see sunlight breaching the branches of the Fuller Woods near the edge of the clearing.
+bed$ default$ 1$ It was cheaply made from dry wood and partridge feathers. It was powdered with herbs to stop it smelling. Thay helped Alder make it.
+bed$ 1$ 1$ Alder got into his makeshift bed and drifted to sleep for the night.
+woods1$ default$ 1$ The cottage was out of sight, but being familiar with the surrounding 'plants', and 'rocks' Alder knew where he was. There were some 'crickets' nearby, perfect for tonight’s meal.
+woods1$ 1$ 1$ The cottage was out of sight, but being familiar with the surrounding 'plants', and 'rocks' Alder knew where he was.
+cricket$ default$ 1$ Some large brown crickets were in the area.
+cricket$ 1$ 1$ Alder:£"Hunt succesful."
+cricket$ 1$ 2$ ???:£"Bzz!"
+cricket$ 1$ 3$ As Alder collected the slain cricket, a loud buzzing came at him from his side. Two hornets came at him.
+cricket$ 1$ 4$ Alder:£"Ahhh!"
+cricket$ 2$ 1$ Alder:£"Come back you!"
+cricket$ 2$ 2$ Alder tried in vain to get the cricket, but it had already jumped out of reach.
+cricket$ 2$ 3$ ???:£"Bzz!"
+cricket$ 2$ 4$ The loud buzzing of insect wings came from Alder's side. Two hornets came at him.
+cricket$ 2$ 5$ Alder:£"Ahhh!"
+cricket$ 3$ 1$ The hornets were still twitching, but Alder knew they were dead.
+cricket$ 3$ 2$ Alder:£"Did I anger them?"
+cricket$ 3$ 3$ Alder was puzzled by the attack but regardless it was time to return to Florence.
+cricket$ 4$ 1$ The other crickets had fled.
+scion$ default$ 1$ Large 'trees' surrounded him in a neat circle like pillars; the 'branches' formed a mosaic ceiling. There was a 'light' from an unknown source that shone in the center in front of Alder.
+scion$ 1$ 1$ The mouse was holding the 'sword's' hilt to Alder's hand while ghostly 'spectors' watched.
+scion_trees$ default$ 1$ Giant trees formed a perfect circle around the clearing like pillars.
+scion_ceiling$ default$ 1$ The ceiling was covered in various different leaves such as oak, cider, alder and many others which Alder did not recognise, their branches were curved so the whole was a spiralling mosaic.
+scion_light$ default$ 1$ From the centre of the clearing a misty light hung from unknown source, illuminating the area as far as the trees.
+scion_sword$ default$ 1$ The double edged sword was a dark green with silver embellishments along the hilt and scabbard. It was a size suited for a mouse but would still be heavy for one. Now that it was closer Alder could see detail in its design. What looked like a thorny stem engraved around the grip, the rain-guard was shaped to resemble leaves and the pommel was tear-shaped. A rounded slot was carved into the scabbard.
+scion_ghost$ default$ 1$ The ghostly specters lingered within the darkness between the trees. Every creature of Albion imaginable was there.

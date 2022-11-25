@@ -54,26 +54,26 @@ chapter$ switch$ part$ line$ dialog
 0$ 0$ 1$ 52$ Ralph:£"I’ll help spread the word."
 0$ 0$ 1$ 53$ Ralph:£"Off with you Dean."
 0$ 0$ 1$ 54$ Dean:£"Yes sir!"
-0$ 0$ 1$ 55$ Plumm and Ralph head to the gardens, while Dean runs to the keep, leaving Dilecto alone in the corridor. With sombre eyes, he moved to face a tapestry depicting an armoured mouse with a sword fighting a demonic black human-shaped figure with blood-red eyes clad in a tawny furred cloak.
+0$ 0$ 1$ 55$ Plumm and Ralph head to the gardens, while Dean runs to the keep, leaving Dilecto alone in the corridor. Sombrely, he moved to face a tapestry depicting an armoured mouse with a sword fighting a demonic black human-shaped figure with blood-red eyes clad in a tawny furred cloak.
 0$ 0$ 1$ 56$ Dilecto:£"Agrimus."
-0$ 0$ 1$ 57$ Dilecto:£"What creature do you have in mind for your successor as Scion I wonder?"
+0$ 0$ 1$ 57$ Dilecto:£"I wonder, what creature do you have in mind to successed you as Scion?"
 0$ 0$ 1$ 59$ Dilecto:£"Whoever you pick I shall always trust your judgement."
 1$ 0$ 1$ 1$ Chapter 1
 1$ 0$ 1$ 2$ Deep in the Oldwyrm woods north of the Fort a lone creature wandered through the underbrush. It was a hedgehog, shouldering a travelling bag with various herbs and seeds. His quills sticking out of his jacket, hood and blue scarf. He whispered into the air.
 1$ 0$ 1$ 3$ Hedgehog:£"The rabbit seeks his burrow."
-1$ 0$ 1$ 4$ There was silence excluding the song of birds and insects in the setting summer air. Suddenly, a door opened up in the face of a nearby boulder, through the homely living room of a cottage could beseen. A human woman stepped out of the doorway, towering over the hedgehog whose height did not even reach her waist. She had long dark hair that draped over her shoulders, contrasting her pale skin.
+1$ 0$ 1$ 4$ There was silence excluding the song of birds and insects in the setting summer air. Suddenly, a door opened up in the face of a nearby boulder, through which the homely living room of a cottage could be seen. A human woman stepped out of the doorway, towering over the hedgehog whose height did not even reach her waist. She had long dark hair that draped over her shoulders, contrasting her pale skin.
 1$ 0$ 1$ 5$ Woman:£"Thay! It's good to see you!"
-1$ 0$ 1$ 6$ Thay:£"And you Florace."
+1$ 0$ 1$ 6$ Thay:£"And you Florence."
 1$ 0$ 1$ 7$ Thay:£"I'm here to see your mistress."
-1$ 0$ 1$ 8$ Florace:£"She’s upstairs, should be down soon though."
+1$ 0$ 1$ 8$ Florence:£"She’s upstairs, should be down soon though."
 1$ 0$ 1$ 7$ Thay:£"And where’s young Alder?"
-1$ 0$ 1$ 8$ Florace:£"He’s inside."
-1$ 0$ 1$ 9$ Florace:£"He's still cleaning the dishes."
-1$ 0$ 1$ 10$ Florace:£"Alder!!"
-1$ 0$ 1$ 11$ Florace:£"Thay's here!"
+1$ 0$ 1$ 8$ Florence:£"He’s inside."
+1$ 0$ 1$ 9$ Florence:£"He's still cleaning the dishes."
+1$ 0$ 1$ 10$ Florence:£"Alder!!"
+1$ 0$ 1$ 11$ Florence:£"Thay's here!"
 1$ 0$ 1$ 12$ Inside the cottage kitchen a boy stood on a stool cleaning plates. He had chestnut hair, clothed in a worn, torn and noticeably small tunic. He knew the hedgehog and enjoyed his company, so hurried to finish his task making sure each plate was spotless. After drying the last wooden spoon he rushed to meet him.
 1$ 0$ 1$ 1$ This boy is Alder and this is his story.
-1$ 1$ 2$ 1$ Thay and Florace were waiting for Alder in the clearing.
+1$ 1$ 2$ 1$ Thay and Florence were waiting for Alder in the clearing.
 1$ 1$ 2$ 2$ Thay:£"Haha! How’ve you been Alder?"
 1$ 1$ 2$ 3$ Alder:£"I’ve been great!"
 1$ 1$ 2$ 4$ Thay:£"You’ve gotten bigger too."
@@ -84,23 +84,23 @@ chapter$ switch$ part$ line$ dialog
 1$ 1$ 2$ 9$ Thay:£"Better I'll be meeting with the witch."
 1$ 1$ 2$ 10$ Thay:£"I'll chat with you both soon."
 1$ 1$ 2$ 11$ Thay went to the cottage and let himself in.
-1$ 2$ 2$ 1$ As Alder spoke with Florace, Thay exited the cottage.
+1$ 2$ 2$ 1$ As Alder spoke with Florence, Thay exited the cottage.
 1$ 2$ 2$ 2$ Thay:£"Thank you, Madame Kyla."
 1$ 2$ 2$ 3$ Kyla:£"Yes yes. Come again."
-1$ 2$ 2$ 4$ The old witch closed the door behind Thay as he moved to speak to Alder and Florace. She was the owner of the cottage and the caretaker of Florace who in turn was the caretaker of Alder. The witch considered and treated Alder as a servant, they did not have much of a relationship, outside of the various household and gathering tasks he did for her.
-1$ 3$ 3$ 1$ Florace:£"Alder!"
-1$ 3$ 3$ 2$ Florace:£"I need you!"
+1$ 2$ 2$ 4$ The old witch closed the door behind Thay as he moved to speak to Alder and Florence. She was the owner of the cottage and the caretaker of Florence who in turn was the caretaker of Alder. The witch considered and treated Alder as a servant, they did not have much of a relationship, outside of the various household and gathering tasks he did for her.
+1$ 3$ 3$ 1$ Florence:£"Alder!"
+1$ 3$ 3$ 2$ Florence:£"I need you!"
 1$ 3$ 3$ 3$ Alder looked back at Thay, disappointed that their conversation had to be cut short.
 1$ 3$ 3$ 4$ Thay:£"Don’t worry about it lad."
 1$ 3$ 3$ 5$ Thay:£"I’ll make sure you see me off.
 1$ 3$ 3$ 6$ Alder:£*Sigh*
-1$ 3$ 3$ 7$ Alder:£"Yes Florace?"
-1$ 3$ 3$ 8$ Florace:£"We're out of meat."
-1$ 3$ 3$ 9$ Florace:£"I need you to go hunt an insect or two."
+1$ 3$ 3$ 7$ Alder:£"Yes Florence?"
+1$ 3$ 3$ 8$ Florence:£"We're out of meat."
+1$ 3$ 3$ 9$ Florence:£"I need you to go hunt an insect or two."
 1$ 3$ 3$ 10$ Alder:£"Ok."
 1$ 3$ 3$ 11$ Alder:£"Where do you want me to look?"
-1$ 3$ 3$ 12$ Florace:£"In the woods just outside the burrow."
-1$ 3$ 3$ 13$ Florace:£"There should be a hunting knife on the table inside the shed."
+1$ 3$ 3$ 12$ Florence:£"In the woods just outside the burrow."
+1$ 3$ 3$ 13$ Florence:£"There should be a hunting knife on the table inside the shed."
 1$ 3$ 3$ 14$ Alder:£"Thank you."
 1$ 4$ 4$ 1$ Thay:£"I’m heading off now lad."
 1$ 4$ 4$ 2$ Alder:£"Aw, already?!"
@@ -128,13 +128,13 @@ chapter$ switch$ part$ line$ dialog
 2$ 5$ 1$ 18$ Trissie:£"Why don't I give you some archery lessons before I leave?"
 2$ 5$ 1$ 19$ Alder brightened up at the thought, but his glee was cut when Trissie mumbled.
 2$ 5$ 1$ 20$ Trissie:£"You might need them."
-2$ 5$ 1$ 21$ Florace:£"Triss!"
-2$ 5$ 1$ 22$ Florace was looking towards them from the cottage door. Trissie went to join her inside.
-2$ 6$ 2$ 1$ Trissie was sat by the table while her bow and quiver rested against the wall. Kyla sat opposite in her rocking chair while everyone else stood around the table as spectators. Alder walked over to take position next to Florace and with everyone gathered, Trissie began.
+2$ 5$ 1$ 21$ Florence:£"Triss!"
+2$ 5$ 1$ 22$ Florence was looking towards them from the cottage door. Trissie went to join her inside.
+2$ 6$ 2$ 1$ Trissie was sat by the table while her bow and quiver rested against the wall. Kyla sat opposite in her rocking chair while everyone else stood around the table as spectators. Alder walked over to take position next to Florence and with everyone gathered, Trissie began.
 2$ 6$ 2$ 2$ Trissie:£"I’ll make this quick!"
 2$ 6$ 2$ 3$ Trissie:£"There are Gowl knights patrolling the woods!"
-2$ 6$ 2$ 4$ Kyla and Florace began muttering to each other.
-2$ 6$ 2$ 5$ Florace:£"Do you think they know of the cottage?"
+2$ 6$ 2$ 4$ Kyla and Florence began muttering to each other.
+2$ 6$ 2$ 5$ Florence:£"Do you think they know of the cottage?"
 2$ 6$ 2$ 6$ Kyla:£"Not unless one of our clients has sold us out."
 2$ 6$ 2$ 7$ Kyla:£"Even so their search shall come up empty."
 2$ 6$ 2$ 8$ Trissie:£"I don’t know."
@@ -147,13 +147,13 @@ chapter$ switch$ part$ line$ dialog
 2$ 6$ 2$ 15$ Kyla:£"That proves my point!"
 2$ 6$ 2$ 16$ Kyla:£"Whatever they know, they're sending saplings. They can't be very sure about it!"
 2$ 6$ 2$ 17$ Trissie:£"Being overseen by several captains apparently ordered by Darrunt himself!"
-2$ 6$ 2$ 18$ The mood dimmed but Kyla remained confident. Alder had rarely been involved in conversations about the dangers of the outside world and was unsure how to feel. He whispered to Florace as Kyla dismissed Trissie’s warning.
+2$ 6$ 2$ 18$ The mood dimmed but Kyla remained confident. Alder had rarely been involved in conversations about the dangers of the outside world and was unsure how to feel. He whispered to Florence as Kyla dismissed Trissie’s warning.
 2$ 6$ 2$ 19$ Alder:£"Who’s Darrunt?"
-2$ 6$ 2$ 20$ Florace:£"He's the leader of the Gowls."
-2$ 6$ 2$ 21$ Florace:£"Known for hating humans more than anything."
-2$ 6$ 2$ 22$ Florace:£"He wouldn't think to look this far north in the woods though."
-2$ 6$ 2$ 23$ Florace:£"Too barren of humans these days."
-2$ 6$ 2$ 24$ While Alder and Florace whispered to each other Kyla had relaxed back into her chair at the end of her rebuttal.
+2$ 6$ 2$ 20$ Florence:£"He's the leader of the Gowls."
+2$ 6$ 2$ 21$ Florence:£"Known for hating humans more than anything."
+2$ 6$ 2$ 22$ Florence:£"He wouldn't think to look this far north in the woods though."
+2$ 6$ 2$ 23$ Florence:£"Too barren of humans these days."
+2$ 6$ 2$ 24$ While Alder and Florence whispered to each other Kyla had relaxed back into her chair at the end of her rebuttal.
 2$ 6$ 2$ 25$ Kyla:£"We’ll lay low for the next few days, food is plentiful and we have enough water to last us a few days."
 2$ 6$ 2$ 26$ Kyla:£"Thank you for the warning, Trissie dear."
 2$ 6$ 2$ 27$ Kyla:£"But I think we will be fine."
@@ -200,51 +200,51 @@ chapter$ switch$ part$ line$ dialog
 3$ 10$ 1$ 11$ Alder:£"What!?"
 3$ 10$ 1$ 12$ Alder:£"How!?"
 3$ 10$ 1$ 13$ Alder partially unsheathed the sword and inspected the sword intensely. The blade shone in the light.
-3$ 10$ 1$ 14$ Alder:£"Florace!!"
+3$ 10$ 1$ 14$ Alder:£"Florence!!"
 3$ 11$ 2$ 1$ The voice that called out was unknown to the residents. They looked through the windows to see an unfamiliar rat clad in armour. Kyla was not going to let in a complete stranger, especially given Trissies warning about the Gowls. While watching him unsure of what to do. Alder noticed something moving behind him.
 3$ 11$ 2$ 2$ Alder:£"Look!"
 3$ 11$ 2$ 3$ Alder:£"There's someone in the bushes!"
 3$ 11$ 2$ 4$ Kyla:£"Hm?!"
 3$ 11$ 2$ 5$ Kyla:£"Good eye boy."
-3$ 11$ 2$ 6$ Kyla:£"Florace, You have better eyes than either of us, what do you see?"
-3$ 11$ 2$ 7$ Florace:£"Two- No. Four creatures."
-3$ 11$ 2$ 8$ Florace:£"I’m certain at least one of them is a stoat or a weasel."
+3$ 11$ 2$ 6$ Kyla:£"Florence, You have better eyes than either of us, what do you see?"
+3$ 11$ 2$ 7$ Florence:£"Two- No. Four creatures."
+3$ 11$ 2$ 8$ Florence:£"I’m certain at least one of them is a stoat or a weasel."
 3$ 11$ 2$ 9$ There was a glint from the bushes where they were.
-3$ 11$ 2$ 10$ Florace:£"Did you see that?"
+3$ 11$ 2$ 10$ Florence:£"Did you see that?"
 3$ 11$ 2$ 11$ Kyla:£"A dagger I should think."
 3$ 11$ 2$ 12$ Kyla:£"They're Gowls for sure."
 3$ 11$ 2$ 13$ Rat:£"There's no one here!"
-3$ 11$ 2$ 14$ The weasel that Florace spotted arose from the bushes.
+3$ 11$ 2$ 14$ The weasel that Florence spotted arose from the bushes.
 3$ 11$ 2$ 15$ Weasel:£"Don’t call out!"
 3$ 11$ 2$ 16$ Weasel:£*Sigh* "Nevermind."
 3$ 11$ 2$ 17$ Weasel:£"Wait here, the rest of you form a perimeter."
 3$ 11$ 2$ 18$ Weasel:£"I’ll fetch the wizard."
-3$ 11$ 2$ 19$ The band started walking away, leaving the rat to guard the area. The rat went over to the bushes and picked up a dagger, then went over to sit on rock that was part of the disguised cottage. The back of his head was directly in front of the window Alder was looking out of. Even though the rat could not hear them Kyla and Florace discussed their next move in whispers.
+3$ 11$ 2$ 19$ The band started walking away, leaving the rat to guard the area. The rat went over to the bushes and picked up a dagger, then went over to sit on rock that was part of the disguised cottage. The back of his head was directly in front of the window Alder was looking out of. Even though the rat could not hear them Kyla and Florence discussed their next move in whispers.
 3$ 11$ 2$ 20$ Kyla:£"They know we're here we'll have to move."
-3$ 11$ 2$ 21$ Florace:£"I agree. But where?"
+3$ 11$ 2$ 21$ Florence:£"I agree. But where?"
 3$ 11$ 2$ 22$ Kyla:£"Hmm."
 3$ 11$ 2$ 23$ Kyla:£"The boy can go to Forton. With that sword they're sure to take him in."
 3$ 11$ 2$ 24$ Kyla:£"It will be a benefit to all if the Scion can change minds about humans."
-3$ 11$ 2$ 25$ Florace:£"By himself?"
-3$ 11$ 2$ 26$ Florace:£"Shouldn't we go with him?"
+3$ 11$ 2$ 25$ Florence:£"By himself?"
+3$ 11$ 2$ 26$ Florence:£"Shouldn't we go with him?"
 3$ 11$ 2$ 27$ Kyla:£"I’m not stepping a foot in another woodlander town."
 3$ 11$ 2$ 28$ Kyla:£"The boy can go by himself."
-3$ 11$ 2$ 29$ Florace:£"Absolutely not!"
-3$ 11$ 2$ 30$ Florace:£"He’ll be killed!"
+3$ 11$ 2$ 29$ Florence:£"Absolutely not!"
+3$ 11$ 2$ 30$ Florence:£"He’ll be killed!"
 3$ 11$ 2$ 31$ Kyla:£"They are not going to kill him."
 3$ 11$ 2$ 32$ Kyla:£"He’s the Scion."
-3$ 11$ 2$ 33$ Florace:£"What about the Gowls?!"
+3$ 11$ 2$ 33$ Florence:£"What about the Gowls?!"
 3$ 11$ 2$ 34$ Kyla:£"Again. Scion!"
-3$ 11$ 2$ 35$ Florace:£"Again! Gowls!"
+3$ 11$ 2$ 35$ Florence:£"Again! Gowls!"
 3$ 11$ 2$ 36$ Kyla:£"Well we can’t go with him!"
-3$ 11$ 2$ 37$ Florace:£"I will!"
+3$ 11$ 2$ 37$ Florence:£"I will!"
 3$ 11$ 2$ 38$ Kyla:£"...What?"
-3$ 11$ 2$ 39$ Florace:£"I'll go with him as his guardian!"
+3$ 11$ 2$ 39$ Florence:£"I'll go with him as his guardian!"
 3$ 11$ 2$ 40$ Kyla:£"Absolutely not!"
 3$ 11$ 2$ 41$ Kyla:£"You will come with me!"
-3$ 11$ 2$ 42$ Florace:£"I am not leaving Alder alone."
+3$ 11$ 2$ 42$ Florence:£"I am not leaving Alder alone."
 3$ 11$ 2$ 43$ Kyla:£"So you would choose our servant over the women who raised, taught and loved you over these long years?"
-3$ 11$ 2$ 44$ Florace:£"..."
+3$ 11$ 2$ 44$ Florence:£"..."
 3$ 11$ 2$ 45$ Kyla:£*Groan*
 3$ 11$ 2$ 46$ Kyla:£"We’ll discuss this later, we need to get moving."
 3$ 11$ 2$ 47$ Kyla:£"Tawie will have to make her own way."
@@ -274,9 +274,9 @@ chapter$ switch$ part$ line$ dialog
 3$ 12$ 3$ 24$ Weasel:£"Let me explain!"
 3$ 12$ 3$ 25$ Alder thought the rat was going to kill the weasel. But he heard the door open, Kyla had gone outside and was walking towards them, she waved her cane and chanted. The weasel took notice of her but the rat remained focused on him. Cracks of light appeared in the cane. It sparkled and crackled, alerting the rat. The rat turned around just as Kyla sent the light hurtling towards him. It struck him in the centre of the chest and he flew backwards.
 3$ 12$ 3$ 26$ Rat:£"Aagh!!"
-3$ 12$ 3$ 27$ He lay twitching on his back and Alder stepped back in shock. Florace quickly covered Alders’s eyes. But he could smell burning mould and hear the gargled words of the rat immobolised on the ground. Florace shuffled Alder away from the window.
+3$ 12$ 3$ 27$ He lay twitching on his back and Alder stepped back in shock. Florence quickly covered Alders’s eyes. But he could smell burning mould and hear the gargled words of the rat immobolised on the ground. Florence shuffled Alder away from the window.
 3$ 12$ 3$ 28$ Kyla:£"Come along!"
-3$ 12$ 3$ 29$ Kyla and the weasel hurried indoors. The gawking weasel's mouth was hanging open from shock and awe. Florace kept a firm grip on Alder and they looked out at the now consciousness rat. They remained silent, still processing what had happened.
+3$ 12$ 3$ 29$ Kyla and the weasel hurried indoors. The gawking weasel's mouth was hanging open from shock and awe. Florence kept a firm grip on Alder and they looked out at the now consciousness rat. They remained silent, still processing what had happened.
 3$ 13$ 3$ 1$ Kyla:£"Well?"
 3$ 13$ 3$ 2$ Kyla:£"What do you want?"
 3$ 13$ 3$ 3$ Kyla:£"Who are you?"
@@ -288,9 +288,9 @@ chapter$ switch$ part$ line$ dialog
 3$ 13$ 3$ 9$ Jeb nervously took out some of the supplies he had. Kyla’s temper calmed slightly as she inspected them.
 3$ 13$ 3$ 10$ Kyla:£"Hmmm.
 3$ 13$ 3$ 11$ Kyla:£"I was going to throw you out but you may have brought us exactly what we needed."
-3$ 13$ 3$ 12$ Kyla:£"Florace, take what you and the boy want."
+3$ 13$ 3$ 12$ Kyla:£"Florence, take what you and the boy want."
 3$ 13$ 3$ 13$ Kyla:£"I have an idea for his payment."
-3$ 13$ 3$ 14$ Kyla went upstairs to her room while Jeb unpacked his supplies on the table. For food there were several nuts and dried fruits. He also had two black woolen cloaks, too big for Alder and small on Florace but they were usable. The only other items were several rolls of clean bandages. Kyla soon returned downstairs with three vials of golden potion and a bag of coins.
+3$ 13$ 3$ 14$ Kyla went upstairs to her room while Jeb unpacked his supplies on the table. For food there were several nuts and dried fruits. He also had two black woolen cloaks, too big for Alder and small on Florence but they were usable. The only other items were several rolls of clean bandages. Kyla soon returned downstairs with three vials of golden potion and a bag of coins.
 3$ 13$ 3$ 15$ Kyla:£"This vial contains golden dip. It can turn objects into pure gold; like so."
 3$ 13$ 3$ 16$ Kyla took out a bowl and poured the contents of one of the vials into it. She then took a wooden spoon and dropped it in. The liquid began subtley glowing and its volume dropped until only the once wooden spoon, now made of solid gold, remained. Jeb examined it greedily and Kyla held up the last two vials.
 3$ 13$ 3$ 17$ Kyla:£"I’ll give you one in exchange for the cloaks."
@@ -317,8 +317,8 @@ chapter$ switch$ part$ line$ dialog
 3$ 13$ 3$ 38$ Jeb:£"Better safe than sorry."
 3$ 13$ 3$ 39$ Kyla:£"I can create a diversion."
 3$ 13$ 3$ 40$ Kyla:£"I can handle them and get away easily considering the competence of their soldiers this far from the front lines."
-3$ 13$ 3$ 41$ Florace:£"They will be bringing a sorcerer."
-3$ 13$ 3$ 42$ Florace:£"They must know about this place somehow."
+3$ 13$ 3$ 41$ Florence:£"They will be bringing a sorcerer."
+3$ 13$ 3$ 42$ Florence:£"They must know about this place somehow."
 3$ 13$ 3$ 43$ Jeb:£"They know that there is a human witch."
 3$ 13$ 3$ 44$ Jeb:£"Word reached the towns yesterday."
 3$ 13$ 3$ 45$ Kyla:£"It matters not now."
@@ -326,18 +326,18 @@ chapter$ switch$ part$ line$ dialog
 3$ 13$ 3$ 47$ Kyla:£"We leave when this sorcerer gets here."
 3$ 14$ 4$ 1$ The sun was now setting. Outside the cottage within the dark shadows of the trees, the paw steps of the Gowls knights could be heard approaching. Alder was the first to notice.
 3$ 14$ 4$ 2$ Alder:£"They're here!"
-3$ 14$ 4$ 3$ Florace:£"Then it's time to go."
+3$ 14$ 4$ 3$ Florence:£"Then it's time to go."
 3$ 14$ 4$ 4$ Kyla:£"Are you sure that's them?"
 3$ 14$ 4$ 5$ Jeb:£"Must be."
 3$ 14$ 4$ 6$ Jeb:£"I think I can see... six... no, seven of them."
-3$ 14$ 4$ 7$ Jeb and Florace looked concerned, Alder consciously stayed silent but Kyla started smirking, soon erupting into laughter.
+3$ 14$ 4$ 7$ Jeb and Florence looked concerned, Alder consciously stayed silent but Kyla started smirking, soon erupting into laughter.
 3$ 14$ 4$ 8$ Kyla:£"Hee hee."
 3$ 14$ 4$ 9$ Kyla:£"Hee hee Ha HA!"
 3$ 14$ 4$ 10$ Kyla:£"That's it!"
 3$ 14$ 4$ 11$ Kyla:£"They must know not that it is I they seek!"
 3$ 14$ 4$ 12$ Kyla:£"Hee hee ha!"
 3$ 14$ 4$ 13$ Kyla:£"This will be easier than I expected!"
-3$ 14$ 4$ 14$ Florace:£"There may be more further out there."
+3$ 14$ 4$ 14$ Florence:£"There may be more further out there."
 3$ 14$ 4$ 15$ Kyla:£"In that case, I will need one to call for reinforcements."
 3$ 14$ 4$ 16$ Kyla:£"Do you recognise any of the ones here?"
 3$ 14$ 4$ 17$ The invaders were made up of two foxes, two badgers, an otter, a stoat and weasel. One of the foxes and the otter looked fairly young and stood at the back.
@@ -347,18 +347,18 @@ chapter$ switch$ part$ line$ dialog
 3$ 14$ 4$ 21$ Jeb:£"The fox out in front! Look at his robes!"
 3$ 14$ 4$ 22$ The fox was barely visible but was wearing a robe and carrying a staff.
 3$ 14$ 4$ 23$ Jeb:£"He’s the sorcerer!"
-3$ 14$ 4$ 24$ Kyla:£"Florace."
+3$ 14$ 4$ 24$ Kyla:£"Florence."
 3$ 14$ 4$ 25$ Kyla:£"Are you truly sure you want to leave with the boy?"
-3$ 14$ 4$ 26$ Florace:£"Yes."
+3$ 14$ 4$ 26$ Florence:£"Yes."
 3$ 14$ 4$ 27$ Kyla:£"It won’t be easy living in Forton."
 3$ 14$ 4$ 28$ Kyla:£"The mice may not look at you favourably."
-3$ 14$ 4$ 29$ Florace:£"I can live with that."
+3$ 14$ 4$ 29$ Florence:£"I can live with that."
 3$ 14$ 4$ 30$ Kyla:£"...Fine then. Go."
 3$ 14$ 4$ 31$ Kyla:£"It is time."
 3$ 14$ 4$ 32$ Kyla:£"Everyone into the undergrowth."
 3$ 14$ 4$ 33$ Kyla:£"I’ll distract them until morning."
 3$ 14$ 4$ 34$ Kyla:£"Keep out of sight until you're far from the cottage. And be wary of reinforcements within the woods!"
-3$ 15$ 4$ 1$ Alder, Florace and Jeb donned their enchanted cloaks and moved to hide in a dense bush. The soldiers walked past them unaware. The sorcerer got to the part of the bolder where the rat had been and scanned his surroundings, unaware that Kyla was standing next to him inside the illusion, a sparkling green spell directed towards his face.
+3$ 15$ 4$ 1$ Alder, Florence and Jeb donned their enchanted cloaks and moved to hide in a dense bush. The soldiers walked past them unaware. The sorcerer got to the part of the bolder where the rat had been and scanned his surroundings, unaware that Kyla was standing next to him inside the illusion, a sparkling green spell directed towards his face.
 3$ 15$ 4$ 2$ Weasel:£"This is the place."
 3$ 15$ 4$ 3$ Badger:£"Where’s Midge?"
 3$ 15$ 4$ 4$ Weasel:£"He was here."

@@ -1,0 +1,59 @@
+1$ 1$ default$ 1$ Alder moved to the living room of the cottage.
+2$ 1$ default$ 1$ Alder moved to the kitchen.
+2$ 2$ default$ 1$ Alder exited the cottage through the front door.
+2$ 2$ 1$ 1$ Florence:£"Wait Alder!"
+2$ 2$ 1$ 2$ Florence:£"Keep close to me."
+2$ 2$ 1$ 3$ Florence:£"To the window."
+2$ 2$ 2$ 1$ With the Gowl's outside it wasn't worth risking.
+2$ 2$ 3$ 1$ The group exited the cottage through the back door.
+2$ 3$ default$ 1$ Alder moved upstairs and into his bedroom.
+2$ 4$ default$ 1$ Alder moved through the hole and into the shed.
+3$ 1$ default$ 1$ Alder moved to the living room of the cottage.
+3$ 1$ 1$ 1$ Alder moved to the living room of the cottage.
+3$ 1$ 1$ 2$ Kyla:£"Hm!?"
+3$ 1$ 1$ 3$ Kyla:£"What are you doing in here boy!?"
+3$ 1$ 1$ 4$ Alder:£"Um?"
+3$ 1$ 1$ 5$ Kyla:£"Get out there and entertain our guest!"
+3$ 1$ 1$ 6$ Alder withdrew from the cottage.
+3$ 2$ default$ 1$ Alder entered the shed at the side of the cottage.
+3$ 3$ default$ 1$ Alder left the cottage grounds.
+3$ 3$ 1$ 1$ It's dangerous to leave the cottage grounds unarmed.
+4$ 1$ default$ 1$ Alder left the shed and returned to the front of the cottage.
+4$ 1$ 1$ 1$ Alder went back through the hole into the living room of the cottage.
+5$ 1$ default$ 1$ Alder moved downstairs into the living room.
+5$ 1$ 1$ 1$ Alder jumped out of bed and hurriedly knocked on Florence's door. She soon groggily came out.
+5$ 1$ 1$ 2$ Florence:£*Groan*
+5$ 1$ 1$ 3$ Florence:£"Alder, it's really early, don’t wake me."
+5$ 1$ 1$ 4$ Florence gave Alder an annoyed look before she noticed the sword in his hands.
+5$ 1$ 1$ 5$ Florence:£"Alder, what is that!!"
+5$ 1$ 1$ 6$ Alder:£"It’s a sword!"
+5$ 1$ 1$ 7$ Florence:£"Why do you have a sword and where did it come from!"
+5$ 1$ 1$ 8$ Alder:£"A mouse in my dreams gave it to me."
+5$ 1$ 1$ 9$ Florence:£"What!?"
+5$ 1$ 1$ 10$ She was confused by Alder's response and it was clear she was sceptical.
+5$ 1$ 1$ 11$ Kyla:£"Heh Heh."
+5$ 1$ 1$ 12$ Kyla:£"What's this about a sword?"
+5$ 1$ 1$ 13$ Kyla had come out of her room somewhat amused by Florences shouts. When she looked at Alder her eyes widened as she noticed the sword that Alder had.
+5$ 1$ 1$ 14$ Kyla:£"Boy, let me see that sword!"
+5$ 1$ 1$ 15$ Alder:£"Um?"
+5$ 1$ 1$ 16$ Alder:£"O-ok."
+5$ 1$ 1$ 17$ Alder hands the sword over to Kyla and with Florences assistance she took it to the table downstairs.
+5$ 1$ 1$ 18$ Kyla:£"It can’t be?"
+5$ 1$ 1$ 19$ Kyla:£"Boy, in the bookshelf, there should be a blue book on magical artefacts, bring it here."
+5$ 1$ 1$ 20$ Kyla:£"Boy, in the bookshelf, there should be a blue book on magical artefacts, bring it here."
+5$ 1$ 1$ 21$ Alder:£"Right."
+6$ 1$ default$ 1$ Alder returned to the cottage grounds
+6$ 1$ 1$ 1$ Alder:£"Florence! I'm done!"
+6$ 1$ 1$ 2$ Florence was having a conversation with Thay. When they looked at Alder they immediately noticed the swollen red marks where the hornets had stung his exposed skin.
+6$ 1$ 1$ 3$ Florence:£"Alder what happened? Are you ok!?"
+6$ 1$ 1$ 4$ Alder:£"Um..."
+6$ 1$ 1$ 5$ Alder was briefly suprised by Florence's concern, but he knew she could get paranoid when it can to his safety.
+6$ 1$ 1$ 6$ Alder:£"I got stung by hornets a few times but I'm alright!"
+6$ 1$ 1$ 7$ Florence:£*Sigh*
+6$ 1$ 1$ 8$ Florence:£"Give the bugs and the knife to me and go relax yourself."
+6$ 1$ 1$ 9$ Thay:£"Here some plantain might ease your discomfort."
+6$ 1$ 1$ 10$ Alder passed the bug meat and the hunting knife over to her. Florence went inside the cottage to prepare the crickets for supper while Thay applied poultice of greater plantain to Alder stings.
+6$ 2$ default$ 1$ Alder once got lost after he strayed too far from the cottage.
+6$ 2$ default$ 2$ He spent hours in the dark until Florence found him crying and scared.
+6$ 2$ default$ 3$ Kyla had been indifferent to the incident.
+7$ 0$ default$ 1$ Alder could not move.

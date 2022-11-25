@@ -4,6 +4,7 @@ ItemType = typeSpf.ItemType
 ArmourType = typeSpf.ArmourType
 Weapon1Type = typeSpf.Weapon1Type
 Weapon2Type = typeSpf.Weapon2Type
+
 class Quest():
     def __init__(self, questId, client, name, desc,
                  reward, rewardCount,
@@ -42,14 +43,12 @@ class Quest():
     def qComp(self, party, inv):
         self.submitted = True
         print(self.name, 'Completed!')
-        print(self.reward)
         if(self.reward != 'none' and self.rewardCount > 0):
             if self.reward == 'shillings':
                 inv.shillings(self.rewardCount)
             elif self.reward == 0:
                 inv.shill += self.rewardCount
             elif self.reward == True:
-                print('Ping')
                 self.reward = False
             else:
                 inv.addItem(self.reward, self.rewardCount)
@@ -117,13 +116,12 @@ class C_Quest(Quest):
     #Progress
     def questProgress(self, party, inv):
         if(self.accepted == True and self.submitted != True):
-            count = 0
-            for j in inv.itemList:
-                if(self.required[count].itemType == j['item'].itemType):
-                    if(self.required[count].itemId == j['item'].itemId):
-                        if (j['count'] == self.qnt):
-                            self.completed = True
-                count += 1
+            for i in self.required:
+                for j in inv.itemList:
+                    if(i.itemType == j['item'].itemType):
+                        if(i.itemId == int(j['item'].itemId)):
+                            if (j['count'] == self.qnt):
+                                self.completed = True
     #Print side quests
     def printSideQuests(self, party, inv):
         if(self.accepted == True and self.submitted != True):

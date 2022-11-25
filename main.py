@@ -14,6 +14,7 @@ import dialog
 import combat
 import objective
 import quest
+import glossary
 from data import game_database
 from data import typeSpf
 import playableChars
@@ -44,6 +45,7 @@ crsr = connection.cursor()
 #alder = party[0]
 item = ItemClasses
 com = combat
+gloss = glossary.Glossary()
 eqp = equipment.Equipment()
 obj = objective.Objective()
 qst = quest
@@ -103,7 +105,6 @@ class Story():
         self.c3Switch = [True, True, True, True, True, True, True]
         self.branchSwitch = ['0']
         self.PKSwitch = [True, True, True, True, True, True]
-
         #Quests
         self.mQuests = [qst.E_Quest('1','Florence','Tutorial: Equip',['Equip hunting knife'],self.tutorialSwitch[4],1,
                                     [items.weapons[3]],party.alder),
@@ -126,7 +127,7 @@ def cont():
 
 #Save and Load Content
 PIK = 'demo.dat'
-data = [location, story, inv]
+data = [location, story, inv, gloss]
 
 class Null:
     def __init__(self):
@@ -303,7 +304,7 @@ def yn(yesNo):
 
 #Save the game
 def save(location, story):
-    data = [location, story, inv, party]
+    data = [location, story, inv, party, gloss]
     i = input('Save in file "1", "2" or "3":')
     if (i == '1'):
         PIK = 'data/file1.dat'
@@ -351,9 +352,9 @@ def inventory():
             for i in listItems:
                 inv.appraise();
         elif (j == '2'):
-            inv.useItem(alder)
+            inv.useItem(party.alder)
         elif (j == '3'):
-            equip(alder)
+            equip(party.alder)
         elif (j == 'e'):
             bag = False
         if (j == '1' or j == '2' or j == '3'):
@@ -376,6 +377,7 @@ def helper():
     print("Command: i, items, Items - View inventory.")
     print("Command: x, equip, Equip - Equip item.")
     print("Command: k, skill, Skill - Unlock Skill.")
+    print("Command: g, glossary, Glossary - Open Glossary.")
     print("Command: s, save, Save - Save the game.")
     print("Command: 1, 2, etc - When you have a list of options.")    
     print("Command: y, Y, yes, Yes or, n, N, no, No - (y/n) statments.")
@@ -422,11 +424,11 @@ def free(story):
         action = input('Enter Command: ')
         if (action == 'e' or action == 'examine' or action == 'Examine'):
             #examine(location)
-            examineMode.examine(game_over, party, location, story, inv)
+            examineMode.examine(game_over, party, location, story, inv, gloss)
         elif (action == 't' or action == 'talk' or action == 'Talk'):
-            talkingMode.talk(game_over, party, location, story, inv)
+            talkingMode.talk(game_over, party, location, story, inv, gloss)
         elif (action == 'm' or action == 'move' or action == 'Move'):
-            location = moving.move(game_over, party, location, story, inv)
+            location = moving.move(game_over, party, location, story, inv, gloss)
         elif (action == 'z' or action == 'stats' or action == 'Stats:'):
             party.alder.stats()
         elif (action == 'o' or action == 'objective' or action == 'Objective'):
@@ -443,6 +445,8 @@ def free(story):
                 print('Alder did not have anything with him.')
         elif (action == 'k' or action == 'skill' or action == 'Skill'):
             skillTree(party.alder)
+        elif (action == 'g' or action == 'glossary' or action == 'Glossary'):
+            gloss.main()
         elif (action == 'h' or action == 'help' or action == 'Help'):
             helper()
         elif (action == 'h2' or action == 'help2' or action == 'Help2'):
@@ -470,9 +474,15 @@ def game():
             if (story.switch[0] == True):
                 dialog.cutscene(story, '0')
                 story.switch[0] = False
+                gloss.mammal[1].unlock()
+                gloss.mammal[2].unlock()
+                gloss.mammal[3].unlock()
+                gloss.mammal[4].unlock()
+                gloss.mammal[8].unlock()
             elif (story.switch[1] == True and story.part == '2'):
                 dialog.cutscene(story, '1')
                 story.switch[1] = False
+                gloss.folklore[0].unlock()
             elif (story.switch[2] == True and story.part == '2'):
                 dialog.cutscene(story, '2')
                 story.switch[2] = False
@@ -491,6 +501,7 @@ def game():
                 dialog.cutscene(story, '5')
                 location = '3'
                 story.switch[5] = False
+                gloss.mammal[6].unlock()
             elif (story.switch[6] == True and story.part == '2'):
                 dialog.cutscene(story, '6')
                 story.switch[6] = False
@@ -522,6 +533,8 @@ def game():
                 dialog.cutscene(story, '11')
                 story.c3Switch[2] = False
                 story.switch[11] = False
+                gloss.mammal[0].unlock()
+                gloss.mammal[7].unlock()
             elif (story.switch[12] == True and story.part == '3'):
                 dialog.cutscene(story, '12')
                 story.c3Switch[3] = False
@@ -540,6 +553,7 @@ def game():
                 dialog.cutscene(story, '15')
                 author = True
                 story.switch[15] = False
+                gloss.mammal[5].unlock()
             while (author == True):
                 print('James Stockwell:')
                 print('"Thank you for playing the demo for the Wild and Wyrd. Please let me know if there are any errors or grammer mistakes. Please support this project if you want to see more of Alder'"'"'s story."')
@@ -549,7 +563,7 @@ def game():
     
 
 def loadGame():
-    global game_active, location, story, shill, inv,party
+    global game_active, location, story, shill, inv,party, gloss
     PIK = ''
     op = input('Open save file "1", "2" or "3": ')
     if (op == '1'):
@@ -565,6 +579,7 @@ def loadGame():
             story = data[1]
             inv = data[2]
             party = data[3]
+            gloss = data[4]
             alder = party.alder
             game_active = True
     except:
@@ -576,7 +591,7 @@ def menu():
         print('Wild and Wyrd')
         print('n - New Game')
         print('l - Load')
-        print('s - Settings')
+        print('g - Glossary')
         print('q - Quit')
         action = input('Enter Command: ')
         if (action == 'n'):
@@ -584,6 +599,7 @@ def menu():
             location = '1'
             chapter = '0'
             part = '1'
+            story = Story('0', '1')
             #inv = []
             #inv.shill = 0
             for i in story.PKSwitch:
@@ -632,6 +648,8 @@ def menu():
                 game_over = False
                 #Start Game
                 game()
+        elif (action == 'g'):
+            gloss.main()
         elif (action == 'q'):
             menu_active = False
 menu()

@@ -1,6 +1,7 @@
 import random
 import ItemClasses
 import record
+import itemList
 from data import typeSpf
 SpecialType1 = typeSpf.SpecialType1
 SpecialType2 = typeSpf.SpecialType2
@@ -15,12 +16,7 @@ ItemType = typeSpf.ItemType
 item = ItemClasses
 rcd = record.Record()
 #Reward Items
-food = [item.Food('1','Blackberry', 1,3),
-        item.Food('2','Dried Fruit', 1,5),
-        item.Food('3','Hazelnut', 1,3),
-        item.Food('4','Mushroom',1,5),
-        item.Food('5','Raw Bug Meat',3,10)
-        ]
+items = itemList
 #Inventory order
 def itemLister(e):
     return e.priority
@@ -118,7 +114,7 @@ class Enemy:
     
 class Cricket(Enemy):
     def __init__(self):
-        Enemy.__init__(self,'1','Cricket',20,'bug',10,[{'item' : food[4], 'quantity':2}],
+        Enemy.__init__(self,'1','Cricket',20,'bug',10,[{'item' : items.food[4], 'quantity':2}],
                 0, 8, 90, 10, 23,{'type':''},{'type':''},'Prey',
                 'Big grasshoppers with long antenna. Can jump a fair distance.')
         self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False, 'fungus':False}
@@ -149,7 +145,7 @@ class Cricket(Enemy):
 
 class Hornet(Enemy):
     def __init__(self):
-        Enemy.__init__(self,'2','Hornet',19,'bug',10,[{'item' : food[4], 'quantity':1}],
+        Enemy.__init__(self,'2','Hornet',19,'bug',10,[{'item' : items.food[4], 'quantity':1}],
                 5, 5, 90, 40, 45,{'type':''},{'type':''},'Attacker',
                 'More hostile than usual this year. In the air they are annoying to hit but they are easy to kill.')
         self.aliment = {'stun':False, 'poison':False, 'outRange':False, 'caught':False, 'fungus':False}
